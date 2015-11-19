@@ -1,0 +1,107 @@
+mail []X[]
+http://team.bf.com/ [company pwd]
+
+Wiki&Bug管理平台(Redmine)
+地址：http://192.168.80.109/redmine
+ 
+以上用户名：duanxiang
+默认密码：123456  654364rt654
+
+SVN帐号
+用户名：duanxiang
+密码：PFb3hyzw
+duan_xiang123
+
+内网测试服务器IP 192.168.200.18 9fj028g7bnI1!#
+db 223238
+ 
+SVN库访问地址：
+http://192.168.200.38/online_svn/houyi
+
+[慧眼 project]
+svn://192.168.200.18/online_svn/huiyan duanxiang 9988765
+http://huiyan.com/ ip 192.168.200.18 
+
+huiyan_admin 9fj028g7bnI1!# 
+
+[慧眼 内部下单 Crm]
+http://192.168.200.38/online_svn/huiyan_crm/branches/dev
+数据库用户名 
+duanxiang 密码 99wuru2!   
+地址 114.112.82.113:3306
+114.112.70.205
+F6PpdbwdWjA622CU
+前端  test/duanxiang  adorders.huiyan_33uxd		[login]_33uxd
+
+[RTB]
+114.112.70.14
+114.112.82.205
+F6PpdbwdWjA622CU
+F6Ppd%@bf!wd^W*j({])Ad486-U}yM&2*2jCU
+adorders_remote
+Uu48DVqBLTRm8tu7
+login: 	d_x huiyan2dx
+
+[4S店]
+域名：mreg.houyi.baofeng.net
+old:125.39.40.178  221.238.255.242
+103.15.202.53
+3wvlooy.g8}ifvh!NqeI
+用户名：liushuming
+密码：'1oaB[%:9cesvm[Vyrp:
+mysql: 库 ad_mid
+用户名：liushuming 
+密码：liushuming
+或者使用 root / d_x_baofeng DSefd467&3(&%!{[|d28<d3g
+
+用户名：root 
+密码：123456
+
+[adcms]
+103.15.202.235      adcms
+duanxiang 	duanx@123
+
+[chizailushang]
+114.112.70.49 ~ 54
+114.112.82.141 ~ 142
+114.112.82.176 ~ 179
+chizailushang2015
+duanx123456CZLS
+bobo2
+chiz@ilush@ng@2O15-bobo2
+mysql
+9fj028g7bnI1!#
+duanxiang:42df>Tbhj^#<D)}+#3468trij&*sdv:O{sDEC?^3sQ
+42df>Tbhj^#<D)}+#3468trij&*sdv:O{sDEC?^3sQ
+
+
+
+[hadoop]
+114.112.70.49 ~ 54
+114.112.82.141 ~ 142
+114.112.82.176 ~ 179
+hive_db
+@#GDSefd4673(%!{[|d28d3gf!wd^W*j({])Ad48
+
+log_mysql@50
+JrWBZ9BW54Wfs6RN
+
+log-server:[114.112.70.2-7, 114.112.70.33-35, 114.112.70.38 ,114.112.70.92~96] 十五台
+54 hadoop ssh
+EwNjdzMByXuTnLsMVw72DZ769brbuVDs 
+
+phphiveadmin
+phphiveadmin_user
+
+cdhmdb  cdh4 manager
+ENdMBXjspjpsjknjknkunsVw2DZ6bVsEwNjdz
+
+[mojing]
+103.15.203.30 ~ 33
+log_mysql
+JrWBZ9BW54Wfs6RN
+
+[houyi]
+readonly
+14223238
+

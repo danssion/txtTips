@@ -58,7 +58,40 @@ export PATH=$PATH:$PHP_HOME/bin:$PHP_HOME/sbin:$MYSQL_HOME/bin
 # 设定mysql密码
 # /opt/modules/mysql/bin/mysqladmin -u root password '223238'
 
+#install mysql5.6.27
+shell> cmake . -DCMAKE_INSTALL_PREFIX=/opt/modules/mysql5.6.27 -DINSTALL_DATADIR=/data/mysql/data -DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1
+参数说明：
+-DCMAKE_INSTALL_PREFIX=/opt/modules/mysql5.6.27        //安装目录
+-DINSTALL_DATADIR=/data/mysql/data         //数据库存放目录
+-DDEFAULT_CHARSET=utf8                    　　　　//使用utf8字符
+-DDEFAULT_COLLATION=utf8_general_ci            //校验字符
+-DEXTRA_CHARSETS=all                        　　　　//安装所有扩展字符集
+-DENABLED_LOCAL_INFILE=1                    　　  //允许从本地导入数据
+#shell> cmake . -L   # overview
+#shell> cmake . -LH  # overview with help text
+#shell> cmake . -LAH # all params with help text
+#shell> ccmake .     # interactive display
+#shell> make clean
+#shell> rm CMakeCache.txt
 
+shell> make
+shell> make install
+# End of source-build specific instructions
+# Postinstallation setup
+groupadd mysql
+useradd -r -g mysql mysql
+cd /opt/modules/mysql
+chown -R mysql .
+chgrp -R mysql .
+cd /etc
+ln -s /opt/modules/mysql/my.cnf my.cnf
+scripts/mysql_install_db --user=mysql
+chown -R root .
+chown -R mysql data
+bin/mysqld_safe --user=mysql &
+# Next command is optional
+cp support-files/mysql.server /etc/init.d/mysql.server
 
 
 #compile libevent
@@ -80,7 +113,7 @@ php-5.3.1: ./configure --prefix=$HOME/dev --enable-fastcgi --enable-force-cgi-re
 
 php-5.3.5: configrue  --prefix=/opt/modules/php-5.5.20 --with-config-file-path=/usr/local/etc/php/conf --with-config-file-scan-dir=/usr/local/etc/php/conf/enable-ext --enable-re2c-cgoto --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-gd-native-ttf --enable-mbstring --enable-zip --enable-zend-multibyte --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd  --enable-soap --enable-sockets 
 
-php-5.5.24: configrue  --prefix=/opt/modules/php-5.5.24 --with-config-file-path=/opt/modules/php-5.5.24/etc --with-config-file-scan-dir=/opt/modules/php-5.5.24/etc/enable-ext --enable-re2c-cgoto --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-gd-native-ttf --enable-mbstring --enable-zip --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd  --enable-soap --enable-sockets --enable-opcache
+php-5.5.30: configrue  --prefix=/opt/modules/php-5.5.30 --with-config-file-path=/opt/modules/php-5.5.30/etc --with-config-file-scan-dir=/opt/modules/php-5.5.30/etc/enable-ext --enable-re2c-cgoto --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-gd-native-ttf --enable-mbstring --enable-zip --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd  --enable-soap --enable-sockets --enable-opcache
 
 php-5.4.14: ./configure --prefix=/opt/modules/php  --with-config-file-path=/opt/modules/php/etc --with-config-file-scan-dir=/opt/modules/php/etc/mods-enable --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-mbstring --enable-zip  --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-soap --enable-sockets 
 
@@ -88,7 +121,7 @@ php-5.4.42: ./configure --prefix=/opt/modules/php-5.4.42  --with-config-file-pat
 #ln -s /opt/modules/php/bin/* /usr/local/bin/
 #ln -s /opt/modules/php/sbin/php-fpm /usr/local/sbin/php-fpm
 
-php-5.6.14: ./configure --prefix=/usr/local/php --with-config-file-path=/etc/php --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem  --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-xmlrpc --with-curl --with-imap-ssl
+php-5.6.15: ./configure --prefix=/opt/modules/php5.6.15 --with-config-file-path=/opt/modules/php5.6.15/etc --with-config-file-scan-dir=/opt/modules/php5.6.15/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem  --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-xmlrpc --with-curl --with-imap-ssl
 
 php-5.6.14 for baofeng: ./configure --prefix=/opt/modules/php5.6.14 --with-config-file-path=/opt/modules/php5.6.14/etc --with-config-file-scan-dir=/opt/modules/php5.6.14/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-zip --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-curl  --with-bz2 --enable-pcntl
 

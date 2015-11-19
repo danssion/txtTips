@@ -1,0 +1,62 @@
+2014-05-01	[劳动节]
+
+2014-05-02	[劳动节]
+
+2014-05-03	[劳动节]
+
+2014-05-04	crm2.5邮件发列表数据表设计，文档，model	
+
+2014-05-05	crm2.5原发送方式变更	crm2.5邮件发送shell
+
+2014-05-06  crm2.5邮件发送及测试	windforce文件合并的三种格式测试		windforce文件合并行数测试
+
+2014-05-07	windforce日志行json数据处理		crm2.5发邮件提测	lzo压缩相关
+
+2014-05-08	windforce增加历史数据获取的方式		windforce获取4.20前的数据
+
+2014-05-09  crm2.5列表页面搜索修改
+
+2014-05-10	
+
+2014-05-11	crm2.5列表页面搜索修改	windforce出错中断信息获取
+[10:40 ~ 22:00]
+2014-05-12  crm2.5 phase列表不显示	windforce数据导入 crm2.5提测
+
+2014-05-13  windforce数据导入	phphiveadmin安装
+[10:30 late]		
+2014-05-14	windforce数据导入	phphiveadmin安装
+
+2014-05-15	phphiveadmin创建表的存储方式	hiveTxt文件压缩问题
+
+2014-05-16	hadoopReduce错误问题	phphiveadmin获取结果问题
+
+2014-05-17	
+
+2014-05-18	windforce数据导入:磁盘空间满重启进程及空间清理	mapreduce host问题
+[14:50 ~ 22:00]
+2014-05-19	mapreduce的jar生成问题	click文件入库及click查询表格
+
+2014-05-20	log合并的程序	count文件入库
+
+2014-05-21	[9:30 ~ 18:30 医院]
+
+2014-05-22	windforce的回收站开启	windforceNodeManage页面察看开启	history开启
+
+2014-05-23  windforce数据导入：4月	windforceNode节点内存变更	新增yarn和mapreduce配置项目	
+
+2014-05-24  
+
+2014-05-25	
+
+2014-05-26	windforce数据导入python代码更新		mysql迁移
+
+2014-05-27	[10:40 体检] windforce数据导入：5月1~10号
+
+2014-05-28	[9:30 ~ 18:30 学校]
+
+2014-05-29	windforce数据导入：5月1~12号	windforce回收站的清空时间更改
+
+2014-05-30	windforce数据导入：5月12~16号	windforce:log文件自动清除功能
+
+2014-05-31	
+
