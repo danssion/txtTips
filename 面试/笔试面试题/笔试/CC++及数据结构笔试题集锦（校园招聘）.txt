@@ -1,0 +1,889 @@
+C/C++及数据结构笔试题集锦（校园招聘）之一                                       
+
+嗯，这是我从学校bbs精华区整理的c/c++及数据结构的笔试以及部分面试题集锦，觉得只要搞懂了这些题目，大部分的笔试都不惧了。希望能给需要的人带来帮助。顺便攒rp ^_^
+
+不过大部分题目没有答案，欢迎补充哦~~~~
+
+一：
+
+已知类String的原型为：
+
+class String
+
+{
+
+ public：
+
+     String(const char *str = NULL);            //普通构造函数
+
+     String(const String ?);                //拷贝构造函数
+
+     ~String(void);                             //析构函数
+
+     String & operator = (const String ?);  //赋值构造函数
+
+ private:
+
+     char * m_data;                             //用于保存字符串
+
+};
+
+请编写String的上述4个函数。
+
+答案：
+
+版本1
+
+// String 的析构函数
+
+String::~String(void) // 3 分
+
+{
+
+ delete [] m_data;
+
+// 由于m_data 是内部数据类型，也可以写成delete m_data;
+
+}
+
+String::String(const char *str)
+
+{
+
+ if(str==NULL)
+
+{
+
+ m_data = new char[1]; // 若能加NULL 判断则更好
+
+ *m_data = ‘{post.content}’;
+
+ }
+
+else
+
+ {
+
+ int length = strlen(str);
+
+ m_data = new char[length+1]; // 若能加NULL 判断则更好
+
+ strcpy(m_data, str);
+
+ }
+
+}
+
+// 拷贝构造函数
+
+String::String(const String &other)
+
+{
+
+ int length = strlen(other.m_data);
+
+ m_data = new char[length+1]; // 若能加NULL 判断则更好
+
+ strcpy(m_data, other.m_data);
+
+}
+
+// 赋值函数
+
+String & String:operate =(const String &other)
+
+{
+
+// (1) 检查自赋值
+
+if(this == &other)
+
+return *this;
+
+// (2) 释放原有的内存资源
+
+delete [] m_data;
+
+// （3）分配新的内存资源，并复制内容
+
+ int length = strlen(other.m_data);
+
+m_data = new char[length+1]; // 若能加NULL 判断则更好
+
+ strcpy(m_data, other.m_data);
+
+// （4）返回本对象的引用
+
+ return *this;
+
+}
+
+版本2
+
+String::String (const char *str)
+
+{
+
+     if(str){
+
+      memset(m_data,0,strlen(m_data));
+
+      strcpy(m_data,str);
+
+     }
+
+     else *m_data=0;
+
+}
+
+  String::String (const String ?)
+
+ {
+
+     strcpy(m_data,copy.m_data);
+
+  }
+
+  String& String:operator =(const String ?)
+
+ {
+
+    if(this==?) retrun *this;
+
+     strcpy(m_data,copy.m_data);
+
+      return *this;
+
+}
+
+版本3
+
+String::String (const char *str)
+
+{
+
+     if ( m_data )
+
+         delete[] m_data;
+
+     if(str){
+
+      m_data = new char[strlen(str)];
+
+      memset(m_data,0,strlen(m_data));
+
+      strcpy(m_data,str);
+
+     }
+
+     else *m_data=0;
+
+}
+
+ 
+
+  String::String (const String ?)
+
+ {
+
+     if ( m_data )
+
+     delete[] m_data;
+
+     m_data = new char[strlen(copy.m_data+1)]
+
+     strcpy(m_data,copy.m_data);
+
+  }
+
+ 
+
+  String& String:operator =(const String ?)
+
+ {
+
+    if(this==?) retrun *this;
+
+     if ( m_data )
+
+         delete[] m_data;
+
+     m_data = new char[strlen(copy.m_data+1)]
+
+     strcpy(m_data,copy.m_data);
+
+      return *this;
+
+  }
+
+~String::String(void)
+
+{
+
+  if ( m_data )
+
+      delete[] m_data;
+
+}
+
+二：改错题，只能在原来的基础上增加代码，不能删除代码
+
+#include 
+
+#include 
+
+void foo(int age,char *b)
+
+{
+
+   b = (char *)malloc(64);
+
+   sprintf(b,"Your Age is %d",age);
+
+}
+
+int main()
+
+{
+
+  char *f;
+
+  foo(23,f);
+
+  printf("%s\n",f);
+
+}
+
+答案
+
+版本1
+
+#include 
+
+#include 
+
+void foo(int age,char **b)
+
+{
+
+   *b = (char *)malloc(64);
+
+   sprintf(*b,"Your Age is %d",age);
+
+}
+
+int main()
+
+{
+
+  char **f;
+
+  foo(23,f);
+
+  printf("%s\n",**f);
+
+  return 0;
+
+}
+
+版本2
+
+#include 
+
+#include 
+
+void foo(int age,char *&b)
+
+{
+
+   b = (char *)malloc(64);
+
+   sprintf(b,"Your Age is %d",age);
+
+}
+
+int main()
+
+{
+
+  char *f;
+
+  foo(23,f);
+
+  printf("%s\n",f);
+
+  free(f);//不要忘了free;
+
+}
+
+三：有程序片断如下
+
+int main()
+
+{
+
+   int I = 20;
+
+   pid_t pid = 5;
+
+   if((pid = fork()) > 0)
+
+   {
+
+      I = 50;
+
+      printf("%d\n",I);   (1)
+
+   }
+
+   else if(pid == 0)
+
+   {
+
+      printf("%d\n",I);   (2)
+
+   }
+
+}
+
+请问该程序用的是进程方式还是线程方式，并说明进程与线程的区别：
+
+请问该程序输出什么结果？
+
+无参考答案L
+
+四、constant pointer points for String
+
+   pointer points for constant string
+
+五、下面等价的是：
+
+A int i=0
+
+    if(i)
+
+   {
+
+    printf("hello,world");
+
+   }
+
+   B  int i=1;
+
+      int j=2;
+
+      if(i==1 || j==2)
+
+      {
+
+       printf("hello,world");
+
+       }
+
+   C  Boolean b1=true;
+
+      Boolean b2=true;
+
+      if(b1==b2)
+
+      {
+
+       printf("hello,world");
+
+     }
+
+    D  int i=1;
+
+      int j=2;
+
+      if(i==1 &| j==2)
+
+      {
+
+       printf("hello,world");
+
+     }
+
+六、排序二叉树插入一个节点或双向链表的实现
+
+四～六为IBM面试题。
+
+七、指针++的含义和用法
+
+八、stack 和heap的分配，rt－os的特点、同步的方式
+
+九、怎样避免内存泄漏的问题
+
+十、编程实现十进制数转化为十六进制输出，不准用任何已经定义的库函数，比方说String                                                                         
+
+，Math。int toHex(int )
+
+嗯，一页写不下，再来一页。
+
+十一、编程实现大于100的两个数值相乘的结果输出，同样不准使用任何已定义函数，Math,st                                                                                  
+
+ring,convert等。比方说12345*32534677                                                                                                                           
+
+输入为两个string      int toPlus('12345','32434677')                                                                                                            
+
+输出为一个长型的
+
+十二、int delete(node * head)                                                                                          
+
+{                                                                                                                                                                                                                                    
+
+  free(head);                                                                                                                                                   
+
+ head=head->link;                                                                                                                                               
+
+return(0);                                                                                                                                                      
+
+}                                                                                                                                                              
+
+指出程序的错误，并且写出正确的程序
+
+十三、写一个程序可以算出字节在计算机中的存储是由大到小还是有小到大。
+
+十四、一段程序，写出输出结果      
+
+大概是                                                                                                                                                          
+
+class A                                                                                                                                                         
+
+{                                                                                                                                                              
+
+ static void virtual print(){cout<<"A::print()"<；                                                                                                        
+
+}                                                                                                                                                               
+
+class B                                                                                                                                                         
+
+{                                                                                                                                                               
+
+ static void virtual print(){cout<<"B::print()"<；                                                                                                        
+
+}                                                                                                                                                               
+
+class C    
+
+{                                                                                                                                                          
+
+ static void  print(){cout<<"C::print()"<；                                                                                                               
+
+}                                                                                                                                                              
+
+print (A a)                                                                                                                                                     
+
+{                                                                                                                                                              
+
+ a.print();                                                                                                                                                     
+
+}                                                                                                                                                               
+
+main()                                                                                                                                                          
+
+{                                                                                                                                                               
+
+A a,*aa,*ab,*ac;                                                                                                                                                
+
+B b;                                                                                                                                                            
+
+C c;  
+
+aa=&a;                                                                                                                                                          
+
+ab=&b;                                                                                                                                                          
+
+ac=&c;                                                                                                                                                          
+
+a.print();                                                                                                                                                      
+
+b.print();                                                                                                                                                      
+
+c.print();                                                                                                                                                      
+
+aa.print();                                                                                                                                                     
+
+ab.print();                                                                                                                                                     
+
+ac.print();                                                                                                                                                     
+
+print(a);                                                                                                                                                       
+
+print(b);                                                                                                                                                     
+
+print(c);                                                                                                                                                       
+
+}      
+
+十五、给两个变量,如何找出一个带环单链表中是什么地方出现环的。（答案参考expert C programming）。
+
+十～十五为MS笔试题。
+
+十六、写一个带参数宏get_struct_addr_from_member_addr(p, stru, m)，
+
+能够根据任意结构实体的某一个成员的地址，算出该结构实体的地址，其中参数p是指向该
+
+成员的指针，stru是该结构体，m是该成员。（SUN试题）
+
+十七、给一个函数
+
+int main(){
+
+    int i, n=20;
+
+    for(i=0;i
+
+        printf("-");
+
+    return 0;
+
+}
+
+要求替换、增加或者减少一个字符，使该程序可以打出20个“-”号，并要求写出三种解法
+
+。（sun试题）
+
+参考：1。i-- 换成 n--
+
+2。i换成 -i
+
+十八、解释 typedef char (*FUNC)(int, char*)的含义
+
+十九、问#include 和#include "abc.h"的区别，#define MAX_NUM 10 和 const int
+
+MAX_NUM=10区别
+
+二十、问用什么方法可以避免一些潜在错误，比如if( myvar = 3)这一类
+
+编程规范的问题，用 if( 3 = myvar)就可以在编译时报错
+
+十六～二十为SUN笔试题。
+嗯，最后一页了！
+
+
+二十一、用状态机实现10010码的探测，如x=1001001000 z=0000100100（输出）
+
+二十二、给一个数组src[10]排序，用两种方法，并比较
+
+二十三、c / c++ 的不同
+
+ 新的注释风格，变量作用域，函数重载，操作符重载，缺省参数，按引用传送，内
+
+联函数、模版等。
+
+二十四、run time environemnt 的应用领域，并给予解释
+
+二十五、使用代码或者宏将十进制转化为十六进制格式
+
+二十六、实时嵌入系统中，两个任务同时访问RS232c port，设计一个共有的子窜转发……
+
+二十七、多任务实施系统中，一个任务有多少种状态？描述一个系统怎么工作
+
+二十八、选择题：char *p,*q="i am",*g="Chanese!"
+
+strcpy(p,q);
+
+strcat(p,g);
+
+printf("%s",p);
+
+a.i am b.i amChanese! c.i am Chanese! d都不是
+
+二十九、对优先级抢占调度法和时间片轮转调度法的理解
+
+三十、哈息表查找的优缺点，并列出你所知道的哈希函数构造法
+
+三十一、有两个无序链表A1和A2，写出程序把A1和A2合并成一个递增的链表。
+
+三十二、a++, ++a中a的值是先加还是后加的
+
+三十三、函数栈中分配空间与全局堆中分配空间的区别和联系
+
+三十四、函数体内 static声明的变量的特殊意义
+
+三十五、Struct xxx xx[20]    这个是预先申请了内存么？
+
+参考答案：是的，struct xxx xx[20]确实已经申请了内存，而struct xxx *xx[20]则不
+
+是事先申请内存，仅表示申明一下，后者需要malloc申请内存。
+
+三十六、char * p;
+
+  p = “ss”;
+
+  for (; *p != 0 ; p++)
+
+        *p = 0
+
+  问此时p的值是多少？
+
+参考答案：char * 的分配是在静态区，当作常量对待，赋值后就不可以修改，这是字符
+
+串的用法，如果指向数组就另当别论。
+
+这个程序的错误,首先字符串结束要比较'\0'而不是0，另外p指向const string不能
+
+赋值。
+
+三十七、char *string;
+
+  string = “I am ok”
+
+  这个语句有问题么？ 没有？
+
+三十八、关于实现swap的方法：
+
+    int p=1, q=2;
+
+    swap(&p , &q);
+
+下面三个函数 ，哪个是正确的？（参考答案：1）
+
+1、void swap (int *p, *q) {
+
+    int temp;
+
+    temp = *p;
+
+    *p = *q;
+
+    *q = temp
+
+}
+
+2、void swap(int *p, *q) {
+
+    int *temp;
+
+    *temp = *p;
+
+    *p = *q;
+
+    *q = *temp;
+
+}
+
+3、void swap(int*p, *q) { 
+
+    int *temp;
+
+     temp = p;
+
+    p = q; 
+
+    p = temp;
+
+}
+
+4、main() {
+
+    swap(a, b);
+
+}
+
+swap (int p, int q) { 
+
+    int temp;
+
+    temp = p;
+
+    p = q;
+
+    q = temp;
+
+}
+
+三十九、全局变量被static变量重载，进行分析。
+
+有如下C程序：
+
+#include 
+
+#include 
+
+int i = 0;
+
+int func();
+
+void main(){
+
+    int rst = 0;
+
+    rst = func() + i ;
+
+    rst += func() + i ; 
+
+    printf("%d", rst);
+
+}
+
+int func() {
+
+    static i ;
+
+    i++; 
+
+    return i;
+
+}
+
+参考：其实并不是全局变量被static重载，在函数内如果定义了i，那么，全局变量i
+
+就不起作用了，什么意思，就是说如果i在函数内部定义了，那么函数内部使用的i
+
+是函数自己定义的，而不是全局变量的i。
+
+这里static是一个迷惑，其实不用static，含意也是一样的，只是每次函数里的i的值不能保存了。
+
+全局变量不初始化，那么int的值为0，局部变量不初始化，那么其值不知。
+
+四十、关于typedef和*相组合定义东西
+
+四十一、关于union的使用，比如：
+
+#include 
+
+#include 
+
+void main() {
+
+    union xxx {
+
+        struct xx {
+
+            long int x; 
+
+            int y;
+
+        } p;
+
+        int z;
+
+    } a;
+
+    a.p.x = 5;
+
+    a.p.y = 6;
+
+    a.z = 7;
+
+    printf("%d", a.p.x + a.p.y);
+
+}
+
+打印出来的结果是什么？
+
+参考：结果为13，解释为：
+
+由于union是联合，那么只能存在一个值，所以z的值始终和p.x的值相等
+
+union的存储空间有最大那个单元决定，所以当对p.z赋值时，p.y的值并没有丢失。
+
+四十二、long int i = -2;
+
+那么(int)i的值是多少？
+
+参考：仍然时－2，因为i用补码表示为 fffe 去掉高位，符号位不变，那么应该是fe所以
+
+依然是-2。
+
+三十～四十二为华为/华3的笔试题。―_________―!
+
+四十三、类定义的构造函数提供缺省值与不提供缺省值，有何区别？
+
+四十四、C++主要特性包含哪些？什么是虚函数，主要用处是什么？
+
+四十五、5分钟之内写一个排序算法。
+
+四十六、new/delete对象时，使用堆还是堆栈？
+
+四十三～四十六为朗讯笔试题。
+
+四十七、程序执行的时候怎么分配内存空间，每个部分的作用？
+
+四十八、实时操作系统，在RS-232上面，如何设计才可以保证两个任务送出的命令字符串严格同步？
+
+四十九、实时操作系统中运行多个任务，写出任务可能存在的状态，状态之间的转化，以及转化条件？
+
+四十七～四十九为威盛考题。
+
+五十、最为完整的MS－ATC笔试题
+
+一多项选择18题（60分钟）
+
+1.为什么有些文件里使用了不可打印的字符
+
+a.这些文件不需要输出
+
+b.这些文件里的数字在不同机器上的意义不同，所以另外用一个二进制数来表示
+
+C.word里用来产生格式的
+
+D.多一点也没坏处
+
+2.类的不同instance有什么不同的
+
+a.method不同
+
+B.
+
+C.attribute value
+
+D.以上都不对
+
+3.使用function的好处
+
+若干道看程序输出结果题
+
+14.数字规律题
+
+10 1 9 3 8 5 7 7 6 问后面两个是什么
+
+15.ABCDEF是1－9的不重复数字，ABCDEF*2=CDEFAB*2=EFABCD问ABCDEF=?
+
+16.S给M和N看了一张扑克牌，牌只在下面的集合中
+
+黑桃 A 4 3
+
+红桃 Q 3 1 4
+
+梅花 Q k j 4 5 2
+
+方片 A 5
+
+M看完说 我不知道是哪个
+
+N看完说 我知道你不知道是哪个
+
+M于是又说 我知道了
+
+N于是又说 我也知道了
+
+问到底是哪个？
+
+17. 三个盒子里，只有一个有钻石，你已经选了一个盒子，然后打开剩下两个中的一个发现
+
+没钻石，你还会改变你的选择么？
+
+18. test plan应该包括那些内容
+
+二编程（50分钟）
+
+1. 编一个循环队列，实现三个函数，initialize（void*，int）  PushAtEnd(CItem) Pop
+
+FromHead(CItem*)
+
+2. 两个单链表，一个升序一个降序，把它们合成一个升序的单链表。
+
+三设计
+
+1. 设计一个对话框，让用户输入密码，描述你认为特性的优先级别，设计测试用例。
+
+四测试
+
+1. 一个website声称自己能搜索internet。怎么测试它。
+
+2. 设计用例测试atoi函数
+
+

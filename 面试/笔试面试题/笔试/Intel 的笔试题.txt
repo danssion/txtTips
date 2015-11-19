@@ -1,0 +1,42 @@
+
+1. 三个float:a,b,c 问值95d565ef66?应届生求职网YingJieSheng.COM?4cb5d40ed4
+(a+b)+c==(b+a)+c
+(a+b)+c==(a+c)+b95d565ef66?应届生求职网YingJieSheng.COM?4cb5d40ed4
+
+
+2. 把一个链表反向填空
+
+
+3. 设计一个重采样系统，说明如何anti-alias
+
+
+4. y1(n)=x(2n), y2(n)=x(n/2),问：
+如果y1 为周期函数，那么x 是否为周期函数5a880faf6f?应届生求职网YingJieSheng.COM?c350ade2a4
+如果x 为周期函数，那么y1 是否为周期函数
+如果y2 为周期函数，那么x 是否为周期函数
+如果x 为周期函数，那么y2 是否为周期函数4b5ce2fe28?应届生求职网YingJieSheng.COM?261cbd5717
+
+
+5. 如果模拟信号的带宽为5KHZ，要用8K 的采样率，怎么办。
+
+
+4. 某个程序在一个嵌入式系统(200M 的CPU,50M 的SDRAM)中已经最化了，换到另一个系统
+(300M 的CPU,50M 的SDRAM)中运行，还需要优化吗？
+
+6fe97759aa?应届生求职网YingJieSheng.COM?b922cfa312
+5. x^4+a*x^3+x^2+c*x+d 最少需要作几次乘法5a880faf6f?应届生求职网YingJieSheng.COM?c350ade2a4
+
+
+6. 什么情况下，sin(x+y)+y ~ ....
+
+
+7. 下面哪种排序法对12354 最快
+a quick sort
+b.buble sort
+c.merge sort
+
+5568161a8c?应届生求职网YingJieSheng.COM?d5792c152c
+8. 哪种结构，平均来讲，获取一个值最快
+a. binary tree
+b. hash table
+c. stack2e2d7fbdea?应届生求职网Yi

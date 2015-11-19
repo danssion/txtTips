@@ -1,0 +1,127 @@
+擎天科技的面试题 
+
+1、 JSP的九个内置对象及其作用。 
+2、 EJB和JavaBean的区别。 
+3、 一道SQL题，先找出表中的重复的元素，然后再删除。 
+江苏融电金融支付系统有限公司面试题 
+1、 抽象类与接口区别； 
+2、 Vector与Arraylis区别； 
+3、 Collector与Conllecton？ 
+4、 无状的Http协议变如何保持有状的？ 
+5、 用JAVA写出100-500的基数； 
+6、 JSP的知识； 
+7、 EJB的知识； 
+8、 Framework的知识； 
+
+
+苏源高科面试题 
+
+J2EE开发类（任选4个） 
+问题1、什么是MVC？为何要采用MVC?什么情况下可以不用采用MVC模式？ 
+问题2、struts架构中对应的MVC各是什么？ 
+问题3、J2EE开发和传统开发比，有什么优点和缺点？ 
+问题4、如何保持数据库事务的完整性？给一个java例子（只要核心代码即可） 
+问题5、为什么要用连接池和线程池？ 
+问题6、你喜欢用什么开发工具？为什么？ 
+
+还有几个SQL语句 
+最后做一个小项目,和我们做的购物车差不多,主要是考对数据库的增删改查 
+
+这个是表的结构 
+SQL就是这几张表 
+
+前面比较简单,就是最后要做个小项目,不限时间的 
+
+就是第2次来的时候经理问了我点问题 
+就是笔试时候写的 
+最后还是看你写代码的功底,一般都不会跑你的程序的 
+最后的小项目是个WEB程序,用些开源项目可以加分的好像 
+主要还是考数据库的操作 
+记得用事务 
+
+苏源高科（最新）面试题 
+
+开发要求： 
+通过网页实现对一个表的增、删、改和查询功能，操作表为CKDEFINE。 
+
+开发环境： 
+数据库为DB2 
+开发工具Eclipse+MyEclipse 
+应用服务器：JBOSS4.0 
+
+数据库连接代码段： 
+Private statio string databaseserver Ip=“172.24.133.43”； 
+//database server Ip 
+Private statio string port=“50000”；//database server port 
+Private statio string SID=”YDDBTMP”;//database SID 
+Private statio string user=”testdb2”;//db login username 
+Private statio string password=”db login password” 
+
+//连接函数体 
+Public connection getconnect( ) throws Exception{ 
+Connection conn=nu11; 
+Try{ 
+Class.forName(“com.ibm.db2.jcc.DB2Diver”).newInstance(); 
+String url=”jdbc:db2://+databaseserver IP+”:+port+”/”SID; 
+Conn=DriverManager.getConnection(ur1,user,psssword); 
+} catch (classNotFoundException e) { 
+System.out.println(“connect error!”); 
+} 
+Return conn; 
+} 
+
+连接DB2数据库的jar包位置： 
+C:\j2sdk1.4.2\jre\lib\db2jcc.jar 
+C:\j2sdk1.4.2\jre\lib\db2jcc_license_cu.jar 
+
+表字典 
+模板定义表—CKDEFINE 
+表名 模板定义 标识名 CKDEFINE 
+主索引 项目号（XMID） 
+
+序号 含义 字段名 类型 宽度 小数 非空 备注 
+1． 项目号 XMID Integer Y 系统自动生成，按照自然数据递增 
+2． 项目名称 XMMC Varchar 60 Y 
+3. 分类 FL Integer Y 41001 客户基础资料 
+41002 电费抄核收 
+41003 业务传票部分 
+41004 用电检查部分 
+41005 计量资产部分 
+4 级别 JB Integer Y 42001 I（月报） 
+42002 II（季报） 
+42003 III（年报） 
+42004 IV（专项稽查） 
+5 执行SQL ZXSQL Varchar 3000 
+6 考核天数 KHTS Integer 
+7 删除标志 SCBZ Integer 
+8 是否自动下发 SFZDXF Integer 1：删除 
+9 是否批量处理工单 SFPLCL Integer 空、0：自动1：手动 
+10 项目描述 BZ Varchar 2000 0：批量1，NULL：单一 
+11 禁止筛选、删除、直接处理 JZSXCL Integer 空、0：开放1：禁止 
+
+南京东软面试题 
+笔试： ORACLE.(1套)，JAVA基础题+程序题(选择题) 
+编程题：(洗扑克牌) 
+复试：个人发展规划——以前的项目——开发流程——能否出差——薪水要求——中间件——交往朋友(女生会问的比较多) 
+
+
+南京嘉腾面试题 
+笔试：英文逻辑题，翻译(J2EE)，JAVA选择题(中文)； 
+程序题(一排树取大小,一排树找等于)，画用例图，类表，J2EE和.NET的区别 
+
+复试：项目技术(细节)——薪资——个人优缺点 
+1.jsp的内置对象及其作用 
+2.javascript中如果全选多个checkbox 
+3.Java的基本类型有哪几个 
+4.Unix中如何建一个目录,并给自己所有权限,同组访问权限,其他组无任何权限 
+5.protect 修饰的方法与不加任何修饰的方法有什么不同? 
+6.final,finally,finalize有什么不同?hashmap与hashtable有什么不同? 
+7.byte i='A'; 
+System.out.println("1=" + i); 
+System.out.println("2=" + (byte)i); 
+System.out.println("3=" + (char)i); 
+分别输出多少? 
+8.写一个标准的单例模式 
+9.排序一个数组 [F,a,f,h,A,g,K],要求输出[A,a,F,f,g,h,K] 
+10.写一个通用的查询语句,连接Orcle数据库的,用prepareStatement 
+(这个就是写一个JDBC连接数据库的程序,关键就是看你的代码是否规范,比较简单,具体的题目记不得了)

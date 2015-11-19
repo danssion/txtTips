@@ -1,0 +1,3152 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0052)http://www.cnblogs.com/lxy0423/articles/1203134.html -->
+<HTML><HEAD id=Head><TITLE>C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META id=metaKeywords content=C语言面试题大汇总之华为面试题 name=keywords><LINK id=CommondCss 
+href="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/common.css" type=text/css 
+rel=stylesheet><LINK id=MainCss 
+href="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/style.css" type=text/css 
+rel=stylesheet><LINK id=MainCss2 
+href="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/pink.css" type=text/css 
+rel=stylesheet><LINK id=CommondCss2 
+href="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/common2.css" type=text/css 
+rel=stylesheet><LINK id=RSSLink title=RSS 
+href="http://www.cnblogs.com/lxy0423/rss" type=application/rss+xml 
+rel=alternate>
+<SCRIPT src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/common.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2900.3395" name=GENERATOR></HEAD>
+<BODY>
+<FORM id=Form1 name=Form1 onsubmit="javascript:return WebForm_OnSubmit();" 
+action=1203134.html method=post>
+<DIV><INPUT id=__EVENTTARGET type=hidden name=__EVENTTARGET> <INPUT 
+id=__EVENTARGUMENT type=hidden name=__EVENTARGUMENT> <INPUT 
+id="&#13;&#10;__VIEWSTATE" type=hidden name=__VIEWSTATE> </DIV>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</SCRIPT>
+
+<SCRIPT src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/WebResource.axd" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</SCRIPT>
+
+<SCRIPT language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</SCRIPT>
+
+<SCRIPT src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/ScriptResource.axd" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="C:\Documents and Settings\karen\桌面\C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files\ScriptResource(1).axd" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="C:\Documents and Settings\karen\桌面\C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files\ScriptResource(2).axd" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</SCRIPT>
+
+<DIV id=top>
+<H1><A class=headermaintitle id=Header1_HeaderTitle 
+href="http://www.cnblogs.com/lxy0423/">走在路上的草根程序员</A></H1>
+<P id=tagline></P></DIV>
+<DIV id=leftmenu style="DISPLAY: none">
+<H3>导航</H3>
+<UL>
+  <LI><A id=MyLinks1_HomeLink href="http://www.cnblogs.com/">博客园</A> 
+  <LI><A id=MyLinks1_MyHomeLink href="http://www.cnblogs.com/lxy0423/">首页</A> 
+  <LI><A id=MyLinks1_NewPostLink 
+  href="http://www.cnblogs.com/lxy0423/admin/EditPosts.aspx?opt=1">新随笔</A> 
+  <LI><A id=MyLinks1_ContactLink accessKey=9 
+  href="http://www.cnblogs.com/lxy0423/contact.aspx?id=1">联系</A> 
+  <LI><A id=MyLinks1_Syndication 
+  href="http://www.cnblogs.com/lxy0423/rss">订阅</A><A id=MyLinks1_XMLLink 
+  href="http://www.cnblogs.com/lxy0423/rss"><IMG 
+  style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+  alt=订阅 src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/xml.gif"></A> 
+  <LI><A id=MyLinks1_Admin 
+  href="http://www.cnblogs.com/lxy0423/admin/EditPosts.aspx">管理</A> </LI></UL>
+<TABLE class=Cal id=Calendar1_entryCal title=Calendar 
+style="BORDER-RIGHT: 1px solid; BORDER-TOP: 1px solid; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid; BORDER-COLLAPSE: collapse" 
+cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD style="BACKGROUND-COLOR: silver" colSpan=7>
+      <TABLE class=CalTitle style="WIDTH: 100%; BORDER-COLLAPSE: collapse" 
+      cellSpacing=0 border=0>
+        <TBODY>
+        <TR>
+          <TD class=CalNextPrev style="WIDTH: 15%"><A 
+            title="Go to the previous month" style="COLOR: black" 
+            href="javascript:__doPostBack('Calendar1$entryCal','V3166')">&lt;</A></TD>
+          <TD style="WIDTH: 70%" align=middle>2008年10月</TD>
+          <TD class=CalNextPrev style="WIDTH: 15%" align=right><A 
+            title="Go to the next month" style="COLOR: black" 
+            href="javascript:__doPostBack('Calendar1$entryCal','V3227')">&gt;</A></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TH class=CalDayHeader scope=col align=middle abbr=日>日</TH>
+    <TH class=CalDayHeader scope=col align=middle abbr=一>一</TH>
+    <TH class=CalDayHeader scope=col align=middle abbr=二>二</TH>
+    <TH class=CalDayHeader scope=col align=middle abbr=三>三</TH>
+    <TH class=CalDayHeader scope=col align=middle abbr=四>四</TH>
+    <TH class=CalDayHeader scope=col align=middle abbr=五>五</TH>
+    <TH class=CalDayHeader scope=col align=middle abbr=六>六</TH></TR>
+  <TR>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>28</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>29</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>30</TD>
+    <TD style="WIDTH: 14%" align=middle>1</TD>
+    <TD style="WIDTH: 14%" align=middle>2</TD>
+    <TD class=CalTodayDay style="WIDTH: 14%" align=middle>3</TD>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>4</TD></TR>
+  <TR>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>5</TD>
+    <TD style="WIDTH: 14%" align=middle>6</TD>
+    <TD style="WIDTH: 14%" align=middle>7</TD>
+    <TD style="WIDTH: 14%" align=middle>8</TD>
+    <TD style="WIDTH: 14%" align=middle>9</TD>
+    <TD style="WIDTH: 14%" align=middle>10</TD>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>11</TD></TR>
+  <TR>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>12</TD>
+    <TD style="WIDTH: 14%" align=middle>13</TD>
+    <TD style="WIDTH: 14%" align=middle>14</TD>
+    <TD style="WIDTH: 14%" align=middle>15</TD>
+    <TD style="WIDTH: 14%" align=middle>16</TD>
+    <TD style="WIDTH: 14%" align=middle>17</TD>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>18</TD></TR>
+  <TR>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>19</TD>
+    <TD style="WIDTH: 14%" align=middle>20</TD>
+    <TD style="WIDTH: 14%" align=middle>21</TD>
+    <TD style="WIDTH: 14%" align=middle>22</TD>
+    <TD style="WIDTH: 14%" align=middle>23</TD>
+    <TD style="WIDTH: 14%" align=middle>24</TD>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>25</TD></TR>
+  <TR>
+    <TD class=CalWeekendDay style="WIDTH: 14%" align=middle>26</TD>
+    <TD style="WIDTH: 14%" align=middle>27</TD>
+    <TD style="WIDTH: 14%" align=middle>28</TD>
+    <TD style="WIDTH: 14%" align=middle>29</TD>
+    <TD style="WIDTH: 14%" align=middle>30</TD>
+    <TD style="WIDTH: 14%" align=middle>31</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>1</TD></TR>
+  <TR>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>2</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>3</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>4</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>5</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>6</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" align=middle>7</TD>
+    <TD class=CalOtherMonthDay style="WIDTH: 14%" 
+align=middle>8</TD></TR></TBODY></TABLE>
+<H3>统计</H3>
+<UL>
+  <LI>随笔 - 12 
+  <LI>文章 - 8 
+  <LI>评论 - 29 
+  <LI>引用 - 0 </LI></UL>
+<DIV class=catListInteraction>
+<H3 class=catListTitle>与我联系</H3>
+<UL>
+  <LI><A class=sendMsg id=SingleColumn1_ctl00_lnkSendMsg 
+  href="http://space.cnblogs.com/msg/send/Jimmyzhang">发短消息</A> </LI></UL></DIV>
+<SCRIPT type=text/javascript>
+function zzk_go()
+{
+	var blogapp = 'lxy0423';
+	var keystr = encodeURIComponent("blog:"+blogapp+" "+document.getElementById('q').value);
+    window.location = "http://zzk.cnblogs.com/s?w="+keystr;
+}
+function zzk_go_enter(event)
+{
+	if(event.keyCode == 13)
+	{
+	    zzk_go();
+	    return false;
+	}
+}
+</SCRIPT>
+
+<DIV class=mySearch>
+<H3 class=catListTitle>搜索</H3>
+<DIV class=div_my_zzk><INPUT class=input_my_zzk id=q 
+onkeydown="return zzk_go_enter(event);">&nbsp;<INPUT class=btn_my_zzk id=btnZzk onclick=zzk_go() type=button value=找找看></DIV></DIV>
+<H3>常用链接</H3>
+<UL>
+  <LI><A id=SingleColumn1_ctl02_rptMainLinks_ctl00_lnkLinkItem 
+  href="http://www.cnblogs.com/lxy0423/MyPosts.html">我的随笔</A> 
+  <LI><A id=SingleColumn1_ctl02_rptMainLinks_ctl01_lnkLinkItem 
+  href="http://space.cnblogs.com/lxy0423">我的空间</A> 
+  <LI><A id=SingleColumn1_ctl02_rptMainLinks_ctl02_lnkLinkItem 
+  href="http://space.cnblogs.com/msg/recent">我的短信</A> 
+  <LI><A id=SingleColumn1_ctl02_rptMainLinks_ctl03_lnkLinkItem 
+  href="http://www.cnblogs.com/lxy0423/MyComments.html">我的评论</A> 
+  <LI><A id=itemListLink 
+  onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" 
+  href="http://www.cnblogs.com/lxy0423/articles/1203134.html#">更多链接</A> </LI></UL>
+<DIV id=itemListLin_con style="DISPLAY: none">
+<UL>
+  <LI><A id=SingleColumn1_ctl02_repeaterLinks_ctl01_lnkLinkItem 
+  href="http://www.cnblogs.com/lxy0423/MyArticles.html">我的文章</A> 
+  <LI><A id=SingleColumn1_ctl02_repeaterLinks_ctl02_lnkLinkItem title=我发表过评论的随笔 
+  href="http://www.cnblogs.com/lxy0423/OtherPosts.html">我的参与</A> 
+  <LI><A id=SingleColumn1_ctl02_repeaterLinks_ctl03_lnkLinkItem 
+  href="http://www.cnblogs.com/lxy0423/MyNews.html">我的新闻</A> 
+  <LI><A id=SingleColumn1_ctl02_repeaterLinks_ctl04_lnkLinkItem 
+  href="http://www.cnblogs.com/lxy0423/RecentComments.html">最新评论</A> 
+  <LI><A id=SingleColumn1_ctl02_repeaterLinks_ctl05_lnkLinkItem 
+  href="http://www.cnblogs.com/lxy0423/tag/">我的标签</A> </LI></UL></DIV>
+<H3>留言簿</H3>
+<UL>
+  <LI><A id=SingleColumn1_ctl03_lnkMessages 
+  href="http://www.cnblogs.com/lxy0423/Contact.aspx?id=1">给我留言</A> <!--<li><a id="SingleColumn1_ctl03_lnkPublicMsgView" href="http://www.cnblogs.com/lxy0423/default.aspx?opt=msg">查看公开留言</a></li>-->
+  <LI><A id=SingleColumn1_ctl03_lnkPrivateMsgView 
+  href="http://www.cnblogs.com/lxy0423/admin/MyMessages.aspx">查看留言</A> </LI></UL>
+<DIV class=catListMyTeams id=SingleColumn1__3c9957d19335_panelMyManageGroups>
+<H3 class=catListTitle>我管理的小组</H3>
+<UL>
+  <LI><A href="http://space.cnblogs.com/group/bi/">商业智能 (BI)</A> </LI></UL></DIV>
+<DIV class=catListMyTeams id=SingleColumn1__3c9957d19335_panelMyAttendGroups>
+<H3 class=catListTitle>我参加的小组</H3>
+<UL>
+  <LI><A href="http://space.cnblogs.com/group/aspnet/">ASP.NET</A> 
+  <LI><A href="http://space.cnblogs.com/group/chuangye/">创业交流</A> 
+</LI></UL></DIV></ASP:PANEL>
+<H3>随笔分类<SPAN style="FONT-WEIGHT: normal; FONT-SIZE: 11px">(4)</SPAN></H3>
+<UL>
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134611.html">.NET</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink 
+  title="Subscribe to .NET" 
+  href="http://www.cnblogs.com/lxy0423/category/134611.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134614.html">Ajax &amp; 
+  Atlas</A> <A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink 
+  title="Subscribe to Ajax &amp; Atlas" 
+  href="http://www.cnblogs.com/lxy0423/category/134614.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134609.html">ASP.NET</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink 
+  title="Subscribe to ASP.NET" 
+  href="http://www.cnblogs.com/lxy0423/category/134609.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134613.html">Dundas</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink 
+  title="Subscribe to Dundas" 
+  href="http://www.cnblogs.com/lxy0423/category/134613.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134612.html">ERP(WEB)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink 
+  title="Subscribe to ERP(WEB)" 
+  href="http://www.cnblogs.com/lxy0423/category/134612.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link 
+  href="http://www.cnblogs.com/lxy0423/category/137649.html">Web报表(1)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink 
+  title="Subscribe to Web报表(1)" 
+  href="http://www.cnblogs.com/lxy0423/category/137649.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link 
+  href="http://www.cnblogs.com/lxy0423/category/137652.html">感悟点滴(3)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink 
+  title="Subscribe to 感悟点滴(3)" 
+  href="http://www.cnblogs.com/lxy0423/category/137652.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_Link 
+  href="http://www.cnblogs.com/lxy0423/category/137650.html">脚本技术</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_RssLink 
+  title="Subscribe to 脚本技术" 
+  href="http://www.cnblogs.com/lxy0423/category/137650.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_Link 
+  href="http://www.cnblogs.com/lxy0423/category/137651.html">生活点滴</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_RssLink 
+  title="Subscribe to 生活点滴" 
+  href="http://www.cnblogs.com/lxy0423/category/137651.html/rss">(rss)</A> 
+</LI></UL>
+<H3>随笔档案<SPAN style="FONT-WEIGHT: normal; FONT-SIZE: 11px">(12)</SPAN></H3>
+<UL>
+  <LI><A id=SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09.html">2008年9月 (3)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07.html">2008年7月 (2)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06.html">2008年6月 (6)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/05.html">2008年5月 (1)</A> 
+  </LI></UL>
+<H3>文章分类<SPAN style="FONT-WEIGHT: normal; FONT-SIZE: 11px">(8)</SPAN></H3>
+<UL>
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134603.html">.NET技术(1)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_RssLink 
+  title="Subscribe to .NET技术(1)" 
+  href="http://www.cnblogs.com/lxy0423/category/134603.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl02_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134604.html">ASP.NET技术</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl02_RssLink 
+  title="Subscribe to ASP.NET技术" 
+  href="http://www.cnblogs.com/lxy0423/category/134604.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl03_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134605.html">WEB ERP相关</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl03_RssLink 
+  title="Subscribe to WEB ERP相关" 
+  href="http://www.cnblogs.com/lxy0423/category/134605.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl04_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134602.html">人生感悟(3)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl04_RssLink 
+  title="Subscribe to 人生感悟(3)" 
+  href="http://www.cnblogs.com/lxy0423/category/134602.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl05_Link 
+  href="http://www.cnblogs.com/lxy0423/category/135671.html">社会观察</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl05_RssLink 
+  title="Subscribe to 社会观察" 
+  href="http://www.cnblogs.com/lxy0423/category/135671.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl06_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134601.html">生活点滴(1)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl06_RssLink 
+  title="Subscribe to 生活点滴(1)" 
+  href="http://www.cnblogs.com/lxy0423/category/134601.html/rss">(rss)</A> 
+  <LI><A id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl07_Link 
+  href="http://www.cnblogs.com/lxy0423/category/134600.html">学习(3)</A> <A 
+  id=SingleColumn1_Categories_CatList_ctl02_LinkList_ctl07_RssLink 
+  title="Subscribe to 学习(3)" 
+  href="http://www.cnblogs.com/lxy0423/category/134600.html/rss">(rss)</A> 
+</LI></UL>
+<H3>文章档案<SPAN style="FONT-WEIGHT: normal; FONT-SIZE: 11px">(8)</SPAN></H3>
+<UL>
+  <LI><A id=SingleColumn1_Categories_CatList_ctl03_LinkList_ctl01_Link 
+  href="http://www.cnblogs.com/lxy0423/archives/2008/05.html">2008年5月 (8)</A> 
+  </LI></UL>
+<H3>积分与排名</H3>
+<UL>
+  <LI>积分 - 3467 
+  <LI>排名 - 6115 </LI></UL>
+<H3>最新随笔</H3>
+<DIV class=RecentComment id=RecentPosts>
+<UL style="WORD-BREAK: break-all">
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl00_RecentPostsList2_ctl00_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293862.html">1.&nbsp;35岁前必须做好的10件事情(转载) 
+  </A>
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl00_RecentPostsList2_ctl01_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293860.html">2.&nbsp; 
+  IT人士之成功之6大步骤 </A>
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl01_RecentPostsList2_ctl00_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/18/1293066.html">3.&nbsp;IT人才创业失败的16大原因</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl02_RecentPostsList2_ctl00_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07/26/1252070.html">4.&nbsp;偶学习技术的一点心得.</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl03_RecentPostsList2_ctl00_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07/03/1234745.html">5.&nbsp;打工还是创业？思路决定出路</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl04_RecentPostsList2_ctl00_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/29/1232125.html">6.&nbsp;毛毛虫---人生哲理</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl05_RecentPostsList2_ctl00_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/25/1229917.html">7.&nbsp;创业步骤</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl05_RecentPostsList2_ctl01_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/25/1229916.html">8.&nbsp;创业起步的十大准备步骤</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl05_RecentPostsList2_ctl02_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/25/1229915.html">9.&nbsp;公司审批程序</A> 
+
+  <LI><A 
+  id=SingleColumn1_ctl08_RecentPostsList_ctl05_RecentPostsList2_ctl03_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/25/1229905.html">10.&nbsp;注册(创办)公司的手续过程</A> 
+  </LI></UL></DIV>
+<H3>最新评论 <A id=SingleColumn1__31dc76b_RSSHyperlink1 
+href="http://www.cnblogs.com/lxy0423/CommentsRSS.aspx"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/xml.gif"></A></H3>
+<DIV class=RecentComment id=RecentComments>
+<UL>
+  <LI style="WORD-BREAK: break-all"><A 
+  id=SingleColumn1__31dc76b_CommentList_ctl01_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293860.html#1321333">1.&nbsp;re: 
+  IT人士之成功之6大步骤 </A>
+  <LI 
+  style="WORD-BREAK: break-all">自从文化大革命后，感觉人心不古啊！！！这样的社会会培养出来什么环境，大家都知道。长此下去，沦为二等国民的日子不远啦，清朝自康熙后腐败了快200年，终于灭忙。我就一直想，为什么我们不学学韩国人、日本... 
+
+  <LI style="MARGIN-RIGHT: 4px; TEXT-ALIGN: right">--小猴子 
+  <LI style="WORD-BREAK: break-all"><A 
+  id=SingleColumn1__31dc76b_CommentList_ctl02_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293860.html#1321242">2.&nbsp;re: 
+  IT人士之成功之6大步骤 </A>
+  <LI style="WORD-BREAK: break-all">嗯嗯<BR>写得很不错<BR>很符合中国的国情 
+  <LI style="MARGIN-RIGHT: 4px; TEXT-ALIGN: right">--李胜攀 
+  <LI style="WORD-BREAK: break-all"><A 
+  id=SingleColumn1__31dc76b_CommentList_ctl03_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293860.html#1321234">3.&nbsp;re: 
+  IT人士之成功之6大步骤 </A>
+  <LI style="WORD-BREAK: break-all">看的有点儿晕乎 
+  <LI style="MARGIN-RIGHT: 4px; TEXT-ALIGN: right">--我从草原来 
+  <LI style="WORD-BREAK: break-all"><A 
+  id=SingleColumn1__31dc76b_CommentList_ctl04_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/17/1203134.html#1319795">4.&nbsp;re: 
+  C语言面试题大汇总之华为面试题</A> 
+  <LI style="WORD-BREAK: break-all">题目真多 
+  <LI style="MARGIN-RIGHT: 4px; TEXT-ALIGN: right">--codemo </LI></UL></DIV>
+<H3>阅读排行榜</H3>
+<DIV class=RecentComment id=TopViewPosts>
+<UL style="WORD-BREAK: break-all">
+  <LI><A id=SingleColumn1__1b1e658_TopList_ctl01_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/25/1229905.html">1.&nbsp;注册(创办)公司的手续过程(930)</A> 
+
+  <LI><A id=SingleColumn1__1b1e658_TopList_ctl02_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07/26/1252070.html">2.&nbsp;偶学习技术的一点心得.(470)</A> 
+
+  <LI><A id=SingleColumn1__1b1e658_TopList_ctl03_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/05/26/1207373.html">3.&nbsp;转一篇详解Excel逻辑函数的文章 
+  (413)</A> 
+  <LI><A id=SingleColumn1__1b1e658_TopList_ctl04_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07/03/1234745.html">4.&nbsp;打工还是创业？思路决定出路(242)</A> 
+
+  <LI><A id=SingleColumn1__1b1e658_TopList_ctl05_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293860.html">5.&nbsp; 
+  IT人士之成功之6大步骤 (196)</A> </LI></UL></DIV>
+<H3>评论排行榜</H3>
+<DIV class=RecentComment id=TopCommentsPosts>
+<UL style="WORD-BREAK: break-all">
+  <LI><A id=SingleColumn1__2fbff21_TopList_ctl01_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/25/1229905.html">1.&nbsp;注册(创办)公司的手续过程(8)</A> 
+
+  <LI><A id=SingleColumn1__2fbff21_TopList_ctl02_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07/03/1234745.html">2.&nbsp;打工还是创业？思路决定出路(6)</A> 
+
+  <LI><A id=SingleColumn1__2fbff21_TopList_ctl03_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/07/26/1252070.html">3.&nbsp;偶学习技术的一点心得.(6)</A> 
+
+  <LI><A id=SingleColumn1__2fbff21_TopList_ctl04_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/09/19/1293860.html">4.&nbsp; 
+  IT人士之成功之6大步骤 (3)</A> 
+  <LI><A id=SingleColumn1__2fbff21_TopList_ctl05_Hyperlink1 
+  href="http://www.cnblogs.com/lxy0423/archive/2008/06/29/1232125.html">5.&nbsp;毛毛虫---人生哲理(2)</A> 
+  </LI></UL></DIV></DIV>
+<DIV id=main>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</SCRIPT>
+
+<DIV class=post>
+<H2><A id=AjaxHolder_ctl01_TitleUrl 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html">C语言面试题大汇总之华为面试题</A> 
+</H2>
+<DIV><SPAN style="FONT-SIZE: 15pt; COLOR: blue">C</SPAN><SPAN 
+style="FONT-SIZE: 15pt; COLOR: blue">语言面试题大汇总之华为面试题</SPAN></DIV>
+<DIV><SPAN 
+style="FONT-SIZE: 15pt; COLOR: blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eddy</SPAN><SPAN 
+style="FONT-SIZE: 15pt; COLOR: blue">整理</SPAN></DIV>
+<DIV>1、局部变量能否和全局变量重名？ 　</DIV>
+<DIV>　答：能，局部会屏蔽全局。要用全局变量，需要使用"::" 
+;局部变量可以与全局变量同名，在函数内引用这个变量时，会用到同名的局部变量，而不会用到全局变量。对于有些编译器而言，在同一个函数内可以定义多个同名的局部变量，比如在两个循环体内都定义一个同名的局部变量，而那个局部变量的作用域就在那个循环体内。</DIV>
+<DIV>&nbsp;　　 </DIV>
+<DIV>2、如何引用一个已经定义过的全局变量？ 　　</DIV>
+<DIV>答：extern 
+　可以用引用头文件的方式，也可以用extern关键字，如果用引用头文件方式来引用某个在头文件中声明的全局变理，假定你将那个编写错了，那么在编译期间会报错，如果你用extern方式引用时，假定你犯了同样的错误，那么在编译期间不会报错，而在连接期间报错。 
+</DIV>
+<DIV>　　</DIV>
+<DIV>3、全局变量可不可以定义在可被多个.C文件包含的头文件中？为什么？ 　　</DIV>
+<DIV>答：可以，在不同的C文件中以static形式来声明同名全局变量。 
+　　可以在不同的C文件中声明同名的全局变量，前提是其中只能有一个C文件中对此变量赋初值，此时连接不会出错. 　 　 </DIV>
+<DIV>4、请写出下列代码的输出内容 　　</DIV>
+<DIV>#include &nbsp;&lt;stdio.h&gt;　　</DIV>
+<DIV>int main(void) 　　</DIV>
+<DIV>{ 　　　</DIV>
+<DIV style="TEXT-INDENT: 21pt">int a,b,c,d; </DIV>
+<DIV>　　a=10; 　</DIV>
+<DIV>　　b=a++; 　</DIV>
+<DIV>　　c=++a; 　　</DIV>
+<DIV>　&nbsp;d=10*a++; 　</DIV>
+<DIV>　　printf("b，c，d：%d，%d，%d"，b，c，d）; 　</DIV>
+<DIV>　　return 0; 　</DIV>
+<DIV>　} 　　</DIV>
+<DIV>答：10，12，120 　</DIV>
+<DIV>　</DIV>
+<DIV>5、static全局变量与普通的全局变量有什么区别？static局部变量和普通局部变量有什么区别？static函数与普通函数有什么区别？ 
+　　</DIV>
+<DIV>答: 1) 全局变量(外部变量)的说明之前再冠以static 就构成了静态的全局变量。全局变量本身就是静态存储方式， 
+静态全局变量当然也是静态存储方式。 这两者在存储方式上并无不同。这两者的区别在于非静态全局变量的作用域是整个源程序， 
+当一个源程序由多个源文件组成时，非静态的全局变量在各个源文件中都是有效的。 而静态全局变量则限制了其作用域， 即只在定义该变量的源文件内有效， 
+在同一源程序的其它源文件中不能使用它。由于静态全局变量的作用域局限于一个源文件内，只能为该源文件内的函数公用， 因此可以避免在其它源文件中引起错误。 
+　　</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">2) 从以上分析可以看出， 把<SPAN 
+style="COLOR: blue">局部变量改变为静态变量后是改变了它的存储方式即改变了它的生存期。把全局变量改变为静态变量后是改变了它的作用域，</SPAN><SPAN 
+style="COLOR: blue">限制了它的使用范围。</SPAN>　　<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3) 
+static</SPAN>函数与普通函数作用域不同,仅在本文件。只在当前源文件中使用的函数应该说明为内部函数(static)，内部函数应该在当前源文件中说明和定义。对于可在当前源文件以外使用的函数，应该在一个头文件中说明，要使用这些函数的源文件要包含这个头文件 
+　　</DIV>
+<DIV>综上所述:</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">static全局变量与普通的全局变量有什么区别：</DIV>
+<DIV style="TEXT-INDENT: 36.75pt">static全局变量只初使化一次，防止在其他文件单元中被引用; 　　</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">static局部变量和普通局部变量有什么区别：</DIV>
+<DIV style="TEXT-INDENT: 36.75pt">static局部变量只被初始化一次，下一次依据上一次结果值； 　　</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">static函数与普通函数有什么区别：</DIV>
+<DIV style="TEXT-INDENT: 36.75pt"><SPAN style="COLOR: blue">static</SPAN><SPAN 
+style="COLOR: blue">函数在内存中只有一份，普通函数在每个被调用中维持一份拷贝</SPAN></DIV>
+<DIV style="TEXT-INDENT: 36.75pt">　　</DIV>
+<DIV>6、程序的局部变量存在于（堆栈）中，全局变量存在于（静态区 ）中，动态申请数据存在于（ 堆）中。 　　</DIV>
+<DIV>7、设有以下说明和定义： 　</DIV>
+<DIV>　 typedef union </DIV>
+<DIV style="TEXT-INDENT: 10.5pt">{</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">long i; </DIV>
+<DIV style="TEXT-INDENT: 15.75pt">int k[5];</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">&nbsp;char c;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">} DATE; 　</DIV>
+<DIV>　struct data</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">&nbsp;{</DIV>
+<DIV>&nbsp;&nbsp;&nbsp;int cat;</DIV>
+<DIV>&nbsp;&nbsp;&nbsp;DATE cow; </DIV>
+<DIV style="TEXT-INDENT: 15.75pt">double dog;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">} too; 　</DIV>
+<DIV>　DATE max; 　　</DIV>
+<DIV>则语句 printf("%d",sizeof(struct data)+sizeof(max));的执行结果是：___52____ </DIV>
+<DIV>考点:区别struct与union.(一般假定在32位机器上)　　</DIV>
+<DIV>答：DATE是一个union, 变量公用空间. 里面最大的变量类型是int[5], 占用20个字节. 所以它的大小是20. 
+data是一个struct, 每个变量分开占用空间. 依次为int4 + DATE20 + double8 = 32. 所以结果是 20 + 32 = 52. 
+当然...在某些16位编辑器下, int可能是2字节,那么结果是 int2 + DATE10 + double8 = 20 </DIV>
+<DIV>　　</DIV>
+<DIV>8、队列和栈有什么区别？</DIV>
+<DIV>&nbsp;　　 　　队列先进先出，栈后进先出 　　</DIV>
+<DIV>9、写出下列代码的输出内容 　　</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">#include &lt;stdio.h&gt; 　　</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">int inc(int a) 　　</DIV>
+<DIV>&nbsp;{&nbsp;return(++a);&nbsp;} 　　</DIV>
+<DIV>&nbsp;int multi(int*a,int*b,int*c) 　　</DIV>
+<DIV>&nbsp;{ 　 return(*c=*a**b);&nbsp;} 　</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">typedef int(FUNC1)(int in); 　　</DIV>
+<DIV>&nbsp;typedef int(FUNC2) (int*,int*,int*); 　</DIV>
+<DIV>　 void show(FUNC2 fun,int arg1, int*arg2) 　</DIV>
+<DIV>　 { 　　　</DIV>
+<DIV>&nbsp;&nbsp;FUNC1 p=&amp;inc; 　　</DIV>
+<DIV>　 int temp =p(arg1); 　　</DIV>
+<DIV>　 fun(&amp;temp,&amp;arg1, arg2); 　　</DIV>
+<DIV>　 printf("%dn",*arg2); 　　</DIV>
+<DIV>&nbsp;} 　　</DIV>
+<DIV>&nbsp;main() 　　</DIV>
+<DIV>&nbsp;{ 　　</DIV>
+<DIV>　 int a; 　　<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//</SPAN>局部变量a为0;</DIV>
+<DIV>　 show(multi,10,&amp;a); 　　　</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">&nbsp;return 0; </DIV>
+<DIV>　　 } 　</DIV>
+<DIV>　答：110 　</DIV>
+<DIV>　 </DIV>
+<DIV><SPAN style="COLOR: blue">10</SPAN><SPAN 
+style="COLOR: blue">、请找出下面代码中的所有错误</SPAN><SPAN style="COLOR: blue"> 
+(</SPAN><SPAN style="COLOR: blue">题目不错</SPAN><SPAN 
+style="COLOR: blue">,</SPAN><SPAN style="COLOR: blue">值得一看</SPAN><SPAN 
+style="COLOR: blue">)</SPAN><SPAN style="COLOR: blue">　　</SPAN></DIV>
+<DIV>说明：以下代码是把一个字符串倒序，如“abcd”倒序后变为“dcba” 　　 </DIV>
+<DIV>#include"string.h" 　　 </DIV>
+<DIV>main() 　　 </DIV>
+<DIV>{ 　　 </DIV>
+<DIV>char*src="hello,world"; 　　 </DIV>
+<DIV>char* dest=NULL; 　　 </DIV>
+<DIV>int len=strlen(src); 　　 </DIV>
+<DIV>dest=(char*)malloc(len); 　　 <SPAN>&nbsp;&nbsp;</SPAN></DIV>
+<DIV>char* d=dest; 　　 </DIV>
+<DIV>char* s=src[len]; 　<SPAN>&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></DIV>
+<DIV>while(len--!=0) 　　 </DIV>
+<DIV>d++=s--; 　　 <SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></DIV>
+<DIV>printf("%s",dest); 　　</DIV>
+<DIV>return 0; 　　 </DIV>
+<DIV>} 　　 </DIV>
+<DIV>答： 　　</DIV>
+<DIV>方法1：一共有4个错误; 　　 </DIV>
+<DIV>int main() 　　</DIV>
+<DIV>{ 　　</DIV>
+<DIV>　char* src = "hello,world"; 　　</DIV>
+<DIV>　int len = strlen(src); 　　</DIV>
+<DIV>　char* dest = (char*)malloc(len+1);//要为分配一个空间 　　　char* d = dest; 　　</DIV>
+<DIV>　char* s = &amp;src[len-1];<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<SPAN style="COLOR: blue">&nbsp;&nbsp;//</SPAN></SPAN><SPAN 
+style="COLOR: blue">指向最后一个字符</SPAN>　　</DIV>
+<DIV>　while( len-- != 0 ) 　　</DIV>
+<DIV>　 *d++=*s--; 　　</DIV>
+<DIV>　*d = 0;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//</SPAN>尾部要加’\0’ 　　</DIV>
+<DIV>　printf("%sn",dest); 　　　</DIV>
+<DIV 
+style="TEXT-INDENT: 10.5pt">free(dest);<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// </SPAN>使用完，应当释放空间，以免造成内存汇泄露 </DIV>
+<DIV style="TEXT-INDENT: 10.5pt">dest = NULL;　　 //防止产生野指针　</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">return 0; 　</DIV>
+<DIV>　} </DIV>
+<DIV>方法2： (方法一需要额外的存储空间,效率不高.)　<SPAN style="COLOR: blue">不错的想法</SPAN></DIV>
+<DIV>#include &lt;stdio.h&gt;</DIV>
+<DIV>#include &lt;string.h&gt;</DIV>
+<DIV>main()</DIV>
+<DIV>{</DIV>
+<DIV>char str[]="hello,world";</DIV>
+<DIV>int len=strlen(str);</DIV>
+<DIV>char t;</DIV>
+<DIV>for(int i=0; i&lt;len/2; i++)</DIV>
+<DIV>{</DIV>
+<DIV>t=str[i]; </DIV>
+<DIV>str[i]=<SPAN style="COLOR: blue">str[len-i-1];&nbsp;//</SPAN><SPAN 
+style="COLOR: blue">小心一点</SPAN></DIV>
+<DIV><SPAN style="COLOR: blue">str[len-i-1]</SPAN>=t;</DIV>
+<DIV>}</DIV>
+<DIV>printf("%s",str);</DIV>
+<DIV>return 0;</DIV>
+<DIV>}</DIV>
+<DIV>11.对于一个频繁使用的短小函数,在C语言中应用什么实现,在C++中应用什么实现? 　</DIV>
+<DIV>　c用宏定义，c++用inline 　　</DIV>
+<DIV>12.直接链接两个信令点的一组链路称作什么? 　　</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">PPP点到点连接 　　 　</DIV>
+<DIV>13.接入网用的是什么接口?</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">V5接口　 　　</DIV>
+<DIV>14.voip都用了那些协议? 　</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">H.323协议簇、SIP协议、Skype协议、H.248和MGCP协议　</DIV>
+<DIV>15.软件测试都有那些种类? 　</DIV>
+<DIV>　黑盒：针对系统功能的测试 　　</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">白盒：测试函数功能，各函数接口 　　</DIV>
+<DIV>16.确定模块的功能和模块的接口是在软件设计的那个队段完成的? 　　</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">概要设计阶段 　　</DIV>
+<DIV>17. 　　</DIV>
+<DIV>unsigned char *p1;</DIV>
+<DIV>unsigned long *p2;</DIV>
+<DIV>p1=(unsigned char *)0x801000;&nbsp;</DIV>
+<DIV>p2=(unsigned long *)0x810000;</DIV>
+<DIV>请问p1+5= &nbsp;;</DIV>
+<DIV style="TEXT-INDENT: 26.25pt">p2+5= &nbsp;;</DIV>
+<DIV>答案:0x801005(相当于加上5位)&nbsp;0x810014(相当于加上20位);</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>选择题: 　　</DIV>
+<DIV>21.Ethternet链接到Internet用到以下那个协议? D　　</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">A.HDLC;B.ARP;C.UDP;D.TCP;E.ID 　 　</DIV>
+<DIV>22.属于网络层协议的是:( B C) 　 　　</DIV>
+<DIV>&nbsp;&nbsp;A.TCP;B.IP;C.ICMP;D.X.25 　</DIV>
+<DIV>23.Windows消息调度机制是:(C)　</DIV>
+<DIV>　 A.指令队列;B.指令堆栈;C.消息队列;D.消息堆栈; </DIV>
+<DIV>　　</DIV>
+<DIV>找错题: 　　 </DIV>
+<DIV>25.请问下面程序有什么错误? 　　</DIV>
+<DIV>int a[60][250][1000],i,j,k; 　　</DIV>
+<DIV>for(k=0;kMax_GT_Length) 　　　</DIV>
+<DIV>{ 　　　　return GT_Length_ERROR; 　</DIV>
+<DIV>　} 　　　....... } </DIV>
+<DIV>答: 死循环//　　</DIV>
+<DIV>问答题: 　　 </DIV>
+<DIV>29.IP Phone的原理是什么? </DIV>
+<DIV style="TEXT-INDENT: 15.75pt">IP电话（又称IP 
+PHONE或VoIP）是建立在IP技术上的分组化、数字化传输技术,其基本原理是：通过语音压缩算法对语音数据进行压缩编码处理,然后把这些语音数据按IP等相关协议进行打包,经过IP网络把数据包传输到接收地,再把这些语音数据包串起来,经过解码解压处理后,恢复成原来的语音信号,从而达到由IP网络传送语音的目的。</DIV>
+<DIV>30.TCP/IP通信建立的过程怎样，端口有什么作用？ 　　</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">三次握手，确定是哪个应用程序使用该协议 　　 </DIV>
+<DIV>31.1号信令和7号信令有什么区别，我国某前广泛使用的是那一种？</DIV>
+<DIV>&nbsp;　1号信令接续慢，但是稳定，可靠。</DIV>
+<DIV 
+style="MARGIN-LEFT: 10.5pt; TEXT-INDENT: 10.5pt">7号信令的特点是：信令速度快，具有提供大量信令的潜力，具有改变和增加信令的灵活性，便于开放新业务，在通话时可以随意处理信令，成本低。目前得到广泛应用。</DIV>
+<DIV>32.列举5种以上的电话新业务 </DIV>
+<DIV>如“闹钟服务”、“免干扰服务”、“热线服务”、“转移呼叫”、“遇忙回叫”、“缺席用户服务”、“追查恶意呼叫”、“三方通话”、“会议电话”、“呼出限制”、“来电显示”、“虚拟网电话”等</DIV>
+<DIV style="LINE-HEIGHT: 130%" align=left><STRONG><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 130%">四</SPAN></STRONG><STRONG><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 130%">.</SPAN></STRONG><STRONG><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 130%">找错题</SPAN></STRONG><STRONG><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 130%">:</SPAN></STRONG></DIV>
+<DIV>1.请问下面程序有什么错误?</DIV>
+<DIV>int a[60][250][1000],i,j,k;</DIV>
+<DIV>for(k=0;k&lt;=1000;k++)</DIV>
+<DIV>for(j=0;j&lt;250;j++)</DIV>
+<DIV>for(i=0;i&lt;60;i++)</DIV>
+<DIV>a[i][j][k]=0;</DIV>
+<DIV>答: 把循环语句内外换一下</DIV>
+<DIV>2.#define Max_CB 500</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">void LmiQueryCSmd(Struct MSgCB * pmsg)</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">{</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">unsigned char ucCmdNum;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">......</DIV>
+<DIV 
+style="TEXT-INDENT: 15.75pt">for(ucCmdNum=0;ucCmdNum&lt;Max_CB;ucCmdNum++)</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">{</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">......;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">}</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">答: 死循环,unsigned int的取值范围是0~255</DIV>
+<DIV>3.以下是求一个数的平方的程序,请找出错误:</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">#define SQUARE(a)((a)*(a))</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">int a=5;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">int b;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">b=SQUARE(a++);</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">答:结果与编译器相关,得到的可能不是平方值.</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">微软亚洲技术中心的面试题！！</SPAN>！</DIV>
+<DIV>1．进程和线程的差别。</DIV>
+<DIV>答:线程是指进程内的一个执行单元,也是进程内的可调度实体.</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">与进程的区别:</DIV>
+<DIV>(1)调度：线程作为调度和分配的基本单位，进程作为拥有资源的基本单位</DIV>
+<DIV>(2)并发性：不仅进程之间可以并发执行，同一个进程的多个线程之间也可并发执行</DIV>
+<DIV>(3)拥有资源：进程是拥有资源的一个独立单位，线程不拥有系统资源，但可以访问隶属于进程的资源. </DIV>
+<DIV>(4)系统开销：在创建或撤消进程时，由于系统都要为之分配和回收资源，导致系统的开销明显大于创建或撤消线程时的开销。</DIV>
+<DIV>2.测试方法 </DIV>
+<DIV>答:人工测试：个人复查、抽查和会审</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">机器测试：黑盒测试和白盒测试</DIV>
+<DIV>3．Heap与stack的差别。</DIV>
+<DIV>答:Heap是堆，stack是栈。</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">Stack的空间由操作系统自动分配/释放，Heap上的空间手动分配/释放。</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">Stack空间有限，Heap是很大的自由存储区</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">C中的malloc函数分配的内存空间即在堆上,C++中对应的是new操作符。</DIV>
+<DIV 
+style="MARGIN-LEFT: 5.25pt">程序在编译期对变量和函数分配内存都在栈上进行,且程序运行过程中函数调用时参数的传递也在栈上进行</DIV>
+<DIV style="MARGIN-LEFT: 5.25pt">&nbsp;</DIV>
+<DIV>4．Windows下的内存是如何管理的？</DIV>
+<DIV>&nbsp;&nbsp;分页管理</DIV>
+<DIV>8．谈谈IA32下的分页机制</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">小页(4K)两级分页模式，大页(4M)一级</DIV>
+<DIV>9．给两个变量，如何找出一个带环单链表中是什么地方出现环的？</DIV>
+<DIV>一个递增一，一个递增二，他们指向同一个接点时就是环出现的地方</DIV>
+<DIV>10．在IA32中一共有多少种办法从用户态跳到内核态？</DIV>
+<DIV>通过调用门，从ring3到ring0，中断从ring3到ring0，进入vm86等等</DIV>
+<DIV>11．如果只想让程序有一个实例运行，不能运行两个。像winamp一样，只能开一个窗口，怎样实现？</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">用内存映射或全局原子（互斥变量）、查找窗口句柄.. </DIV>
+<DIV style="TEXT-INDENT: 15.75pt">FindWindow，互斥，写标志到文件或注册表,共享内存。.　 </DIV>
+<DIV>12．如何截取键盘的响应，让所有的'a’变成'b’？</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">答:键盘钩子SetWindowsHookEx</DIV>
+<DIV>14．存储过程是什么？有什么用？有什么优点？</DIV>
+<DIV 
+style="MARGIN-LEFT: 10.5pt; TEXT-INDENT: 5.25pt">答:我的理解就是一堆sql的集合，可以建立非常复杂的查询，编译运行，所以运行一次后，以后再运行速度比单独执行SQL快很多</DIV>
+<DIV style="MARGIN-LEFT: 10.5pt; TEXT-INDENT: 5.25pt">&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">15</SPAN><SPAN style="COLOR: blue">．</SPAN><SPAN 
+style="COLOR: blue">Template</SPAN><SPAN 
+style="COLOR: blue">有什么特点？什么时候用？</SPAN></DIV>
+<DIV style="MARGIN-LEFT: 26.25pt; TEXT-INDENT: -26.25pt">&nbsp;&nbsp;答: 
+Template可以独立于任何特定的类型编写代码,是泛型编程的基础.</DIV>
+<DIV 
+style="MARGIN-LEFT: 26.25pt; TEXT-INDENT: -26.25pt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>当我们编写的类和函数能够多态的用于跨越编译时不相关的类型时,用Template.</DIV>
+<DIV 
+style="MARGIN-LEFT: 26.25pt; TEXT-INDENT: -26.25pt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>模板主要用于STL中的容器,算法,迭代器等以及模板元编程.</DIV>
+<DIV 
+style="MARGIN-LEFT: 26.25pt">(C++的template是实现在库设计和嵌入式设计中的关键。<BR>template能实现抽象和效率的结合；同时template还能有效地防止代码膨胀)</DIV>
+<DIV>16．谈谈Windows DNA结构的特点和优点。</DIV>
+<DIV style="MARGIN-LEFT: 15.75pt">答:Windows Distributed interNet Application 
+Architecture（Windows分布式应用结构，简称Windows 
+DNA）是微软创建新一代高适应性商业解决方案的框架，它使公司能够充分地挖掘数字神经系统的优点。Windows 
+DNA是第一个将Internet、客户/服务器、和用于计算的PC模型结合并集成在一起的为新一类分布式计算方案而设计的应用软件体系结构</DIV>
+<DIV><SPAN style="COLOR: blue">17. </SPAN><SPAN 
+style="COLOR: blue">网络编程中设计并发服务器，使用多进程</SPAN><SPAN 
+style="COLOR: blue">与</SPAN><SPAN style="COLOR: blue">多线程</SPAN><SPAN 
+style="COLOR: blue">，请问有什么区别？</SPAN></DIV>
+<DIV style="TEXT-INDENT: 10.5pt">答:1)进程：子进程是父进程的复制品。子进程获得父进程数据空间、堆和栈的复制品。</DIV>
+<DIV 
+style="MARGIN-LEFT: 5.25pt; TEXT-INDENT: 21pt">2)线程：相对与进程而言，线程是一个更加接近与执行体的概念，它可以与同进程的其他线程共享数据，但拥有自己的栈空间，拥有独立的执行序列。</DIV>
+<DIV style="TEXT-INDENT: 21pt">两者都可以提高程序的并发度，提高程序运行效率和响应时间。</DIV>
+<DIV>线程和进程在使用上各有优缺点：线程执行开销小，但不利于资源管理和保护；而进程正相反。同时，线程适合于在SMP机器上运行，而进程则可以跨机器迁移。</DIV>
+<DIV style="LINE-HEIGHT: 130%" align=left><STRONG><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 130%">思科</SPAN></STRONG></DIV>
+<DIV>1. 用宏定义写出swap（x，y）</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">答#define swap(x, y)</DIV>
+<DIV style="TEXT-INDENT: 21pt">x = x + y;</DIV>
+<DIV style="TEXT-INDENT: 21pt">y = x - y;</DIV>
+<DIV style="TEXT-INDENT: 21pt">x = x - y;</DIV>
+<DIV>2.数组a[N]，存放了1至N-1个数，其中某个数重复一次。写一个函数，找出被重复的数字.时间复杂度必须为o（N）函数原型：</DIV>
+<DIV>int do_dup(int a[],int N)</DIV>
+<DIV>答:int do_dup(int a[],int N)<SPAN>&nbsp;&nbsp;&nbsp; //</SPAN>未经调试</DIV>
+<DIV>&nbsp;{</DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sun = 0;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sum2;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int i=0;i&lt;N;++i)</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sum+=a[i];</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sum2 = (1+N-1)*N/2;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Return&nbsp;(sum-sum2);</SPAN></DIV>
+<DIV>&nbsp;}</DIV>
+<DIV>3 一语句实现x是否为2的若干次幂的判断</DIV>
+<DIV>答:方法1)int i = 512;</DIV>
+<DIV>cout &lt;&lt; boolalpha &lt;&lt; ((i &amp; (i - 1)) ? false : true) 
+&lt;&lt; endl; //位与为0,则表示是2的若干次幂</DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2)return 
+&nbsp;(x&gt;&gt;N==1);</SPAN></DIV>
+<DIV>4.unsigned int intvert(unsigned int x,int p,int 
+n)实现对x的进行转换,p为起始转化位,n为需要转换的长度,假设起始点在右边.如x=0b0001 0001,p=4,n=3转换后x=0b0110 
+0001</DIV>
+<DIV>答:unsigned int intvert(unsigned int x,int p,int n)&nbsp;//假定p=4,n=3</DIV>
+<DIV>{</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">unsigned int _t = 0;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">unsigned int _a = 1;</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">for(int i = 0; i &lt; n; 
+++i)//循环的目的主要是-t</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">{</DIV>
+<DIV style="TEXT-INDENT: 21pt">_t |= 
+_a;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //</SPAN>位或</DIV>
+<DIV style="TEXT-INDENT: 21pt">_a = _a &lt;&lt; 1;<SPAN>&nbsp;&nbsp; 
+</SPAN></DIV>
+<DIV style="TEXT-INDENT: 21pt">}</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">_t = _t &lt;&lt; p;<SPAN>&nbsp;&nbsp; 
+//</SPAN>转换后_t变为1110000</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">x ^= 
+_t;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /</SPAN>异或,将原来的位取反</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">return x;</DIV>
+<DIV>}</DIV>
+<DIV style="LINE-HEIGHT: 130%" align=left><STRONG><SPAN 
+style="FONT-SIZE: 12pt; COLOR: blue; LINE-HEIGHT: 130%">慧通：</SPAN></STRONG></DIV>
+<DIV>1. 什么是预编译，何时需要预编译：</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">答: 就是指程序执行前的一些预处理工作,主要指#表示的.</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">何时需要预编译?</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">１)、总是使用不经常改动的大型代码体。 </DIV>
+<DIV 
+style="MARGIN-LEFT: 15.75pt">２)、程序由多个模块组成，所有模块都使用一组标准的包含文件和相同的编译选项。在这种情况下，可以将所有包含文件预编译为一个预编译头。</DIV>
+<DIV>2. 下述三个有什么区别？</DIV>
+<DIV>char * const p;</DIV>
+<DIV>char const * p</DIV>
+<DIV>const char *p</DIV>
+<DIV>解答：</DIV>
+<DIV>char * const p; //常量指针，p的值不可以修改</DIV>
+<DIV>char const * p；//指向常量的指针，指向的常量值不可以改</DIV>
+<DIV>const char *p； //和char const *p</DIV>
+<DIV>3. 解释下列输出结果</DIV>
+<DIV>char str1[] = "abc";</DIV>
+<DIV>char str2[] = "abc";</DIV>
+<DIV>const char str3[] = "abc";</DIV>
+<DIV>const char str4[] = "abc";</DIV>
+<DIV>const char *str5 = "abc";</DIV>
+<DIV>const char *str6 = "abc";</DIV>
+<DIV>char *str7 = "abc";</DIV>
+<DIV>char *str8 = "abc";</DIV>
+<DIV>cout &lt;&lt; ( str1 == str2 ) &lt;&lt; endl;</DIV>
+<DIV>cout &lt;&lt; ( str3 == str4 ) &lt;&lt; endl;</DIV>
+<DIV>cout &lt;&lt; ( str5 == str6 ) &lt;&lt; endl;</DIV>
+<DIV>cout &lt;&lt; ( str7 == str8 ) &lt;&lt; endl;</DIV>
+<DIV>结果是：0 0 1 1</DIV>
+<DIV>解答：str1,str2,str3,str4是<SPAN 
+style="COLOR: blue">数组变量，它们有各自的内存空间；</SPAN></DIV>
+<DIV>而str5,str6,str7,str8是<SPAN style="COLOR: blue">指针，它们指向相同的常量区域。</SPAN></DIV>
+<DIV>&nbsp;</DIV>
+<DIV>4. 以下代码中的两个sizeof用法有问题吗？[C易]</DIV>
+<DIV>void UpperCase( char str[] ) // 将 str 中的小写字母转换成大写字母</DIV>
+<DIV>{</DIV>
+<DIV>for( size_t i=0; i&lt;sizeof(str)/sizeof(str[0]); ++i )</DIV>
+<DIV>if( 'a'&lt;=str[i] &amp;&amp; str[i]&lt;='z' )</DIV>
+<DIV>str[i] -= ('a'-'A' );</DIV>
+<DIV>}</DIV>
+<DIV>char str[] = "aBcDe";</DIV>
+<DIV>cout &lt;&lt; "str字符长度为: " &lt;&lt; sizeof(str)/sizeof(str[0]) &lt;&lt; 
+endl;</DIV>
+<DIV>UpperCase( str );</DIV>
+<DIV>cout &lt;&lt; str &lt;&lt; endl;</DIV>
+<DIV>答：函数内的sizeof有问题。根据语法，sizeof如用于数组，只能测出静态数组的大小，无法检测动态分配的或外部数组大小。函数外的str是一个静态定义的数组，因此其大小为6，函数内的str实际只是一个指向字符串的指针，没有任何额外的与数组相关的信息，因此sizeof作用于上只将其当指针看，一个指针为4个字节，因此返回4。</DIV>
+<DIV><SPAN>&nbsp;&nbsp; </SPAN><SPAN style="COLOR: blue">注意</SPAN><SPAN 
+style="COLOR: blue">:</SPAN><SPAN style="COLOR: blue">数组名作为函数参数时</SPAN><SPAN 
+style="COLOR: blue">,</SPAN><SPAN style="COLOR: blue">退化为指针</SPAN><SPAN 
+style="COLOR: blue">.</SPAN></DIV>
+<DIV><SPAN style="COLOR: blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="COLOR: blue">数组名作为</SPAN><SPAN 
+style="COLOR: blue">sizeof()</SPAN><SPAN style="COLOR: blue">参数时</SPAN><SPAN 
+style="COLOR: blue">,</SPAN><SPAN style="COLOR: blue">数组名不退化</SPAN><SPAN 
+style="COLOR: blue">,</SPAN><SPAN style="COLOR: blue">因为</SPAN><SPAN 
+style="COLOR: blue">sizeof</SPAN><SPAN style="COLOR: blue">不是函数</SPAN>.</DIV>
+<DIV>4. 一个32位的机器,该机器的指针是多少位</DIV>
+<DIV>指针是多少位只要看地址总线的位数就行了。80386以后的机子都是32的数据总线。所以指针的位数就是4个字节了。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">5. </SPAN><SPAN 
+style="COLOR: blue">指出下面代码的输出，并解释为什么。</SPAN><SPAN 
+style="COLOR: blue">(</SPAN><SPAN style="COLOR: blue">不错</SPAN><SPAN 
+style="COLOR: blue">,</SPAN><SPAN style="COLOR: blue">对地址掌握的深入挖潜</SPAN><SPAN 
+style="COLOR: blue">)</SPAN></DIV>
+<DIV>main()</DIV>
+<DIV>{</DIV>
+<DIV>int a[5]={1,2,3,4,5};</DIV>
+<DIV>int *ptr=(int *)(&amp;a+1);</DIV>
+<DIV>printf("%d,%d",*(a+1),*(ptr-1));</DIV>
+<DIV>}</DIV>
+<DIV>输出：2,5</DIV>
+<DIV>*(a+1）就是a[1]，*(ptr-1)就是a[4],执行结果是2，5</DIV>
+<DIV>&amp;a+1不是首地址+1，系统会认为加一个a数组的偏移，是偏移了一个数组的大小（本例是5个int）</DIV>
+<DIV>int *ptr=(int *)(&amp;a+1); </DIV>
+<DIV>则ptr实际是&amp;(a[5]),也就是a+5</DIV>
+<DIV>原因如下：</DIV>
+<DIV><SPAN style="COLOR: blue">&amp;a</SPAN><SPAN 
+style="COLOR: blue">是数组指针，其类型为</SPAN><SPAN style="COLOR: blue"> int 
+(*)[5];</SPAN></DIV>
+<DIV>而指针加1要根据指针类型加上一定的值，</DIV>
+<DIV>不同类型的指针+1之后增加的大小不同</DIV>
+<DIV>a是长度为5的int数组指针，所以要加 5*sizeof(int)</DIV>
+<DIV>所以ptr实际是a[5]</DIV>
+<DIV>但是prt与(&amp;a+1)类型是不一样的(这点很重要)</DIV>
+<DIV>所以prt-1只会减去sizeof(int*)</DIV>
+<DIV><SPAN style="COLOR: blue">a,&amp;a</SPAN><SPAN 
+style="COLOR: blue">的地址是一样的，但意思不一样，</SPAN><SPAN 
+style="COLOR: blue">a</SPAN><SPAN style="COLOR: blue">是数组首地址，也就是</SPAN><SPAN 
+style="COLOR: blue">a[0]</SPAN><SPAN style="COLOR: blue">的地址，</SPAN><SPAN 
+style="COLOR: blue">&amp;a</SPAN><SPAN 
+style="COLOR: blue">是对象（数组）首地址，</SPAN><SPAN style="COLOR: blue">a+1</SPAN><SPAN 
+style="COLOR: blue">是数组下一元素的地址，即</SPAN><SPAN 
+style="COLOR: blue">a[1],&amp;a+1</SPAN><SPAN 
+style="COLOR: blue">是下一个对象的地址，即</SPAN><SPAN 
+style="COLOR: blue">a[5].</SPAN></DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">6.</SPAN><SPAN 
+style="COLOR: blue">请问以下代码有什么问题：</SPAN></DIV>
+<DIV>1).</DIV>
+<DIV>int main()</DIV>
+<DIV>{</DIV>
+<DIV>char a;</DIV>
+<DIV>char *str=&amp;a;</DIV>
+<DIV>strcpy(str,"hello");</DIV>
+<DIV>printf(str);</DIV>
+<DIV>return 0;</DIV>
+<DIV>}</DIV>
+<DIV>答;没有为str分配内存空间，将会发生异常</DIV>
+<DIV 
+style="MARGIN-LEFT: 10.5pt">问题出在将一个字符串复制进一个字符变量指针所指地址。虽然可以正确输出结果，但因为越界进行内在读写而导致程序崩溃。</DIV>
+<DIV 
+style="MARGIN-LEFT: 10.5pt">Strcpy的在库函数string.h中.程序的主要错误在于越界进行内存读写导致程序崩溃//</DIV>
+<DIV>2).</DIV>
+<DIV>char* s="AAA";</DIV>
+<DIV>printf("%s",s);</DIV>
+<DIV>s[0]='B';</DIV>
+<DIV>printf("%s",s);</DIV>
+<DIV>有什么错？</DIV>
+<DIV>答: "AAA"是字符串常量。s是指针，指向这个字符串常量，所以声明s的时候就有问题。</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">cosnt char* s="AAA";</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">然后又因为是常量，所以对是s[0]的赋值操作是不合法的。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>1、写一个“标准”宏，这个宏输入两个参数并返回较小的一个。</DIV>
+<DIV>答:#define Min(X, Y) ((X)&gt;(Y)?(Y):(X)) //结尾没有;</DIV>
+<DIV>2、嵌入式系统中经常要用到无限循环，你怎么用C编写死循环。</DIV>
+<DIV>答:while(1){}或者for(;;)<SPAN>&nbsp;&nbsp; //</SPAN>前面那个较好</DIV>
+<DIV><SPAN style="COLOR: blue">3</SPAN><SPAN 
+style="COLOR: blue">、关键字</SPAN><SPAN style="COLOR: blue">static</SPAN><SPAN 
+style="COLOR: blue">的作用是什么？</SPAN></DIV>
+<DIV>答:1)定义静态局部变量,作用域从函数开始到结束.</DIV>
+<DIV style="MARGIN-LEFT: 26.25pt; TEXT-INDENT: -26.25pt">&nbsp;2) 
+在模块内的static函数只可被这一模块内的其它函数调用，这个函数的使用范围被限制在声明它的模块内；</DIV>
+<DIV>&nbsp;3) 在类中的static成员变量属于整个类所拥有，对类的所有对象只有一份拷贝</DIV>
+<DIV><SPAN style="COLOR: blue">4</SPAN><SPAN 
+style="COLOR: blue">、关键字</SPAN><SPAN style="COLOR: blue">const</SPAN><SPAN 
+style="COLOR: blue">有什么含意？</SPAN></DIV>
+<DIV>答 :1)表示常量不可以修改的变量。</DIV>
+<DIV><SPAN>&nbsp;&nbsp; 2)</SPAN>可以修饰参数,作为输入参数.</DIV>
+<DIV><SPAN>&nbsp;&nbsp; 3)</SPAN>修饰函数,防止以外的改动.</DIV>
+<DIV><SPAN>&nbsp;&nbsp; 4)</SPAN>修饰类的成员函数,不改变类中的数据成员.</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>5、关键字volatile有什么含意？并举出三个不同的例子？</DIV>
+<DIV>答:&nbsp;提示编译器对象的值可能在编译器未监测到的情况下改变。</DIV>
+<DIV><SPAN>&nbsp;&nbsp; </SPAN>例子: 硬件时钟;多线程中被多个任务共享的变量等</DIV>
+<DIV>6. int (*s[10])(int) 表示的是什么啊</DIV>
+<DIV>int (*s[10])(int) 函数指针数组，每个指针指向一个int func(int param)的函数。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>1.有以下表达式：</DIV>
+<DIV>int a=248; b=4;int const c=21;const int *d=&amp;a;</DIV>
+<DIV>int *const e=&amp;b;int const *f const =&amp;a;</DIV>
+<DIV>请问下列表达式哪些会被编译器禁止？为什么？</DIV>
+<DIV 
+style="TEXT-INDENT: 5.25pt">答:*c=32;d=&amp;b;*d=43;e=34;e=&amp;a;f=0x321f;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">*c 这是个什么东东，禁止</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">*d 说了是const， 禁止</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">e = &amp;a 说了是const 禁止</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">const *f const =&amp;a; 禁止</DIV>
+<DIV>2.交换两个变量的值，不使用第三个变量。即a=3,b=5,交换之后a=5,b=3;</DIV>
+<DIV>答:有两种解法, 一种用算术算法, 一种用^(异或)</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">a = a + b;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">b = a - b;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">a = a - b; </DIV>
+<DIV>or</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">a = a^b;// 只能对int,char..</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">b = a^b;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">a = a^b;</DIV>
+<DIV>or</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">a ^= b ^= a;</DIV>
+<DIV>3.c和c++中的struct有什么不同？</DIV>
+<DIV style="MARGIN-LEFT: 15.75pt; TEXT-INDENT: -15.75pt">答: 
+c和c++中struct的主要区别是c中的struct不可以含有成员函数，而c++中的struct可以。c++中struct和class的主要区别在于默认的存取权限不同，struct默认为public，而class默认为private.</DIV>
+<DIV>4.#include &lt;stdio.h&gt;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">#include &lt;stdlib.h&gt;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">void getmemory(char *p)</DIV>
+<DIV>{</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">p=(char *) malloc(100);</DIV>
+<DIV>}</DIV>
+<DIV>int main( )</DIV>
+<DIV>{</DIV>
+<DIV>char *str=NULL;</DIV>
+<DIV>getmemory(str);</DIV>
+<DIV>strcpy(p,"hello world");</DIV>
+<DIV>printf("%s/n",str);</DIV>
+<DIV>free(str);</DIV>
+<DIV>return 0;</DIV>
+<DIV>}</DIV>
+<DIV>答: 程序崩溃，getmemory中的malloc 不能返回动态内存， free（）对str操作很危险</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>5.char szstr[10];</DIV>
+<DIV>strcpy(szstr,"0123456789");</DIV>
+<DIV>产生什么结果？为什么？</DIV>
+<DIV>答;正常输出,长度不一样，会造成非法的OS,覆盖别的内容.</DIV>
+<DIV><SPAN style="COLOR: blue">6.</SPAN><SPAN 
+style="COLOR: blue">列举几种进程的同步机制，并比较其优缺点。</SPAN></DIV>
+<DIV>答:原子操作 </DIV>
+<DIV style="TEXT-INDENT: 10.5pt">信号量机制</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">自旋锁</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">管程，会合，分布式系统</DIV>
+<DIV><SPAN style="COLOR: blue">7.</SPAN><SPAN 
+style="COLOR: blue">进程之间通信的途径</SPAN></DIV>
+<DIV>答 共享存储系统</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">消息传递系统</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">管道：以文件系统为基础</DIV>
+<DIV><SPAN style="FONT-SIZE: 16pt; COLOR: red">面试经典试题</SPAN></DIV>
+<DIV><SPAN style="FONT-SIZE: 16pt; COLOR: red">silver6 | 02 </SPAN><SPAN 
+style="FONT-SIZE: 16pt; COLOR: red">一月</SPAN><SPAN 
+style="FONT-SIZE: 16pt; COLOR: red">, 2007 11:41 </SPAN></DIV>
+<DIV><SPAN style="FONT-SIZE: 16pt; COLOR: red">面试经典试题</SPAN></DIV>
+<DIV>Author：Vince</DIV>
+<DIV>————即使你是个编程高手，你在面试前也应该要看看这套题，她也许会给你带来好运，否则你有可能后悔当初为什么没有看而跳楼自杀，这样我会很内疚的。这套题看似简单，但你未必能得高分，即使你看不懂也要把她背下来！</DIV>
+<DIV>欢迎转载此文，转载时请注明文章来源：文斯测试技术研究中心 <A 
+href="http://blog.csdn.net/vincetest">http://blog.csdn.net/vincetest</A></DIV>
+<DIV><A name=_Toc137225449>1 </A><SPAN>编程基础</SPAN></DIV>
+<DIV><A name=_Toc137225450>1.1 </A><SPAN>基本概念</SPAN></DIV>
+<DIV>1. const的理解：const char*, char const*, char*const的区别问题几乎是C++面试中每次 都会有的题目。 
+事实上这个概念谁都有只是三种声明方式非常相似很容易记混。 Bjarne在他的The C++ Programming Language里面给出过一个助记的方法： 
+把一个声明从右向左读。 </DIV>
+<DIV>char * const cp; ( * 读成 pointer to ) </DIV>
+<DIV>cp is a const pointer to char </DIV>
+<DIV>const char * p; </DIV>
+<DIV>p is a pointer to const char; </DIV>
+<DIV>char const * p; </DIV>
+<DIV>同上因为C++里面没有const*的运算符，所以const只能属于前面的类型。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>2. c指针</DIV>
+<DIV>int *p[n];-----指针数组，每个元素均为指向整型数据的指针。</DIV>
+<DIV>int (*p)[n];------p为指向一维数组的指针，这个一维数组有n个整型数据。</DIV>
+<DIV>int *p();----------函数带回指针，指针指向返回的值。</DIV>
+<DIV>int (*p)();------p为指向函数的指针。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">3. </SPAN><SPAN 
+style="COLOR: blue">数组越界问题</SPAN><SPAN style="COLOR: blue"> (</SPAN><SPAN 
+style="COLOR: blue">这个题目还是有点小险的</SPAN><SPAN style="COLOR: blue">)</SPAN></DIV>
+<DIV>下面这个程序执行后会有什么错误或者效果:</DIV>
+<DIV>#define MAX 255</DIV>
+<DIV>int main()</DIV>
+<DIV>{</DIV>
+<DIV>unsigned char A[MAX],i;</DIV>
+<DIV>for (i=0;i&lt;=MAX;i++)</DIV>
+<DIV>A[i]=i;</DIV>
+<DIV>}</DIV>
+<DIV>解答：MAX=255,数组A的下标范围为:0..MAX-1,这是其一,其二 当i循环到255时,循环内执行: 
+A[255]=255;这句本身没有问题，但是返回for (i=0;i&lt;=MAX;i++)语句时,由于unsigned 
+char的取值范围在(0..255),i++以后i又为0了..<SPAN style="COLOR: blue">无限循环下去</SPAN><SPAN 
+style="COLOR: blue">.</SPAN></DIV>
+<DIV><SPAN style="COLOR: blue">注：</SPAN><SPAN 
+style="COLOR: blue">char</SPAN><SPAN 
+style="COLOR: blue">类型为一个字节，取值范围是</SPAN><SPAN 
+style="COLOR: blue">[-128</SPAN><SPAN style="COLOR: blue">，</SPAN><SPAN 
+style="COLOR: blue">127]</SPAN><SPAN style="COLOR: blue">，</SPAN><SPAN 
+style="COLOR: blue">unsigned char [0 ,255]</SPAN></DIV>
+<DIV>4. C++:memset ,memcpy 和strcpy 的根本区别？ </DIV>
+<DIV>答:#include "memory.h"</DIV>
+<DIV>memset用来对一段内存空间全部设置为某个字符，一般用在对定义的字符串进行初始化为' '或''；例:char a[100];memset(a, 
+'', sizeof(a)); </DIV>
+<DIV>memcpy用来做内存拷贝，你可以拿它拷贝任何数据类型的对象，可以指定拷贝的数据长度；例：char a[100],b[50]; memcpy(b, 
+a, sizeof(b));注意如用sizeof(a)，会造成b的内存地址溢出。 </DIV>
+<DIV>strcpy就只能拷贝字符串了，它遇到'\0'就结束拷贝；例：char 
+a[100],b[50];strcpy(a,b);如用strcpy(b,a)，要注意a中的字符串长度（第一个'\0'之前）是否超过50位，如超过，则会造成b的内存地址溢出。</DIV>
+<DIV>strcpy </DIV>
+<DIV>原型：extern char *strcpy(char *dest,char *src); </DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; {</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ASSERT((dest!=NULL)&amp;&amp;(src!=NULL));</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Char *address = 
+dest;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+While((*dest++=*src++)!=’\0’)</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Continue;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Return dest;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; }</SPAN></DIV>
+<DIV>用法：#include &lt;string.h&gt;</DIV>
+<DIV>功能：把src所指由NULL结束的字符串复制到dest所指的数组中。</DIV>
+<DIV>说明：src和dest所指内存区域不可以重叠且dest必须有足够的空间来容纳src的字符串。</DIV>
+<DIV>返回指向dest的指针。</DIV>
+<DIV>memcpy </DIV>
+<DIV>原型：extern void *memcpy(void *dest, void *src, unsigned int count);</DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; {</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ASSERT((dest!=NULL)&amp;&amp;(src!=NULL));</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ASSERT((dest&gt;src+count)||(src&gt;dest+count));//</SPAN>防止内存重叠,也可以用restrict修饰指针</DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Byte* bdest = 
+(Byte*)dest;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Byte* bsrc = (Byte*) src;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; While(count--&gt;0)</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *bdest++ = 
+**bsrc++;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Return dest;</SPAN></DIV>
+<DIV><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; }</SPAN></DIV>
+<DIV>用法：#include &lt;memory.h&gt;</DIV>
+<DIV>功能：由src所指内存区域复制count个字节到dest所指内存区域。</DIV>
+<DIV>说明：src和dest所指内存区域不能重叠，函数返回指向dest的指针。</DIV>
+<DIV>Memset</DIV>
+<DIV>原型：extern void *memset(void *buffer, char c, int count);</DIV>
+<DIV>用法：#include </DIV>
+<DIV>功能：把buffer所指内存区域的前count个字节设置成字符c。</DIV>
+<DIV>说明：返回指向buffer的指针。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>5. ASSERT()是干什么用的</DIV>
+<DIV>答:<SPAN style="COLOR: blue">ASSERT()</SPAN><SPAN 
+style="COLOR: blue">是一个调试程序时经常使用的宏，在程序运行时它计算括号内的表达式，如果表达式为</SPAN><SPAN 
+style="COLOR: blue">FALSE (0), </SPAN><SPAN 
+style="COLOR: blue">程序将报告错误，并终止执行。如果表达式不为</SPAN><SPAN 
+style="COLOR: blue">0</SPAN><SPAN 
+style="COLOR: blue">，则继续执行后面的语句。</SPAN>这个宏通常原来判断程序中是否出现了明显非法的数据，如果出现了终止程序以免导致严重后果，同时也便于查找错误。例如，变量n在程序中不应该为0，如果为0可能导致错误，你可以这样写程序： 
+</DIV>
+<DIV>...... </DIV>
+<DIV>ASSERT( n != 0); </DIV>
+<DIV>k = 10/ n; </DIV>
+<DIV>...... </DIV>
+<DIV><SPAN style="COLOR: blue">ASSERT</SPAN><SPAN 
+style="COLOR: blue">只有在</SPAN><SPAN style="COLOR: blue">Debug</SPAN><SPAN 
+style="COLOR: blue">版本中才有效，如果编译为</SPAN><SPAN 
+style="COLOR: blue">Release</SPAN><SPAN style="COLOR: blue">版本则被忽略</SPAN>。 
+</DIV>
+<DIV><SPAN style="COLOR: blue">assert()</SPAN><SPAN 
+style="COLOR: blue">的功能类似</SPAN>，它是ANSI 
+C标准中规定的函数，它与ASSERT的一个重要区别是可以用在Release版本中。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>6. system（"pause");作用?</DIV>
+<DIV>答:系统的暂停程序，按任意键继续，屏幕会打印，"按任意键继续。。。。。" 省去了使用getchar（）；</DIV>
+<DIV>7. 请问C++的类和C里面的struct有什么区别？</DIV>
+<DIV>答:c++中的类具有成员保护功能，并且具有继承，多态这类oo特点，而c里的struct没有 </DIV>
+<DIV style="TEXT-INDENT: 10.5pt">c里面的struct没有成员函数,不能继承,派生等等.</DIV>
+<DIV><SPAN style="COLOR: blue">8. </SPAN><SPAN 
+style="COLOR: blue">请讲一讲析构函数和虚函数的用法和作用？</SPAN></DIV>
+<DIV 
+style="MARGIN-LEFT: 10.5pt; TEXT-INDENT: -10.5pt">答:析构函数也是特殊的类成员函数，它没有返回类型，没有参数，不能随意调用，也没有重载。只是在类对象生命期结束的时候，由系统自动调用释放在构造函数中分配的资源。这种在运行时，能依据其类型确认调用那个函数的能力称为多态性，或称迟后联编。另：&nbsp;析构函数一般在对象撤消前做收尾工作，比如回收内存等工作，</DIV>
+<DIV 
+style="MARGIN-LEFT: 10.5pt">虚拟函数的功能是使子类可以用同名的函数对父类函数进行覆盖，并且在调用时自动调用子类覆盖函数，如果是纯虚函数，则纯粹是为了在子类覆盖时有个统一的命名而已。</DIV>
+<DIV style="MARGIN-LEFT: 10.5pt"><SPAN style="COLOR: red">注意</SPAN><SPAN 
+style="COLOR: red">:</SPAN><SPAN 
+style="COLOR: red">子类重新定义父类的虚函数的做法叫覆盖</SPAN><SPAN 
+style="COLOR: red">,override,</SPAN><SPAN style="COLOR: red">而不是</SPAN><SPAN 
+style="COLOR: red">overload(</SPAN><SPAN style="COLOR: red">重载</SPAN><SPAN 
+style="COLOR: red">),</SPAN><SPAN style="COLOR: red">重载的概念不属于面向对象编程</SPAN><SPAN 
+style="COLOR: red">,</SPAN><SPAN style="COLOR: red">重载指的是存在多个同名函数</SPAN><SPAN 
+style="COLOR: red">,</SPAN><SPAN style="COLOR: red">这些函数的参数表不同</SPAN><SPAN 
+style="COLOR: red">..</SPAN><SPAN style="COLOR: red">重载是在编译期间就决定了的</SPAN><SPAN 
+style="COLOR: red">,</SPAN><SPAN style="COLOR: red">是静态的</SPAN><SPAN 
+style="COLOR: red">,</SPAN><SPAN style="COLOR: red">因此</SPAN><SPAN 
+style="COLOR: red">,</SPAN><SPAN style="COLOR: red">重载与多态无关</SPAN><SPAN 
+style="COLOR: red">.</SPAN><SPAN style="COLOR: red">与面向对象编程无关</SPAN><SPAN 
+style="COLOR: red">.</SPAN></DIV>
+<DIV style="MARGIN-LEFT: 10.5pt">含有纯虚函数的类称为抽象类,不能实例化对象,主要用作接口类//</DIV>
+<DIV style="MARGIN-LEFT: 10.5pt">&nbsp;</DIV>
+<DIV>9. 全局变量和局部变量有什么区别？是怎么实现的？操作系统和编译器是怎么知道的？</DIV>
+<DIV>答;全局变量的生命周期是整个程序运行的时间，而局部变量的生命周期则是局部函数或过程调用的时间段。<SPAN 
+style="COLOR: blue">其实现是由编译器在编译时采用不同内存分配方法。</SPAN></DIV>
+<DIV style="TEXT-INDENT: 15.75pt">全局变量在main函数调用后，就开始分配，</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">静态变量则是在main函数前就已经初始化了。</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">局部变量则是在用户栈中动态分配的（还是建议看编译原理中的活动记录这一块）</DIV>
+<DIV>10. 8086是多少位的系统？在数据总线上是怎么实现的？</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">答:8086系统是16位系统，其数据总线是20位。</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">&nbsp;</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">&nbsp;</DIV>
+<DIV><A name=_Toc137225451>12 </A><SPAN>程序设计</SPAN></DIV>
+<DIV>1. 编写用C语言实现的求n阶阶乘问题的递归算法：</DIV>
+<DIV>答:long int fact(int n)<BR>{</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">If(n==0||n==1)</DIV>
+<DIV style="TEXT-INDENT: 10.5pt"><SPAN>&nbsp;&nbsp; Return 1;</SPAN></DIV>
+<DIV style="TEXT-INDENT: 10.5pt">Else</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">&nbsp;Return n*fact(n-1);</DIV>
+<DIV>}</DIV>
+<DIV>2. 二分查找算法：</DIV>
+<DIV>1) 递归方法实现：</DIV>
+<DIV>int BSearch(elemtype a[],elemtype x,int low,int high)</DIV>
+<DIV>/*在下届为low，上界为high的数组a中折半查找数据元素x*/</DIV>
+<DIV>{</DIV>
+<DIV>int mid;</DIV>
+<DIV>if(low&gt;high) return -1;</DIV>
+<DIV>mid=(low+high)/2;</DIV>
+<DIV>if(x==a[mid]) return mid;</DIV>
+<DIV>if(x&lt;a[mid]) return(BSearch(a,x,low,mid-1));</DIV>
+<DIV>else return(BSearch(a,x,mid+1,high));</DIV>
+<DIV>}</DIV>
+<DIV>2) 非递归方法实现：</DIV>
+<DIV>int BSearch(elemtype a[],keytype key,int n)</DIV>
+<DIV>{</DIV>
+<DIV>int low,high,mid;</DIV>
+<DIV>low=0;high=n-1;</DIV>
+<DIV>while(low&lt;=high) </DIV>
+<DIV>{</DIV>
+<DIV>mid=(low+high)/2;</DIV>
+<DIV>if(a[mid].key==key) return mid;</DIV>
+<DIV>else if(a[mid].key&lt;key) low=mid+1;</DIV>
+<DIV>else high=mid-1;</DIV>
+<DIV>}</DIV>
+<DIV>return -1;</DIV>
+<DIV>}</DIV>
+<DIV>3. 递归计算如下递归函数的值（斐波拉契）：</DIV>
+<DIV>f(1)=1</DIV>
+<DIV>f(2)=1</DIV>
+<DIV>f(n)=f(n-1)+f(n-2) n&gt;2</DIV>
+<DIV>解：非递归算法:</DIV>
+<DIV>int f(int n)</DIV>
+<DIV>{</DIV>
+<DIV>int i,s,s1,s2;</DIV>
+<DIV>s1=1;/*s1用于保存f(n-1)的值*/</DIV>
+<DIV>s2=1;/*s2用于保存f(n-2)的值*/</DIV>
+<DIV>s=1;</DIV>
+<DIV>for(i=3;i&lt;=n;i++)</DIV>
+<DIV>{</DIV>
+<DIV>s=s1+s2;</DIV>
+<DIV>s2=s1;</DIV>
+<DIV>s1=s;</DIV>
+<DIV>}</DIV>
+<DIV>return(s);</DIV>
+<DIV>}</DIV>
+<DIV>递归算法:</DIV>
+<DIV>Int f(int n)</DIV>
+<DIV>{</DIV>
+<DIV>&nbsp;If(n==1||n==2)</DIV>
+<DIV><SPAN>&nbsp;&nbsp; Rerurn 1;</SPAN></DIV>
+<DIV>&nbsp;Else</DIV>
+<DIV><SPAN>&nbsp;&nbsp; Rerutn f(n-1)+f(n-2);</SPAN></DIV>
+<DIV>}</DIV>
+<DIV>4. 交换两个数，不用第三块儿内存：</DIV>
+<DIV>答:int a = ……;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">int b = ……;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">a = a + b;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">b = a - b;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">a = a - b;</DIV>
+<DIV><SPAN style="COLOR: blue">5. </SPAN><SPAN 
+style="COLOR: blue">冒泡排序：</SPAN></DIV>
+<DIV>答:void BubbleSort(elemtype x[],int n)<SPAN>&nbsp;&nbsp; 
+//</SPAN>时间复杂度为0(n*n);</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">{</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">int i,j;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">elemtype temp;</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">for(i=1;i&lt;n;i++) </DIV>
+<DIV style="TEXT-INDENT: 15.75pt">for(j=0;j&lt;n-i;j++)<SPAN>&nbsp;&nbsp;&nbsp; 
+</SPAN></DIV>
+<DIV style="TEXT-INDENT: 10.5pt">{</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">if(x[j].key&gt;x[j+1].key) </DIV>
+<DIV style="TEXT-INDENT: 21pt">{</DIV>
+<DIV style="TEXT-INDENT: 21pt">temp=x[j];</DIV>
+<DIV style="TEXT-INDENT: 21pt">x[j]=x[j+1];</DIV>
+<DIV style="TEXT-INDENT: 21pt">x[j+1]=temp;</DIV>
+<DIV style="TEXT-INDENT: 21pt">}</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">}</DIV>
+<DIV>}</DIV>
+<DIV>//补充一个改进的冒泡算法:</DIV>
+<DIV>&nbsp;void BubbleSort(elemtype x[],int n)</DIV>
+<DIV>{</DIV>
+<DIV>&nbsp;Int i,j;</DIV>
+<DIV>&nbsp;BOOL exchange;&nbsp;&nbsp;//记录交换标志</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">for(i=1;i&lt;n;++i)<SPAN>&nbsp;&nbsp;&nbsp; 
+//</SPAN>最多做n-1趟排序</DIV>
+<DIV>&nbsp;{</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">Exchange = false;</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">For(j=n-1;j&gt;=i;--j)</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">{</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">&nbsp;If(x[j]&gt;x[j+1])</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">&nbsp;{</DIV>
+<DIV style="TEXT-INDENT: 21.75pt"><SPAN>&nbsp;&nbsp;&nbsp; x[0] = 
+x[j];</SPAN></DIV>
+<DIV style="TEXT-INDENT: 21.75pt"><SPAN>&nbsp;&nbsp;&nbsp; X[j] = 
+x[j+1];</SPAN></DIV>
+<DIV style="TEXT-INDENT: 21.75pt"><SPAN>&nbsp;&nbsp;&nbsp; X[j+1] = 
+x[0];</SPAN></DIV>
+<DIV style="TEXT-INDENT: 21.75pt"><SPAN>&nbsp;&nbsp;&nbsp; Exchange = 
+true;&nbsp;&nbsp; //</SPAN>发生了交换,设置标志为真.</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">&nbsp;}</DIV>
+<DIV style="TEXT-INDENT: 26.25pt">}</DIV>
+<DIV style="TEXT-INDENT: 26.25pt">if (!Exchange 
+)<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //</SPAN>为发生替换,提前终止算法</DIV>
+<DIV style="TEXT-INDENT: 36.75pt">return;</DIV>
+<DIV style="TEXT-INDENT: 21.75pt">&nbsp;</DIV>
+<DIV>&nbsp;}</DIV>
+<DIV>}</DIV>
+<DIV>6. c语言 文件读写</DIV>
+<DIV>#include "stdio.h"</DIV>
+<DIV>main()</DIV>
+<DIV>{</DIV>
+<DIV>FILE *fp;</DIV>
+<DIV>char ch,filename[10];</DIV>
+<DIV>scanf("%s",filename);</DIV>
+<DIV>if((fp=fopen(filename,"w")==NULL)</DIV>
+<DIV>{</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">printf("cann't open filen");</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">exit(0);</DIV>
+<DIV>}</DIV>
+<DIV>ch=getchar();</DIV>
+<DIV>while(ch!='#')</DIV>
+<DIV>{</DIV>
+<DIV>fputc(ch,fp);</DIV>
+<DIV>putchar(ch);</DIV>
+<DIV>ch=getchar();</DIV>
+<DIV>}</DIV>
+<DIV>fclose(fp);</DIV>
+<DIV>}</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">7. winsocket</SPAN><SPAN 
+style="COLOR: blue">编程</SPAN><SPAN style="COLOR: blue">&nbsp;&nbsp; 
+//</SPAN><SPAN style="COLOR: blue">这个不错</SPAN></DIV>
+<DIV><SPAN style="COLOR: blue">// </SPAN><SPAN 
+style="COLOR: blue">服务器代码</SPAN></DIV>
+<DIV>#include &lt;Winsock2.h&gt;</DIV>
+<DIV>#include &lt;stdio.h&gt;</DIV>
+<DIV>void main()</DIV>
+<DIV>{</DIV>
+<DIV>WORD&nbsp;wVersionRequested;&nbsp;//版本号</DIV>
+<DIV>WSADATA &nbsp;wsaData;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//</SPAN>数据</DIV>
+<DIV>int err; </DIV>
+<DIV>wVersionRequested = MAKEWORD(1,1);</DIV>
+<DIV>err = WSAStartup(wVersionRequested,&amp;wsaData);</DIV>
+<DIV>if( err != 0)</DIV>
+<DIV>{</DIV>
+<DIV>return; </DIV>
+<DIV>}</DIV>
+<DIV>if(LOBYTE( wsaData.wVersion ) != 1||</DIV>
+<DIV>HIBYTE( wsaData.wVersion) != 1)</DIV>
+<DIV>{</DIV>
+<DIV>WSACleanup();</DIV>
+<DIV>return;</DIV>
+<DIV>}</DIV>
+<DIV>SOCKET sockSrv=socket(AF_INET,SOCK_STREAM,0); //建立套接字</DIV>
+<DIV>SOCKADDR_IN addrSrv;&nbsp;</DIV>
+<DIV>addrSrv.sin_addr.S_un.S_addr=htonl(INADDR_ANY);</DIV>
+<DIV>addrSrv.sin_family=AF_INET;</DIV>
+<DIV>addrSrv.sin_port=htons(6000);</DIV>
+<DIV>bind(sockSrv,(SOCKADDR*)&amp;addrSrv,sizeof(SOCKADDR)); &nbsp;//绑定端口</DIV>
+<DIV>listen(sockSrv,5); <SPAN>&nbsp;&nbsp;//</SPAN>转换socket套接子为侦听套接子</DIV>
+<DIV>SOCKADDR_IN addrClient;</DIV>
+<DIV>int len=sizeof(SOCKADDR);</DIV>
+<DIV>while(1)<SPAN>&nbsp;&nbsp; //</SPAN>无限循环</DIV>
+<DIV>{</DIV>
+<DIV>SOCKET sockConn=accept(sockSrv,(SOCKADDR*)&amp;addrClient,&amp;len);</DIV>
+<DIV>char sendBuf[100];</DIV>
+<DIV>sprint(sendBuf,"Welcome %s to <A 
+href="http://www.sunxin.org/">http://www.sunxin.org/</A>",</DIV>
+<DIV>inet_ntoa(addrClient.sin_addr));</DIV>
+<DIV><SPAN 
+style="COLOR: blue">send</SPAN>(sockConn,sendBuf,strlen(sendBuf)+1,0);</DIV>
+<DIV>char recvBuf[100];</DIV>
+<DIV><SPAN style="COLOR: blue">recv(</SPAN>sockConn,recvBuf);</DIV>
+<DIV>printf("%sn",recvBuf);</DIV>
+<DIV><SPAN style="COLOR: blue">closesocke</SPAN>t(sockConn);</DIV>
+<DIV><SPAN style="COLOR: blue">WSACleanup(</SPAN>);</DIV>
+<DIV>} </DIV>
+<DIV>}</DIV>
+<DIV>注：这是Server端；File-&gt;New-&gt;Win32 Console 
+Application，工程名：TcpSrv；然后，File-&gt;New-&gt;C++ Source 
+File，文件名：TcpSrv；在该工程的Setting的Link的Object/library modules项要加入ws2_32.lib</DIV>
+<DIV>#include &lt;Winsock2.h&gt;</DIV>
+<DIV>#include &lt;stdio.h&gt;</DIV>
+<DIV>void main()</DIV>
+<DIV>{</DIV>
+<DIV>WORD<SPAN>&nbsp;&nbsp;&nbsp; wVersionRequested;</SPAN></DIV>
+<DIV>WSADATA <SPAN>&nbsp;&nbsp;wsaData;</SPAN></DIV>
+<DIV>int err; </DIV>
+<DIV>wVersionRequested = MAKEWORD(1,1);</DIV>
+<DIV>err = <SPAN style="COLOR: blue">WSAStartup(wVersionRequested,&amp;wsaData); 
+//</SPAN>启动winsock Dll</DIV>
+<DIV>if( err != 0)</DIV>
+<DIV>{</DIV>
+<DIV>return; </DIV>
+<DIV>}</DIV>
+<DIV>if(LOBYTE( wsaData.wVersion ) != 1||</DIV>
+<DIV>HIBYTE( wsaData.wVersion) != 1)</DIV>
+<DIV>{</DIV>
+<DIV>WSACleanup();</DIV>
+<DIV>return;</DIV>
+<DIV>}</DIV>
+<DIV>SOCKET sockClient=<SPAN 
+style="COLOR: blue">socket(AF_INET,SOCK_STREAM,0);</SPAN></DIV>
+<DIV>SOCKADDR_IN 
+addrSrv;<BR>addrSrv.sin_addr.S_un.S_addr=inet_addr("127.0.0.1"); </DIV>
+<DIV>addrSrv.sin_family=AF_INET;</DIV>
+<DIV>addrSrv.sin_port = htons(6000);</DIV>
+<DIV><SPAN 
+style="COLOR: blue">connec</SPAN>t(sockClient,(SOCKADDR*)&amp;addrSrv,sizeof(SOCKADDR));</DIV>
+<DIV>char recvBuf[100];</DIV>
+<DIV><SPAN style="COLOR: blue">recv</SPAN>(sockClient,recvBuf,100,0);</DIV>
+<DIV>printf("%sn",recvBuf);</DIV>
+<DIV><SPAN style="COLOR: blue">send</SPAN>(sockClient,"This is 
+zhangsan",strlen("This is zhangsan")+1,0); </DIV>
+<DIV>closesocket(sockClient);</DIV>
+<DIV>WSACleanup();</DIV>
+<DIV>}</DIV>
+<DIV>注：这是Client端；File-&gt;New-&gt;Win32 Console 
+Application，工程名：TcpClient；然后，File-&gt;New-&gt;C++ Source 
+File，文件名：TcpClient；同理，在该工程的Setting的Link的Object/library 
+modules项要加入ws2_32.lib</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="COLOR: blue">8. </SPAN><SPAN 
+style="COLOR: blue">类的知识</SPAN><SPAN style="COLOR: blue"> (</SPAN><SPAN 
+style="COLOR: blue">非常不错的一道题目</SPAN><SPAN style="COLOR: blue">)..</SPAN></DIV>
+<DIV>C＋＋</DIV>
+<DIV>#include &lt;iostream.h&gt;</DIV>
+<DIV>class human</DIV>
+<DIV>{</DIV>
+<DIV>public:</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">human(){ human_num++;}; //默认构造函数</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">static int 
+human_num;<SPAN>&nbsp;&nbsp;&nbsp;&nbsp; //</SPAN>静态成员</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">~human()</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">{</DIV>
+<DIV style="TEXT-INDENT: 26.25pt">human_num--;</DIV>
+<DIV style="TEXT-INDENT: 26.25pt">print();</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">}</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">void 
+print()<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//</SPAN></DIV>
+<DIV style="TEXT-INDENT: 15.75pt">{</DIV>
+<DIV style="TEXT-INDENT: 21pt">cout&lt;&lt;"human num is: 
+"&lt;&lt;human_num&lt;&lt;endl;</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">}</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">protected:</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">private:</DIV>
+<DIV>};</DIV>
+<DIV>int human::human_num = 0;<SPAN>&nbsp;&nbsp; 
+//</SPAN>类中静态数据成员在外部定义,仅定义一次</DIV>
+<DIV>human f1(human x)</DIV>
+<DIV>{</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">x.print();</DIV>
+<DIV style="TEXT-INDENT: 15.75pt">return x;</DIV>
+<DIV>}</DIV>
+<DIV>int main(int argc, char* argv[])</DIV>
+<DIV>{</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">human h1; //调用默认构造函数,human_num变为1</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">h1.print(); // 打印Human_man:1</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">human h2 = f1(h1); 
+//先调用函数f1(),输出human_num:1,而后输出human_num为0,</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">h2.print();//打印输出:human_num:0</DIV>
+<DIV style="TEXT-INDENT: 5.25pt">return 0;</DIV>
+<DIV>}&nbsp;//依次调用两个析构函数:输出:human_num:-1,human_num:-2;</DIV>
+<DIV>输出：</DIV>
+<DIV>1</DIV>
+<DIV>1</DIV>
+<DIV>0</DIV>
+<DIV>0</DIV>
+<DIV>－1</DIV>
+<DIV>－2</DIV>
+<DIV>－－－－－－－－－－－－－－－－－－－－－－－－－－－－</DIV>
+<DIV>分析：</DIV>
+<DIV>human h1; //调用构造函数,---hum_num = 1;</DIV>
+<DIV>h1.print(); //输出:"human is 1"</DIV>
+<DIV>human h2 = f1(h1); //再调用f1(h1)的过程中,由于函数参数是按值传递对象,<SPAN 
+style="COLOR: blue">调用默认的复制构造函数</SPAN><STRONG><SPAN 
+style="COLOR: blue">,</SPAN></STRONG><SPAN 
+style="COLOR: blue">h</SPAN>2并没有调用定义的构造函数.</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="FONT-SIZE: 14pt; COLOR: blue">C/C++ </SPAN><SPAN 
+style="FONT-SIZE: 14pt; COLOR: blue">程序设计员应聘常见面试试题深入剖析</SPAN></DIV>
+<DIV>silver6 | 25 九月, 2006 09:07 </DIV>
+<DIV>本文的写作目的并不在于提供C/C++程序员求职面试指导，而旨在从技术上分析面试题的内涵。文中的大多数面试题来自各大论坛，部分试题解答也参考了网友的意见。<BR>　　许多面试题看似简单，却需要深厚的基本功才能给出完美的解答。企业要求面试者写一个最简单的strcpy函数都可看出面试者在技术上究竟达到了怎样的程度，我们能真正写好一个strcpy函数吗？我们都觉得自己能，可是我们写出的strcpy很可能只能拿到10分中的2分。读者可从本文看到strcpy 
+函数从2分到10分解答的例子，看看自己属于什么样的层次。此外，还有一些面试题考查面试者敏捷的思维能力。 
+<BR>　　分析这些面试题，本身包含很强的趣味性；而作为一名研发人员，通过对这些面试题的深入剖析则可进一步增强自身的内功。<BR>　　2.找错题<BR>　　试题1：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void test1()<BR>{<BR>　char string[10];<BR>　char* str1 = 
+      "0123456789";<BR>　strcpy( string, str1 
+);<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题2：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void test2()<BR>{<BR>　char string[10], str1[10];<BR>　int 
+      i;<BR>　for(i=0; i&lt;10; i++)<BR>　{<BR>　　str1[i] = 'a';<BR>　}<BR>　strcpy( 
+      string, str1 );<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题3：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void test3(char* str1)<BR>{<BR>　char string[10];<BR>　if( strlen( str1 
+      ) &lt;= 10 )<BR>　{<BR>　　strcpy( string, str1 
+  );<BR>　}<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：<BR>　　试题1字符串str1需要11个字节才能存放下（包括末尾的’’），而string只有10个字节的空间，strcpy会导致数组越界；<BR>　　对试题2，如果面试者指出字符数组str1不能在数组内结束可以给3分；如果面试者指出strcpy(string, 
+str1)调用使得从str1内存起复制到string内存起所复制的字节数具有不确定性可以给7分，在此基础上指出库函数strcpy工作方式的给10 
+分；<BR><BR>　　对试题3，if(strlen(str1) &lt;= 10)应改为if(strlen(str1) &lt; 
+10)，因为strlen的结果未统计’’所占用的1个字节。<BR>　　剖析：<BR>　　考查对基本功的掌握：<BR>　 
+(1)字符串以’\0’结尾；<BR>　　(2)对数组越界把握的敏感度；<BR>　　(3)库函数strcpy的工作方式，如果编写一个标准strcpy函数的总分值为10，下面给出几个不同得分的答案：<BR><BR>　　2分</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void strcpy( char *strDest, char *strSrc )<BR>{<BR>　 while( 
+      (*strDest++ = * strSrc++) != '’ );<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　4分</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void strcpy( char *strDest, const char *strSrc ) 
+      <BR>//将源字符串加const，表明其为输入参数，加2分<BR>{<BR>　 while( (*strDest++ = * strSrc++) 
+      != '’ );<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　7分</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void strcpy(char *strDest, const char *strSrc) 
+      <BR>{<BR>　//对源地址和目的地址加非0断言，加3分<BR>　assert( (strDest != NULL) &amp;&amp; 
+      (strSrc != NULL) );<BR>　while( (*strDest++ = * strSrc++) != '’ 
+      );<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　10分</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>//为了实现链式操作，将目的地址返回，加3分！<BR><BR>char * strcpy( char *strDest, const 
+      char *strSrc ) <BR>{<BR>　assert( (strDest != NULL) &amp;&amp; (strSrc != 
+      NULL) );<BR>　char *address = strDest; <BR>　while( (*strDest++ = * 
+      strSrc++) != '’ ); <BR>　　return 
+address;<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　从2分到10分的几个答案我们可以清楚的看到，小小的strcpy竟然暗藏着这么多玄机，真不是盖的！需要多么扎实的基本功才能写一个完美的strcpy啊！<BR><BR>　　(4)对strlen的掌握，它没有包括字符串末尾的''。<BR><BR>　　读者看了不同分值的strcpy版本，应该也可以写出一个10分的strlen函数了，完美的版本为： 
+int strlen( const char *str ) //输入参数const</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>{<BR>　assert( strt != NULL ); //断言字符串地址非0<BR>　int len;<BR>　while( 
+      (*str++) != '' ) <BR>　{ <BR>　　len++; <BR>　} <BR>　return 
+  len;<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题4：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void GetMemory( char *p )<BR>{<BR>　p = (char *) malloc( 100 
+      );<BR>}<BR><BR>void Test( void ) <BR>{<BR>　char *str = 
+      NULL;<BR>　GetMemory( str ); <BR>　strcpy( str, "hello world" );<BR>　printf( 
+      str );<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题5：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>char *GetMemory( void )<BR>{ <BR>　char p[] = "hello world"; 
+      <BR>　return p; <BR>}<BR><BR>void Test( void )<BR>{ <BR>　char *str = NULL; 
+      <BR>　str = GetMemory(); <BR>　printf( str ); 
+<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题6：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void GetMemory( char **p, int num )<BR>{<BR>　*p = (char *) malloc( 
+      num );<BR>}<BR><BR>void Test( void )<BR>{<BR>　char *str = 
+      NULL;<BR>　GetMemory( &amp;str, 100 );<BR>　strcpy( str, "hello" ); 
+      <BR>　printf( str ); <BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题7：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void Test( void )<BR>{<BR>　char *str = (char *) malloc( 100 
+      );<BR>　strcpy( str, "hello" );<BR>　free( str ); <BR>　... 
+      //省略的其它语句<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：<BR><BR>　　试题4传入中GetMemory( char *p 
+)函数的形参为字符串指针，在函数内部修改形参并不能真正的改变传入形参的值，执行完</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>char *str = NULL;<BR>GetMemory( str ); 
+</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　后的str仍然为NULL；<BR>　　试题5中</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>char p[] = "hello world"; <BR>return p; 
+</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　的p[]数组为函数内的局部自动变量，在函数返回后，内存已经被释放。这是许多程序员常犯的错误，<SPAN 
+style="COLOR: blue">其根源在于不理解变量的生存期。</SPAN><BR><BR>　　试题6的GetMemory避免了试题4的问题，传入GetMemory的参数为字符串指针的指针，但是在GetMemory中执行申请内存及赋值语句</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>*p = (char *) malloc( num );</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　后未判断内存是否申请成功，应加上：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>if ( *p == NULL 
+)<BR>{<BR>　...//进行申请内存失败处理<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题7存在与试题6同样的问题，在执行</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>char *str = (char *) malloc(100);</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　后未进行内存是否申请成功的判断；另外，在free(str)后未置str为空，导致可能变成一个“野”指针，应加上：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>str = NULL;</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　试题6的Test函数中也未对malloc的内存进行释放。<BR>　　剖析：<BR>　　试题4～7考查面试者对内存操作的理解程度，基本功扎实的面试者一般都能正确的回答其中50~60的错误。但是要完全解答正确，却也绝非易事。<BR><BR>　　对内存操作的考查主要集中在：<BR>　　（1）指针的理解；<BR>　　（2）变量的生存期及作用范围；<BR>　　（3）良好的动态内存申请和释放习惯。<BR>　　再看看下面的一段程序有什么错误：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>swap( int* p1,int* p2 )<BR>{<BR>　int *p;<BR>　*p = *p1;<BR>　*p1 = 
+      *p2;<BR>　*p2 = *p;<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　在swap函数中<SPAN style="COLOR: blue">，</SPAN><SPAN 
+style="COLOR: blue">p</SPAN><SPAN style="COLOR: blue">是一个</SPAN><SPAN 
+style="COLOR: blue">“</SPAN><SPAN style="COLOR: blue">野</SPAN><SPAN 
+style="COLOR: blue">”</SPAN><SPAN 
+style="COLOR: blue">指针，有可能指向系统区，导致程序运行的崩溃</SPAN>。在VC++中DEBUG运行时提示错误“Access 
+Violation”。该程序应该改为：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>swap( int* p1,int* p2 )<BR>{<BR>　int p;<BR>　p = *p1;<BR>　*p1 = 
+      *p2;<BR>　*p2 = p;<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　3.内功题<BR><BR>　　试题1：分别给出BOOL，int，float，指针变量 与“零值”比较的 if 
+语句（假设变量名为var）<BR>　　解答：<BR>　　　BOOL型变量：if(!var)<BR>　　　int型变量： 
+if(var==0)<BR>　　　float型变量：<BR>　　　const float EPSINON = 0.00001;<BR><BR>　　　if ((x 
+&gt;= - EPSINON) &amp;&amp; (x &lt;= 
+EPSINON)<BR><BR>　　　指针变量：　　if(var==NULL)<BR><BR>　　剖析：<BR><BR>　　考查对0值判断的“内功”，BOOL型变量的0判断完全可以写成if(var==0)，而int型变量也可以写成if(!var)，指针变量的判断也可以写成if(!var)，上述写法虽然程序都能正确运行，但是未能清晰地表达程序的意思。 
+<BR>　　一般的，如果想让if判断一个变量的“真”、“假”，应直接使用if(var)、if(!var)，表明其为“逻辑”判断；如果用if判断一个数值型变量(short、int、long等)，应该用if(var==0)，表明是与0进行“数值”上的比较；而判断指针则适宜用if(var==NULL)，这是一种很好的编程习惯。<BR><BR>　　浮点型变量并不精确，所以不可将float变量用“==”或“！=”与数字比较，应该设法转化成“&gt;=”或“&lt;=”形式。如果写成if 
+(x == 0.0)，则判为错，得0分。<BR><BR>　　试题2：以下为Windows NT下的32位C++程序，请计算sizeof的值</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void Func ( char str[100] )<BR>{<BR>　sizeof( str ) = 
+      ?<BR>}<BR><BR>void *p = malloc( 100 );<BR>sizeof ( p ) = 
+  ?</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>sizeof( str ) = 4<BR>sizeof ( p ) = 4</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　剖析：<BR><BR>　　Func ( char str[100] 
+)函数中数组名作为函数形参时，在函数体内，数组名失去了本身的内涵，仅仅只是一个指针；在失去其内涵的同时，它还失去了其常量特性，可以作自增、自减等操作，可以被修改。<BR><BR>　　数组名的本质如下：<BR><BR>　　（1<SPAN 
+style="COLOR: blue">）数组名指代一种数据结构，这种数据结构就是数组；</SPAN><BR><BR>　　例如：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>char str[10];<BR>cout &lt;&lt; sizeof(str) &lt;&lt; 
+  endl;</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　输出结果为10，str指代数据结构char[10]。<BR><BR>　　（2）<SPAN 
+style="COLOR: blue">数组名可以转换为指向其指代实体的指针，而且是一个指针常量，不能作自增、自减等操作，不能被修改；</SPAN></DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>char str[10]; <BR>str++; 
+//编译出错，提示str不是左值　</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　（3）数组名作为函数形参时，沦为普通指针。<BR><BR>　　Windows NT 
+32位平台下，指针的长度（占用内存的大小）为4字节，故sizeof( str ) 、sizeof ( p ) 
+都为4。<BR><BR>　　试题3：写一个“标准”宏MIN，这个宏输入两个参数并返回较小的一个。另外，当你写下面的代码时会发生什么事？</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>least = MIN(*p++, b);</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>#define MIN(A,B) ((A) &lt;= (B) ? (A) : 
+(B))</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　MIN(*p++, 
+b)会产生宏的副作用<BR><BR>　　剖析：<BR><BR>　　这个面试题主要考查面试者对宏定义的使用，宏定义可以实现类似于函数的功能，但是它终归不是函数，而宏定义中括弧中的“参数”也不是真的参数，在宏展开的时候对“参数”进行的是一对一的替换。<BR><BR>　　程序员对宏定义的使用要非常小心，特别要注意两个问题：<BR><BR>　　（1）谨慎地将宏定义中的“参数”和整个宏用用括弧括起来。所以，严格地讲，下述解答：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>#define MIN(A,B) (A) &lt;= (B) ? (A) : (B)<BR>#define MIN(A,B) (A 
+      &lt;= B ? A : B )</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　都应判0分；<BR>　　（2）防止宏的副作用。<BR>　　宏定义#define MIN(A,B) ((A) &lt;= (B) ? (A) 
+: (B))对MIN(*p++, b)的作用结果是：<BR>((*p++) &lt;= (b) ? (*p++) : 
+(*p++))<BR>　　这个表达式会产生副作用，指针p会作三次++自增操作。<BR>　　除此之外，另一个应该判0分的解答是：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>#define MIN(A,B) ((A) &lt;= (B) ? (A) : (B)); 
+</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　这个解答在宏定义的后面加“;”，显示编写者对宏的概念模糊不清，只能被无情地判0分并被面试官淘汰。<BR><BR>　　试题4：为什么标准头文件都有类似以下的结构？ 
+</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>#ifndef __INCvxWorksh<BR>#define __INCvxWorksh <BR>#ifdef 
+      __cplusplus<BR><BR>extern "C" {<BR>#endif <BR>/*...*/ <BR>#ifdef 
+      __cplusplus<BR>}<BR><BR>#endif <BR>#endif /* __INCvxWorksh 
+  */</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：<BR>　　头文件中的编译宏</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>#ifndef　__INCvxWorksh<BR>#define　__INCvxWorksh<BR>#endif 
+  </DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　的作用是防止被重复引用。</DIV>
+<DIV><BR>　　作为一种面向对象的语言，C++支持函数重载，而过程式语言C则不支持。函数被C++编译后在symbol库中的名字与C语言的不同。例如，假设某个函数的原型为： 
+</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void foo(int x, int y);</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　该函数被C编译器编译后在symbol库中的名字为_foo，而C++编译器则会产生像_foo_int_int之类的名字。_foo_int_int这样的名字包含了函数名和函数参数数量及类型信息，C++就是考这种机制来实现函数重载的。<BR>　　为了实现C和C++的混合编程，C++提供了C连接交换指定符号extern 
+"C"来解决名字匹配问题，函数声明前加上extern 
+"C"后，则编译器就会按照C语言的方式将该函数编译为_foo，这样C语言中就可以调用C++的函数了。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>　试题5：编写一个函数，作用是把一个char组成的字符串循环右移n个。比如原来是“abcdefghi”如果n=2，移位后应该是“hiabcdefgh” 
+<BR><BR>　　函数头是这样的：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>//pStr是指向以''结尾的字符串的指针<BR>//steps是要求移动的n<BR><BR>void LoopMove ( char * 
+      pStr, int steps )<BR>{<BR>　//请填充...<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：<BR><BR>　　正确解答1：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void LoopMove ( char *pStr, int steps )<BR>{<BR>　int n = strlen( pStr 
+      ) - steps;<BR>　char tmp[MAX_LEN]; <BR>　strcpy ( tmp, pStr + n ); 
+      <BR>　strcpy ( tmp + steps, pStr); <BR>　*( tmp + strlen ( pStr ) ) = 
+      '';<BR>　strcpy( pStr, tmp );<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　正确解答2：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>void LoopMove ( char *pStr, int steps )<BR>{<BR>　int n = strlen( pStr 
+      ) - steps;<BR>　char tmp[MAX_LEN]; <BR>　memcpy( tmp, pStr + n, steps ); 
+      <BR>　memcpy(pStr + steps, pStr, n ); <BR>　memcpy(pStr, tmp, steps ); 
+      <BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　剖析：<BR>　　这个试题主要考查面试者对标准库函数的熟练程度，在需要的时候引用库函数可以很大程度上简化程序编写的工作量。<BR>　　最频繁被使用的库函数包括：<BR>　　（1） 
+strcpy<BR>　　（2） memcpy<BR>　　（3） 
+memset<BR>　　试题6：已知WAV文件格式如下表，打开一个WAV文件，以适当的数据结构组织WAV文件头并解析WAV格式的各项信息。<BR><BR>　　WAVE文件格式说明表</DIV>
+<DIV align=center>
+<TABLE style="WIDTH: 90%" cellSpacing=0 cellPadding=0 width="90%" border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>&nbsp;</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>偏移地址</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>字节数</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>数据类型</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>内 容</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset" 
+    rowSpan=13>
+      <DIV>文件头 </DIV>
+      <DIV>&nbsp;</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>00H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4 </DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>Char</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>"RIFF"标志</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>04H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int32</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>文件长度</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>08H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>Char</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>"WAVE"标志</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0CH</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>Char</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>"fmt"标志</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>10H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>&nbsp;</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>过渡字节（不定）</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>14H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>2</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int16</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>格式类别</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>16H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>2</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int16</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>通道数</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>18H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>2</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int16 </DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>采样率（每秒样本数），表示每个通道的播放速度</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>1CH</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int32</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>波形音频数据传送速率</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>20H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>2</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int16</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>数据块的调整数（按字节算的）</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>22H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>2</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>&nbsp;</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>每样本的数据位数</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>24H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>Char</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>数据标记符＂data＂</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>28H</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>4</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>int32</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>语音数据的长度</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：<BR><BR>　　将WAV文件格式定义为结构体WAVEFORMAT： </DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>typedef struct tagWaveFormat<BR>{ <BR>　char cRiffFlag[4]; <BR>　UIN32 
+      nFileLen; <BR>　char cWaveFlag[4]; <BR>　char cFmtFlag[4]; <BR>　char 
+      cTransition[4]; <BR>　UIN16 nFormatTag ; <BR>　UIN16 nChannels; <BR>　UIN16 
+      nSamplesPerSec; <BR>　UIN32 nAvgBytesperSec; <BR>　UIN16 nBlockAlign; 
+      <BR>　UIN16 nBitNumPerSample; <BR>　char cDataFlag[4]; <BR>　UIN16 
+      nAudioLength; <BR><BR>} WAVEFORMAT;</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　假设WAV文件内容读出后存放在指针buffer开始的内存单元内，则分析文件格式的代码很简单，为：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>WAVEFORMAT waveFormat;<BR>memcpy( &amp;waveFormat, buffer,sizeof( 
+      WAVEFORMAT ) ); </DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　直接通过访问waveFormat的成员，就可以获得特定WAV文件的各项格式信息。<BR><BR>　　剖析：<BR><BR>　　试题6考查面试者组织数据结构的能力，有经验的程序设计者将属于一个整体的数据成员组织为一个结构体，利用指针类型转换，可以将memcpy、memset等函数直接用于结构体地址，进行结构体的整体操作。 
+透过这个题可以看出面试者的程序设计经验是否丰富。<BR><BR>　　试题7：编写类String的构造函数、析构函数和赋值函数，已知类String的原型为：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>class String<BR>{ <BR>　public: <BR>　　String(const char *str = NULL); 
+      // 普通构造函数 <BR>　　String(const String &amp;other); // 拷贝构造函数 <BR>　　~ 
+      String(void); // 析构函数 <BR>　　String &amp; operate =(const String 
+      &amp;other); // 赋值函数 <BR>　private: <BR>　　char *m_data; // 用于保存字符串 
+      <BR>};</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　解答：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>//普通构造函数<BR><BR>String::String(const char *str) 
+      <BR>{<BR>　if(str==NULL) <BR>　{<BR>　　m_data = new char[1]; // 
+      得分点：对空字符串自动申请存放结束标志''的空<BR>　　//加分点：对m_data加NULL 判断<BR>　　*m_data = '\0'; 
+      <BR>　} <BR>　else<BR>　{<BR>　　int length = strlen(str); <BR>　　m_data = new 
+      char[length+1]; // 若能加 NULL 判断则更好 <BR>　　strcpy(m_data, str); 
+      <BR>　}<BR>}<BR><BR>// String的析构函数<BR><BR>String::~String(void) 
+      <BR>{<BR>　delete [] m_data; // 或delete 
+      m_data;<BR>}<BR><BR>//拷贝构造函数<BR><BR>String::String(const String 
+      &amp;other) 　　　// 得分点：输入参数为const型<BR>{ <BR>　int length = 
+      strlen(other.m_data); <BR>　m_data = new char[length+1]; 
+      　　　　//加分点：对m_data加NULL 判断<BR>　strcpy(m_data, other.m_data); 
+      <BR>}<BR><BR>//赋值函数<BR><BR>String &amp; String::operate =(const String 
+      &amp;other) // 得分点：输入参数为const型<BR>{ <BR>　if(this == &amp;other) 
+      　　//得分点：检查自赋值<BR>　　return *this; <BR>　delete [] m_data; 
+      　　　　//得分点：释放原有的内存资源<BR>　int length = strlen( other.m_data ); <BR>　m_data = 
+      new char[length+1]; 　//加分点：对m_data加NULL 判断<BR>　strcpy( m_data, 
+      other.m_data ); <BR>　return *this; 
+  　　　　　　　　//得分点：返回本对象的引用<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　剖析：<BR>　　能够准确无误地编写出String类的构造函数、拷贝构造函数、赋值函数和析构函数的面试者至少已经具备了C++基本功的60%以上！<BR>　　在这个类中包括了指针类成员变量m_data，当类中包括指针类成员变量时，一定要重载其拷贝构造函数、赋值函数和析构函数，这既是对C++程序员的基本要求，也是《Effective　C++》中特别强调的条款。<BR>　　仔细学习这个类，特别注意加注释的得分点和加分点的意义，这样就具备了60%以上的C++基本功！<BR><BR>　<SPAN 
+style="COLOR: blue">　<SPAN style="COLOR: red">试题</SPAN></SPAN><SPAN 
+style="COLOR: red">8</SPAN><SPAN style="COLOR: red">：请说出</SPAN><SPAN 
+style="COLOR: red">static</SPAN><SPAN style="COLOR: red">和</SPAN><SPAN 
+style="COLOR: red">const</SPAN><SPAN style="COLOR: red">关键字尽可能多的作用</SPAN><SPAN 
+style="COLOR: blue"><BR></SPAN>　　解答：<BR>　　static关键字至少有下列n个作用：<BR>　　（1）函数体内static变量的作用范围为该函数体，不同于auto变量，该变量的内存只被分配一次，因此其值在下次调用时仍维持上次的值；<BR>　　（2）在模块内的static全局变量可以被模块内所用函数访问，但不能被模块外其它函数访问；<BR>　　（3）在模块内的static函数只可被这一模块内的其它函数调用，这个函数的使用范围被限制在声明它的模块内；<BR>　　（4）在类中的static成员变量属于整个类所拥有，对类的所有对象只有一份拷贝；<BR>　　（5）在类中的static成员函数属于整个类所拥有，这个函数不接收this指针，因而只能访问类的static成员变量。 
+</DIV>
+<DIV>　　const关键字至少有下列n个作用：<BR>　　（1）欲阻止一个变量被改变，可以使用const关键字。在定义该const变量时，通常需要对它进行初始化，因为以后就没有机会再去改变它了；<BR>　　（2）对指针来说，可以指定指针本身为const，也可以指定指针所指的数据为const，或二者同时指定为const；<BR>　　（3）在一个函数声明中，const可以修饰形参，表明它是一个输入参数，在函数内部不能改变其值；<BR>　　（4）对于类的成员函数，若指定其为const类型，则表明其是一个常函数，不能修改类的成员变量；<BR>　　（5）对于类的成员函数，有时候必须指定其返回值为const类型，以使得其返回值不为“左值”。例如：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>const classA operator*(const classA&amp; a1,const classA&amp; 
+      a2);</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　operator*的返回结果必须是一个const对象。如果不是，这样的变态代码也不会编译出错：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>classA a, b, c;<BR>(a * b) = c; // 
+对a*b的结果赋值</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　操作(a * b) = 
+c显然不符合编程者的初衷，也没有任何意义。<BR>　　剖析：<BR>　　惊讶吗？小小的static和const居然有这么多功能，我们能回答几个？如果只能回答1~2个，那还真得闭关再好好修炼修炼。<BR>　　这个题可以考查面试者对程序设计知识的掌握程度是初级、中级还是比较深入，没有一定的知识广度和深度，不可能对这个问题给出全面的解答。大多数人只能回答出static和const关键字的部分功能。<BR>　　4.技巧题<BR>　　试题1：请写一个C函数，若处理器是Big_endian的，则返回0；若是Little_endian的，则返回1<BR>　　解答：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>int checkCPU()<BR>{<BR>　{<BR>　　union w<BR>　　{ <BR>　　　int 
+      a;<BR>　　　char b;<BR>　　} c;<BR>　　c.a = 1;<BR>　　return (c.b == 
+      1);<BR>　}<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　剖析：<BR>　嵌入式系统开发者应该对Little-endian和Big-endian模式非常了解。采用Little-endian模式的CPU对操作数的存放方式是从低字节到高字节，而Big-endian模式对操作数的存放方式是从高字节到低字节。例如，16bit宽的数0x1234在Little- 
+endian模式CPU内存中的存放方式（假设从地址0x4000开始存放）为：</DIV>
+<DIV align=center>
+<TABLE style="WIDTH: 72%" cellSpacing=0 cellPadding=0 width="72%" border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>内存地址</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>存放内容</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4000</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x34</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4001</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x12</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　而在Big-endian模式CPU内存中的存放方式则为：</DIV>
+<DIV align=center>
+<TABLE style="WIDTH: 72%" cellSpacing=0 cellPadding=0 width="72%" border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>内存地址</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>存放内容</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4000</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x12</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4001</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x34</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　32bit宽的数0x12345678在Little-endian模式CPU内存中的存放方式（假设从地址0x4000开始存放）为：</DIV>
+<DIV align=center>
+<TABLE style="WIDTH: 72%" cellSpacing=0 cellPadding=0 width="72%" border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>内存地址</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>存放内容</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4000</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x78</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4001</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x56</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4002</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x34</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4003</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x12</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　而在Big-endian模式CPU内存中的存放方式则为：</DIV>
+<DIV align=center>
+<TABLE style="WIDTH: 72%" cellSpacing=0 cellPadding=0 width="72%" border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>内存地址</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>存放内容</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4000</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x12</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4001</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x34</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4002</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x56</DIV></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x4003</DIV></TD>
+    <TD 
+    style="BORDER-RIGHT: 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: 1pt inset">
+      <DIV>0x78</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　联合体union的存放顺序是所有成员都从低地址开始存放，面试者的解答利用该特性，轻松地获得了CPU对内存采用Little-endian还是Big-endian模式读写。如果谁能当场给出这个解答，那简直就是一个天才的程序员。<BR><BR>　　试题2：写一个函数返回1+2+3+…+n的值（假定结果不会超过长整型变量的范围） 
+<BR><BR>　　解答：</DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>int Sum( int n )<BR>{ <BR>　return ( (long)1 + n) * n / 2;　　//或return 
+      (1l + n) * n / 2;<BR>}</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　剖析：<BR>　　对于这个题，只能说，也许最简单的答案就是最好的答案。下面的解答，或者基于下面的解答思路去优化，不管怎么“折腾”，其效率也不可能与直接return 
+( 1 l + n ) * n / 2相比！ </DIV>
+<DIV align=center>
+<TABLE style="BACKGROUND: #e3e3e3; WIDTH: 90%" cellPadding=0 width="90%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: #cccccc 1pt inset; PADDING-RIGHT: 0cm; BORDER-TOP: #cccccc 1pt inset; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; BORDER-LEFT: #cccccc 1pt inset; PADDING-TOP: 0cm; BORDER-BOTTOM: #cccccc 1pt inset">
+      <DIV>int Sum( int n )<BR>{<BR>　long sum = 0;<BR>　for( int i=1; i&lt;=n; 
+      i++ )<BR>　{<BR>　　sum += i;<BR>　}<BR>　return sum;<BR>} 
+</DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV><BR>　　所以程序员们需要敏感地将数学等知识用在程序设计中。</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>终于明白了：<SPAN 
+style="COLOR: blue">按值传递意味着当将一个参数传递给一个函数时，函数接收的是原始值的一个副本。因此，如果函数修改了该参数，仅改变副本，而原始值保持不变。按<SPAN 
+style="COLOR: blue">引用传递意味着当将一个参数传递给一个函数时，函数接收的是原始值的内存地址，而不是值的副本</SPAN>。因此，如果函数修改了该参数，调用代码中的原始值也随之改变。</SPAN></DIV>
+<DIV 
+style="LINE-HEIGHT: 120%">不管是在c/c++中还是在java函数调用都是传值调用，.<BR>当参数是对象的时候，传递的是对象的引用，这个和c/c++传递指针是一个道理，在函数中改变引用本身，不会改变引用所指向的对象. 
+</DIV>
+<DIV><SPAN style="FONT-SIZE: 15pt; COLOR: blue">华为面试题</SPAN></DIV>
+<DIV>4、SQL问答题<BR>SELECT * FROM TABLE<BR>和<BR>SELECT * FROM TABLE <BR>WHERE NAME 
+LIKE '%%' AND ADDR LIKE '%%' <BR>AND (1_ADDR LIKE '%%' OR 2_ADDR LIKE '%%' 
+<BR>OR 3_ADDR LIKE '%%' OR 4_ADDR LIKE '%%' ) <BR>的检索结果为何不同？<BR>答: 
+前者检索全部，后者有三种情况检索不出：NAME＝null或ADDR=null或1_ADDR LIKE &nbsp;2_ADDR 3_ADDR 
+4_ADDR其一为null.</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">前者检索所有记录，后者只能检索出 NAME 和ADDR中非Null的记录。</DIV>
+<DIV style="TEXT-INDENT: 10.5pt">&nbsp;</DIV>
+<DIV>5、SQL问答题<BR>表结构：<BR>&nbsp;1、 
+表名：g_cardapply<BR>&nbsp;字段(字段名/类型/长度)：<BR>&nbsp;g_applyno varchar 
+8；//申请单号（关键字）<BR>&nbsp;g_applydate bigint 8；//申请日期<BR>&nbsp;g_state varchar 
+2；//申请状态<BR>&nbsp;2、 
+表名：g_cardapplydetail<BR>&nbsp;字段(字段名/类型/长度)：<BR>&nbsp;g_applyno varchar 
+8；//申请单号（关键字）<BR>&nbsp;g_name varchar 30；//申请人姓名<BR>&nbsp;g_idcard varchar 
+18；//申请人身份证号<BR>&nbsp;g_state varchar 2；//申请状态<BR>其中，两个表的关联字段为申请单号。<BR>题目：<BR>1、 
+查询身份证号码为440401430103082的申请日期<BR><SPAN style="COLOR: blue">select A.g_applydate 
+<BR><SPAN style="COLOR: blue">from</SPAN> g_cardapply A inner join 
+g_cardapplydetail B <SPAN style="COLOR: blue">on</SPAN> A.g_applyno = 
+B.g_applyno<BR><SPAN style="COLOR: blue">where</SPAN> B.g_idCard = 
+'440401430103082'<BR><BR>2</SPAN>、 查询同一个身份证号码有两条以上记录的身份证号码及记录个数<BR>select 
+g_idCard,count(*) as Cnt from g_cardapplydetail <BR>group by g_idcard<BR>having 
+count(*) &gt; 1<BR><BR>3、 将身份证号码为440401430103082的记录在两个表中的申请状态均改为07<BR>update 
+g_cardapplydetail set g_state = '07'<BR>where g_idcard = 
+'440401430103082'<BR><BR>update A set g_state = '07'<BR>from g_cardapply A inner 
+join g_cardapplydetail B on A.g_applyno = B.g_applyno <BR>where B.g_idcard = 
+'440401430103082'<BR><BR>4、 删除g_cardapplydetail表中所有姓李的记录<BR>delete from 
+g_cardapplydetail <BR>where g_name like '李%'</DIV>
+<DIV>3、 将身份证号码为440401430103082的记录在两个表中的申请状态均改为07<BR>update g_cardapplydetail set 
+g_state = '07'<BR>where g_idcard = '440401430103082'<BR><BR>update A set g_state 
+= '07'<BR>from g_cardapply A inner join g_cardapplydetail B on A.g_applyno = 
+B.g_applyno<BR>where B.g_idcard = '440401430103082'</DIV>
+<DIV>5、SQL问答题:<BR>/*Select g_cardapply. g_applydate<BR>From g_cardapply, 
+g_cardapplydetail<BR>Where g_cardapply. g_applyno=g_cardapplydetail. 
+g_applyno<BR>And g_cardapplydetail.g_idcard='440401430103082'*/<BR><BR>/*Select 
+*From (select count(*) g_count , g_idcard<BR>From g_cardapplydetail <BR>Group by 
+g_idcard ) a<BR>Where a. g_count &gt;= 2*/<BR><BR>/*Update g_cardapply <BR>set 
+g_state='07' <BR>where g_applyno in (select distinct g_applyno <BR>from 
+g_cardapplydetail <BR>where g_idcard ='440401430103082') <BR>update 
+g_cardapplydetail<BR>set g_state='07'<BR>where g_idcard='440401430103082' 
+*/<BR><BR>/*Delete from g_cardapplydetail<BR>Where g_name like 
+'李%'*/<BR>通过测试<BR>PS:偶GF做的，自己先汗一下</DIV>
+<DIV style="LINE-HEIGHT: 120%"><SPAN style="COLOR: blue">金山公司几道面试题</SPAN></DIV>
+<DIV><BR>4. In C++, there're four type of Casting Operators, please enumerate 
+and explain them especially the difference.<BR>解析： C++类型转换问题<BR>答案： 
+reinterpret_cast,static_cast,const_cast,dynamic_cast</DIV>
+<DIV style="MARGIN-LEFT: 5.25pt">static_cast 数制转换<BR>dynamic_cast 
+用于执行向下转换和在继承之间的转换<BR>const_cast 去掉const<BR>reinterpret_cast 
+用于执行并不安全的orimplmentation_dependent类型转换</DIV>
+<DIV><BR><BR>7 以下代码有什么问题，如何修改？<BR>#include &lt;iostream&gt;<BR>#include 
+&lt;vector&gt;<BR>using namespace std;<BR>void print(vector&lt;int&gt;);<BR>int 
+main()<BR>{<BR>vector&lt;int&gt; 
+array;<BR>array.push_back(1);<BR>array.push_back(6);<BR>array.push_back(6);<BR>array.push_back(3);<BR>//删除array数组中所有的6<BR>vector&lt;int&gt;::iterator 
+itor;<BR>vector&lt;int&gt;::iterator 
+itor2;<BR>itor=array.begin();<BR><BR>for(itor=array.begin(); itor!=array.end(); 
+)<BR>{<BR>if(6==*itor) <BR>{<BR>itor2=itor;<BR>array.erase(itor2);<BR>} 
+<BR>itor++; <BR>}<BR>print(array);<BR>return 0;<BR>} <BR>void 
+print(vector&lt;int&gt; v)<BR>{<BR>cout &lt;&lt; "n vector size is: " &lt;&lt; 
+v.size() &lt;&lt; endl;<BR>vector&lt;int&gt;::iterator p = v.begin();<BR>} 
+<BR>我的答案是，迭代器问题，只能删除第一个6，以后迭代器就失效了，不能删除之后的元素。<BR>但我不知道怎么改</DIV>
+<DIV>void print(const vector&lt;int&gt;&amp;);<BR>int 
+main()<BR>{<BR>vector&lt;int&gt; 
+array;<BR>array.push_back(1);<BR>array.push_back(6);<BR>array.push_back(6);<BR>array.push_back(3);<BR><BR>//删除array数组中所有的6<BR><SPAN 
+style="COLOR: blue">array.erase( remove( array.begin(), array.end(), 6 ) , 
+array.end() );<BR><BR>print(array);<BR>return 0;<BR>} <BR>void print(const 
+vector&lt;int&gt;&amp; v)<BR>{<BR>cout &lt;&lt; "n vector size is: " &lt;&lt; 
+v.size() &lt;&lt; endl;<BR>copy(v.begin(), v.end(), 
+ostream_iterator&lt;int&gt;(cout, " ") );<BR>} </SPAN></DIV>
+<DIV>#include &lt;iostream&gt;<BR>#include &lt;vector&gt;<BR>using namespace 
+std;<BR>int main()<BR>{<BR>vector&lt;int&gt; 
+array;<BR>array.push_back(1);<BR>array.push_back(6);<BR>array.push_back(6);<BR>array.push_back(6);<BR>array.push_back(6);<BR>array.push_back(6);<BR>array.push_back(3);<BR>array.push_back(9);<BR>array.push_back(8);<BR>array.push_back(5);<BR>//&amp;Eacute;&amp;frac34;&amp;sup3;&amp;yacute;array&amp;Ecirc;&amp;yacute;×é&amp;Ouml;&amp;ETH;&amp;Euml;ù&amp;Oacute;&amp;ETH;&amp;micro;&amp;Auml;6<BR>vector&lt;int&gt;::iterator 
+itor;<BR>itor=array.begin();<BR>for(itor=array.begin(); itor!=array.end();++itor 
+)<BR>{<BR>if(6==*itor) <BR>{<BR>itor=array.erase(itor);<BR>--itor;<BR>} 
+<BR>}<BR>cout &lt;&lt; "vector size is: " &lt;&lt; array.size() &lt;&lt; 
+endl;<BR>for(itor=array.begin(); itor!=array.end();++itor 
+)<BR>{<BR>cout&lt;&lt;*itor&lt;&lt;" ";<BR>}<BR>system("pause");<BR>return 
+0;<BR>}</DIV>
+<DIV style="MARGIN-LEFT: 10.5pt; TEXT-INDENT: -10.5pt">答案: 
+&nbsp;执行itor=array.erase(itor);这句话后，itor不会移动，而只是把删除的数后面的数都往前移一位，所以删除了第一个6后，指针指向第2个6，然后在来个itor++，指针就指向array.end()了，给你画个草图：<BR>1 
+6 6 3 array.end() //最开始指针itor指向第一个6；<BR>1 6 3 array.end() //删除第一个6后，指向第二个6<BR>1 
+6 3 array.end() //itor++后，就指向3了，所以不能删除</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>2. What are three ways in which a thread can enter the waiting 
+state?<BR>答:<BR>CPU调度给优先级更高的thread，原先thread进入waiting<BR>阻塞的thread获得资源或者信号，进入waiting<BR>还有什么</DIV>
+<DIV><SPAN style="FONT-SIZE: 15pt; COLOR: blue">面试与被面试总结</SPAN></DIV>
+<DIV>我从事技术工作，</DIV>
+<DIV>这几年的面试与被面试总结</DIV>
+<DIV>先说我去被面试的经验吧。</DIV>
+<DIV>回答清楚了2个问题，就能顺利过关了。</DIV>
+<DIV>1。为什么要离开上一家公司。</DIV>
+<DIV>2。公司为什么要雇佣你。</DIV>
+<DIV>问第一个问题的是hr（或老板）,呵呵 ，即使你技术过关，hr那里没有好的影响，结果是一个字，难！</DIV>
+<DIV>如何回答呢？ 
+hr想推论出你在他的公司能呆多久。这个时候，你甚至可以明确告诉他，我在贵公司至少能呆n（n&gt;=1）年----当然，你没有把握的话，绝对不能乱说，社会上混，要讲信用的。</DIV>
+<DIV 
+style="TEXT-INDENT: 26.25pt">有一次，我就在这个问题上吃了大亏，我看公司环境还不错，就我自做主张回答1年，结果，hr心目中是m（m&gt;=2）年，呵呵，结果可想而知了。要知道，技术面试都过关了，Hr面试是2选1，在回家的路上，我只能祈祷对手自动放弃或找到了其他更好的工作。：）</DIV>
+<DIV>问第二个问题的是技术官。你要让他知道你已经做过哪些商业作品。一定要是商业作品。在里面负责哪方面具体工作，对于你熟悉的地方要多说。最好就是能争取笔试或上机，因为用用口说的话，大家理解都不一样，误差可能很大，结果对你相当不利。在这个问题上我也吃过亏的，曾有一个我很看好的职位，认为把握很大，业务理解上也很有优势，和技术官一谈，结果是game 
+over。要知道，在其他公司的上机和笔试中，我都能在应聘者中取得高分。</DIV>
+<DIV>再说我去面试别人的经验吧。</DIV>
+<DIV 
+style="TEXT-INDENT: 15.75pt">当时，我的任务是出题，给分。若你觉得题很难，那么，请千万不要放弃，显然，你的对手也觉得难。只要坚持，我会认为这人有耐心很毅力，在以后的工作中也是好的合作者。题一定要做完，表现出认真的态度，若有疑问或卡壳，还可以寻求面试官的帮助，这些不会减分，相反，会增加你和他们的接触机会，面试官会评估你的沟通能力。</DIV>
+<DIV>有一次，有1个人来面试，题没有完全ok,但很规范，态度很认真，他把他知道的都做上去了，我给了他技术类的高分。后来，顺利进入公司，再后来进步很快，成了重要角色。</DIV>
+<DIV>若文章对你有帮助的话，请在此讨论。</DIV>
+<DIV>祝你成功</DIV>
+<DIV><SPAN style="FONT-SIZE: 16pt; COLOR: blue">面试题</SPAN></DIV>
+<DIV>1.链表和数组的区别在哪里？ <BR>2.编写实现链表排序的一种算法。说明为什么你会选择用这样的方法？ 
+<BR>3.编写实现数组排序的一种算法。说明为什么你会选择用这样的方法？ <BR>4.请编写能直接实现strstr()函数功能的代码。 
+<BR>5.编写反转字符串的程序，要求优化速度、优化空间。 <BR>6.在链表里如何发现循环链接？ 
+<BR>7.给出洗牌的一个算法，并将洗好的牌存储在一个整形数组里。 <BR>8.写一个函数，检查字符是否是整数，如果是，返回其整数值。（或者：怎样只用4行代码 
+,编写出一个从字符串到长整形的函数？） <BR>9.给出一个函数来输出一个字符串的所有排列。 
+<BR>10.请编写实现malloc()内存分配函数功能一样的代码。 
+<BR>11.给出一个函数来复制两个字符串A和B。字符串A的后几个字节和字符串B的前几个字节重叠。 
+<BR>12.怎样编写一个程序，把一个有序整数数组放到二叉树中？ <BR>13.怎样从顶部开始逐层打印二叉树结点数据？请编程。 
+<BR>14.怎样把一个链表掉个顺序（也就是反序，注意链表的边界条件并考虑空链表）？ <BR><SPAN 
+style="FONT-SIZE: 15pt; COLOR: blue">另外：</SPAN><BR>一、单项选择题：（共12题，每题2分，共24分） 
+<BR>1. 下面哪一个不是C++的标准数据类型？ （ D） <BR>A. int B. char<BR>C. bool D. real<BR>2. 
+break关键字在哪一种语法结构中不能使用？ （C） <BR>A. for语句 B. switch语句<BR>C. if语句 D. while语句 <BR>3. 
+类的继承方式有几种？ （B ） <BR>A. 两种 B. 三种<BR>C. 四种 D. 六种<BR>4. extern关键字的作用是什么？ （D）<BR>A. 
+声明外部链接 B. 声明外部头文件引用<BR>C. 声明使用扩展C++语句 D. 声明外部成员函数、成员数据。<BR>5. C库函数strstr的功能是？ （A 
+）<BR>A. 查找子串 B. 计算字符串长度<BR>C. 字符串比较 D. 连结字符串 <BR>6. stl::deque是一种什么数据类型？ （A 
+）<BR>A. 动态数组 B. 链表<BR>C. 堆栈 D. 树 <BR>7. STL库里含有下面的哪一种泛型算法？ （D ）<BR>A. KMP查找 B. 
+折半查找<BR>C. 冒泡排序 D. 快速排序 <BR>8. 现在最快且最通用的排序算法是什么？ （A ）<BR>A. 快速排序 B. 冒泡排序<BR>C. 
+选择排序 D. 外部排序<BR>9. Win32下的线程的哪一种优先级最高？ （ C）<BR>A. 
+THREAD_PRIORITY_HIGHEST&nbsp;高优先级</DIV>
+<DIV>B. THREAD_PRIORITY_IDLE<SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>最低优先级,仅在系统空闲时执行<BR>C. THREAD_PRIORITY_TIME_CRITICAL 最高优先级</DIV>
+<DIV>D. THREAD_PRIORITY_ABOVE_NORMAL 高于普通优先级<BR>10. 下面四个选项中，哪一个不是WinMain函数的参数？ 
+（D ）<BR>A. HINSTANCE B. INT<BR>C. LPSTR D. WPARAM <BR>11. 
+VC++的编译器中，运算符new底层的实现是什么？ （<STRONG>B</STRONG> ）<BR>A. VirtualAlloc() B. 
+HeapAlloc()<BR>C. GlobalAlloc() D. AllocateUserPhysicalPages() <BR>12. 
+下面哪一本C++参考书最厚？ （ C）<BR>A. 《Think in C++》 B. 《深入浅出MFC》<BR>C. 《C++ Primer》 D. 
+《Effective C++》 </DIV>
+<DIV>13.&nbsp;当调用Windows&nbsp;API函数InvalidateRect,将会产生什么消息（A）&nbsp;<BR>A.&nbsp;WM_PAINT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B.&nbsp;WM_CREATE&nbsp;&nbsp;&nbsp;<BR>C.&nbsp;WM_NCHITTEST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.&nbsp;WM_SETFOCUS&nbsp;</DIV>
+<DIV>14.&nbsp;关于virtual&nbsp;void&nbsp;Draw()=0，下面说法正确的有几个（C）&nbsp;<BR>(1)它是纯虚函数(对)<BR>(2)它在定义它的类中不能实现(对)<BR>(3)定义它的类不可实例化(对)<BR>(4)如果一个类要继承一个ADT类，必须要实现其中的所有纯虚函数(错)//可以不实现,派生之后的类仍旧作为一个抽象类.<BR>A.&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B.&nbsp;2<BR>C.&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.&nbsp;4<BR>二、不定项选择题：（共6题，每题3分，共18分，多选、错选、漏选均不给分）<BR>1. 
+vector::iterator重载了下面哪些运算符？ （ACD） <BR>A. ++ B. &gt;&gt;<BR>C. *（前置） D. == <BR>2. 
+CreateFile( )的功能有哪几个？ （AB ）<BR>A. 打开文件 B. 创建新文件<BR>C. 文件改名 D. 删除文件<BR>3. 
+下面哪些是句柄（HANDLE）？ （ABCD ）<BR>A. HINSTANCE 实例句柄B. HWND 窗口句柄<BR>C. HDC 设备描述符号句柄 
+&nbsp;D. HFONT &nbsp;字体句柄<BR>4. 下面哪些不是OpenGL标准几何元素的绘制模式？ （A ）<BR>A. GL_FOG B. 
+GL_LINE_STRIP<BR>C. GL_POINTS D. GL_TRIANGLE_FAN <BR>5. 下面哪些运算符不能被重载？ （ABD 
+）<BR>A. 做用域运算符“::” B. 对象成员运算符“.”<BR>C. 指针成员运算符“-&gt;” D. 三目运算符“? :” <BR>6. 
+下面哪些人曾参与了世界上第一个C++编译器的开发？ （ ）<BR>A. Bill Gates B. Stanley Lippman<BR>C. Anderson 
+Hejlsberg D. Bjarne Stroustrup</DIV>
+<DIV>7.&nbsp;以下说法正确的是？&nbsp;（&nbsp;ABC）<BR>A.&nbsp;头文件中的&nbsp;ifndef/define/endif&nbsp;是为了防止该头文件被重复引用。<BR>B.&nbsp;对于#include&nbsp;&nbsp;&lt;filename.h&gt;&nbsp;，编译器从标准库路径开始搜索&nbsp;filename.h<BR>&nbsp;&nbsp;&nbsp;对于#include&nbsp;&nbsp;“filename.h”&nbsp;，编译器从用户的工作路径开始搜索&nbsp;filename.h<BR>C.&nbsp;C++语言支持函数重载，C语言不支持函数重载。函数被C++编译后在库中的名字与C<SPAN>&nbsp;&nbsp; 
+&nbsp;</SPAN>语言的不同。假设某个函数的原型为：&nbsp;void&nbsp;foo(int&nbsp;x,&nbsp;int&nbsp;y);&nbsp;该函数被C编译器编译后在库 
+中的名字为_foo，而C++编译器则会产生像_foo_int_int之类的名字。C++提供了C连接交换指定符号extern“C”来解决名字匹配问题。<BR>D.&nbsp;fopen函数只是把文件目录信息调入内存。//错,fopen是把整个文件读入内存<BR>三、填空题：（共8题，每题3分，共24分）<BR>1. 
+一个大小为320 X 192，颜色为灰度索引色的设备相关位图有______字节。如果此位图颜色为24位真彩色，则它的大小有______字节。<BR>2. 
+Windows API的中文意义是____ <SPAN style="COLOR: blue">windows</SPAN><SPAN 
+style="COLOR: blue">应用程序接口</SPAN>___。<BR>3. 计算反正弦的库函数是__<SPAN 
+style="COLOR: blue">asin()____</SPAN>；计算浮点数绝对值的库函数是__<SPAN 
+style="COLOR: blue">fabs()____</SPAN>；计算浮点数n次方的库函数是_<SPAN 
+style="COLOR: blue">_pow()____</SPAN>；将浮点数转化为字符串的库函数是___<SPAN 
+style="COLOR: blue">fcvt()___</SPAN>。<BR>4. 如果i等于5，那么( ++i ) - -的返回值是__<SPAN 
+style="COLOR: blue">6__</SPAN>。<BR>5. API LoadBitmap()的功能是从__<SPAN 
+style="COLOR: blue">指定的模块和或应用程序实例</SPAN>__中读取位图数据到内存。<BR>6. new和_<SPAN 
+style="COLOR: blue">_delete___</SPAN>对应，malloc和_<SPAN 
+style="COLOR: blue">free___</SPAN>对应，他们之间_ 不能__交叉混用。calloc的功能是__<SPAN 
+style="COLOR: blue">为数组动态分配内存</SPAN>___，realloc的功能是_<SPAN 
+style="COLOR: blue">改变原有内存区域的大小</SPAN>_。<BR>7. 
+SendMessage和PostMessage都会向窗体发送一个消息，但SendMessage__<SPAN 
+style="COLOR: blue">将一条消息发送到指定窗口</SPAN><SPAN style="COLOR: blue">,</SPAN><SPAN 
+style="COLOR: blue">立即处理</SPAN>__而PostMessage__<SPAN 
+style="COLOR: blue">将一条消息投递到指定窗口的消息队列</SPAN><SPAN 
+style="COLOR: blue">,</SPAN><SPAN style="COLOR: blue">不需要立即处理</SPAN><SPAN 
+style="COLOR: blue">___</SPAN><SPAN style="COLOR: blue">。</SPAN><SPAN 
+style="COLOR: blue"><BR></SPAN>8. 输出指定圆心、半径、边数的圆上的点：<BR>const int nCount = 
+12;<BR>const double dOrgX = 5.0,<BR>dOrgY = 3.0;<BR>const double dRadius = 
+2.0;<BR>for( int i = 0; i &lt; nCount; i++ )<BR>{<BR>double dAngle = M_PI * 2.0 
+/ (double)nCount * i;<BR>cout &lt;&lt; "第" &lt;&lt; i &lt;&lt; "点：X = " &lt;&lt; 
+________; cout &lt;&lt; ", Y = " &lt;&lt; __________ &lt;&lt; 
+endl;<BR>}<BR>三、判断题：（共12题，每题2分，共24分）<BR>1. 一个类必须要有一个不带参数的构造函数。 错<BR>2. 
+你不能写一个虚的构造函数。 对<BR>3. 类里面所有的函数都是纯虚函数时才是纯虚类。 错<BR>4. 
+const成员函数对于任何本类的数据成员都不能进行写操作。 对<BR>5. 函数中带默认值的参数必须位于不带默认值的参数之后。 对<BR>6. char *p 
+= "Test"; p[0] = 'R'; 错<BR>7. cout &lt;&lt; "Test"; 对<BR>8. stl::list不支持随机访问叠代器。 
+对<BR>9. stl::vector的效率比stl::list高。 错<BR>10. VC和VC++是一回事，而VC++是一种比C++更难一些的语言。 
+错<BR>11. 理论上，new和malloc造成的内存泄露都会由操作系统回收。 错 <BR>12. 
+在C++中struct和class的差别很大，所以从语法上不能混用。对<BR>四、简述题(共3题，每题5分，共15分) <BR>1. 
+请简述PeekMessage和GetMessage的区别。</DIV>
+<DIV>答: 
+Peekmessage和Getmessage都是向系统的消息队列中取得消息，两个函数的不同在于取不到消息的时候,若Getmessage（）向消息队列中取不到消息，则程序的主线程会被OS（操作系统）挂起,等到有合适的消息时才返回;若是用Peekmessage（）在消息队列中取不到消息,则程序会取得OS控制权，运行一段时间。<BR>另外,在处理消息的时候,GetMessag()会将消息从队列中删除,而PeekMessage()可以设置最后一个参数wRemoveMsg来决定是否将消息保留在队列中。<BR>2. 
+请列出你所知道的在Windows SDK平台上，实现计时功能的方法。</DIV>
+<DIV>答:可以使用SetTimer函数创建一个计时器,SetTimer的函数原型如下：<BR>UINT_PTR&nbsp;&nbsp;SetTimer(&nbsp;HWND&nbsp;hWnd,&nbsp;UINT_PTR&nbsp;nIDEvent,&nbsp;UINT&nbsp;uElapse,&nbsp;TIMERPROC&nbsp;lpTimerFunc&nbsp;<BR>3. 
+请简述你所知道的const的各种用法。</DIV>
+<DIV>答: 
+const&nbsp;常量<BR>const&nbsp;修饰类的数据成员<BR>const&nbsp;修饰指针<BR>const&nbsp;应用在函数声明中<BR>const&nbsp;应用在类成员函数<BR>五、编程题：（共3题，第1小题7分，第2小题14分，第3小题24分）<BR>1. 
+深度遍历二叉树。<BR>struct Node<BR>{<BR>Node *Parent;</DIV>
+<DIV><BR>Node *Left, *Right;<BR><BR>};<BR>void Through(Node 
+*Root)<BR>{<BR>}<BR>2. 二分法查找。<BR><BR>int DicFind( int *Array, int Count, int 
+Value )<BR>{</DIV>
+<DIV><BR>}<BR>3. 写出字符串类String的默认构造函数、析构函数和重载赋值运算符。</DIV>
+<DIV>已知类String的原型为：<BR>class String<BR>{<BR>public:<BR>String( const char *pStr 
+= NULL ); // 默认构造函数<BR>~String( void ); // 析构函数<BR>String &amp;operate = ( const 
+String &amp;Source ); // 重载赋值运算符<BR>private:<BR>char *m_pData; // 
+指向字符串的指针<BR>};</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV><SPAN style="FONT-SIZE: 15pt; COLOR: blue">今天下午的两道面试题</SPAN></DIV>
+<DIV>1。 
+一人岁数的3次方是四位数，四次方是六位数，并知道此人岁数的3次方和4次方用遍了0～9十个数字。编写一程序求此人的岁数。<BR><BR>2。对1，2，3， 4， 
+5 这五个数任意取出两个数，列出他们的所有组合。</DIV>
+<DIV>public static int getAge() {<BR>int age;<BR>int third;<BR>int 
+fourth;<BR><BR>for (int i = 11; true; i++) {<BR>if (i &lt; 200) {<BR>third = 
+(int) Math.pow(i, 3);<BR>fourth = (int) Math.pow(i, 4);<BR>if (getLength(third, 
+fourth) == 10) {<BR>age = i;<BR>break;<BR>}<BR><BR>}<BR>}<BR>return 
+age;<BR>}<BR><BR>public static int getLength(int args1, int args2) {<BR>String 
+str1 = String.valueOf(args1);<BR>String str2 = String.valueOf(args2);<BR>String 
+str = str1 + str2;<BR>if (str.length() != 10) {<BR>return -1;<BR>}<BR>int[] 
+intarray = new int[10];<BR>for (int i = 0; i &lt; str.length(); i++) 
+{<BR>intarray[i] = 
+Integer.parseInt(str.substring(i,i+1));<BR>}<BR>Arrays.sort(intarray);<BR>if(intarray[0]!=0 
+&amp;&amp; intarray[9]!=9)<BR>return -1;<BR><BR>return 10;<BR>}</DIV>
+<DIV>第二题还更简单了<BR><BR>for(int i=1; i&lt;6; i++){<BR>for(int j=1; j&lt;6; 
+j++){<BR>if(i==j){<BR>System.out.println(j+""+j);<BR>}else{<BR>System.out.println(i+""+j);<BR>System.out.println(j+""+i);<BR>}<BR>}<BR>}</DIV>
+<DIV>public class A {<BR>// 
+http://community.csdn.net/Expert/topic/4667/4667929.xml?temp=.57922<BR>public 
+static void main(String[] args) {<BR>String t;<BR>String[] s = new 
+String[5];<BR>int j = s.length;<BR>for(int i=0; i&lt;j; i++) {<BR>s[i] = new 
+Integer(i+1).toString();<BR>}<BR><BR>for(int i=0; i&lt;j; i++) {<BR>t = 
+s[i];<BR>for(int a=0; a&lt;j; a++) {<BR>t += s[i];<BR>System.out.println(t); 
+<BR>}<BR>System.out.println();<BR>}<BR>}<BR>}</DIV>
+<DIV>第二题还更简单了<BR><BR>for(int i=1; i&lt;6; i++){<BR>for(int j=1; j&lt;6; 
+j++){<BR>if(i==j){<BR>System.out.println(j+""+j);<BR>}else{<BR>System.out.println(i+""+j);<BR>System.out.println(j+""+i);<BR>}<BR>}<BR>}<BR>============================================================<BR>楼上的没看清题目，它是让你对1，2，3， 
+4， 5 这五个数任意取出两个数，列出他们的所有组合，所以重复的数字不应该算在里面。<BR>第二题应该改为：<BR>for(int i=1; i&lt;6; 
+i++){<BR>for(int j=1; j&lt;6; 
+j++){<BR>if(i==j){<BR>break;<BR>}else{<BR>System.out.println(i+""+j);<BR>System.out.println(j+""+i);<BR>}<BR>}<BR>}</DIV>
+<DIV>public class B {<BR>public static void main(String[] args) {<BR>for (int i 
+= 1; i &lt; 6; i++) {<BR>int t = i;<BR>for(int a = 0; a&lt;5; a++) {<BR>int c = 
+a+1;<BR>if(c == t) {<BR>continue;<BR>}else 
+{<BR>System.out.println(t*10+c);<BR>}<BR>}<BR>System.out.println();<BR>}<BR>}<BR>}</DIV>
+<TABLE style="WIDTH: 435pt" cellPadding=0 width=580 border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="PADDING-RIGHT: 0cm; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm">
+      <DIV>第二题<BR>public class Test<BR>{<BR>public static void main(String[] 
+      args)<BR>{<BR>int[][] a=new int[5][];<BR>for(int 
+      i=0;i&lt;a.length;i++)<BR>{<BR>a[i]=new int[i+1];<BR>}<BR>for(int 
+      i=1;i&lt;=a.length;i++)<BR>{<BR><BR>for(int 
+      j=i+1;j&lt;=a.length;j++)<BR>{<BR>System.out.print(i);<BR>System.out.print(j+" 
+      ");<BR>}<BR>System.out.print(" ");<BR>}<BR><BR>for(int 
+      i=a.length;i&gt;0;i--)<BR>{<BR><BR>for(int 
+      j=i-1;j&gt;0;j--)<BR>{<BR>System.out.print(i);<BR>System.out.print(j+" 
+      ");<BR>}<BR>System.out.print(" 
+");<BR>}<BR>}<BR>}</DIV></TD></TR></TBODY></TABLE>
+<DIV style="LINE-HEIGHT: 120%" align=left>&nbsp;</DIV>
+<TABLE style="WIDTH: 435pt" cellPadding=0 width=580 border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="PADDING-RIGHT: 0cm; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm">
+      <DIV style="WORD-BREAK: break-all; LINE-HEIGHT: 130%" align=left><SPAN 
+      style="FONT-SIZE: 9pt; COLOR: black; LINE-HEIGHT: 130%">public class Test 
+      {<BR><BR>public static int getDigits(String str) {<BR>int[] intarr = new 
+      int[10];<BR>for (int i = 0; i &lt; 10; i++)<BR>intarr[i] = 0;<BR>for (int 
+      i = 0; i &lt; str.length(); i++) {<BR>int j = 
+      Integer.parseInt(str.substring(i, i + 1));<BR>intarr[j] = 1;<BR>}<BR>int 
+      num = 0;<BR>for (int i = 0; i &lt; 10; i++)<BR>num = num + 
+      intarr[i];<BR>return num;<BR>}<BR><BR>private static int getAge() {<BR>int 
+      age;<BR>int third;<BR>int fourth;<BR>for (age = 1; age &lt; 100; age++) 
+      {<BR>third = (int) Math.pow(age, 3);<BR>fourth = (int) Math.pow(age, 
+      4);<BR>if (third &lt; 1000 || third &gt;= 10000)<BR>continue;<BR>if 
+      (fourth &lt; 100000 || fourth &gt;= 1000000)<BR>continue;<BR>String str = 
+      String.valueOf(third) + String.valueOf(fourth);<BR>if (getDigits(str) == 
+      10)<BR>return age;<BR>}<BR>return 
+0;<BR>}<BR>}</SPAN></DIV></TD></TR></TBODY></TABLE>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">第二道题</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"><BR>class 
+Combine<BR>{<BR>public static void main(String[] args)<BR>{<BR>for(int i=1; 
+i&lt;5; i++)<BR>{<BR>for(int j=i+1; j&lt;6; j++)<BR>{ 
+<BR>System.out.println(i+""+j);<BR>System.out.println(j+""+i); 
+<BR>}<BR>}<BR>}</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">public class 
+Age<BR>{<BR>public static void main(String [] args)<BR>{<BR>String str1 = 
+null;<BR>String str2 = null;<BR>String str3 = null;<BR>String str4 = 
+"0123456789";<BR>for(int i=10;i&lt;50;i++)<BR>{<BR>str1 = 
+Integer.toString(i*i*i);<BR>str2 = Integer.toString(i*i*i*i);<BR>str3 = 
+str1+str2;<BR>if((str1.length() == 4) &amp;&amp; (str2.length() 
+==6))<BR>{<BR>boolean flag = true;<BR>for(int 
+j=0;j&lt;10;j++)<BR>if(str3.indexOf(str4.charAt(j))==-1)<BR>flag = 
+false;<BR>if(flag){<BR>System.out.println("&gt;&gt;&gt;"+i);<BR>System.out.println(str3);<BR>}<BR>}<BR>}<BR><BR>}<BR>}</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"><BR></SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">比赛贴</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">~</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">微软又一道笔试题</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 7.5pt; COLOR: black; LINE-HEIGHT: 120%">silver6 | 04 
+</SPAN><SPAN 
+style="FONT-SIZE: 7.5pt; COLOR: black; LINE-HEIGHT: 120%">四月</SPAN><SPAN 
+style="FONT-SIZE: 7.5pt; COLOR: black; LINE-HEIGHT: 120%">, 2006 
+09:48</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">怎样只用</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">4</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">行代码编写出一个从字符串到长整形的转换函数？</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">我的方法，不过好象比</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">4</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">行多</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"> *_#!~<BR>long 
+atol(char *str)<BR>{<BR>char c = *str;<BR>if( !isdigit(c) ) str++;<BR>for(long 
+value = 0; *str != ''; value = value * 10 + (*str -'0'),str++);<BR>return c == 
+'-' ? -value : value ;<BR>}</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">void stol(const char * 
+des, long&amp; num)<BR>{<BR>for (int base = 1, i = 0; des[i] != ''; base = 10, 
+++i)<BR>{<BR>num *= base;<BR>num += (int)(des[i] - '0');<BR>}<BR>}<BR>num 
+</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">要初始化为</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">0</SPAN></DIV>
+<TABLE style="WIDTH: 435pt" cellPadding=0 width=580 border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="PADDING-RIGHT: 0cm; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm">
+      <DIV style="WORD-BREAK: break-all; LINE-HEIGHT: 130%" align=left><SPAN 
+      style="FONT-SIZE: 9pt; COLOR: black; LINE-HEIGHT: 130%"><BR>void 
+      stol(const char * des, long&amp; num)<BR>{<BR>for (int i=num=0; des[i] != 
+      ''; i++)<BR>{<BR>num *= 10;<BR>num += (int)(des[i] - 
+      '0');<BR>}<BR>}</SPAN></DIV></TD></TR></TBODY></TABLE>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">void stol(char *str, 
+long &amp;num)<BR>{<BR>while(*str != '')<BR>{<BR>num = num * 10 + (*str - 
+'0');<BR>str++;<BR>}<BR>}</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">void stol(const char * 
+des, long&amp; num)<BR>{<BR>char p = des[0];<BR>for (int b = 1, pos = 1, base = 
+1; des[pos] != ''; b = 10, ++pos, base *= 10)<BR>{<BR>(num *= b) += 
+(int)(des[pos] - '0');<BR>}<BR>p == '-' ? (num *= -1) : (num = (int)(des[0] - 
+'0') * base + num);<BR>}<BR></SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">改了一下</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">真的是微软的笔试题么？</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"><BR></SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">我只用了一行。</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"><BR>#include 
+&lt;iostream&gt;<BR>using namespace std;<BR><BR>long str2long(char* p,long 
+xxx=0L)<BR>{<BR>return 
+*p==''?xxx:str2long(p,xxx*10+(*p+++0-'0'));<BR>}<BR><BR>int main()<BR>{<BR>char 
+*str="123456789",*p=str;<BR>cout&lt;&lt;str2long(p);<BR>getchar();<BR>return 
+0;<BR>}</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">用</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">STL</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">，四行</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"><BR>#include 
+&lt;sstream&gt;<BR>#include &lt;iostream&gt;<BR>#include 
+&lt;string&gt;<BR><BR>using namespace std;<BR><BR>long ToLong(string&amp; 
+s)<BR>{<BR>long l;<BR>istringstream iss(s);<BR>iss&gt;&gt;l;<BR>return 
+l;<BR>}<BR>int main(int argc, _TCHAR* argv[])<BR>{<BR>string s = 
+"-12356";<BR>cout&lt;&lt;ToLong(s);<BR>return 0;<BR>}</SPAN></DIV>
+<DIV style="LINE-HEIGHT: 120%" align=left><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%">谢谢刚才上面的帖子提醒负数的问题，我更正了，还是只用一行：</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; LINE-HEIGHT: 120%"><BR>#include 
+&lt;iostream&gt;<BR>using namespace std;<BR><BR>long str2long(char* p,long 
+xxx=0L,bool IsPositive=true)<BR>{<BR>return 
+*p==''?(IsPositive?xxx:xxx*(-1)):(*p=='-'?str2long(++p,0L,false):str2long(p,xxx*10+*p+++0-'0',IsPositive));<BR>}<BR><BR>int 
+main()<BR>{<BR>char 
+*str="-123456789",*p=str;<BR>cout&lt;&lt;str2long(p);<BR>getchar();<BR>return 
+0;<BR>}</SPAN></DIV>
+<P class=postfoot>posted on 2008-05-20 10:22 <A 
+href="http://www.cnblogs.com/lxy0423/">Jimmyzhang</A> 阅读(109) <A 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#Post">评论(2)</A> 
+&nbsp;<A 
+href="http://www.cnblogs.com/lxy0423/admin/EditArticles.aspx?postid=1203134">编辑</A> 
+<A onclick="PutInWz();return false;" 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#">收藏</A> 所属分类: <A 
+href="http://www.cnblogs.com/lxy0423/category/134600.html">学习</A> </P></DIV><IMG 
+height=1 src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/1203134.jpg" width=1> <!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.cnblogs.com/lxy0423/articles/1203134.html"
+dc:identifier="http://www.cnblogs.com/lxy0423/articles/1203134.html"
+dc:title="C语言面试题大汇总之华为面试题"
+trackback:ping="http://www.cnblogs.com/lxy0423/services/trackbacks/1203134.aspx" />
+</rdf:RDF>
+-->
+<DIV id=AjaxHolder_UpdatePanel1><A name=pagedcomment></A><A name=评论>
+<DIV id=comments>
+<H3>评论</H3>
+<H4><A title="permalink: re: C语言面试题大汇总之华为面试题" 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#1210490">#1楼</A>&nbsp;<A 
+name=1210490></A> <SPAN>2008-05-27 12:09 </SPAN><A 
+id=AjaxHolder_Comments_CommentList_ctl00_NameLink 
+href="http://www.cnblogs.com/52knowledge/" target=_blank>求知无傲</A>&nbsp;<A 
+class=sendMsg2This title=给此人发送站内短消息 
+href="http://space.cnblogs.com/msg/send/æ±ç¥æ&nbsp;å²">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A> 
+</H4>
+<P>mark &nbsp;&nbsp;<A onclick='return SetReplyAuhor("求知无傲")' 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#post">回复</A>&nbsp;&nbsp;<A 
+onclick="GetQuote(1210490);return false" 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#post">引用</A>&nbsp;&nbsp;<A 
+title=查看该作者发表过的评论 
+href="http://www.cnblogs.com/CommentsByAuthor.aspx?author=%e6%b1%82%e7%9f%a5%e6%97%a0%e5%82%b2" 
+target=_blank>查看</A>&nbsp;&nbsp;<A 
+id=AjaxHolder_Comments_CommentList_ctl00_DeleteLink 
+href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl00$DeleteLink','')"></A>&nbsp;&nbsp;<A 
+id=AjaxHolder_Comments_CommentList_ctl00_EditLink></A> </P>
+<H4><A title="permalink: re: C语言面试题大汇总之华为面试题" 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#1319795">#2楼</A>&nbsp;<A 
+name=1319795></A><A name=Post></A> <SPAN>2008-09-17 20:17 </SPAN><A 
+id=AjaxHolder_Comments_CommentList_ctl01_NameLink 
+href="http://www.cnblogs.com/codemo/" target=_blank>codemo</A>&nbsp;<A 
+class=sendMsg2This title=给此人发送站内短消息 
+href="http://space.cnblogs.com/msg/send/codemo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A> 
+</H4>
+<P>题目真多 &nbsp;&nbsp;<A onclick='return SetReplyAuhor("codemo")' 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#post">回复</A>&nbsp;&nbsp;<A 
+onclick="GetQuote(1319795);return false" 
+href="http://www.cnblogs.com/lxy0423/articles/1203134.html#post">引用</A>&nbsp;&nbsp;<A 
+title=查看该作者发表过的评论 
+href="http://www.cnblogs.com/CommentsByAuthor.aspx?author=codemo" 
+target=_blank>查看</A>&nbsp;&nbsp;<A 
+id=AjaxHolder_Comments_CommentList_ctl01_DeleteLink 
+href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></A>&nbsp;&nbsp;<A 
+id=AjaxHolder_Comments_CommentList_ctl01_EditLink></A> </P></DIV>
+<STYLE>TD {
+	FONT-SIZE: 12px
+}
+.commentTextBox {
+	FONT-SIZE: 13px; FONT-FAMILY: Verdana
+}
+A.blue:visited {
+	COLOR: blue
+}
+A.blue:active {
+	COLOR: blue
+}
+A.blue:link {
+	COLOR: blue
+}
+A.blue:hover {
+	COLOR: blue
+}
+</STYLE>
+<!--Beging Temp Save-->
+<STYLE>.userData {
+	BEHAVIOR: url(#default#userdata)
+}
+</STYLE>
+
+<DIV class=userData id=CommentsPersistDiv></DIV>
+<SCRIPT type=text/javascript>
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    /*if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else */
+    if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</SCRIPT>
+<!--Ene TempSave-->
+<DIV id=divRefreshComments 
+style="FONT-SIZE: 12px; MARGIN-BOTTOM: 5px; MARGIN-RIGHT: 10px; TEXT-ALIGN: right"><A 
+href="http://www.cnblogs.com/RequireRegister.aspx">新用户注册</A>&nbsp;&nbsp;<A 
+id=AjaxHolder_PostComment_refreshList 
+href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</A>&nbsp;&nbsp;</DIV>
+<DIV class=commentform><SPAN id=AjaxHolder_PostComment_ltSubmitMsg 
+style="COLOR: red"></SPAN><BR><A name=Feedback></A>
+<TABLE style="WIDTH: 600px" cellSpacing=1 cellPadding=1 border=0>
+  <TBODY>
+  <TR>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD width=55>标题</TD>
+    <TD colSpan=2><INPUT class=commenttb id=AjaxHolder_PostComment_tbTitle 
+      value="re: C语言面试题大汇总之华为面试题" name=AjaxHolder$PostComment$tbTitle><SPAN 
+      id=AjaxHolder_PostComment_RequiredFieldValidator1 
+      style="VISIBILITY: hidden; COLOR: red">请输入标题</SPAN></TD></TR>
+  <TR>
+    <TD>姓名</TD>
+    <TD colSpan=2><INPUT class=commenttb id=AjaxHolder_PostComment_tbName 
+      name=AjaxHolder$PostComment$tbName><SPAN 
+      id=AjaxHolder_PostComment_RequiredFieldValidator2 
+      style="VISIBILITY: hidden; COLOR: red">请输入你的姓名</SPAN></TD></TR>
+  <TR>
+    <TD>主页</TD>
+    <TD><INPUT class=commenttb id=AjaxHolder_PostComment_tbUrl 
+      name=AjaxHolder$PostComment$tbUrl></TD>
+    <TD></TD></TR>
+  <TR id=AjaxHolder_PostComment_trEmail>
+    <TD>Email</TD>
+    <TD colSpan=2><INPUT class=commenttb id=AjaxHolder_PostComment_tbEmail 
+      name=AjaxHolder$PostComment$tbEmail>(博主才能看到)<SPAN 
+      id=AjaxHolder_PostComment_revContactMail 
+      style="VISIBILITY: hidden; COLOR: red">邮件地址无效</SPAN></TD></TR>
+  <TR>
+    <TD align=left colSpan=3>
+      <TABLE class=CommentForm id=AjaxHolder_PostComment_tbCaptchaImage 
+      cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD colSpan=3><SPAN 
+            id=AjaxHolder_PostComment_Requiredfieldvalidator4 
+            style="DISPLAY: none; COLOR: red">请输入验证码</SPAN> <SPAN 
+            id=AjaxHolder_PostComment_lblImage 
+            style="FONT-WEIGHT: bold; COLOR: red"></SPAN></TD></TR>
+        <TR>
+          <TD width=78>验证码</TD>
+          <TD><INPUT id=AjaxHolder_PostComment_CodeNumberTextBox 
+            name=AjaxHolder$PostComment$CodeNumberTextBox>*&nbsp;&nbsp;<IMG 
+            src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/JpegImage.jpg"><A 
+            id=AjaxHolder_PostComment_lkbChangeCode 
+            href="javascript:__doPostBack('AjaxHolder$PostComment$lkbChangeCode','')">看不清,换一张</A> 
+            [<A href="http://www.cnblogs.com/login.aspx">登录</A>][<A 
+            href="http://www.cnblogs.com/RequireRegister.aspx">注册</A>]</TD>
+          <TD align=left></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD style="TEXT-ALIGN: left" colSpan=3>
+      <DIV style="WIDTH: 600px">
+      <DIV class=divPostCommentBox>内容(请不要发表任何与政治相关的内容) <SPAN 
+      id=AjaxHolder_PostComment_RequiredFieldValidator3 
+      style="VISIBILITY: hidden; COLOR: red">请输入评论内容</SPAN><BR><TEXTAREA class=commentTextBox id=AjaxHolder_PostComment_tbComment onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" name=AjaxHolder$PostComment$tbComment></TEXTAREA> 
+      </DIV>
+      <DIV class=CommentBoxNav><A tabIndex=-1 href="http://www.cnblogs.com/" 
+      target=_blank>网站首页</A><BR><BR><A tabIndex=-1 
+      href="http://news.cnblogs.com/" target=_blank>新闻频道</A><BR><BR><A 
+      tabIndex=-1 href="http://space.cnblogs.com/" 
+      target=_blank>社区</A><BR><BR><A tabIndex=-1 
+      href="http://space.cnblogs.com/group.htm" target=_blank>小组</A><BR><BR><A 
+      tabIndex=-1 href="http://space.cnblogs.com/q" 
+      target=_blank>博问</A><BR><BR><A tabIndex=-1 href="http://wz.cnblogs.com/" 
+      target=_blank>网摘</A><BR><BR><A tabIndex=-1 
+      href="http://space.cnblogs.com/ing" target=_blank>闪存</A><BR><BR><A 
+      tabIndex=-1 href="http://zzk.cnblogs.com/" 
+      target=_blank>找找看</A><BR><BR></DIV></DIV></TD></TR>
+  <TR>
+    <TD colSpan=3><SPAN id=AjaxHolder_PostComment_Message 
+      style="COLOR: red"></SPAN></TD>
+  <TR>
+    <TD colSpan=3><INPUT id=AjaxHolder_PostComment_chkRemember tabIndex=-1 
+      type=checkbox CHECKED name=AjaxHolder$PostComment$chkRemember><LABEL 
+      for=AjaxHolder_PostComment_chkRemember>Remember Me?</LABEL></TD></TR>
+  <TR>
+    <TD height=23><INPUT class=commentButton id=AjaxHolder_PostComment_btnSubmit onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" type=submit value=提交 name=AjaxHolder$PostComment$btnSubmit> 
+    </TD>
+    <TD colSpan=2 height=23>&nbsp; <A id=AjaxHolder_PostComment_lnkLogin 
+      href="http://www.cnblogs.com/login.aspx?ReturnURL=http://www.cnblogs.com/lxy0423/articles/1203134.html&amp;SourceURL=/lxy0423/articles/1203134.html">登录</A>&nbsp;&nbsp;<A 
+      id=AjaxHolder_PostComment_linkLoginComment 
+      onclick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" 
+      href="http://www.cnblogs.com/lxy0423/articles/1203134.html?login=1#Post">使用高级评论</A>&nbsp;&nbsp;<A 
+      href="http://www.cnblogs.com/RequireRegister.aspx">新用户注册</A>&nbsp;&nbsp;<A 
+      href="http://www.cnblogs.com/lxy0423/articles/1203134.html#Top">返回页首</A>&nbsp;&nbsp;<A 
+      id=AjaxHolder_PostComment_lbRestore 
+      onclick="Restore('AjaxHolder_PostComment_tbComment'); return false;" 
+      href="http://www.cnblogs.com/lxy0423/articles/1203134.html#Post">恢复上次提交</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </TD></TR>
+  <TR>
+    <TD colSpan=3><LABEL class=CtrlEnter>[使用Ctrl+Enter键可以直接提交]</LABEL></TD></TR>
+  <TR>
+    <TD colSpan=3></TD></TR>
+  <TR>
+    <TD colSpan=3></TD></TR>
+  <TR>
+    <TD colSpan=3></TD></TR>
+  <TR>
+    <TD colSpan=3><BR>
+      <DIV id=relative_posts><B>相关文章:</B><BR><A 
+      href="http://kb.cnblogs.com/page/42214/">学习asp.net比较完整的流程</A><BR><A 
+      href="http://kb.cnblogs.com/page/42213/">资深专家给.NET初学者的学习建议</A><BR><A 
+      href="http://www.cnblogs.com/sonne/articles/636218.html">世界500强公司面试题（很多）</A><BR><A 
+      href="http://www.cnblogs.com/skylaugh/articles/360287.html">经典推荐--.Net面试法宝（面试题收集）</A><BR><A 
+      href="http://space.cnblogs.com/question/172/">.net框架学习</A><BR><A 
+      href="http://space.cnblogs.com/question/1015/">新人学习.net 求助</A><BR><A 
+      href="http://space.cnblogs.com/group/topic/609/">学习学习</A><BR><A 
+      href="http://space.cnblogs.com/group/topic/2755/">快速学习</A><BR></DIV></TD></TR>
+  <TR>
+    <TD colSpan=3>
+      <DIV id=div_a4_ads><BR><B>相关链接:</B>
+      <SCRIPT type=text/javascript>
+	var title = document.title;
+	document.write("<div id=\"a4_ads_output\">");
+	document.write("<script type='text/javascript' src='http://a4.yeshj.com/adwords/EN017?num=7&title="+ encodeURIComponent(title) +"&tag="+ encodeURIComponent(GetMeta("keywords")) +"'></scri"+"pt>");
+	document.write("</div>");
+	</SCRIPT>
+      </DIV></TD></TR>
+  <TR>
+    <TD colSpan=3></TD></TR>
+  <TR>
+    <TD colSpan=3>
+      <DIV id=AjaxHolder_PostComment_RelativePosts1_divRelativePosts 
+      style="MARGIN-TOP: 2px"><BR><B>所属分类的其他文章:</B><BR><SPAN 
+      style="DISPLAY: none; LIST-STYLE-TYPE: none"><A 
+      href="http://www.cnblogs.com/lxy0423/articles/1203134.html">C语言面试题大汇总之华为面试题</A><BR></SPAN><SPAN 
+      style="LIST-STYLE-TYPE: none"><A 
+      href="http://www.cnblogs.com/lxy0423/articles/1182661.html">小软件公司怎么做大</A><BR></SPAN><SPAN 
+      style="LIST-STYLE-TYPE: none"><A 
+      href="http://www.cnblogs.com/lxy0423/articles/1182651.html">Tech.ed2007之思想篇</A><BR></SPAN></DIV>
+      <DIV class=itnews><BR><B>最新IT新闻:</B><BR><A 
+      href="http://news.cnblogs.com/n/42766/" target=_blank>Python 2.6 
+      正式版发布</A><BR><A href="http://news.cnblogs.com/n/42769/" 
+      target=_blank>Google博客搜索改版挑战Techmeme</A><BR><A 
+      href="http://news.cnblogs.com/n/42768/" 
+      target=_blank>IBM股价下跌6%创3年来单日最大跌幅</A><BR><A 
+      href="http://news.cnblogs.com/n/42767/" 
+      target=_blank>Google公布4.4万亿美元替代燃料计划</A><BR><A 
+      href="http://news.cnblogs.com/n/42765/" 
+      target=_blank>2008年10月2日科技博客精选</A><BR></DIV></TD></TR>
+  <TR>
+    <TD colSpan=3 height=5>&nbsp;</TD></TR>
+  <TR>
+    <TD colSpan=3>
+      <SCRIPT type=text/javascript><!--
+google_ad_client = "pub-4210569241504288";
+google_ad_slot = "1397853083";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</SCRIPT>
+
+      <SCRIPT src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/show_ads.js" 
+      type=text/javascript>
+</SCRIPT>
+      <BR><BR></TD></TR>
+  <TR>
+    <TD colSpan=3></TD></TR></TBODY></TABLE></DIV>
+<DIV id=AjaxHolder_PostComment_ValidationSummary1 
+style="DISPLAY: none; COLOR: red"></DIV></DIV>
+<SCRIPT language=javascript>
+
+function GetQuote(id)
+{
+    //www.cnblogs.com.ICommentService.GetCommentText(id,SetQuote);
+    BlogServer.WebService.AjaxWS.GetComment(id,SetQuote);
+}
+
+ function SetQuote(result)
+{
+    document.getElementById('AjaxHolder_PostComment_tbComment').value+= ("--引用--------------------------------------------------\n"+result+"\n--------------------------------------------------------\n");
+    document.getElementById('AjaxHolder_PostComment_tbComment').focus(); 
+}
+
+function Favorite(entryID,title,url,element)
+{
+    document.getElementById(element.id).innerHTML = "<span style='color:red'>正在收藏...</span>";
+    BlogServer.WebService.AjaxWS.AddToFavorites(entryID,title,url,OnFavoriteSuccess);
+    document.getElementById(element.id).removeAttribute("href");
+    document.getElementById(element.id).removeAttribute("onclick");
+}
+
+function OnFavoriteSuccess(result)
+{
+    if(result == "请先登录")
+    {
+        window.location.href = "../../../../../login.aspx?ReturnUrl=" + window.location.href;
+    }
+    else
+    {
+        var returnstr = result.split(",");
+        var id = "lnkFavorite"+returnstr[0];
+        document.getElementById(id).innerHTML = "<span style='color:red'>" + returnstr[1] + "</span>";
+    }
+}
+
+function DelComment(id,element)
+{
+    if(confirm("确认要删除该评论吗?"))
+    {
+        document.getElementById(element.id).innerHTML = "<span style='color:red'>正在删除...</span>";
+        BlogServer.WebService.AjaxWS.DelComment(id,del_comment_callback);
+    }
+    return false;
+}
+
+function del_comment_callback(response)
+{
+    __doPostBack('AjaxHolder$PostComment$refreshList','');
+}
+</SCRIPT>
+</DIV>
+<P id=footer>Powered by: <BR><A id=Footer1_Hyperlink3 
+style="FONT-SIZE: 12px; FONT-FAMILY: Verdana" href="http://www.cnblogs.com/" 
+name=Hyperlink1>博客园</A> <BR>Copyright © Jimmyzhang </P>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_revContactMail"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_revContactMail = document.all ? document.all["AjaxHolder_PostComment_revContactMail"] : document.getElementById("AjaxHolder_PostComment_revContactMail");
+AjaxHolder_PostComment_revContactMail.controltovalidate = "AjaxHolder_PostComment_tbEmail";
+AjaxHolder_PostComment_revContactMail.errormessage = "邮件地址无效";
+AjaxHolder_PostComment_revContactMail.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+AjaxHolder_PostComment_revContactMail.validationexpression = "^([0-9a-zA-Z+-._]([+-._\\w]*[0-9a-zA-Z+-._])*@([0-9a-zA-Z][-\\w]*\\.)+[a-zA-Z]{2,9})$";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+<!--
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+// -->
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_revContactMail').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_revContactMail'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</SCRIPT>
+</FORM>
+<SCRIPT src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/ShowHidden.js" 
+type=text/javascript></SCRIPT>
+<SPAN style="DISPLAY: none">
+<SCRIPT language=javascript 
+src="C语言面试题大汇总之华为面试题 - 走在路上的草根程序员 - 博客园.files/click.htm"></SCRIPT>
+</SPAN></BODY></HTML>

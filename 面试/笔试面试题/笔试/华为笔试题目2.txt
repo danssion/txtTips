@@ -1,0 +1,1393 @@
+找错
+Void test1()
+{
+char string[10];
+char* str1=”0123456789”;
+strcpy(string, str1);
+}
+
+
+Void test2()
+{
+char string[10], str1[10];
+for(I=0; I<10;I++)
+{
+str1[i] =’a’;
+}
+strcpy(string, str1);
+}
+
+Void test3(char* str1)
+{
+char string[10];
+if(strlen(str1)<=10)
+{
+strcpy(string, str1);
+}
+}
+
+
+2. 找错
+#define MAX_SRM 256
+
+DSN get_SRM_no()
+{
+static int SRM_no;
+int I;
+for(I=0;I{
+SRM_no ％= MAX_SRM;
+if(MY_SRM.state==IDLE)
+{
+break;
+}
+}
+if(I>=MAX_SRM)
+return (NULL_SRM);
+else
+return SRM_no;
+}
+
+
+3. 写出程序运行结果
+
+int sum(int a)
+{
+auto int c=0;
+static int b=3;
+c+=1;
+b+=2;
+return(a+b+C);
+}
+
+void main()
+{
+int I;
+int a=2;
+for(I=0;I<5;I++)
+{
+printf(“％d,”, sum(a));
+}
+}
+
+4. 
+
+int func(int a)
+{
+int b;
+switch(a)
+{
+case 1: 30;
+case 2: 20;
+case 3: 16;
+default: 0
+}
+return b;
+}
+则func(1)=?
+
+5:
+int a[3];
+a[0]=0; a[1]=1; a[2]=2;
+int *p, *q;
+p=a;
+q=&a[2];
+则a[q-p]=?
+
+6. 
+定义 int **a[3][4], 则变量占有的内存空间为：_____
+
+7.
+编写一个函数，要求输入年月日时分秒，输出该年月日时分秒的下一秒。如输入2004年12月31日23时59分59秒，则输出2005年1月1日0时0分0秒。
+
+1、在一个以太网中，30台PC通过QUTDWAY R2501路由器S0口连接INTERNET，QUIDWAY R2501路由器配置如下：
+Qutidway(config-if-e0)#ip address 192.168.1.1.255.255.255.0
+Qutidway(config-if-e0)eixt
+Qutidway(config)#interface s0
+Qutidway(config-if-s0)#ip address 211.136.3.6.255.255.255.252
+Qutidway(config-if-s0)#encapsulation ppp
+一台PC机默认网关为192.168.2.1,路由器会怎样处理发自这台PC的数据包？
+A． 路由器会认为发自这一台PC的数据包不在同一网段，不转发数据包
+B． 路由器会自动修正这一台PC机的IP地址，转发数据包
+C． 路由器丢弃数据包，这时候需要重启路由器，路由器自动修正误配
+D． 路由器丢弃数据包，不做任何处理，需要重配PC网关为192.168.1.1 
+2、关于MAC地址表示正确的是（ ）
+A、00-e0-fe-01-23-45
+B、00e0.fe01.2345
+C、00e.0fe.-012.345
+D、00e0.fe112345
+3、路由器作为网络互连设备，必须具备以下哪些特点（ ）
+A、 支持路由协议
+B、 至少具备一个备份口
+C、 到少支持两个网络接口
+D、 协议至少要实现到网络层
+E、 具有存储、转发和寻径功能
+F、 至少支持两种以上的子网协议
+4、某台路由器有两个以太网接口，分别与不同网段的以太网相连，请问：该路由器最多可有几组？（ ）
+A、 1个
+B、 2个
+C、 3个
+D、 4个
+E、 多于四个。
+5、配置备份中心的目的是（ ）
+A、 增加网络带宽
+B、 提高网络可用性
+C、 降低网络传输费用
+D、 防止数据传输意外中止
+6、X.25作为国际通用标准的广域网协议，内置的差错纠正，流量控制和丢包重传机制使之具有高度的可靠性，由于数据吞吐率很低，包时延较大，故不适于在质量差的信道上传输数据，这种说法正确吗？( )
+A、True
+B、False
+7、V．24接口工作在同步方式下最高传输速率是（ ）
+A、 64000bps
+B、 115200 bps
+C、 2048000 bps
+D、 4096000 bps
+8、下列那一条命令用于配置DDR的链路处于断开状态后，重新建立链接等待的时间？( )
+A、 diater idte-timeout
+B、 diater fast-idle
+C、 diater enable-timeout
+D、 diater wait-for-carmer-time
+9、ISDN的物理线路是（ ）
+A、2B+D
+B、30B+D
+C、同轴电缆
+D、普通电缆
+10、Qutidway路由器上输入“show ip rip“命令，如下所示：
+Qutidway#show ip rip
+RIP is rurining on
+Checkcero is on defauit-metric 16
+On neighter
+Fictucrik all
+BUTO-surttutiry is on preference 100
+下列说法正确的是：( )
+A、 该条命令显示了RIP当前运行状态和配置信息
+B、 默认情况下，RIP路由协议优先级为100，可能通过“IP RIP PRICRITY”命令修改其优先级
+C、 这条命令显示路由器所有接口用了RIP协议，最大可达统计数为1G
+D、 ON NEIGHBOR显示这台路由器没有作为任何其它路由器的邻居
+11.数据分段是OSI七层模型中的（ ）完成的
+A、 物理层
+B、 网络层
+C、 传输层
+D、 接入层
+E、 分发层
+F、 数据链路层
+12.对于10M以太网（ ）是目前使用最广泛的以太网电缆标准，其优点为：易于扩展，维护简单，价格低廉。
+A、 10BASE粗同轴电缆
+B、 10BASE-T
+C、 10BASE2细同轴电缆
+13.用来检查到一台主机的网络层是否连通命令是（ ）
+A、 PING
+B、 TRACERT
+C、 TELNET
+D、 IPCONFIG
+14.下面选项中哪些是数据链路层的主要功能：( )
+A、提供对物理层的控制
+B、差错控制
+C、流量控制
+D、 决定传输报文的最佳路由
+15.OSI参考模型是由下列选项中哪个组织提出：( )
+A、 IEEE
+B、 美国国家标准局（ANSI）
+C、 EIA/TIA
+D、 IBA
+E、 ISO
+16.应用程序PING发出的是（ ）报文
+A、 TCP请求
+B、 TCP应答报文
+C、 ICMP请求报文
+D、 ICMP应答报文
+17.下面属于物理层的设备是（ ）
+A、 网桥
+B、 网关
+C、 中继器
+D、 以太网交换机
+18.ATM是一种面向链接的技术，为在交换式WAN或LAN主干网高速传输数据提供了通用的通信机制( )
+A、TRUE
+B、FALSE
+19.设定路由器在指定备份组中工作为抢占模式的命令是（ ）
+A、 standby[group-number] ip [virtual-address]
+B、 standby[group-number] priority-value]
+C、 standby[group-number] preempt
+D、 standby[group-number] authentication [string]
+20、查看帧中继PVC路由表的命令是（ ）
+A、 show frame-relay pvc
+B、 show frame-relay route
+C、 show frame-relay pvc route
+D、 show rame-relay map
+21、帧中继LMI一般占用哪几个DLCI（ ）
+A、 0
+B、 16
+C、 1007
+D、 1023
+22、PPP协议中，（ ）主要用于协商在该数据链路上所传输的数据包的格式与类型
+A、 链路控制协议
+B、 PPP扩展协议
+C、 网络层控制协议
+D、 PAP、CHAP协议
+23、你在配置X.25网络时怎样配置接口的X.121地址？（ ）
+A、 Quidway#x.25 address 321469056102
+B、 Quidway (config)#x.25address 892735559329
+C、 Quidway(config-if-s0)x25 address 326505160178
+D、 Quidway(config-fi-s0)#x.25 address x.121 329056171
+24、下面哪一组是Quidway路由器封装x.25协议默认的WIN、MOD、OPS的缺省值（ ）
+A、2、8、128
+B、8、8、128
+C、8、128、8
+D、2、128、128
+25、帧中继是一种（ ）的协议
+A、 面向连接
+B、 网络协议
+C、 面积无连接
+D、 可靠
+26、ARP是一个使用广播的地址解析协议，并且使用了ARP高速缓存，原因是使用广播会耗费大量带宽（ ）
+A、TRUE
+B、FALSE
+27、UDP协议和TCP协议的共同之处有：（ ）
+A、 流量控制
+B、 重传机制
+C、 校验和
+D、 提供目的、源端口号
+28、若主机A需要知道主机B的MAC地址，则属于ARP的工作流程为（ ）
+A、 主机A在网络中广播ARP请求报文
+B、 主机A接收到请求报文后将自己的IP地址到MAC地址的映射发送给主机A
+C、 主机B收到请求报文后将主机的IP地址和MAC地址映射存储到自己的CACHE中
+D、 主机A缓存主机B的IP地址到MAC地址的映射
+29、某公司申请到一个C类IP地址，需要分配给8个子公司，最好的子网掩码设应为（ ）
+A、255.255.255.0
+B、255.255.255.128
+C、255.255.255.240
+D、255.255.255.224
+30、在应用层的各协议中（ ）协议提供文件传输服务
+A、 FTP
+B、 TELNET
+C、 WWW
+D、 TFTP
+31、QuidwayS2403F以太网交换机的用户权限级别有（ ）
+A、 normal
+B、 security
+C、 monitor
+D、 manager
+32、对于Quidway S2403F以太网交换机，可以在生成页面配置（ ）
+A、 本交换机优先级 
+B、 握手时间间隔
+C、 转发时间
+D、 端口路径值
+33、逻辑上所有的交换机都由（ ）和（ ）两部分组成
+A、 数据转发逻辑
+B、 交换模块
+C、 MAC地址表
+D、 输入/输出接口
+34、关于VLAN下面说法正确的是（ ）
+A、 隔离广播域
+B、 相互间通信要通过路由器
+C、 可以限制网上的计算机互相访问的权限
+D、 只能在同一个物理网络上的主机进行逻辑分组
+35、应使用哪一条命令打开路由器上的IPX路由功能（ ）
+A、 ipx routing
+B、 ipx network
+C、 ipx endcapsulation
+D、 ipx max-paths
+36、( )命令可以显示接口的IPX地址
+A、 show ipx route
+B、 show ipx interace
+C、 show ipx servers
+D、 show ipx traffic
+37、下列哪些命令可以用来查看DDR端口（在端口 S1 上配置）信息？（ ）
+A、 show interface
+B、 show running-conting
+C、 show interface s1
+D、 show diater interface s1
+38、ISDN基本速率接口（BRI）速率是（ ）
+A、 16kbps
+B、 64kbps
+C、 144kbps
+D、 2048kbps
+39、HSRP备份组成的虚拟MAC地址随着生产厂家的不同而不同，因此可以更改以下哪一条命令用来实现虚拟MAC地址以实现与其它厂家路由器的互连（ ）
+A、 standby bia xx-xx-xx-xx-xx
+B、 standby use-bia xx-xx-xx-xx-xx
+C、 standby ovmac xx-xx-xx-xx-xx
+D、 standby use-ovmac xx-xx-xx-xx-xx
+40、下列那一个命令用于指定物理接口做备份接口？（ ）
+A、 Quidway(config)#backup intertace s0
+B、 Quidway(config-s1)#backup s0
+C、 Quidway(config)#backup s0
+D、 Quidway(config-if-s1)#hackup intertace s0
+41、对于一个没有经过子网划分的传统C类网络来说，允许安装多少台主机？（ ）
+A、 1024
+B、 65025
+C、 254
+D、 16
+E、 48
+42、IP地址中网络号的作用有（ ）
+A、 指定了主机所属的网络
+B、 指定了网络上主机的标识
+C、 指定了设备能够进行通信的网络
+D、 指定被寻址的网中的某个节点
+43、C类地址最大可能子网位数是（ ）
+A、 6
+B、 8
+C、 12
+D、 14
+44、UDP使用（ ）提供可靠性
+A、 网际协议
+B、 应用层协议
+C、 网络层协议
+D、 传输控制
+45、RARP的作用是（ ）
+A、 将自己的IP地址转换为MAC地址
+B、 将对方的IP地址转换为MAC地址
+C、 将对方的MAC地址转换为IP地址
+D、 知道自己的MAC地址，通过RARP协议得到自己的IP地址
+46、IP地址219.25.23.56的缺省子网掩码有几位（ ）
+A、 8
+B、 16
+C、 24
+D、 32
+47、Quidway路由器在转发数据包到非直连网段的过程中，依靠下列那一个选项表寻找下一跳地址？（ ）
+A、 帧头
+B、 IP报文
+C、 SSAP字段
+D、 DSAP字段
+48、下面对路由器的描述正确的是（交换机指二层交换机）（ ）
+A、 相对于交换机和网桥来说，路由器具有更加复杂的功能
+B、 相对于交换机和网桥来说，路由器具有更低的延迟
+C、 相对于交换机和网桥来说，路由器可以提供更大的带宽和数据转发功能
+D、 路由器可以实现不同子网之间的通信，交换机和网桥不能
+E、 路由器可以实现虚拟局域网之间的通信，交换机和网桥不能
+49、路由器网络层的基本功能是（ ）
+A、 配置IP地址
+B、 寻找路由和转发报文
+C、 将MAC地址解析成IP地址
+50、异步串口可以设为（ ）
+A、 专线方式
+B、 拨号方式
+C、 语音方式
+D、 PRI接入方式
+51、快速以太网是由（ ）标准定义的
+A、 IEEE802.4
+B、 IEEE802.3U
+C、 IEEE802.1q
+D、 IEEE802.3i
+E、 IEEE802.1d
+52、下列所述的哪一项发送GNS请示数据包来决定为本地最近的服务器？（ ）
+A、 ipx SAP
+B、 ipx DNS
+C、 Routing 更新
+D、 服务器
+E、 以上说法都不对
+53、在NetWare网络中，客户需要访问某个类型的服务器，首先发送( )
+A、 Rip
+B、 Sap
+C、 Gns
+D、 Arp
+54、SNMP依赖于（ ）工作
+A、 IP
+B、 ARP
+C、 TCP
+D、 UDP
+55、关于HUB以下说法正确的是（ ）
+A、 HUB可以用来构建局域网
+B、 一般HUB都具有路由功能
+C、 HUB通常也叫集线器，一般可以作为地址翻译设备
+D、 一台共享式以太网HUB下的所有PC属于同一个冲突域
+56、能保证数据端到端可靠传输能力的是相应OSI的（ ）
+A、 网络层
+B、 传输层
+C、 会话层
+D、 表示层
+57、TFTP服务端口号是（ ）
+A、 23
+B、 48
+C、 53
+D、 69
+58、什么命令用来检查应用层工作正常？( )
+A、 PING
+B、 TRACERT
+C、 TELNET
+D、 IPCONFIG
+59、在数据链路层哪个子层用于管理在一条链路上设备间的通信（ ）
+A、 LLC
+B、 MAC
+C、 BIG MAC
+60.TELNET工作于( )
+A、网络层
+B、传输层
+C、会话层
+D、表示层
+E、应用层
+61.数据在网络层时，我们称之为（ ）
+A、 段
+B、 包
+C、 位
+D、 帧
+62.目前，我国应用最为广泛的LAN标准是基于（ ）的以太网标准
+A、 IEEE802.1
+B、 IEEE802.2
+C、 IEEE802.3
+D、 IEEE802.5
+63.在Quidway路由器上,应该使用什么命令来观察网络的路由表（ ）
+A. Show ip path
+B. Show ip path
+C. Show interface
+D. Show running-config
+E. Show ip rip
+64.RIP协议引入路由保持机制的作用是( )
+A. 节省网络带宽
+B. 防止网络中形成路由环路
+C. 将路由不可达信息在全网扩散
+D. 通知邻居路由器哪些路由是从其他处得到
+65.路由环问题的解决方法包括:（ ）
+A. 采用水平分割
+B. 加快路由更新报文的发送频率
+C. 路由保持
+D. 配置静态路由
+E. 定义路由权的最大值
+66.在路由协议所有接口上使能RIP协议的命令是:（ ）
+A. network all
+B. neighbor
+C. enable
+D. network10.0.0.0
+
+67.下列静态路由器配置正确的是( )
+A. ip route 129.1.0.0 16 serial 0
+B. ip route 10.0.0.2 16 129.1.0.0
+C. ip route 129.1.0.0 16 10.0.02
+D. ip route 129.1.0.0.255.255.0.0 10.0.0.2
+68.下列关于OSPF协议的说法正确的是( )
+A. OSPF 支持基于接口的报文验证
+B. OSPF 支持到同一目的地址的多条等值路由
+C. OSPF 是一个基于链路状态算法的边界网关路由协议
+D. OSPF 发现的路由可以根据不同的类型而有不同的优先级
+69.输入哪条命令可以看到以下信息?（ ）
+LS DataBase
+无效 :Router
+Ls id :10.1.2.2
+Ady rtr :1050
+Len :72
+Seq# :80000008
+Cksum (DC)
+Area Border Router
+Link count 4
+Link id :192.168.2.1
+Data :255.255.255.255
+Metric:1562
+Link id :10.1.2.2
+Data :10.1.3.1
+无效 :Router
+Metric :1562
+Link id :10.1.3.2
+Data :255.255.255.255
+无效 :StubNet
+Metric :1562
+A. show ip route
+B. show ip ospf isa
+C. show ip ospf database
+D. show ip ospf interface
+
+70.以下关于IGRP的说法正确的是:（ ）
+A. 默认情况下,在帧中继网络中运行IGRP协议,启用水平分割功能
+B. IGRP支持多条路径负载均衡
+C. 在一个1500字节的路由更新数据包中最多包含有104条路由
+D. 触发更新定期发送
+71.你在配置x.25网络时怎样配置接口的X.121地址?（ ）
+A. Quidway#x25 address 321469056102
+B. Quidway(config)#x.25address 892735559329
+C. Quidway(config-if-s0)#x25 address 32505160178
+D. Quidwayxonfig-if-s0)#x25 address x121 329056171025
+
+72.在帧中继网络中,帧中继通过( )协议监控PVC的状态
+A. DLCI
+B. BECN
+C. LMI
+D. FECN
+73.PPP协议族中,哪个协议提供了对网络层的支持（ ）
+A. IPCP
+B. LCP
+C. IPXCP
+D. SNA
+74.在封装x.25协议的接口上,设置缺省的最大发送分组大小为256字节的命令是:（ ）
+A. x25 ops 256
+B. x25 dps 256
+C. x25 dbs 2048
+D. x25 dps 2048
+75.PPP协议中,( )主要用于协商在该数据链路上所传输的数据包的格式与类型
+A. 链路控制协议
+B. PPP扩展协议
+C. 网络层控制协议
+D. PAP.CHAP协议
+76.x.25协议包含三层（ ）
+A、 分组层
+B、 数据链路层
+C、 物理层
+D、 传输层
+E、 网络层
+77.在一个接口配置x25 map ip 102.112.43.125 12345命令,其中102.112.43.125和123456分别是( )
+A. 对端的IP地址和对端的x.121地址
+B. 对端的IP地址和本接口的X.121地址
+C. 本接口的IP地址和对端的x.121地址
+D. 本接口的IP地址和本接口的x.121地址
+78.使配置的访问列表应用到接口上的命令是什么（ ）
+A. access-group
+B. access-list
+C. ip access-list
+D. ip access-group
+79.下列关于地址转换的描述,正确的是:（ ）
+A. 地址转换解决了因特网地址短缺所面临问题
+B. 地址转换实现了对用户透明的网络外部地址的分配
+C. 使用地址转换后,对IP包加长,快速转发不会造成什么影响
+D. 地址转换内部主机提供一定的”隐私”
+E. 地址转换使得网络调试变得更加简单
+80.某单位路由器防火墙作了如下配置:
+finewall enable
+access-list normal 101 permit ip 202.38.0.0.0.0.0.255 10.10.10.10 0.0.0.255
+access-list normal 101 deny tcp 202.38.0.0.0.0.0.255 10.10.10.10 0.0.0.255 gt 1024
+access-list normal 101 deny ip any any
+端口配置如下:
+interface Sdriat0
+Ip address 202.38.111.25.255.255.255.0
+Encapsulation ppp ip
+Access-group 101 in
+Interface Ethernet0
+Ip address 10.10.10.1 255.255.255.0
+内部局域网主机均为10.10.10.0 255.255.255.0网段,以下说法正确的是(本题假设其它网络均没有使用access)( )
+A. 外部主机202.38.0.50可以PING通任何内部主机
+B. 内部主机10.10.10.5,可任意访问外部网络资源
+C. 内部任意主机都可以与外部任意主机建立TCP连接
+D. 外部202.38.5.0/24网段主机可以与此内部网主机TCP连接
+E. 外部202.38.0.0/24网段主机不可以与此内部同主机建立端口号大于1024的TCP连接
+81.以下为局域网协议的有( )
+A. PPP
+B. X.25
+C. SLIP
+D. Ethemetll
+E. FrameRelay
+F. EthemetSNAP
+G. Ppp-Multilink
+H. IEEE802.3
+82.在以太网中,工作站在发数据之前,要检查网络是否空闲,只有在网络不阻塞时工作站才能发送数据,是采用了( )机制
+A. ip
+B. tcp
+C. ICMP
+D. 数据侦听与冲突控制CSMA/CD
+83.以太网使用的物理介质主要有( )
+A. 同轴电缆
+B. 双绞线
+C. 电缆
+D. V.24电缆
+84.华为S2403交换机支持（ ）的特性
+A． VLAN
+B． STP
+C． TRUNK
+D． SNMP AGENT
+85.对全双工以太网的描述正确的是（ ）
+A、 可以在共享式以太网中实现全双工技术
+B、 可以在一对双绞线上同时接收和发送以太网帧
+C、 仅可以用于点对点连接
+D、 可用于点对点和点对多点连接
+86.下列所描述的协议哪些属于OSI参考模型表示层协议（多选）（ ）
+A. ASCII、EBCDIC
+B、IP、ARP
+C、MAC、LLC
+D、MPEG、MIDI
+E、 NFS、SQL
+F、 PICT、MPEG
+87.下列哪一条命令可以显示Quidway路由器RAM中的配置信息（ ）
+A、 show buffer pool
+B、 show running－config
+C、 show interface
+88.下面对我国广泛使用的DDN网络描述正确的是什么（ ）
+A、 DDN线路使用简便，覆盖面广
+B、 DDN专线是点到点的链路，它给予用户访问整个链路带宽的可能性
+C、 DDN相对于分组交换网络来说，线路费用较高
+D、 DDN专线被广泛用于企业网互连，专线internet接入
+89.为了查看Quidway路由器搭建的帧中继网络的封装类型，应启用什么命令（ ）
+A、 show frame-relay map
+B、 show frame-relay pvc
+C、 show frame-relay lmi
+D、 show interface
+90.在配置华为路由器和思科路由器搭建的帧中继网络时，你应该怎样配置华为路由器的链路封装格式？（假定思科采用默认封装格式）（ ）
+A、 arpa
+B、 ansi
+C、 ietf
+D、 cisco-compatiable
+E、 Q.933a
+F、 Cisco
+91、X．25协议是哪两种设备进行交互的规程（ ）
+A、 PSE、PSN
+B、 DCE、DTE
+C、 DCE、PSE
+D、 DTE、PSE
+92.属于点到点连接的链路层协议有（ ）
+A、X.25 
+B、HDLC 
+C、ATM 
+D、PPP
+93.请问您应该在下列哪些模式中使用degbug命令（ ）
+A、 用户模式 
+B、 特权模式 
+C、 全局配置模式 
+D、 接口配置模式
+94.国际上负责分配IP 地址的专业组织划分了几个网段作为私有网段，可以供人们在私有网络上自由分配使用，以下属于私有地址的网段是（多选）（ ）
+A、10．0．0．0/8
+B、172.16.0.0/12
+C、192．168．0.0/16
+D、224．0.0.0/8
+95.下列有关NAT叙述正确的是（ ）
+A、 NAT是英文“网络地址转换”的缩写
+B、 址转换又称地址翻译，用来实现私有地址和公用网络地址之间的转换
+C、 当内部网络的主机访问外部网络的时候，一定不需要NAT
+D、 地址转换的提出为解决IP地址紧张的问题提供了一个有效途径
+96.访问控制列表可以过滤进入和流出路由器接口的数据包流量，这句话是（ ）
+A、 true 
+B、 false
+97.检查一个访问控制列表在特定接口的应用情况，应使用下列哪条命令？（ ）
+A、 show access-list access-list-number
+B、 show access-list applied
+C、show access-list all
+D、show access-list inter interface-无效 interface-number
+
+98.下列对华为备份中心技术描述正确的是（ ）
+A、 备份技术提高了网络的可靠性，增强了网络的可用性
+B、备份中心技术可以为路由器任意接口提供备份接口，包括逻辑接口
+C、 备份中心技术可以实现对多个网络设备的冗余备份
+D、 以上说法正确
+99.你打算将HSRP备份组中的某台路由器设置为工作在抢占方式，以下命令中的哪一条可以达到这样的效果（ ）
+A、standby 1 priority 255
+B、standby 1 timers
+C、standby 1 track ethernet
+D、standby 1 preempt
+E、 standby 1 preexist
+100.使能DDR的命令是（ ）
+A、 dialer-list
+B、 access-list
+C、 dialer-group
+D、 dialer in-band
+101.IGRP协议的综合路由权包括（多选）（ ）
+A、 带宽 
+B、 时延 
+C、 跳数 
+D、 可靠性 
+E、 负载 
+F、 最大传输单元
+102.动态路由协议相比静态路由协议（多选）（ ）
+A、带宽占用少
+B、简单
+C、路由器能自动发现网络变化
+D、路由器能自动计算新的路由
+103.RIP协议是基于（ ）
+A、UDP 
+B、TCP 
+C、ICMP 
+D、Raw IP
+104.因为在生成路由表过程中，OSPF协议需要进行复杂的SPF算法来计算网络拓扑结构，所以相对于距离矢量路由选择协议来说，它需要更大的开销，更多的延迟，更高的CPU占用率。（ ）
+A、true 
+B、false
+105.（ ）命令查看一些接口的信息，包括接口的花费、状态、类型、优先级等
+A、show ip ospf
+B、show ip ospf error
+C、show ip ospf interface
+D、show ip ospf enighbor
+106.（ ）命令显示OSPF在接收报文时记录的所发生的错误（ ）
+A、 show ip ospf
+B、 show ip ospf error
+C、 show ip ospf intterface
+D、 show ip ospf neighbor
+107.下面关于１０００兆以太网口的描述正确的是（多选）（ ）
+A、１０００M以太网可以提供全双工/半双工通信
+B、１０００M以太网的物理介质可以采用５类以上双绞线、单模/多模光纤
+C、1０００M以太网有自动协商功能，可以与低速以太网之间协商速率
+D、在同一冲突域中，千兆以太网允许中继器互链
+108.以太网中，是根据（ ）地址来区分不同的设备的（ ）
+A、 IP地址
+B、 MAC地址
+C、 IPX地址
+D、 LLC地址
+109.华为S2403交换机基于STF特性设置的参数：（多选）（ ）
+A、 Bridge Priority(交换机优先级)
+B、 Hellow Time (根桥交换机向外发送配置报文的时间间隔)
+C、 Max Age Time (最大老化时间)
+D、 Forward Time (端口状态转换时间)
+E、 Port Path Cost (端口路径值)
+F、 Port Priority(端口优先级)
+110.Quidway路由器在执行数据包转发时，下列哪些项没有发生变化（假定没有使用地址转换技术）（ ）
+A、 原端口号 
+B、 目的端口号 
+C、 原网络地址 
+D、 目的网络地址
+E、 原MAC地址 
+F、 目的MAC地址
+111.下面哪些协议属于OSI参考模型第七层？(多选)（ ）
+A、 FTP 
+B、 SPX 
+C、 Telnet 
+D、 PPP 
+E、 TCP 
+F、 IGMP
+112.和交换电路相比，分组交换的时延小（ ）
+A、 true
+B、 false
+113. ISO提出OSI的关键是（ ）
+A、网络互联
+B、网络分层
+C、七层模型
+D、制定标准
+114.局域网常用设备有：（多选）( )
+A、 线缆，如光纤、双绞线、同轴电缆等
+B、 集线器
+C、 MODEM
+D、 路由器
+115.RFC文档是下面哪一个标准的工作文件（ ）
+A、 ISO 
+B、 ITU 
+C、 IETF 
+D、 IEEE
+116.可路由协议的网络地址由哪两部分组成（ ）
+A、 网络地址和主机地址
+B、 主机地址和网络掩码
+C、 网络地址和网络掩码
+117.IP地址190.233.27.13/16所在的网段地址是（ ）
+A、190.0.0.0 
+B、190.233.0.0 
+C、190.233.27.0 
+D、190.233.27.1
+118.下面哪一些选项是物理层的基本功能：（多选）（ ）
+A、 在终端设备之间传送比特流
+B、 建立、维护虚电路，进行差错校验和流量控制
+C、 定义电压、接口、线缆标准、传输距离等特性
+119.Traceroute功能是（ ）（多选）( )
+A、 用于检查网管工作是否正常
+B、 用于检查网络连接是否可通
+C、 用于分析网络在哪里出现了问题
+120.TCP、UDP、SPX属于OSI的 （ ）
+A、 网络层 
+B、 传输层 
+C、 会话层 
+D、 表示层
+121.关于IP报文头的TTL字段，以下说法正确的有（ ）（多选）
+A、 TTL的最大可能值是65535
+B、 在正常情况下，路由器不应该从接口收到TTL=0的报文
+C、 TTL主要是为了防止IP报文在网络中的循环转发，浪费网络带宽
+D、 IP报文每经过一个网络设备，包括Hub、LAN SWITCH和路由器，TTL值都会被减去一定的数值
+122.给您分配一个B类IP网络172.16.0.0，子网掩码255.255.255.192,则您可以利用的网络数为（ ），每个网段最大主机数（ ）
+A、512 126 
+B、1022 62 
+C、1024 62
+D、256 254 
+E、192 254
+123.下列所述的哪些是ICMP协议的功能？（多选）（ ）
+A、 报告TCP连接超时信息
+B、 重定向UDP消息
+C、 转发SNMP数据
+D、 查找子网掩码
+E、 报告路由更新错误信息
+124.如果C类子网的掩码为255.255.255.240，则包含的子网位数、子网数目、每个子网中的主机数目正确的是（ ）
+A、２ ２ ２
+B、３ ６ ３０
+C、４ １４ １４
+D、５ ３０ ６
+125.10.1.0.1/17的广播地址是（ ）
+A、10.1.128.255 
+B、10.1.63.255 
+C、10.1.127.255 
+D、10.1.126.255
+126.您在Quidway路由器上配置IPX/SPX网络时，必须配置的命令有哪些？（多选）（ ）
+A、 接口封装类型
+B、 路径负载均衡
+C、 接口网络号
+D、 启动IPX进程 
+127.下列哪些技术有助于减少路由环路 （ ）
+A、 直接交换
+B、 采用链路状态路由协议
+C、 水平分割 
+D、 保持间隔
+E、 定义最大跳数
+F、 路由中毒
+128.在运行win98的计算机中配置网关类似于在路由器上配置（ ）
+A、 直接路由 
+B、 默认路由 
+C、 动态路由 
+D、 间接路由
+129.以下哪些路由项由网管手动配置（ ）
+A、 静态路由 
+B、 直接路由 
+C、 缺省路由 
+D、 动态路由
+130.请选出在华为路由器上运行IGRP协议的所有必须配置命令（ ）
+A、 启用IGRP路由进程
+B、 进入接口配置模式
+C、 配置邻居
+D、 在路由器接口上
+131.哪些模式可以用degbug命令（ ）
+A、 用户模式 
+B、 特权模式 
+C、 全局模式 
+D、 接口模式
+132.以太网是哪一种标准的实现（ ）
+A、 IEEE802.1 
+B、 IEEE 802.2 
+C、 IEEE 802.3 
+D、 IEEE 802.5
+133、命令backup state-up interval-time 运用于（ ）
+A、 主接口是物理接口
+B、 备份接口是物理接口
+C、 主接口是逻辑通道
+D、 备份接口是逻辑通道
+134、请选出在华为路由器上运行IGRP协议的所有必须配置命令（ ）
+A、启用IGRP路由进程
+B、进入接口配置模式
+C、配置邻居
+D、在路由器接口上
+135.判断路由好坏的原则不包括（ ）
+A、 快速收敛性 
+B、 灵活性、弹性 
+C、 拓扑结构的先进性 
+D、 最好路径
+136.可以为以下哪些接口提供备份接口（ ）
+A、 ISDN BRI
+B、 ISDN PRI
+C、 X.25
+D、 拨号接口
+E、 以太网子接口
+F、 虚拟接口模板
+137.下列关于DLCI叙述不正确的是（ ）
+A、 DLCI是本地接口
+B、 DLCI是由DCE侧分配的
+C、 用户可用的DLCI范围是1－1007
+D、 不同的物理接口可以配置相同的DLCI
+E、 相同的物理接口可以配置相同的DLCI
+138.VRP支持的X.25协议封装格式有（ ）
+A、 IETF 
+B、 ITU-T Q.933a 
+C、 DDN 
+D、 BFE
+E、 IEEE802.3 
+F、 CISCO兼容
+139.广域网协议有（ ）
+A、 PPP 
+B、 X.25 
+C、 SLIP 
+D、 Ethernetll 
+E、 Frame－relay
+F、 IEEE802.2/802.3 
+G、 IPX
+140.在配置帧中继子接口时，可配的子接口类型有哪些（ ）
+A、 point-to-point
+B、 NBMA
+C、 point-to-multipoint
+D、 broadcast
+141.IP 地址中网络号的作用是（ ）
+A、 指定主机所属网络
+B、 指定网络上主机标识
+C、 指定设备能够运行通信的网络
+D、 指定被寻址的子网中的某个节点
+142.术语ARP代表什么（ ）
+A、地址解析协议
+B、反向地址解析协议
+143.为了确定网络层所经过的路由器数目，应使用什么命令( )
+A、 ping 
+B、 arp-a 
+C、 stack-test 
+D、 traceroute 
+E、 telnet
+144.IEEE802.3不是VLAN的标准（ ）
+A、true 
+B、false
+145.CSMA/CD网络中，所有主机都可独占网络带宽（ ）
+A、 true 
+B、 false
+146.OSI中，哪些不是表示层功能？( )
+A、 数据加密 
+B、 数据压缩 
+C、 密码控制 
+D、 数据格式转换
+147.Telnet工作于哪一层？（ ）
+A、 应用层
+B、 表示层
+C、 会话层
+D、 传输层
+E、 网络层
+F、 链路层
+G、 物理层
+148.TFTP服务器的端口号是（ ）
+A、23 
+B、48 
+C、53 
+D. 69
+149.在Quidway路由器上如何查看e0 IPX接口（ ）
+A、 show interface
+B、 show ipx interface
+C、 show ipx serverce
+D、 show interface e0
+150.路由器中，IPX 地址 0XFFFFFFFE表示（ ）
+A、 本地地址
+B、 网内广播地址
+C、 网间广播地址
+151.在下列对HSRP各参数缺省值的描述中，哪几条是正确的（ ）
+A、Hellow Time 缺省3 Hold Time缺省10
+B、备份组号的缺省1
+C、验证字缺省quidway
+D、优先级 50
+E、设置指定接口时，接口失败后，优先级减少的缺省为10
+152.下列哪些接口可作逻辑通道（ ）
+A、X.25 
+B、帧中继 
+C、dialer 
+D、同/异步串口
+153.DNS工作于（ ）
+A、 网络层 
+B、 传输层 
+C、 会话层 
+D、 表示层 
+E、 应用层
+154.IP地址与它的掩码取反相与，所得的非零点分十进制数是此IP地址的（ ）
+A、A类 
+B、主机地址 
+C、网络地址 
+D、解析地址
+155.OSI中，链路层和传输层都是面向连接的，但链路层建立的是点到点的连接，传输层建立的是端到端的连接（ ）
+A、true 
+B、false
+156.在华为路由器特权模式下输入show interface ,显示物理接口UP，线路接口DOWN，可能的故障现象是（ ）
+A、存活间隔设置不一致
+B、时钟速率与对端不一致
+C、链路协商没有通过
+D、没有来自对端的载波信息
+157.当接口运行在RIP2广播方式时，它可接收的报文有（ ）
+A、RIP1广播报文
+B、RIP1组播报文
+C、RIP2广播报文
+D、RIP2组播报文
+158.下面接口为物理接口的有（ ）
+A、dialer 
+B、语音接口 
+C、serial口 
+D、子接口
+E、CE1/PRI2接口 
+F、 虚拟接口模板 
+G、 ISDN BRI接口
+H、 备份中心逻辑通道
+159.属于点到点连接链路层协议的有( )
+A、X.25 
+B、HDLC 
+C、ATM 
+D、ppp
+160.190.233.27.13./16所在网段地址（ ）
+A、190.233.0.0
+B、190.0.0.0
+C、190.233.27.0
+161.在华为路由器上配置IPX/SPX网络时，必须配置的命令有（ ）
+A、接口封装类型 
+B、负载均衡
+C、接口网络号 
+D、启动IPX进程
+162.RFC是哪个组织提出的（ ）
+A、 ISO 
+B、 ITU 
+C、 IETF 
+D、 IEEE
+163.哪个地址表示子网内所有的参与多播的路由及主机（ ）
+A、224.0.0.1 
+B、224.0.0.5 
+C、224.0.0.6 
+D、224.0.0.9
+164.ISO规定的网络管理的五部分的功能是（ ）
+A、性能管理 
+B、配置管理 
+C、安全管理 
+D、协议管理 
+E、 记账管理
+165.以下选项属于广域网协议的有（ ）
+A、 PPP 
+B、 X.25 
+C、 SLIP 
+D、 Ethernetll 
+E、 Frame－relay
+F、 IEEE802.2/802.3 
+G、 IPX
+166. 以太网交换机中，哪种转发方法延迟较小（ ）
+A、 直接转发
+B、 存储转发
+167.tcp协议工作于TCP/IP协议栈的哪一层( )
+A、 应用层
+B、 传输层
+C、 网络层
+D、 链路层
+E、 物理层
+168.192.168.1.127代表的是（ ）地址
+A、主机 
+B、网络 
+C、广播 
+D、组播 
+E、都不对
+169.一个A类地址，其子网掩码是255.255.240.0，有多少位被用来划分子网？（ ）
+A、8 
+B、16
+C、 20
+D、 24
+170. 以下关于IP地址借用说法正确的是（ ）
+A、借用方不能为以太网接口
+B、如果被借用接口没有IP地址，则借用接口的IP地址为0.0.0.0
+C、被借用方接口的地址本身不能为借用地址
+D、被借用方的地址可以借给多个接口
+171.路由器转发数据包到非直接网段的过程中，依靠下列哪一个选项来寻找下一跳地址( )
+A. 帧头 
+B、IP报文头部 
+C、SSAP子段 
+D、DSAP子段
+172.支持可变长子网掩码的路由协议有（ ）
+A、RIP V1 
+B、OSPF 
+C、RIV2 
+D、IS-IS
+173.以下哪些可作为备份接口（ ）
+A、ISDN BRI 
+B、ISDN PRI 
+C、X.25 
+D、拨号接口
+E、 以太网接口 
+F、 以太网子接口 
+G、 虚拟接口模板
+
+174对于访问控制列表条件的判断语句中，与子网掩码类似的32位比特的数字字符串称为（ ）
+A、 IP地址
+B、 主机地址
+C、 网络地址
+D、 通配符
+175.改变您的Quidway路由器名字为myrouter时，应输入什么命令( )
+A、 config myrouter
+B、 show myroter
+C、 hostname myrouter
+176.IP 地址中，网络部分全0表示( )
+A、 主机地址
+B、 网络地址
+C、 所有主机
+D、 所有网络
+177.IP 地址中网络号的作用是（ ）
+A、制定主机所属网络
+B、指定网络上主机标识
+C、指定设备能够运行通信的网络
+D、指定被寻址的子网中的某个节点
+178.为了确定网络层所经过的路由器数目，应使用什么命令（ ）
+A、ping 
+B、arp-a 
+C、stack-test 
+D、traceroute 
+E、telnet
+179.IEEE802.3不是VLAN的标准（ ）
+A、 true 
+B、 false
+180、CSMA/CD网络中，所有主机都可独占网络带宽( )
+A、true 
+B、false
+181. DNS工作于（ ）
+A、 网络层 
+B、 传输层 
+C、 会话层 
+D、 表示层 
+E、 应用层
+182.IP地址与它的掩码取反相与，所得的非零点分十进制数是此IP地址的（ ）
+A、 A类 
+B、 主机地址 
+C、 网络地址 
+D、 解析地址
+183 .数据分段在OSI哪一层( )
+A、 应用层
+B、 表示层
+C、 会话层
+D、 传输层
+E、 网络层
+F、 数据链路层
+184. 下列是外部可路由协议的是（ ）
+A、 rip
+B、 ospf
+C、 igrp
+D、 bgp
+E、 eigrp
+185.属于点到点连接链路层协议的有（ ）
+A、X.25 
+B、HDLC 
+C、ATM 
+D、ppp
+186.190.233.27.13./16所在网段地址（ ）
+A、190.233.0.0
+B、190.0.0.0
+C、190.233.27.0
+187 在华为路由器上配置IPX/SPX网络时，必须配置的命令有（ ）
+A、 接口封装类型 
+B、负载均衡
+C、接口网络号 
+D、启动IPX进程
+188.下列列出的网络设备中，属于DCE设备的有（ ）
+A、 集线器 
+B、 帧中继交换机 
+C、 CSU/DSU 
+D、 计算机
+189.华为R4001路由器提供CE1/PR2接口，对于CE1封装，最多可以支持同时划分（ ）
+个64个逻辑接口，用于DDN连接。
+A、30 
+B、31 
+C、32 
+D、16
+190.在ISDN网络中，U接口定义在（ ）之间。
+A、 TE1和NT 
+B、 TE2和TA 
+C、 NT1和ISDN网络 
+D、 NT1和NT2
+191.路由器并不具备计费功能( )
+A、 true
+B、 false
+192.在配置帧中继DLCI和对端IP地址的映射后，使用什么命令来校验配置（ ）
+A、 show frame-relay pvc 
+B、 show frame-relay map
+C、 show frame-relay traffic 
+D、 show frame-relay lmi
+193.以下协议技术中，采用面向连接方式进行通信的有（多选）（ ）
+A、 IP 
+B、 X.25 
+C、 Ethernet 
+D、 Frame-relay
+194.VLAN的划分方法有（多选）（ ）
+A、 基于设备端口 
+B、 协议 
+C、 MAC 
+D、 物理地址
+195.IPX/SPX协议中，IPX地址的网络号是多少位( )
+A、2
+B、4
+C、6
+D、8
+196.路由项10.0.24.0/21由哪几条子网路由聚合而来（ ）
+A、10.0.0.25/16 
+B、10.0.0.23/16 
+C、10.0.0.26/16 
+D、10.0.0.22/16
+197.保留给自环测试的IP地址是( )
+A、127.0.0.0
+B、127.0.0.1
+C、224.0.0.9
+D、126.0.0.1
+198.流控有哪三种方式？( )
+A、 抑制技术；
+B、 端口速率自协商机制；
+C、 窗口机制
+199.可路由网络协议的网络地址由哪两部分组成？( )
+A、 主机地址 网络地址
+B、 主机地址 子网掩码
+C、 网络地址 子网掩码
+200.华为路由器中，IPX协议支持（ ）封装格式（ ）
+A、 Ethernet－11
+B、 Ethernet－snap
+C、 Ethernet－nap
+D、 Ethernet－802.2
+E、 Ethernet—802.3
+F、 Ethernet—802.5
+201.RIP协议引入路由保持机制的作用是防止路由形成环路（ ）
+A、true
+B、false
+202.通常情况下，IGRP是如何获得路由信息( )
+A、广播 
+B、单播和多播 
+C、多播 
+D、多播和广播
+203.DTE可以在（ ）虚电路区间发起呼叫
+A、 双向信道区间
+B、 永久虚电路区间
+C、 单向呼入信道区间
+D、 单向呼出信道区间
+204.VLAN tag在OSI参考模型的哪一层( )
+A、 应用层
+B、 表示层
+C、 会话层
+D、 传输层
+E、 网络层
+F、 链路层
+G、 物理层
+205.属于局域网协议的有（ ）
+A、PPP 
+B、X.25 
+C、SLIP 
+D、Ethernet 11 
+E、Frame－relay
+F、thernet SNAP 
+G、PPP-multilink 
+H、 IEEE-802.3
+206.无类路由协议路由表表目为三维组，其中不包括（ ）
+A、 子网掩码 
+B、 源网络地址 
+C、 目的网络地址 
+D、 下一跳地址
+207.帧中继的最大帧传输长度是（ ）
+A、 128比特 
+B、 256比特 
+C、 1024比特 
+D、 1600比特
+208.一个子网掩码为255.255.240.0的网络中（ ），合法网段地址。
+A、150.150.0.0 
+B、150.150.0.8 
+C、150.150.8.0 
+D、150.150.16.0
+209.网段2.0.0.0，掩码255.255.224.0，有效网段地址是（ ）
+A、2.1.16.0 
+B、2.2.32.0 
+C、2.3.48.0 
+D、2.4.172.0
+210.衡量网络性能的主要标准是（ ）
+A、 带宽
+B、 延迟
+211. X.25使用映射的作用是（ ）
+A. 映射本地IP到对端端口值，以便路由器发送数据时确认发送端口
+B. 映射本地IP到本地端口值，以便路由器发送数据时确认发送端口
+C. 映射对端IP到本地端口值，以便X.25交换网络查找数据发送路径
+D. 映射对端IP到对端端口值，以便X.25交换网络查找数据发送路径 
+212. 各个路由协议衡量路由的好坏标准是（ ）
+A. 路由
+B. 路由器优先级
+C. 路由权
+D. 包转发率
+213. 路由器作为网络互连设备，必须具备以下哪些特点。（ ）
+A. 至少支持两个网络接口
+B. 协议至少要实现到网络层
+C. 至少支持两种以上的子网协议
+D. 至少具备一个备份口
+E. 具有存储、转发和寻径功能
+F. 一组路由协议
+G. 必须有较高的协议处理能力
+214. OSPF 协议适用于基于 IP 的（ ）
+A. 大型网络
+B. 中小型网络
+C. 更大规模的网络
+D. isp与isp之间
+215. 某单位路由器防火墙作了如下配置：
+firewall enable
+access-list normal 101 permit ip 202.38.0.0 0.0.0.255 10.10.10.10 0.0.0.255
+access-list normal 101 deny tcp 202.38.0.0 0.0.0.255 10.10.10.10 0.0.0.255 gt 1024
+access-list normal 101 deny ip any any
+
+端口配置如下
+interface Serial0
+Enable
+Ip address 202.38.111.25 255.255.255.0
+encapsulation ppp
+ip access-group 101 out
+interface Ethernet0
+ip address 10.10.10.1 255.255.255.0
+内部局域网主机均为10.10.10.0 255.255.255.0网段。以下说法正确的是（本题假设其他网络均没有使用防火墙）：（ ）
+A. 外部主机202.38.0.50可以ping通任何内部主机；
+B. 内部主机10.10.10.5，可以任意访问外部网络资源；
+C. 外部202.38.5.0 255.255.255.0网段主机可以与此内部网主机建立tcp连接；
+D. 外部202.38.0.0 255.255.255.0网段主机不可以与此内部网主机建立tcp连接
+E. 内部任意主机都可以与外部任意主机建立tcp连接；
+F. 内部任意主机只可以与外部202.38.0.0 255.255.255.0网段主机建立tcp连接
+216. 以下的协议中，哪些是面向连接的协议（ ）。
+A. X25
+B. Ethernet
+C. IP
+D. Frame-relay
+217. 路由器A的配置如下：
+Quidway#SHOW RUN
+Current configuration
+!
+user huawei service-无效 ppp password 0 quidway
+!
+interface Ethernet0
+ip address 1.1.1.1 255.0.0.0
+!
+interface Serial0
+encapsulation ppp
+ppp authentication chap
+ppp chap host huawei
+ip address 2.1.1.1 255.0.0.0
+!
+interface Serial1
+encapsulation ppp
+!
+interface Serial2
+flowcontrol normal
+async mode dedicated
+encapsulation ppp
+!
+exit
+ip route 0.0.0.0 0.0.0.0 2.1.1.2 preference 60
+end
+路由器B的配置如下
+Quidway#SHOW RUN
+Current configuration
+!
+user hw service-无效 ppp password 0 quidway
+!
+interface Ethernet0
+ip address 3.1.1.1 255.0.0.0
+!
+interface Serial0
+clock-select DTECLK1
+encapsulation ppp
+ppp chap host huawei
+ip address 1.1.1.2 255.0.0.0
+!
+interface Serial1
+encapsulation ppp
+!
+interface Serial2
+flowcontrol normal
+async mode dedicated
+encapsulation ppp
+!
+exit
+ip route 0.0.0.0 0.0.0.0 2.1.1.2 preference 60
+end
+发现两端路由器不能PING同对端以太网端口，下述说法正确的是（ ）
+A.A验证配置错误
+B.B验证配置错误
+C.A验证方路由配置错误
+D.B被验证方路由配置错误
+-----------------------------------------------------------------------------------------
+1. 以下属于数据链路层的设备是（ ） 
+(A) 中继器 (B) 以太网交换机 
+(C) 网桥 (D) 网关 
+2. 解决路由环问题的办法是（ ） 
+(A) 定义路由权的最大值 (B) 路由保持法
+(C) 水平分割 (D) 路由器重起 
+3. BGP是在（ ）之间传播路由的协议 
+(A) 主机 (B) 子网
+(C) 区域(area) (D) 自治系统(AS) 
+4. 配置备份中心的目的是（ ） 
+(A) 增加网络的带宽 (B) 提高网络的可用性
+(C) 防止数据传输的意外中止 (D) 降低网络的传输费用 
+5. 以下内容那些是路由信息中所不包含的（ ） 
+(A) 目标网络 (B) 源地址
+(C) 路由权值 (D) 下一跳 
+6. 选出基于TCP协议的应用程序（ ） 
+(A) PING (B) TFTP
+(C) TELNET (D) OSPF 
+7. X.25协议提供给用户的可用的逻辑信道最多为（ ）条 
+(A) 16 (B) 32
+(C) 4095 (D) 4096 
+8. OSI代表（ ） 
+(A) Organization for Standards Institute (B) Organization for Internet Standards (C) Open Standards Institute (D) Open Systems Interconnection 
+9. 帧中继LMI一般占用哪几个DLCI （ ） 
+(A) 0 (B) 16
+(C) 1007 (D) 1023 
+10. PPP验证成功后，将由Authenticate阶段转入什么阶段（ ） 
+(A) Dead (B) Establish
+(C) Network (D) Terminate 
+11. 在七十年代末，国际标准化组织ISO提出了开放系统互连参考模型。协议分层大大简化了网络协议的复杂性，在OSI 7层模型中，网络层的功能主要是（ ） 
+(A) 在信道上传输原始的比特流 (B) 加强物理层数据传输原始比特流的功能并且进行流量调控
+(C) 确定数据包从源端到目的端如何选择路由 (D) 确保到达对方的各段信息正确无误 
+12. 访问列表如下： access-list 4 deny 202.38.0.0 0.0.255.255 access-list 4 permit 202.38.160.1 0.0.0.255 应用于该路由器端口的配置如下： Quidway(config)# firewall default permit Quidway(config-if-Serial0)# ip access-group 4 in 该路由器E0口接本地局域网，S0口接到INTERNET，以下说法正确的有： （ ） 
+(A) 所有外部数据包都可以通过S口，自由出入本地局域网 (B) 内部主机可以任意访问外部任何地址的主机
+(C) 内部主机不可以访问本列表禁止的外部地址的主机 (D) 连在该路由器其他端口的主机可任意访问内部网资源 
+13. 在 IPX 之上承载各种上层协议，包括（ ） 
+(A) Rip (B) Netbios
+(C) Ncp (D) Tcp 
+14. 在帧中继封装中配置静态MAP必须指定哪些参数： （ ） 
+(A) 本地的DLCI (B) 对端的DLCI
+(C) 本地的协议地址 (D) 对端的协议地址 
+15. 某公司申请到一个C类IP地址，但要连接6个的子公司，最大的一个子公司有31台计算机，每个子公司在一个网段中，则子网掩码应设为（ ） 
+(A) 255.255.255.0 (B) 255.255.255.128
+(C) 255.255.255.192 (D) 255.255.255.224 
+(E) 255.255.255.240 (F) 以上都不对！
+16. 以下关于Rip路由聚合的说法正确的是 
+(A) Rip V1默认支持路由聚合，需要时可以关闭路由聚合功能 (B) 华为Quidway 系列路由器Rip V2的实现可以关闭路由聚合功能
+(C) 、Rip V1不支持子网路由聚合到一个非自然子网路由 (D) Rip V2支持子网路由聚合到一个非自然子网路由 
+17. 当一台主机从一个网络移到另一个网络时，以下说法正确的是（ ） 
+(A) 必须改变它的IP地址和MAC地址 (B) 必须改变它的IP地址，但不需改动MAC地址
+(C) 必须改变它的MAC地址，但不需改动IP地址 (D) MAC地址、IP地址都不需改动

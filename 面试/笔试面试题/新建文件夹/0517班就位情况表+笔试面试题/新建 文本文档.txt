@@ -1,0 +1,104 @@
+从毕业开始出来找工作，做了不少ＪＡＶＡ笔试题，面对众多的试题，感慨万千，怨语颇多，其中出的有一些书本或实战都很少见的。非常抽象，个人从事ＪＡＶＡ工作也有一段时间了，觉得那些试题对工作的能力反映不出来。想了一下，我自己也出来出题了，正好公司没有一套完整的ＪＡＶＡ笔试题，我做的好的话还可以用在公司招聘上，何乐而不为呢？
+
+1.       HttpSession session  = request.getSession()
+
+与HttpSession session  = request.getSession(true)的区别？
+
+参考答案：
+
+getSession(true)的函数原型为:：HttpSession session = request.getSession (Boolean create)
+
+如果有与当前的request先关联的HttpSession,那么返回request相关联的HttpSession,如果还没有，那么：
+
+java 代码
+与当前
+
+如果create==true, 那么返回一个新建的HttpSession,
+
+如果create==false, 那么返回null.
+
+2.       getParameter与 getAttribute的区别?
+
+参考答案：
+
+Attribute是指属性。
+
+Parameter是指参数，由URL传入或由FORM提交的内容
+
+3.以下哪一个不是赋值符号？
+
+　A. +=  B. <<=  C. <<<=  D. >>>=
+
+  参考答案：
+
+  A.很明显是赋值符号
+
+  B.<<=左移赋值
+
+  C.不是
+
+  D.>>>= 右移赋值，左边空出的位以0填充
+
+4.以下哪个不是Collection的子接口？
+
+  A. List  B. Set  C. SortedSet  D. Map
+
+  参考答案：D
+
+5.BufferedReader的父类是以下哪个？
+
+  A. FilterReader  B. InputStreamReader  C. PipedReader  D. Reader
+
+  参考答案：D
+
+6.子类Ａ继承父类B
+
+　A a = new A();
+
+  则　父类B构造函数、父类B静态代码块、父类Ｂ非静态代码块、子类Ａ构造函数、子类A静态代码块、子类Ａ非静态代码块　执行的先后顺序是？
+
+　参考答案：父类Ｂ静态代码块->子类Ａ静态代码块->父类Ｂ构造函数->父类Ｂ非静态代码块->子类Ａ构造函数->子类Ａ非静态代码块
+
+7.找错题。如下程序哪里错?请指出并且说明原因。
+
+public class AA {
+      protected int i; 
+      public AA(int i){
+            this.i = i;
+      }
+}
+
+public class BB extends AA { 
+       private int j; 
+       public BB(int i,int j){
+           super(i);
+           this.j = j;
+      } 
+      public double getDouble(){
+          return i + 2.0;
+      }
+      public static void main(String[] args){
+         AA a = new AA(3);
+         BB bb  = new BB(5,6);
+         System.out.println(bb.getDouble());  
+      }
+}
+
+８．如下程序，输出什么？
+
+public class AA{
+           public void changeString(String s){
+                     s = "This is a new string";
+           }
+           public static void main(String[] args) throws Exception {
+                     String str = "This is the old string";  
+                     AA aa = new AA();
+                     aa.changeString(str);
+                     System.out.print(str);
+            }
+}
+
+９．如下程序有错吗？错在哪里？请说明原因。
+
+　　　   List list = null;
+             System.out.print(list.size());

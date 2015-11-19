@@ -1,0 +1,114 @@
+http://yingjiesheng.com/file/info/2436.html
+本试题仅用于考查C++/C程序员的基本编程技能。95d565ef66?应届生求职网YingJieSheng.COM?4cb5d40ed4
+内容限于C++/C常用语法，不涉及数据结构、算法以及深奥的语法。
+考试成绩能反映出考生的编程质量以及对C++/C的理解程度，
+但不能反映考生的智力和软件开发能力。
+笔试时间90分钟。请考生认真答题，切勿轻视。
+一、请填写BOOL , float, 指针变量 与"零值"比较的 if 语句。
+（10分）5a880faf6f?应届生求职网YingJieSheng.COM?c350ade2a4
+提示：这里"零值"可以是0, 0.0 , FALSE或者"空指针"。
+例如 int 变量 n 与"零值"比较的 if 语句为：
+    if ( n == 0 )
+    if ( n != 0 )
+以此类推。
+请写出 BOOL  flag 与"零值"比较的 if 语句：6fe97759aa?应届生求职网YingJieSheng.COM?b922cfa312
+请写出 float  x 与"零值"比较的 if 语句：
+请写出 char  *p 与"零值"比较的 if 语句：
+二、以下为Windows NT下的32位C++程序，请计算sizeof的值（10分）
+        char  str[] = "Hello" ; 
+        char   *p = str ;int
+        n = 10;5568161a8c?应届生求职网YingJieSheng.COM?d5792c152c
+        请计算
+        sizeof (str ) =
+        sizeof ( p ) =
+        sizeof ( n ) =  
+         void Func ( char str[100])
+        {请计算 sizeof( str ) =    }4005f8da13?应届生求职网YingJieSheng.COM?60d149af1f
+        void *p = malloc( 100 );
+         请计算sizeof ( p ) =
+三、简答题（25分）
+1、头文件中的 ifndef/define/endif 干什么用？
+2、#include  <filename.h>   和
+   #include  "filename.h" 有什么区别？8f07f89ddb?应届生求职网YingJieSheng.COM?4c20a920bf
+3、const 有什么用途？（请至少说明两种）
+4、在C++ 程序中调用被 C编译器编译后的函数，
+为什么要加 extern "C"声明？
+5、请简述以下两个for循环的优缺点
+// 第一个for (i=0; i<N; i++)
+{if (condition)ea6328a42e?应届生求职网YingJieSheng.COM?4c65f8a52f
+ DoSomething();
+else
+ DoOtherthing();}       
+优点：缺点：
+// 第二个if (condition)
+{for (i=0; i<N; i++)3f027327d8?应届生求职网YingJieSheng.COM?e85d8ecacd
+  DoSomething();}
+else{
+  for (i=0; i<N; i++)    DoOtherthing();}
+优点：缺点：
+四、有关内存的思考题（20分）
+void GetMemory(char *p)b794217348?应届生求职网YingJieSheng.COM?92ff12784d
+{
+    p = (char *)malloc(100);
+}
+void Test(void)
+{
+    char *str = NULL;GetMemory(str);e76fc52277?应届生求职网YingJieSheng.COM?2555b7c98f
+    strcpy(str, "hello world");
+    printf(str);
+}请问运行Test函数会有什么样的结果？答： 
+char *GetMemory(void)
+{
+        char p[] = "hello world";a126b2f4b2?应届生求职网YingJieSheng.COM?3e5415eb55
+        return p;
+}
+void Test(void)
+{
+       char *str = NULL;
+       str = GetMemory();cbf4caaed3?应届生求职网YingJieSheng.COM?17fda73c03
+        printf(str);
+}
+请问运行Test函数会有什么样的结果？答：
+Void GetMemory2(char **p, int num)
+{
+        *p = (char *)malloc(num);976aab5298?应届生求职网YingJieSheng.COM?5ebbcd3a1b
+}
+void Test(void)
+{
+         char *str = NULL;
+         GetMemory(&str, 100);
+         strcpy(str, "hello");65e6e1edc0?应届生求职网YingJieSheng.COM?c241e73e84
+        printf(str);    
+}
+请问运行Test函数会有什么样的结果？答：  
+void Test(void)
+{
+    char *str = (char *) malloc(100);94728bc39a?应届生求职网YingJieSheng.COM?6dea6e2210
+    strcpy(str, "hello");
+    free(str);  
+    if(str != NULL)     
+    {   
+        strcpy(str, "world");
+        printf(str);c49eb8f757?应届生求职网YingJieSheng.COM?e6b7bd168a
+    }
+}
+请问运行Test函数会有什么样的结果？答：
+五、编写strcpy函数（10分）
+已知strcpy函数的原型是
+        char *strcpy(char *strDest, const char *strSrc);f9020d2abe?应届生求职网YingJieSheng.COM?7ebe61b7aa
+        其中strDest是目的字符串，strSrc是源字符串。
+（1）不调用C++/C的字符串库函数，请编写函数 strcpy
+（2）strcpy能把strSrc的内容复制到strDest，为什么还要char * 类型的返回值？
+六、编写类String的构造函数、析构函数和赋值函数（25分）
+已知类String的原型为：
+        class String7a99787bd1?应届生求职网YingJieSheng.COM?6721579732
+        {
+          public:
+                String(const char *str = NULL); // 普通构造函数
+                String(const String &other);        // 拷贝构造函数
+                ~ String(void);                                     // 析构函数
+                String & operate =(const String &other);        // 赋值函数74270fd093?应届生求职网YingJieSheng.COM?ffef459384
+          private:
+                char    *m_data;                                // 用于保存字符串
+        };
+        请编写String的上述4个函数。

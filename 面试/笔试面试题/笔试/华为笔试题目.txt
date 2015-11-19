@@ -1,0 +1,646 @@
+   
+1、int i=10, j=10, k=3; k*=i+j; k最后的值是___ 
+2、进程间通信的方式有__ __ __ __等。 
+3、网桥是独立于___协议的，（后面还有一句话，记不得了） 
+4、struct A 
+{ 
+char t:4; 
+char k:4; 
+unsigned short i:8; 
+unsigned long m; 
+} 
+sizeof(A)=___（不考虑边界对其） 
+
+
+该错题： 
+1、下面的函数实现在一个固定的书上加上一个数，有什么错误，改正 
+int add_n(int n) 
+{ 
+static int i=100; 
+i+=n; 
+return i; 
+} 
+2、就是大家说的少一个free的那道题 
+3、就是const 字符串不能被修改的问题 
+4、char p[5]; 
+char* s="12345"; 
+strcpy(p,s); 
+5、class A 
+{ 
+public: 
+A() { p=this; } 
+~A() { if(p!=NULL) { delete p; p=NULL; } } 
+A* p; 
+}; 
+这个问题我说一下，可能出题者自己也没意识到这个问题，因为在趋势的考试中这样 
+的error也出现了。 
+显然，出题者的意图是：delete this之后，不能操作这个对象了，所以，p=NULL是错 
+误的。但是还有一个错误：big-three原则，定义了析构函数，缺少了copy ctr和operato 
+r=。 
+ 
+ 
+ 回复人：Win32Boy(孤独犹箭) ( ) 信誉：100 2004-11-06 22:47:00 得分:0 
+ 
+ 
+? GZ.
+UP. 
+ 
+Top 
+ 
+ 回复人：happying(口袋) ( ) 信誉：100 2004-11-06 22:49:00 得分:0 
+ 
+ 
+? 1、int i=10, j=10, k=3; k*=i+j; k最后的值是___ 
+2、进程间通信的方式有__ __ __ __等。 
+3、网桥是独立于___协议的，（后面还有一句话，记不得了） 
+4、struct A 
+{ 
+char t:4; 
+char k:4; 
+unsigned short i:8; 
+unsigned long m; 
+} 
+sizeof(A)=___（不考虑边界对其） 
+
+
+该错题： 
+1、下面的函数实现在一个固定的书上加上一个数，有什么错误，改正 
+int add_n(int n) 
+{ 
+static int i=100; 
+i+=n; 
+return i; 
+} 
+2、就是大家说的少一个free的那道题 
+3、就是const 字符串不能被修改的问题 
+4、char p[5]; 
+char* s="12345"; 
+strcpy(p,s); 
+5、class A 
+{ 
+public: 
+A() { p=this; } 
+~A() { if(p!=NULL) { delete p; p=NULL; } } 
+A* p; 
+}; 
+这个问题我说一下，可能出题者自己也没意识到这个问题，因为在趋势的考试中这样 
+的error也出现了。 
+显然，出题者的意图是：delete this之后，不能操作这个对象了，所以，p=NULL是错 
+误的。但是还有一个错误：big-three原则，定义了析构函数，缺少了copy ctr和operato 
+r=。 
+ 
+Top 
+ 
+ 回复人：happying(口袋) ( ) 信誉：100 2004-11-06 23:04:00 得分:0 
+ 
+ 
+? ???????? 
+ 
+Top 
+ 
+ 回复人：Mega1212(MeGa) ( ) 信誉：100 2004-11-06 23:41:00 得分:0 
+ 
+ 
+? 看了之后感觉,完全,彻底无语,呵呵 
+ 
+Top 
+ 
+ 回复人：mybios(俊俊哥哥) ( ) 信誉：100 2004-11-06 23:42:00 得分:0 
+ 
+ 
+? 看上去题目很简单的哦。。 
+ 
+Top 
+ 
+ 回复人：linfeng1216(这件事很难) ( ) 信誉：99 2004-11-07 09:00:00 得分:0 
+ 
+ 
+? 这很难吗？ 
+ 
+Top 
+ 
+ 回复人：iicup(双杯献酒) ( ) 信誉：100 2004-11-07 09:48:00 得分:0 
+ 
+ 
+? 1、int i=10, j=10, k=3; k*=i+j; k最后的值是___ 
+// k = 60
+
+2、进程间通信的方式有__ __ __ __等。 
+// ....
+
+3、网桥是独立于___协议的，（后面还有一句话，记不得了） 
+// 传输层
+
+4、struct A 
+{ 
+char t:4; 
+char k:4; 
+unsigned short i:8; 
+unsigned long m; 
+} 
+sizeof(A)=___（不考虑边界对其） 
+// 6 (假设在 32bit系统)
+
+
+该错题： 
+1、下面的函数实现在一个固定的书上加上一个数，有什么错误，改正 
+int add_n(int n) 
+{ 
+static int i=100; // const int i =100;
+i+=n; // 删除 
+return i; // return i+n; 
+} 
+2、就是大家说的少一个free的那道题 
+3、就是const 字符串不能被修改的问题 
+4、char p[5]; // char p[6]; 
+char* s="12345"; 
+strcpy(p,s); 
+
+
+5、class A 
+{ 
+public: 
+A() { p=this; } 
+~A() { if(p!=NULL) { delete p; p=NULL; } } // if(p!=NULL)修改为 if((p!=0) && (p!=this))
+A* p; 
+}; 
+ 
+Top 
+ 
+ 回复人：dropingleaf(叶孤飞云) ( ) 信誉：89 2004-11-07 10:05:00 得分:0 
+ 
+ 
+? 无语，会得不多呀 
+ 
+Top 
+ 
+ 回复人：Selina_maomao() ( ) 信誉：100 2004-11-07 10:16:00 得分:0 
+ 
+ 
+? 4、struct A 
+{ 
+char t:4; 
+char k:4; 
+unsigned short i:8; 
+unsigned long m; 
+} 
+sizeof(A)=___（不考虑边界对其） 
+// 6 (假设在 32bit系统)
+
+
+
+我觉得应该是8吧，应该要考虑对齐的呢。 
+ 
+Top 
+ 
+ 回复人：oyljerry(☆勇敢的心☆－要开始写论文了) ( ) 信誉：115 2004-11-07 10:24:00 得分:0 
+ 
+ 
+? 3、网桥是独立于___协议的，（后面还有一句话，记不得了） 
+网桥同交换机没有本质的区别。在某些情况下，我们可以认为网桥就是交换机。
+不知，这里想问什么？ 
+ 
+Top 
+ 
+ 回复人：oncsdn(青蛙) ( ) 信誉：100 2004-11-07 10:44:00 得分:0 
+ 
+ 
+? 我认为
+class A 
+{ 
+A* p; 
+public: 
+A() 
+{ 
+p=this; 
+} 
+~A() 
+{ 
+if(p!=NULL) 
+{ 
+delete p; 
+p=NULL; 
+} 
+} 
+}; 
+
+绝对是TMBT的，谁这样写？ 
+ 
+Top 
+ 
+ 回复人：oncsdn(青蛙) ( ) 信誉：100 2004-11-07 10:46:00 得分:0 
+ 
+ 
+? struct A 
+{ 
+char t:4; 
+char k:4; //t.k 合并成 1个字节
+unsigned short i:8; //取 short 2 字节
+unsigned long m; //4 字节
+} 
+故
+我认为 7 字节 （不考滤对齐问题） 
+ 
+Top 
+ 
+ 回复人：oncsdn(青蛙) ( ) 信誉：100 2004-11-07 10:49:00 得分:0 
+ 
+ 
+? 考滤的话是 8 字节 
+ 
+Top 
+ 
+ 回复人：LittleLee(飞天猫) ( ) 信誉：102 2004-11-07 11:04:00 得分:0 
+ 
+ 
+? up 
+ 
+Top 
+ 
+ 回复人：oncsdn(青蛙) ( ) 信誉：100 2004-11-07 11:09:00 得分:0 
+ 
+ 
+? struct A 
+{ 
+char t:4; 
+char k:4; //t.k 合并成 1个字节
+unsigned short i:8; //取 short 2 字节
+unsigned long m; //4 字节
+} ;
+
+struct B
+{
+char t:4; 
+char k:4; //t.k 合并成 1个字节
+};
+
+struct C
+{
+unsigned short i:8; //取 short 2 字节
+};
+
+struct D
+{
+unsigned long m; //4 字节
+};
+
+
+int b = sizeof B; // == 1
+
+int c = sizeof C; // == 2
+
+int d = sizeof D; // == 4
+
+int a = sizeof A; // == 8
+
+int e = b+c+d; // == 7 
+ 
+Top 
+ 
+ 回复人：konista(M) ( ) 信誉：100 2004-11-07 11:17:00 得分:0 
+ 
+ 
+? 牛蛙，我试了，是8 
+ 
+Top 
+ 
+ 回复人：oncsdn(青蛙) ( ) 信誉：100 2004-11-07 11:26:00 得分:0 
+ 
+ 
+? TO ： konista(M)
+====================
+我上面不是写了么？
+
+如果按一个一个的计算的话，是 7 
+--------------------------------上面的 e 的值
+
+如果整个计算的话，是 8
+--------------------------------上面的 a 的值
+
+我想如果不对齐的话应该是 7 ，但在 VC 中我不知怎么才能得到 7 (我已把工程的对齐由 8 字节改为1字节，但结果还是 8 ) 
+ 
+Top 
+ 
+ 回复人：oyljerry(☆勇敢的心☆－要开始写论文了) ( ) 信誉：115 2004-11-07 11:32:00 得分:0 
+ 
+ 
+? vc编译器默认了对齐方式 
+ 
+Top 
+ 
+ 回复人：oncsdn(青蛙) ( ) 信誉：100 2004-11-07 11:34:00 得分:0 
+ 
+ 
+? 搞成了，在VC中，在结构体的定义前写上
+#pragma pack(1)
+那个结构体 A 的大小就是 7 
+ 
+Top 
+ 
+ 回复人：konista(M) ( ) 信誉：100 2004-11-07 11:36:00 得分:0 
+ 
+ 
+? #pragma pack(1) 
+ 
+Top 
+ 
+ 回复人：oyljerry(☆勇敢的心☆－要开始写论文了) ( ) 信誉：115 2004-11-07 11:36:00 得分:0 
+ 
+ 
+? #pragma pack(push)
+#pragma pack(1)
+
+...
+#pragma pack(pop) 
+ 
+Top 
+ 
+ 回复人：fisker0303(Thinking In Love) ( ) 信誉：100 2004-11-07 11:42:00 得分:0 
+ 
+ 
+? 学习，有些不会~ 
+ 
+Top 
+ 
+ 回复人：zhujianping_es(DavidRipple) ( ) 信誉：106 2004-11-07 16:23:00 得分:0 
+ 
+ 
+? int add_n(int n) 
+{ 
+static int i=100; 
+i+=n; 
+return i; 
+} 
+这道题考的是Parameters Verification.
+要做参数的合法性检查。
+
+5、class A 
+{ 
+public: 
+A() { p=this; } 
+~A() { if(p!=NULL) { delete p; p=NULL; } } 
+A* p; 
+}; 
+这题的错误应该在于delete p;
+如果你的类是 new 出来的，没有错误！ 但如果是在stack中呢？？
+还可以delete p 么？？？ 
+ 
+Top 
+ 
+ 回复人：bit1010(笑傲程序人间) ( ) 信誉：99 2004-11-07 19:17:00 得分:0 
+ 
+ 
+? struct A 
+{ 
+char t:4; 
+char k:4; 
+unsigned short i:8; 
+unsigned long m; 
+} 
+sizeof(A)=___（不考虑边界对其） 
+sizeof(A)=8
+进程间通信的方式有共享存储区、信号量。还有两个忘了，靠研时考过这个题。 
+ 
+Top 
+ 
+ 回复人：ByronLiu(hehe) ( ) 信誉：86 2004-11-07 20:09:00 得分:0 
+ 
+ 
+? 3.网桥是独立于网络层协议的,而路由器则依赖于网络层协议。 
+ 
+Top 
+ 
+ 回复人：yofly(阿飞) ( ) 信誉：100 2004-11-07 20:55:00 得分:0 
+ 
+ 
+? 学习学习 再学习 
+ 
+Top 
+ 
+ 回复人：oyljerry(☆勇敢的心☆－要开始写论文了) ( ) 信誉：115 2004-11-07 21:39:00 得分:0 
+ 
+ 
+? 进程间通信的方式有消息，socket ，管道，文件映射 
+ 
+Top 
+ 
+ 回复人：morisecue(魔力神球) ( ) 信誉：100 2004-11-12 14:52:00 得分:0 
+ 
+ 
+? char t:4怎么理解啊，不懂 
+ 
+Top 
+ 
+ 回复人：AgedBOY(禁欲的情种) ( ) 信誉：97 2004-11-12 16:09:00 得分:0 
+ 
+ 
+? 1、int i=10, j=10, k=3; k*=i+j; k最后的值是___ 
+/* 60 */
+
+2、进程间通信的方式有__ __ __ __等。 
+/* 内存映像文件、WM_COPYDATA、命名管道、Socket （这四个基本都基于Win32，但我不是说别的平台没有类似的，可能只是名字不同，意思一样。） */
+
+3、网桥是独立于___协议的，（后面还有一句话，记不得了） 
+/* 我讨厌计算机通讯，所以我进不了万恶的华为。 */
+
+4、struct A 
+{ 
+char t:4; 
+char k:4; 
+unsigned short i:8; 
+unsigned long m; 
+} 
+sizeof(A)=___（不考虑边界对其） 
+/* 我不知道你这是什么语法，Pascal吗？我讨厌Pascal，抱歉。在VC里，忽略冒号后面的鬼数字，那么默认的对齐方式下是4+4+4+4=16Bytes，所以在VC里，要把【无需对齐的成员变量摆放在一起，放在前面！】。加上#pragma pack(1)，虽然就是8了，但是成员数据寻址、读写效率会打折扣。严重时还会导致处理器错误！详见希望翻译的微软自己出的《Inside DirectX从入门到精通》的74页，7.1.3节。*/
+
+该错题： 
+1、下面的函数实现在一个固定的书上加上一个数，有什么错误，改正 
+int add_n(int n) 
+{ 
+static int i=100; 
+i+=n; 
+return i; 
+}
+/* 理论上讲，此题【无错】。但若指出需要进行参数验证？你是指对计算结果溢出的检查吧？不过这么出题，很明显就是想让人答不出，很SB很SB的题一道。 */
+
+2、就是大家说的少一个free的那道题 
+3、就是const 字符串不能被修改的问题 
+4、char p[5]; 
+char* s="12345"; 
+strcpy(p,s); 
+/* char p[6]，这个没什么，都知道。 */
+
+5、class A 
+{ 
+public: 
+A() { p=this; } 
+~A() { if(p!=NULL) { delete p; p=NULL; } } 
+A* p; 
+}; 
+/* 你可以去问问出题人“请问当A的对象由于某种原因被清除时，程序会出现什么运行结果？原因时什么？”。运行结果当然是非法操。但是为什么？如果他说是内存非法访问错误（可能大多数人都这么想），那么把他拉出去砍了。
+
+这道题非法操的原因是：堆栈溢出！为什么？
+
+因为A的对象被清除时，系统自动调用~A()，而~A()里一开始就执行delete this， 而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，而delete this又执行~A()，~A()又执行delete this，*/ 
+ 
+Top 
+ 
+ 回复人：showjancn(难得一剑)(CN) ( ) 信誉：100 2005-03-10 11:05:00 得分:0 
+ 
+ 
+? AgedBOY(禁欲的情种),对第5题的解法是决了，想了很久都没想出的来问题，就这样水落出！！
+顶！！ 
+ 
+Top 
+ 
+ 回复人：flinming(flinming) ( ) 信誉：100 2005-03-10 12:41:00 得分:0 
+ 
+ 
+? struct A 
+{ 
+char t:4; 
+char k:4; //t.k 合并成 1个字节
+unsigned short i:8; //取 short 2 字节
+unsigned long m; //4 字节
+} 
+
+8个，如果说对齐得话，是unsigned long m; //4 字节
+后面得数要与long对齐
+不要被“对齐”误倒 
+ 
+Top 
+ 
+ 回复人：mntcqtrend() ( ) 信誉：100 2005-03-11 12:36:00 得分:0 
+ 
+ 
+? struct A 
+{ 
+char t:4; 
+char k:4; //t.k 合并成 1个字节
+unsigned short i:8; //取 short 2 字节
+unsigned long m; //4 字节
+} 
+为什么合并成1个字节啊!! 
+ 
+Top 
+ 
+ 回复人：LongLongAgoImBoy(ThereIsAMe) ( ) 信誉：100 2005-03-11 12:52:00 得分:0 
+ 
+ 
+? 学习中 
+ 
+Top 
+ 
+ 回复人：sdgzhk(网络流氓) ( ) 信誉：100 2005-03-11 14:39:00 得分:0 
+ 
+ 
+? 问题:为什么(*(A)=NULL) == (~A())?好像没听过,学习学习.
+还有一个问题,VC中能赋NULL这个值的?我好像从来没成功过.指点一下,高手们. 
+ 
+Top 
+ 
+ 回复人：sdgzhk(网络流氓) ( ) 信誉：100 2005-03-11 14:46:00 得分:0 
+ 
+ 
+? 试过了,原一来指针都能赋值为NULL的.除指针外都会出错.学到东西了.
+理解错了,原来是delete *A == ~A();呵呵! 
+ 
+Top 
+ 
+ 回复人：shxng(星星) ( ) 信誉：100 2005-03-11 15:12:00 得分:0 
+ 
+ 
+? mark 
+ 
+Top 
+ 
+ 回复人：mntcqtrend() ( ) 信誉：100 2005-03-11 17:08:00 得分:0 
+ 
+ 
+? delete *A == ~A()；
+这什么意思？
+new干两件事，分配内存，调用构造函数初始化实例。
+delete干两件事，调用析构函数，释放内存。 
+ 
+Top 
+ 
+ 回复人：tudou614(魔蟹座的SATAN) ( ) 信誉：91 2005-03-11 17:27:00 得分:0 
+ 
+ 
+? AgedBOY(禁欲的情种),对第5题的解法是决了，想了很久都没想出的来问题，就这样水落出！！
+顶！！
+
+严重同意！！！ 
+ 
+Top 
+ 
+ 回复人：waterczh(中文) ( ) 信誉：100 2005-03-11 18:51:00 得分:0 
+ 
+ 
+? 又长了见识，合并还是不了解 
+ 
+Top 
+ 
+ 回复人：swimmingfish2004(something) ( ) 信誉：100 2005-03-11 18:58:00 得分:0 
+ 
+ 
+? MARK 
+ 
+Top 
+ 
+ 回复人：bigc2000(勇者无惧) ( ) 信誉：100 2005-03-11 19:41:00 得分:0 
+ 
+ 
+? int add_n(int n) 
+{ 
+static int i=100; // const int i =100;
+i+=n; // 删除 
+return i; // return i+n; 
+} 
+4、char p[5]; // char p[6]; 
+char* s="12345"; 
+strcpy(p,s); 
+
+严格的说这两个都没有错啊(至少符合C99规范的)
+我想出题的人是说 语言逻辑问题
+
+第一个是执行第二次add_n()时结果不正确.
+第二题,说改成cha p[6],改成p[7]就不行,改成 p[1]都可以,只是结果可能想不到 
+ 
+Top 
+ 
+ 回复人：swimmingfish2004(something) ( ) 信誉：100 2005-03-11 19:47:00 得分:0 
+ 
+ 
+? unsigned short i:8; //取 short 2 字节，
+为什么呀？ 
+ 
+Top 
+ 
+ 回复人：aben456(hunting job) ( ) 信誉：96 2005-07-12 20:47:00 得分:0 
+ 
+ 
+? int add_n(int n) 
+{ 
+static int i=100; 
+i+=n; 
+return i; 
+}
+
+考的是static
+当add_n(100)调用一次后,下次调用是 i值已经为200 
+ 
+Top 
+ 
+ 回复人：joinrry(骑着小猪去流浪) ( ) 信誉：98 2005-07-12 21:32:00 得分:0 
+ 
+ 
+? int add_n(int n) 
+{ 
+static int i=100; 
+i+=n; 
+return i; 
+}
+
+语法无错，是否功能有错。楼主没有写清题目？ 
+ 
