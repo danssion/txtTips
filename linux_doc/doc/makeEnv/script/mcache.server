@@ -1,0 +1,65 @@
+#!/bin/sh
+export LD_LIBRARY_PATH=$HOME/dev/lib/
+ports="11211"
+if [ x$2 = 'x' ]
+then
+        if [ x$1 = 'x' ]
+        then
+                echo "Usage: $0 (start|stop|restart|status)"
+                exit;
+        fi 
+        for port in $ports; do
+                $0 $1 $port
+        done
+        exit;
+fi
+
+port=$2
+pid_file=$HOME/dev/log/memcached.$port.pid
+user=$USER
+bin_file=$HOME/dev/bin/memcached
+stat_file=$HOME/dev/bin/memstat
+
+tnum=0
+test -f $pid_file && pid=`cat $pid_file` && test -n $pid && tnum=`ps -A | grep  "^ *$pid" | wc -l`;
+case "$1" in
+        start)
+                if [ $tnum = "1" ]
+                then
+                        echo "Memcached @$port is running"
+                else
+                        echo "Starting Memcached @$port"
+                        $bin_file -d -p $port -U $port -P $pid_file -m128 -t1
+                fi
+        ;;
+
+        stop)
+                if [ $tnum = "1" ]
+                then
+                        echo "Shutting down Memcached @$port (pid:$pid)"
+                        kill -3 $pid
+                        rm $pid_file
+                else
+                        echo "Memcached @$port is not running"
+                fi
+        ;;
+
+        status)
+                if [ $tnum = "1" ]
+                then
+                   $stat_file --servers=localhost:$port 
+                else
+                        echo "Memcached @$port is not running"
+                fi
+        ;;
+
+        restart)
+                $0 stop $2
+                sleep 1
+                $0 start $2
+        ;;
+
+        *)
+                echo "Usage: $0 (start|stop|restart|status)"
+        ;;
+esac

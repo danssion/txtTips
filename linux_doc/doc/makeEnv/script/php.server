@@ -1,0 +1,50 @@
+#!/bin/sh
+pid_file=$HOME/dev/log/php.pid
+user=$USER
+bin_file=$HOME/dev/bin/spawn-php.sh
+
+tnum=0
+test -f $pid_file && pid=`cat $pid_file` && test -n $pid && tnum=`ps -A | grep  "^ *$pid" | wc -l`;
+case "$1" in
+        start)
+                if [ $tnum = "1" ]
+                then
+                        echo "PHP-FastCgi is running"
+                else
+                        echo "Starting PHP-FastCgi"
+                        $bin_file | sed 's/^.*PID: //g' > $pid_file
+                        echo  "Pid: "`cat $pid_file`
+                fi
+        ;;
+
+        stop)
+                if [ $tnum = "1" ]
+                then
+                        echo "Shutting down PHP-FastCgi (pid:$pid)"
+                        kill -3 $pid
+                        rm $pid_file
+                else
+                        echo "PHP-FastCgi is not running"
+                fi
+        ;;
+
+        status)
+                if [ $tnum = "1" ]
+                then
+                        echo "Process list of PHP-FastCgi (pid:$pid)"
+                        ps -fA | grep -E "^ *$user *($pid|[0-9]+ *$pid)"
+                else
+                        echo "PHP-FastCgi is not running"
+                fi
+        ;;
+
+        restart)
+                $0 stop
+                sleep 1
+                $0 start
+        ;;
+
+        *)
+                echo "Usage: $0 (start|stop|restart|status)"
+        ;;
+esac

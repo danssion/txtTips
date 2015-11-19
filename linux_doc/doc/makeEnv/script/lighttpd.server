@@ -1,0 +1,47 @@
+#!/bin/sh
+port=80
+pid_file=$HOME/dev/log/lighttpd/lighttpd.pid
+user=$USER
+conf_file=$HOME/dev/etc/lighttpd/lighttpd.conf
+bin_file=$HOME/dev/sbin/lighttpd
+tnum=0
+test -f $pid_file && pid=`cat $pid_file` && test -n $pid && tnum=`ps -A | grep  "^ *$pid" | wc -l`;
+case "$1" in
+        start)
+                if [ $tnum = "1" ]
+                then
+                        echo "Lighttpd is running"
+                else
+                        echo "Starting Lighttpd"
+                        $bin_file -f $conf_file
+                fi
+        ;;
+
+        stop)
+                if [ $tnum = "1" ]
+                then
+                        echo "Shutting down Lighttpd (pid:$pid)"
+                        kill -3 $pid
+                else
+                        echo "Lighttpd is not running"
+                fi
+        ;;
+
+        status)
+                if [ $tnum = "1" ]
+                then
+                        curl -s http://localhost:$port/server-status | grep -A10000 '<body>' | grep -A10000 'Server-Status' | grep -B10000 'Traffic' | sed 's/<[^<>]*>/  /g' | sed 's/^ *\(.*(\)/\1/g'
+                else
+                        echo "Lighttpd is not running"
+                fi
+        ;;
+
+        restart)
+                $0 stop
+                $0 start
+        ;;
+
+        *)
+                echo "Usage: $0 (start|stop|restart|status)"
+        ;;
+esac

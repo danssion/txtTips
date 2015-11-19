@@ -1,0 +1,252 @@
+egrep -ril '<?php ' ./includes/languages/*/html_includes | egrep -e "\.php$" | wc -l 
+grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{print$1}' | sort -rn | wc -l
+./assistantShell.sh -i error | awk 'FS=" " {print $1; sum+=$1} END {print sum} '
+ head -n 20000000 2015081400.log | grep "\"plt\":\"0\"" | grep "\"type\":\"A\"" | awk -F "\"posi\":" '{print $2}' | awk -F "," '{print $1}' | sort | uniq -c
+./assistantShell.sh -i error | gawk -mf 3000000 'FS=" " {print $1; sum+=$1} END {print sum} '
+find ./ -depth -name '*.php' | grep -E "^./[a-z]{4,}" | xargs grep -El '*meta_tags_products_description
+find -name "x11-common*" | xargs -I{} cp -a {} [dir]
+sshfs -o idmap=user,umask=0000,uid=1000,gid=1000 duanxiang@192.168.12.185:/home/duanxiang/codes -p 25552 /home/danssion/server-dir
+fusermount -u /home/danssion/server-dir/
+
+find -name "*.php" | grep -E "(\.\/module|\.\/externals\/common\/module).*" | xargs ls -aSl
+
+sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
+
+scp -P 25552 newcart@192.168.12.54:/home/newcart/newcart/litb_online/includes/templates/dev_v2/flash/tpl_categories_menu_de.html ./includes/templates/dev_v2/flash/
+
+sudo mount //192.168.12.5/litb-writable ./share-server/ -t smbfs -o auto,iocharset=utf8
+sudo mount //192.168.12.5/litb-readonly ./share-server/ -t cifs -o auto,iocharset=utf8
+
+sudo apt-get install sshfs
+sshfs yourname@remote-host:/path/to/your/dir ~/ssh-server
+
+export LANG=zh_CN.UTF-8
+setenv LANG zh_CN.UTF-8
+
+/etc/init.d/networking
+
+svn propset svn:keywords "Date Author Revision Id" protected/controllers/
+
+tar xvf abc.tar -C ./abc/
+tar czvf stuff --exclude=danssion/*
+tar -zcvf - stuff --exclude=danssion/.cache | openssl des3 -salt -k tardepassword | dd of=stuff.des3
+dd if=stuff.des3 | openssl des3 -d -k tardepassword | tar zxf -
+
+//在系统根目录下，查找文件为普通文件，属于student用户的，2天以前的，并且查找时不包含/usr/bin目录的文件名为main.c的文件，并将结果输出到屏幕, 对上例中搜索的结果进行删除操作：
+find / -path "/usr/bin" -prune -o -name "main.c" -user student -type f -mtime +2 -print -exec rm {} \;
+
+find . -user root -o -path "*.svn*" -prune| xargs sudo chown danssion:danssion
+find . -path "*.svn*" -prune -o  -user root | egrep "[^s][^n]{1,1}$" | xargs sudo chown danssion:danssion
+find . -type f -name "*.txt" | xargs -I {} cp {}  /tmp/n/
+find ./output9/ -name "part*" | xargs -i  cat >> ./output9/part-all
+
+pkg_info | grep ***
+dmesg | grep -i CPU
+sysctl -a | grep -i cpu
+sysctl -a | grep -i memory
+Graphics Card info:
+1.lspci  2.modinfo  3.lsmod  4.hwbrowser  5.dmidecode，从bios中读取信息
+6、lspci |grep VGA 7、如果是nvdia的话，可以试试glxinfo
+
+freeBSD:
+install php5-extensions
+FreeBSD# cd /usr/ports/lang/php5-extensions/
+FreeBSD# make config
+FreeBSD# make BATCH=yes install
+FreeBSD# make install clean
+FreeBSD# make clean
+FreeBSD# rehash
+freebsd# cat /var/run/dmesg.boot |grep CPU
+cd /usr/ports/misc/cpuid
+make install clean
+
+centerOS:
+lsb_release -a
+cat /etc/redhat-release
+rpm -q centos-release
+
+pecl install pecl_http
+source ~/.bashrc
+
+log shell
+head access_7k7kflash.log -n 10 | awk '$2!="" { printf "%15s %s %20s %s request:%s state:%s refer:%s \n",$1,"\t",$4,$5,$7,$9,$11}' | sed G
+
+head access_1.log -n 10 | sed 's/\[//g' | sed 's/\]//g' | awk '{if ($7!~/(mp3|swf)$/) printf  "%s\t%s\t%s\tstatus:%s\tsize:%s\n",$1,$4,$7,$9,$10 }'
+
+ls /data/disk/dx/search/data/*.log |xargs -n 1 grep 'record user action' |awk '{print $(NF-2), $(NF-1), $NF}'
+xargs -P 4 -n 10
+find /data/disk/dx -maxdepth 1 -type f | xargs -P 5 -n 1 /home/dx/git_c++/dataPush/pushMysql >> /home/dx/git_c++/dataPush/pushMysql.log
+
+free -g
+To free pagecache, use echo 1 > /proc/sys/vm/drop_caches
+free dentries and inodes 2 ; free pagecache, dentries and inodes
+
+date -d "@1321884905" +%Y-%m-%d
+
+*** 包管理
+    dpkp
+    dpkg-query
+    -l
+    -s 输出包的状态
+    -L 列出一个包的所有文件
+    -S 列出一个文件属于哪个包
+    -p 打印包的信息
+
+    **** 查找某个包
+    apt-cache search pkg-name
+
+git
+git init --bare game_data_mining
+git rm --cache 
+
+git config --global user.email "danssion@sina.com"
+git diff (--cached)
+git add 
+git commit
+git show [branch name] [HEAD]
+git tag [tag name] [commit hash]
+git grep
+git remote add origin git@github.com:github用户名/Helloworld.git 
+git push -u origin master
+//for github
+git clone 
+git remote add upstrean
+git remote show upstrean
+git fetch upstrean 
+git merge upstrean/master
+//for git useful
+git branch -m master part2 # 重命名 "master" 分支到 "part2"
+git checkout SHA1 -b master 
+
+mysql
+service mysqld [start][restart][stop]
+/etc/inint.d/mysqld [start][restart][stop]
+safe_mysqld&
+mysqladmin shutdown
+mysqlslap --defaults-file=/opt/modules/mysql/my.cnf --concurrency=50,100 --iterations=1 --auto-generate-sql --auto-generate-sql-load-type=write --engine=innodb --number-of-queries=200 -S/tmp/mysql.sock
+show create table **** //show partition information
+explain partitions select语句 通过此语句来显示扫描哪些分区，及他们是如何使用的
+show slave/master status\G;
+start slave与stop slave来开启和关闭同步。
+CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
+
+
+vim
+快捷键------------------------------------
+word: w,e,b W,E,B,gU,gu
+line: 0,^,$,g_,[N]G,gg,G
+char: f,t,F,T,%[([{],*,#
+select: v[ia][wWsp"')]}] , [v,V,<C-v>] [J <> =]
+Vim-ctags--------------------------------
+ctags -R -o ~/.vim/ctags/pythontags /somepythondir/
+set tags=/home/xxx/xx/tags, xxxx/tags,......
+vim -t class | method | variable
+:ta tagname 跳转到标签tagname定义的地方
+:stag tagname 在分割窗口中查看包含tagname的文件
+:tags 查看到达当前位置所经过的标签路径
+:ts tagname 列出匹配tagname的标签，如为空，则使用标签栈中最后的标签
+:tnext   tselect tagname
+:tf 跳转至第一个匹配的标签
+:tl 跳转至最后一个匹配的标签
+ctrl-] ：跳转至光标所在对象定义之处
+ctrl-t ：返回跳转前位置
+vim可以从一个函数调用跳转到其函数定义(快捷键是CTRL+],上一个CTRL+t)
+:help 29.1
+折叠------------------------------
+set fdm=[foldmethod]可以设置折叠模式
+manual        手动建立折叠。
+indent          相同缩进距离的行构成折叠。
+expr             用表达式来定义折叠，'foldexpr' 给出每行的折叠级别。
+marker         标志用于指定折叠。
+syntax          语法高亮项目指定折叠。
+diff               没有改变的文本构成折叠
+:set foldenable进行设置。
+zf折叠选择的文字，
+zf#j创建光标下#行的折叠，
+zf/string创建从当前光标到string的折叠，
+zfaB创建当前被B划定的折叠块。
+zc关闭当前的折叠，
+zo打开当前的折叠，
+zM关闭所有的折叠，
+zr打开一个水平的折叠，
+zR打开所有的折叠，
+zj移动到下一个折叠，
+zk移动到前一个折叠，
+zm关闭一个水平的折叠，
+zn关闭折叠功能，
+zN重新打开折叠功能。
+多窗口------------------------------------------------
+改变窗口大小
+CTRL-W -    使得当前窗口高度减 N (默认值是 1)。 CTRL-W +    使得当前窗口高度加 N (默认值是 1)
+CTRL-W <    使得当前窗口宽度减 N (默认值是 1)。 CTRL-W >    使得当前窗口宽度加 N (默认值是 1)
+
+vim 插件管理pathogen的使用
+进入.vim/bundle目录
+执行git clone git://github.com/scrooloose/nerdtree.git
+
+dpkg -l
+dpkg-query -L
+rpm -ql 
+
+ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+
+rename s/_l//g *.swf
+ cp $(find -name "1010*.gif") $([cmd2])
+ cp $(ls /kkshow/demo/6 | sed 's/.swf/.gif/g') $([cmd2])
+
+netstat
+-a (all)显示所有选项，默认不显示LISTEN相关
+-t (tcp)仅显示tcp相关选项
+-u (udp)仅显示udp相关选项
+-n 拒绝显示别名，能显示数字的全部转化成数字。
+-l 仅列出有在 Listen (监听) 的服務状态
+
+-p 显示建立相关链接的程序名
+-r 显示路由信息，路由表
+-e 显示扩展信息，例如uid等
+-s 按各个协议进行统计
+-c 每隔一个固定时间，执行该netstat命令。
+
+提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到
+
+:set nobomb bomb?
+
+x window:
+sudo restart lightdm
+sudo service lightdm restart
+sudo pkill x
+
+ ls `which crontab` -al
+ps aux | grep php-fpm | head -n 1 | awk '{printf "%s" , $2}' | xargs kill
+ps -e -o 'pid,comm,args,pcpu,rsz,vsz,stime,user,uid'  其中rsz是是实际内存
+pmap -d 14596
+pmap $(pgrep php-cgi |head -1)
+
+(select * from Db_sns0.k7_user_sns_count5)  union (select * from Db_sns0.k7_user_sns_count6) union (select * from Db_sns7.k7_user_sns_count5)  union (select * from Db_sns7.k7_user_sns_count6);
+UPDATE  `crm_customer` AS c LEFT JOIN  `crm_user` AS u ON u.id = c.sales_d SET c.`sales_d` = ( CASE WHEN u.`id` IS NULL THEN 0 ELSE u.`acl_user_id` END )
+
+ps -A -o stat,ppid,pid,cmd | grep -e '^[Zz]'
+find ./ -type f -maxdepth 1 -ok ls -al {} \;
+find ./ -type f -maxdepth 1 -exec ls -al {} \;
+find . -name "*.log" -exec rm {} \;
+
+uname -a || cat /etc/issue  ||   lsb_release -a   ||   cat /etc/redhat-release(针对redhat，Fedora)
+
+lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  iostat -c -d -x  pidstat vmstat w
+setsid traceroute  
+
+dmesg id
+tmux ls
+tmux attach -t  $n
+
+nc:
+[root@hatest2 tmp]# nc -l 1234 |tar xzvf -
+[root@hatest1 ~]# ll -d nginx-0.6.34
+drwxr-xr-x 8 1000 1000 4096 12-23 17:25 nginx-0.6.34
+[root@hatest1 ~]# tar czvf - nginx-0.6.34|nc 192.168.228.222 1234
+nc -lp 1234 > install.log
+nc -w 1 192.168.228.222 1234 < install.log
+
+清空yum 缓存，并重建yum缓存，执行以下命令：
+yum clean all && yum clean metadata && yum clean dbcache && yum makecache && yum update

@@ -1,0 +1,302 @@
+#Extract files. then enter dir "src"
+tar jxf src.tar.bz2 && cd src && export LITB_SRC_DIR=$PWD
+
+#compile all codes
+
+#compile mysql.
+cd mysql-5.1.35 && make clean; ./configure --prefix=$HOME/dev --with-tcp-port=8881 --with-charset=utf8 --with-extra-charsets=gb2312,gbk,big5,latin1,ascii --with-unix-socket-path=$HOME/dev/tmp/mysql.sock --with-mysqld-user=$USER --with-plugins=innobase && make && make install; cd ../
+
+#Compile mysql-5.5.8.tar.gz+
+yum install cmake.x86_64
+#wget  mysql
+#groupadd mysql
+#useradd -r -g mysql mysql
+#tar -zvxf mysql-5.5.9.tar.gz
+如果是重装MySql，请先删除my.cnf如： rm -rf /etc/my.cnf
+#mkdir /opt/module/mysql-5.5.9
+#mkdir /opt/data/mysql/
+#cd [path to source]/mysql-5.5.9
+#cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DINSTALL_DATADIR=/usr/local/mysql/data -DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1
+参数说明：
+-DCMAKE_INSTALL_PREFIX=/opt/module/mysql-5.5.9        //安装目录
+-DINSTALL_DATADIR=/opt/data/mysql         //数据库存放目录
+-DDEFAULT_CHARSET=utf8                    　　　　//使用utf8字符
+-DDEFAULT_COLLATION=utf8_general_ci            //校验字符
+-DEXTRA_CHARSETS=all                        　　　　//安装所有扩展字符集
+-DENABLED_LOCAL_INFILE=1                    　　  //允许从本地导入数据
+#make
+#make install
+重新编译时，需要清除旧的对象文件和缓存信息。 
+# make clean
+# rm -f  CMakeCache.txt
+# rm -rf /etc/my.cnf
+# cd  /opt/modules/mysql-5.5.9
+# chown -R root:mysql .　//把当前目录中所有文件的所有者所有者设为root，所属组为mysql
+# chown -R mysql:mysql data
+# cp my.cnf.default my.cnf
+# 配置文件 my.cnf
+# 创建系统数据库的表
+# scripts/mysql_install_db --user=mysql
+# 设置环境变量 /etc/profile ：
+export MYSQL_HOME=/opt/modules/mysql
+export PATH=$PATH:$PHP_HOME/bin:$PHP_HOME/sbin:$MYSQL_HOME/bin
+# 手动启动MySQL：
+# ./bin/mysqld_safe --user=mysql & 　 //启动MySQL，但不能停止
+# 关闭MySQL服务
+# mysqladmin -u root -p shutdown　
+# 通过脚本启动MySQL：
+# ln -s /usr/local/mysql/support-files/mysql.server /usr/local/mysql
+# mysql.server start //启动mysql
+# mysql.server stop //停止mysql
+#在引导时启动MySQL ：
+# ln -s /usr/local/mysql/support-files/mysql.server /etc/rc.d/init.d/mysql
+# ln -s /usr/local/mysql/mysql.server /etc/rc.d/init.d/mysql 
+# cd /etc/rc.d/init.d
+# chkconfig --add mysql　　　　　　 //配置是否自动启动, chkconfig --del mysql 可删除
+# chmod +x /etc/rc.d/init.d/mysql    //添加如执行权限
+# 设定mysql密码
+# /opt/modules/mysql/bin/mysqladmin -u root password '223238'
+
+
+
+
+#compile libevent
+cd libevent-1.4.11-stable && make clean; ./configure --prefix=$HOME/dev && make && make install; cd ../
+
+#compile libiconv
+cd libiconv-1.13 && make clean; ./configure --prefix=$HOME/dev && make && make install; cd ../
+
+#compile memcached
+cd memcached-1.4.0 && make clean; ./configure --prefix=$HOME/dev --with-libevent=$HOME/dev && make && make install; cd ../
+
+#compile libmemcached
+cd libmemcached-0.31 && make clean; ./configure --prefix=$HOME/dev && make && make install; cd ../
+
+#compile php
+cd php-5.2.10 && make clean; ./configure --prefix=$HOME/dev --enable-fastcgi --enable-force-cgi-redirect --enable-discard-path --with-config-file-path=$HOME/dev/etc/php/ --with-config-file-scan-dir=$HOME/dev/etc/php/mods-enable/ --with-pear --enable-zip && make ZEND_EXTRA_LIBS='-liconv' && make install; cd ../
+
+php-5.3.1: ./configure --prefix=$HOME/dev --enable-fastcgi --enable-force-cgi-redirect --enable-discard-path --with-config-file-path=$HOME/dev/etc/php/ --with-config-file-scan-dir=$HOME/dev/etc/php/mods-enable/ --with-pear –enable-zip && make && make install;
+
+php-5.3.5: configrue  --prefix=/opt/modules/php-5.5.20 --with-config-file-path=/usr/local/etc/php/conf --with-config-file-scan-dir=/usr/local/etc/php/conf/enable-ext --enable-re2c-cgoto --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-gd-native-ttf --enable-mbstring --enable-zip --enable-zend-multibyte --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd  --enable-soap --enable-sockets 
+
+php-5.5.24: configrue  --prefix=/opt/modules/php-5.5.24 --with-config-file-path=/opt/modules/php-5.5.24/etc --with-config-file-scan-dir=/opt/modules/php-5.5.24/etc/enable-ext --enable-re2c-cgoto --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-gd-native-ttf --enable-mbstring --enable-zip --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd  --enable-soap --enable-sockets --enable-opcache
+
+php-5.4.14: ./configure --prefix=/opt/modules/php  --with-config-file-path=/opt/modules/php/etc --with-config-file-scan-dir=/opt/modules/php/etc/mods-enable --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-mbstring --enable-zip  --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-soap --enable-sockets 
+
+php-5.4.42: ./configure --prefix=/opt/modules/php-5.4.42  --with-config-file-path=/opt/modules/php-5.4.24/etc --with-config-file-scan-dir=/opt/modules/php-5.4.42/etc/mods-enable --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp --enable-mbstring --enable-zip  --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-soap --enable-sockets --with-curl --with-mhash --enable-pcntl
+#ln -s /opt/modules/php/bin/* /usr/local/bin/
+#ln -s /opt/modules/php/sbin/php-fpm /usr/local/sbin/php-fpm
+
+php-5.6.14: ./configure --prefix=/usr/local/php --with-config-file-path=/etc/php --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem  --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-xmlrpc --with-curl --with-imap-ssl
+
+php-5.6.14 for baofeng: ./configure --prefix=/opt/modules/php5.6.14 --with-config-file-path=/opt/modules/php5.6.14/etc --with-config-file-scan-dir=/opt/modules/php5.6.14/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-zip --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-curl  --with-bz2 --enable-pcntl
+
+
+
+
+#update php.ini
+cgi.fix_pathinfo=0
+extension_dir = "/usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/"
+expose_php = Off
+allow_url_fopen = Off
+open_basedir = /tmp/:/var/www/
+disable_functions = exec,system,passthru,chroot,scandir,chgrp,shell_exec,proc_open,proc_get_status,ini_alter,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server
+date.timezone = Asia/Shanghai
+
+
+compile php-extension-curl
+cd php-5.2.10/ext/curl && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../../../
+
+#compile php-extension-mhash
+cd php-5.2.10/ext/mhash && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../../../
+
+#compile php-extension-mcrypt
+yum install libmcrypt-devel.x86_64
+cd php-5.2.10/ext/mcrypt && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../../../
+
+#compile php-extension-bcmath
+cd php-5.2.10/ext/bcmath && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config --with-mysql=$HOME/dev && make && make install && cd ../../../
+
+#compile php-extension-zlib
+cd php-5.2.10/ext/zlib && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../../../
+
+#compile php-extension-mysqli
+cd php-5.2.10/ext/mysqli && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config --with-mysqli=$HOME/dev/bin/mysql_config && make && make install && cd ../../../
+
+#compile php-extension-pdo-mysql
+cd php-5.2.10/ext/pdo_mysql && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config --with-pdo-mysql=$HOME/dev&& make && make install && cd ../../../
+
+#compile php-extension-pdo-sqlite
+cd php-5.2.10/ext/pdo_sqlite && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../../../
+
+#compile php-extension-gd
+#locate libfreetype.so  --with-freetype-dir
+cd php-5.2.10/ext/gd && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config --with-jpeg-dir=/usr/lib --with-png-dir=/usr/lib && make && make install && cd ../../../
+phpize && ./configure --with-php-config=php-config --with-gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu --enable-gd-native-ttf --enable-shared --enable-static  --enable-gd-jis-conv
+
+#compile php-extension-APC
+cd APC-3.1.2 && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../
+
+#compile php-extension-igbinary
+cd igbinary && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../
+
+#compile php-extension-memcached
+mkdir -p $HOME/dev/include/php/ext/json ; cp $HOME/src/php-5.2.10/ext/json/php_json.h $HOME/dev/include/php/ext/json/ && cd php-memcached-1.0.0 && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config --disable-memcached-session --enable-memcached-igbinary --with-libmemcached-dir=$HOME/dev && make && make install && cd ../
+
+#compile php-extension-xdebug
+cd xdebug-2.0.4 && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../
+
+#compile php-extension-imagick
+cd imagick-2.2.2 && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../
+
+#compile lighttpd
+cd lighttpd-1.4.22 && make clean; ./configure --prefix=$HOME/dev && make && make install && cp $HOME/src/lighttpd/src/spawn-fcgi $HOME/dev/sbin/; cd ../
+
+#nignx lua
+apt-get install -y lua5.1 liblua5.1-0 liblua5.1-0-dev
+yum install lua-dev
+wget https://github.com/chaoslawful/lua-nginx-module/archive/master.zip -O ngx_lua_module.zip
+wget https://github.com/simpl/ngx_devel_kit/archive/master.zip -O ngx_devel_kit.zip
+
+#compile nginx
+cd nginx-1.3.16 && make clean; ./configure --prefix=/opt/modules/nginx --conf-path=/opt/modules/nginx/conf/nginx.conf  --sbin-path=/opt/modules/nginx/sbin --pid-path=/tmp/nginx.pid \
+--http-log-path=/opt/logs/nginx_access.log \
+--error-log-path=/opt/logs/nginx_error.log \
+  --with-http_ssl_module \
+	--with-http_gzip_static_module \
+	--with-poll_module \
+	--with-pcre=/opt/modules/src/pcre \
+	--with-http_stub_status_module \
+	--add-module=/opt/modules/src/ngx_devel_kit-master 	--add-module=/opt/modules/src/lua-nginx-module-master
+
+#nginx nginx-1.3.16
+./configure --prefix=/usr/local/nginx --with-google_perftools_module --user=www --group=www --with-http_stub_status_module --with-openssl=/usr/ --with-pcre
+./configure --sbin-path=/usr/local/sbin --with-http_ssl_module --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --with-http_stub_status_module
+
+#nginx nginx-1.7.10 with lua
+#http://wiki.nginx.org/HttpLuaModule#Installation
+#https://codeload.github.com/simpl/ngx_devel_kit/tar.gz/v0.2.19
+#https://codeload.github.com/openresty/lua-nginx-module/tar.gz/v0.9.16
+#http://www.lua.org/download.html
+#http://luajit.org/install.html
+http://luajit.org/install.html
+tar zxf LuaJIT-2.0.4.tar.gz
+cd LuaJIT-2.0.4
+make
+make install
+
+./configure --prefix=/opt/modules/nginx-1.7.10 --with-ld-opt='-Wl,-rpath,/usr/local/lib/' --add-module=/home/duanxiang/lua-nginx-module-0.9.16 --add-module=/home/duanxiang/ngx_devel_kit-0.2.19
+make -j2
+make install
+
+#do some config
+
+#make some dirs and goto $HOME/dev
+mkdir $HOME/webroot ; cd $HOME/dev && mkdir tmp ; mkdir -p log/php ; mkdir -p log/lighttpd; mkdir -p etc
+
+#php config
+
+#copy config files
+cp -r $LITB_SRC_DIR/conf/php $HOME/dev/etc/ && cd $HOME/dev/etc/php
+
+#replace "##BASE_DIR##" to "$HOME/dev"
+sed -i "s/##BASE_DIR##/\/home\/$USER\/dev/g" php.ini && sed -i "s/##BASE_DIR##/\/home\/$USER\/dev/g" mods-available/xdebug.ini
+
+#lighttpd config
+
+#copy config files
+cp -r $LITB_SRC_DIR/conf/lighttpd $HOME/dev/etc/ && cd $HOME/dev/etc/lighttpd
+
+#replace "##BASE_DIR##" to "$HOME/dev"
+sed -i "s/##BASE_DIR##/\/home\/$USER\/dev/g" lighttpd.conf
+
+#replace "##USER##" to "$USER"
+sed -i "s/##USER##/$USER/g" lighttpd.conf
+
+#replace "##PORT##" to "%{color:red}YOUR_LIGHTTPD_LISTEN_PORT*%"
+sed -i "s/##PORT##/%{color:red}YOUR_LIGHTTPD_LISTEN_PORT*%/g" lighttpd.conf
+
+#install neon
+cd neon-0.29.6/
+./configure --prefix=/usr/local/neon
+make && make install
+
+#install subversion
+cd subversion-1.7.9 
+./configure --with-apr=/usr/bin/apr-config --with-apr-util=/usr/bin/apu-config --with-ssl --with-zlib=/usr/local/zlib/ --enable-maintainer-mode  --with-neon=/usr/local/neon/
+
+#make startup scripts
+
+#copy script files
+cp -r $LITB_SRC_DIR/scripts/ $HOME/dev/bin && cd $HOME/dev/bin
+
+#copy mysql startup script
+cp $HOME/dev/share/mysql/mysql.server $HOME/dev/bin/
+
+#open mcache.server and spawn-php.sh, then change $port as you like.
+
+#install mysql db
+
+$HOME/dev/bin/mysql_install_db
+
+#install pear packages
+$HOME/dev/bin/pear channel-update pear.php.net
+$HOME/dev/bin/pear upgrade-all
+$HOME/dev/bin/pear channel-discover pear.phpunit.de
+$HOME/dev/bin/pear channel-discover pear.phing.info
+$HOME/dev/bin/pear install --alldeps phpunit/PHPUnit
+$HOME/dev/bin/pear install channel://pear.php.net/VersionControl_SVN-0.3.3
+$HOME/dev/bin/pear install channel://pear.php.net/Console_ProgressBar-0.5.2beta
+$HOME/dev/bin/pear install channel://pear.php.net/XML_Serializer-0.20.0
+$HOME/dev/bin/pear install --alldeps phing/phing
+
+#Now, you can control your service with these cmd, try it.
+$HOME/dev/bin/lighttpd.server
+$HOME/dev/bin/mysql.server
+$HOME/dev/bin/php.server
+$HOME/dev/bin/mcache.server
+
+#mysql master -> slave
+#修改主服务器master,从服务器slave
+#vi ./my.cnf
+[mysqld]
+log-bin=mysql-bin   //[必须]启用二进制日志
+server-id=222       //[必须]服务器唯一ID，默认是1，一般取IP最后一段
+#重启两台服务器的mysql
+/etc/init.d/mysql restart
+#在主服务器上建立帐户并授权slave:
+mysql> GRANT REPLICATION SLAVE ON *.* to 'mysqlrep'@'192.168.4.33' identified by 'rep20332';
+#登录主服务器的mysql，查询master的状态
+mysql> show master status;
+#配置从服务器Slave：
+mysql> change master to master_host='192.168.4.32',master_user='mysqlrep',master_password='rep20332',master_log_file='mysql-bin.000001',master_log_pos=792;
+mysql> start slave;    //启动从服务器复制功能
+#检查从服务器复制功能状态：
+#mysql> show slave status
+################## 备用主从 切换  ###########################
+#设置为只读(可选)
+mysql 32> set global read_only=1;
+mysql 32> show variables like 'read_only';
+给主库mysql加read only 锁：
+mysql 32> flush tables with read lock;
+#33 为主
+mysql 33> GRANT REPLICATION SLAVE ON *.* to 'mysqlrep'@'192.168.4.32' identified by 'rep20333';
+mysql 33> stop slave io_thread;
+mysql 33> show processlist 
+# 直到看到状态都为：xxx has read all relay log 表示更新都执行完毕
+mysql 33> stop slave;
+mysql 33> stop slave io_thread;
+reset master;
+mysql 33> show master status;
+#32 为从
+mysql 32> change master to master_host='192.168.4.33',master_user='mysqlrep',master_password='rep20333',master_
+log_file='mysql-bin.000001',master_log_pos=120;
+mysql 32> start slave; 
+
+
+
+
+
+
+

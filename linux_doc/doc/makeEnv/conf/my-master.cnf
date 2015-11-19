@@ -1,0 +1,74 @@
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+[mysqld]
+innodb_data_home_dir = /opt/data/mysql
+#innodb_data_file_path = ibdata1:10M:autoextend
+#innodb_log_group_home_dir = /usr/local/mysql/data
+
+innodb_buffer_pool_size = 512M
+#innodb_additional_mem_pool_size = 50M
+
+innodb_log_file_size = 50M
+innodb_log_buffer_size = 80M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+max_connections = 200
+max_connect_errors = 20
+table_open_cache = 4096
+max_allowed_packet = 64M
+binlog_cache_size = 3M
+max_heap_table_size = 128M
+read_buffer_size = 52M
+sort_buffer_size = 32M
+query_cache_size = 128M
+query_cache_limit = 5M
+
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+
+port      = 3306
+socket    = /tmp/mysql.sock
+server-id = 20332
+log-bin=mysql-bin
+binlog_format=mixed
+default-storage-engine=innodb
+basedir = /opt/modules/mysql
+datadir = /opt/data/mysql
+log-error=/opt/modules/mysql/data/mysqld.log
+pid-file=/opt/modules/mysql/data/mysqld.pid
+
+# These are commonly set, remove the # and set as required.
+# basedir = .....
+# datadir = .....
+# port = .....
+# server_id = .....
+# socket = .....
+
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M 
+
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+
+
+[myisamchk]
+key_buffer_size = 512M
+sort_buffer_size = 512M
+read_buffer = 32M
+write_buffer = 32M
+
+
+[mysqld_safe]
+# Increase the amount of open files allowed per process. Warning: Make
+# # sure you have set the global system limit high enough! The high value
+# # is required for a large number of opened tables
+open-files-limit = 8192

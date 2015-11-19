@@ -1,0 +1,146 @@
+115.182.59.22 => 59.62
+7k7kduanxiang
+7K&k+BCE849E480FD&1819
+duanxiang130411
+rVoM_lLRfvOhUSxqvOpXooihv
+root / PSW0212
+
+192.168.1.234
+7k7k:com
+
+115.182.59.108
+dx
+7K&k+D7D8E1 4600&108ed108108
+[mysql] DMZ2IZ0LEKjnU
+
+您获得KK号：13324463  18875982[2|1] 23109749
+219测试：100267
+密码：123456
+tt3@7k7k.com 123456
+
+Host:221.238.18.2160.7k7k.com
+
+访问： http://0.7k7k.com/60year/
+
+U: duanxiang
+P: 123456
+
+svn://115.182.59.51/background
+xiangduan = 4C4#RB&ZxKc$57RfHUzS
+%U*(#x&*&^008%^&
+
+redis test
+192.168.10.52
+duanxiang  xiang1025
+115.182.59.219
+duanxiang120706 7K&k+602FB961A9CB&1882 
+192.168.11.102
+100  'k7k7sns'  'C2sXQ4EE7XbpD2pr',
+97
+duanxiang121107 7K&k+A7E5D3ED2BDA&1946
+7K&k+ED83EB82E11B&1889
+74
+dG1TppdTD3ro2CC4tLjz5OL78h0
+7K&k+42348A8C30CB&1850
+目录位置: /data/wwwroot/new.my.7k7k.com
+
+
+search data:
+115.182.59.62
+7K&k+D814E19375&1863
+
+db master/slaver
+115.182.59.152/115.182.59.153
+u  back
+p BacK#!%GGndFc*
+mxkR6.@*j~*lH6nm^
+/usr/local/mysql-5.1.56/bin/mysql -uroot -p -S /data/mysql/mysql_3306.sock
+gamestat
+7K&kGAMEstat!
+statis K7statis v729*skfi3)9gdif6
+CREATE USER 'cms'@'%' IDENTIFIED BY 'cms7k7k_statis';
+GRANT ALL PRIVILEGES ON `statis`.`comment_statis` TO 'cms'@'%' WITH GRANT OPTION ;
+grant all privileges on statis.flash_page_from_index to cms@'%';
+
+lvs 115.182.59.247
+
+online-test
+115.182.59.224
+7k7kcms
+7K&k+164103&6@\@\$^
+
+1.LVS（2台）
+B北京_115.182.59.144 NEW！
+IP：公网/115.182.59.144   内网/192.168.11.144
+系统：CentOS 5.4 X64
+环境：LVS主
+管理：7k7kcms7K&k+105137&40![$^$^
+硬件：DELLR410 CPU/5606×2/8核 内存/4G 硬盘/300G/SAS
+/sbin/ipvsadm -ln
+
+
+B北京_115.182.59.145 NEW！
+IP：公网/115.182.59.145   内网/192.168.11.145
+系统：CentOS 5.4 X64
+环境：LVS从
+管理：7k7kcms7K&k+106137&41![$^%-
+硬件：DELLR410 CPU/5606×2/8核 内存/4G 硬盘/300G/SAS
+
+http://115.182.59.146/status/nginx.html
+2.WEB SERVER(4台)
+ B北京_115.182.59.146 NEW！
+ IP：公网/115.182.59.146   内网/192.168.11.146
+ 系统：freeBSD8.1 64bit
+ 环境：nginx(1.1.0) php(5.3.6)
+ 管理：7k7kcms7K&k+163137&42![$^^'
+ 硬件：DELLR410 CPU/5606×2/8核 内存/4G 硬盘/300G/SAS
+ B北京_115.182.59.147 NEW！
+ IP：公网/115.182.59.147   内网/192.168.11.147
+ 系统：freeBSD8.1 64bit
+ 环境：nginx(1.1.0) php(5.3.6)
+ 管理：7k7kcms7K&k+107137&43![$^&/
+ 硬件：DELLR410 CPU/5606×2/8核 内存/4G 硬盘/300G/SAS
+ B北京_115.182.59.148 NEW！
+ IP：公网/115.182.59.148   内网/192.168.11.148
+ 系统：freeBSD8.1 64bit
+ 环境：nginx(1.1.0) php(5.3.6)
+ 管理：7k7kcms7K&k+111137&44![$^*.
+ 硬件：DELLR410 CPU/5606×2/8核 内存/4G 硬盘/300G/SAS
+  
+3.CMS SERVER(4台)
+  B北京_115.182.59.149 NEW！
+  IP：公网/115.182.59.149   内网/192.168.11.149
+  系统：freeBSD8.1 64bit
+  环境：nginx(1.1.0) php(5.3.6) cms后台机
+  管理：7k7kcms 7K&k+109137&45![$^(}
+  硬件：DELLR410 CPU/5606×2/8核 内存/4G 硬盘/300G*2/raid1
+cT!(8Nspq#Hi
+   
+4.Redis SERVER(2台)
+   B北京_115.182.59.150 NEW！
+   IP：公网/115.182.59.150   内网/192.168.11.150
+   系统：CentOS 4.4 X64
+   环境：Redis2.2  主
+   管理：7k7kcms7K&k+111137&45![%-){
+  硬件：DELLR710 CPU/5606×2/8核 内存/32G 硬盘/300G*2/raid1
+  B北京_115.182.59.151 NEW！
+  IP：公网/115.182.59.151   内网/192.168.11.151
+  系统：CentOS 5.4 X64
+  环境：Redis2.2  从
+  管理：7k7kcms7K&k+103137&46![%-![
+  硬件：DELLR710 CPU/5606×2/8核 内存/32G 硬盘/300G*2/raid1
+   
+5.DB SERVER(2台) 
+   B北京_115.182.59.152 Master NEW！
+   IP：公网/115.182.59.152   内网/192.168.11.152
+   系统：CentOS 5.4 X64
+   环境：MySQL(5.1.56)
+   管理：7k7kcms7K&k+134137&47![%-@\
+   硬件：DellR710 CPU/5606×2/8核 内存/32G 硬盘/146G×6/SAS/raid10
+   B北京_115.182.59.153 Slave NEW！
+   IP：公网/115.182.59.153   内网/192.168.11.153
+   系统：CentOS 5.4 6X64
+   环境：MySQL(5.1.56)
+   管理：7k7kcms7K&k+105137&48![%-#]
+   硬件：DellR710 CPU/5606×2/8核 内存/32G 硬盘/146G×6/SAS/raid10
+

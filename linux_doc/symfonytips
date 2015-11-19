@@ -1,0 +1,7 @@
+command:
+php app/console 
+php app/console gen:bundle 
+php app/console gen:bundle "Houyi\EstimateBundle" src 
+php app/console doctrine:generate:entities EstimateBundle
+php app/console doctrine:schema:update --dump-sql
+php app/console doctrine:schema:update --force  ----执行sql

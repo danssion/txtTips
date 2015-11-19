@@ -1,0 +1,115 @@
+egrep -ril '<?php ' ./includes/languages/*/html_includes | egrep -e "\.php$" | wc -l 
+grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{print$1}' | sort -u | wc -l
+find ./ -depth -name '*.php' | grep -E "^./[a-z]{4,}" | xargs grep -El '*meta_tags_products_description
+sshfs -o idmap=user,umask=0000,uid=1000,gid=1000 duanxiang@192.168.12.185:/home/duanxiang/codes -p 25552 /home/danssion/server-dir
+fusermount -u /home/danssion/server-dir/
+
+find -name "*.php" | grep -E "(\.\/module|\.\/externals\/common\/module).*" | xargs ls -aSl
+
+sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
+
+scp -P 25552 newcart@192.168.12.54:/home/newcart/newcart/litb_online/includes/templates/dev_v2/flash/tpl_categories_menu_de.html ./includes/templates/dev_v2/flash/
+
+sudo mount //192.168.12.5/litb-writable ./share-server/ -t smbfs -o auto,iocharset=utf8
+sudo mount //192.168.12.5/litb-readonly ./share-server/ -t cifs -o auto,iocharset=utf8
+
+export LANG=zh_CN.UTF-8
+setenv LANG zh_CN.UTF-8
+
+/etc/init.d/networking
+
+svn propset svn:keywords "Date Author Revision Id" protected/controllers/
+
+tar xvf abc.tar -C ./abc/
+
+//在系统根目录下，查找文件为普通文件，属于student用户的，2天以前的，并且查找时不包含/usr/bin目录的文件名为main.c的文件，并将结果输出到屏幕, 对上例中搜索的结果进行删除操作：
+find / -path "/usr/bin" -prune -o -name "main.c" -user student -type f -mtime +2 -print -exec rm {} \;
+
+find . -user root -o -path "*.svn*" -prune| xargs sudo chown danssion:danssion
+find . -path "*.svn*" -prune -o  -user root | egrep "[^s][^n]{1,1}$" | xargs sudo chown danssion:danssion
+
+pkg_info | grep ***
+dmesg | grep -i CPU
+sysctl -a | grep -i cpu
+sysctl -a | grep -i memory
+Graphics Card info:
+1.lspci  2.modinfo  3.lsmod  4.hwbrowser  5.dmidecode，从bios中读取信息
+6、lspci |grep VGA 7、如果是nvdia的话，可以试试glxinfo
+
+freeBSD:
+install php5-extensions
+FreeBSD# cd /usr/ports/lang/php5-extensions/
+FreeBSD# make config
+FreeBSD# make BATCH=yes install
+FreeBSD# make install clean
+FreeBSD# make clean
+FreeBSD# rehash
+freebsd# cat /var/run/dmesg.boot |grep CPU
+cd /usr/ports/misc/cpuid
+make install clean
+
+pecl install pecl_http
+
+log shell
+head access_7k7kflash.log -n 10 | awk '$2!="" { printf "%15s %s %20s %s request:%s state:%s refer:%s \n",$1,"\t",$4,$5,$7,$9,$11}' | sed G
+
+head access_1.log -n 10 | sed 's/\[//g' | sed 's/\]//g' | awk '{if ($7!~/(mp3|swf)$/) printf  "%s\t%s\t%s\tstatus:%s\tsize:%s\n",$1,$4,$7,$9,$10 }'
+
+ls /data/disk/dx/search/data/*.log |xargs -n 1 grep 'record user action' |awk '{print $(NF-2), $(NF-1), $NF}'
+xargs -P 4 -n 10
+find /data/disk/dx -maxdepth 1 -type f | xargs -P 5 -n 1 /home/dx/git_c++/dataPush/pushMysql >> /home/dx/git_c++/dataPush/pushMysql.log
+
+date -d "@1321884905" +%Y-%m-%d
+
+*** 包管理
+    dpkp
+    dpkg-query
+    -l
+    -s 输出包的状态
+    -L 列出一个包的所有文件
+    -S 列出一个文件属于哪个包
+    -p 打印包的信息
+
+    **** 查找某个包
+    apt-cache search pkg-name
+
+git
+git init --bare game_data_mining
+git rm --cache 
+
+git config --global user.email "danssion@sina.com"
+git diff (--cached)
+git add 
+git commit
+git show [branch name] [HEAD]
+git tag [tag name] [commit hash]
+git grep
+git remote add origin git@github.com:github用户名/Helloworld.git 
+git push -u origin master
+//for github
+git remote add upstrean
+git remote show upstrean
+git fetch upstrean 
+git merge upstrean/master
+//for git useful
+git branch -m master part2 # 重命名 "master" 分支到 "part2"
+git checkout SHA1 -b master 
+
+dpkg -l
+dpkg-query -L
+rpm -ql 
+
+ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+
+rename s/_l//g *.swf
+ cp $(find -name "1010*.gif") $([cmd2])
+ cp $(ls /kkshow/demo/6 | sed 's/.swf/.gif/g') $([cmd2])
+
+
+ps aux | grep php-fpm | head -n 1 | awk '{printf "%s" , $2}' | xargs kill
+
+(select * from Db_sns0.k7_user_sns_count5)  union (select * from Db_sns0.k7_user_sns_count6) union (select * from Db_sns7.k7_user_sns_count5)  union (select * from Db_sns7.k7_user_sns_count6);
+
+
+lsof uptime pkill killall netstat pstree cksum netstat whatis whereis which  iostat -c -d -x  pidstat vmstat

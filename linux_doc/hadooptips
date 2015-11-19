@@ -1,0 +1,289 @@
+###############################  1.debug / http tools
+export HADOOP_ROOT_LOGGER=DEBUG,console
+export HADOOP_ROOT_LOGGER=DEBUG,console
+host -v -t A `hostname`
+cat /proc/sys/kernel/hostname
+hostname newname
+/etc/sysconfig/network
+
+log /opt/modules/hadoop/logs/yarn-hadoop-historyserver-BFG-OSER-2372.log  search job id
+container server : /opt/modules/hadoop/logs/userlogs/application_14***
+
+http://[datanode:114.112.70.52]:50075/blockScannerReport|stacks(堆栈轨迹)
+http://[namenode:114.112.70.50]:50070/logLevel|stacks(堆栈轨迹)
+http://[namenode:114.112.70.50]:50070
+http://[namenode:114.112.70.50]:50070
+http://[nodemanager:114.112.70.[52 ~ 54]]:18042/
+http://[history:114.112.70.50]:19888
+
+###############################  2.hadoop/hdfs dfsadmin
+ -report //文件系统的基础信息
+ -refreshNodes //重新读取hosts和exclude文件，载入新的datanode移除老的
+ -setQuota  //为目录设置配额
+ -clrQuota  //清除目录配额、
+ -safemode [get | wait | enter | leave]
+ -help cmd
+ hdfs haadmin -transitionToActive -forcemanual nn1
+ hdfs haadmin -transitionToStandby -forcemanual nn2
+ hdfs dfsadmin -fs hdfs://nn2/ -refreshNodes
+ hdfs balancer -threshold 5    -threshold 默认设置：10，参数取值范围：0-100
+ hdfs journalnode
+ #init namenode
+ hdfs namenode -format
+ hdfs namenode -initializeSharedEdits
+ hdfs namenode
+#init HA namenode standby
+hdfs namenode -bootstrapStandby
+hdfs namenode (hdfs stop namenode)
+
+hdfs dfsadmin -setBalancerBandwidth newbandwidth(15728640 15M)
+hdfs getconf -confKey dfs.datanode.balance.bandwidthPerSe
+
+
+##############################  3.hadoop fs
+ -rm -r -skipTrash /data/click/201406/0*
+ -setrep -R 1 //备份数的文件
+ -copyFromLocal
+ -copyToLocal
+ -help cmd
+ -getmerge
+
+ 用命令合并HDFS小文件 
+ hadoop fs -getmerge <src> <dest>
+
+###############################  4. hadoop checknative
+hadoop distcp //分布式拷贝
+hadoop checknative
+
+###############################  5. hdfs fsck
+hdfs  fsck /test/data1/zkfc.log -files -blocks -racks //检查系统文件的一致性
+hdfs fsck /data/click/201406
+
+###############################  6.hdfs fsk 
+-list-corruptfileblocks
+
+###############################  7. hadoop/mapred job
+-list
+mapred job -kill job_
+
+
+###############################  8. yarn [cmd]
+yarn rmadmin
+yarn rmadmin -refreshQueues 更新队列配置
+${yarn.app.mapreduce.am.staging-dir} : /tmp/hadoop-yarn/staging/history/
+yarn application -kill application
+yarn logs -applicationId <application ID> 
+
+###############################  8.1 yarn Fair Scheduler [cmd]
+http://ResourceManager URL/cluster/scheduler
+Moving applications between queues:yarn application -movetoqueue appID -queue targetQueueName
+
+###############################  9.hive 
+hive>set [-v]
+终端看到日志
+hive -hiveconf hive.root.logger=DEBUG,console
+日志默认目录
+/tmp/${user.name}/hive
+
+hive -d s3file=s3://BlobStore/Exports/APKsCollection_test/`date +%F`/
+
+hive --service hiveserver2
+hive --service hiveserver2 --help
+0.8 and Later :hive --service hiveserver
+
+###############################   ######  9.1 hive Hsql
+describe extended | formatted [table]\
+describe [table]
+show PARTITIONs count_all [partition (yearmonth='201404')];
+CREATE EXTERNAL TABLE s3_export (...)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION '${s3File}';
+
+
+################################  10 mapreduce command  10.1 streaming command
+$HADOOP_PREFIX/bin/hadoop jar hadoop-streaming.jar -info
+$HADOOP_HOME/bin/hadoop jar xxx.jar \
+-D mapred.job.name="xxx" \
+-D mapreduce.job.maps=5
+-D mapred.reduce.tasks=2 \
+-D input=/test/input \
+-D output=/test/output
+-jobconf mapred.reduce.tasks=3   
+-jobconf mapred.map.tasks=20
+-jobconf mapreduce.job.queuename=month_queue
+
+Options:
+  -input          <path> DFS input file(s) for the Map step.
+  -output         <path> DFS output directory for the Reduce step.
+  -mapper         <cmd|JavaClassName> Optional. Command to be run as mapper.
+  -combiner       <cmd|JavaClassName> Optional. Command to be run as combiner.
+  -reducer        <cmd|JavaClassName> Optional. Command to be run as reducer.
+  -file           <file> Optional. File/dir to be shipped in the Job jar file.
+                  Deprecated. Use generic option "-files" instead.
+  -inputformat    <TextInputFormat(default)|SequenceFileAsTextInputFormat|JavaClassName>
+                  Optional. The input format class.
+  -outputformat   <TextOutputFormat(default)|JavaClassName>
+                  Optional. The output format class.
+  -partitioner    <JavaClassName>  Optional. The partitioner class.
+  -numReduceTasks <num> Optional. Number of reduce tasks.
+  -inputreader    <spec> Optional. Input recordreader spec.
+  -cmdenv         <n>=<v> Optional. Pass env.var to streaming commands.
+  -mapdebug       <cmd> Optional. To run this script when a map task fails.
+  -reducedebug    <cmd> Optional. To run this script when a reduce task fails.
+  -io             <identifier> Optional. Format to use for input to and output
+                  from mapper/reducer commands
+  -lazyOutput     Optional. Lazily create Output.
+  -background     Optional. Submit the job and don't wait till it completes.
+  -verbose        Optional. Print verbose output.
+  -info           Optional. Print detailed usage.
+  -help           Optional. Print help message.
+
+Generic options supported are
+-conf <configuration file>     specify an application configuration file
+-D <property=value>            use value for given property
+-fs <local|namenode:port>      specify a namenode
+-jt <local|jobtracker:port>    specify a job tracker
+-files <comma separated list of files>    specify comma separated files to be copied to the map reduce cluster
+-libjars <comma separated list of jars>    specify comma separated jar files to include in the classpath.
+-archives <comma separated list of archives>    specify comma separated archives to be unarchived on the compute machines.
+
+
+hadoop jar /opt/modules/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.0.0-cdh4.6.0.jar 
+-inputformat com.hadoop.mapred.DeprecatedLzoTextInputFormat  
+-input /data/consu/201406/01/2014060120.log.lzo
+-mapper /opt/baofeng-data/windforce-shell/mapreduce/mapper.py
+-reducer /opt/baofeng-data/windforce-shell/mapreduce/reducer.py  
+-reducer aggregate
+-file /opt/baofeng-data/windforce-shell/mapreduce/mapper.py
+-file /opt/baofeng-data/windforce-shell/mapreduce/reducer.py
+-output jiasen/log/5 
+
+hadoop jar /opt/modules/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.0.0-cdh4.6.0.jar -inputformat com.hadoop.mapred.DeprecatedLzoTextInputFormat -mapper /opt/baofeng-data/windforce-shell/mapreduce/mapper.py -reducer aggregate -file /opt/baofeng-data/windforce-shell/mapreduce/mapper.py -input /test/data/2014112002_consuaa.lzo -output /test/dx/aa/
+
+
+hadoop jar /opt/baofeng-data/windforce-shell/mapreduce/jar/mapper.jar hourstats  
+-t 2014092021 
+-i /data/click/201409/20/2014092021.log.lzo 
+-o /test/dx/out9
+
+###############################   ######  10.2 mapreduce jar 
+ 
+s49:/opt/baofeng-data/windforce/jar
+hadoop jar [jar-file].jar wordcount wordCount/input wordCount/output
+hadoop jar /opt/modules/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.6.0.jar -input /test/wordcount/word1 -output /test/dx/output/o5
+
+s49:/opt/baofeng-data/windforce-shell/mapreduce/jar
+hadoop jar /opt/baofeng-data/windforce-shell/mapreduce/jar/mapper.jar hourstats /test/data/2014092520.log /test/dx/out
+
+################################  11 add index command
+
+hadoop jar /path/to/your/hadoop-lzo.jar com.hadoop.compression.lzo.LzoIndexer big_file.lzo
+hadoop jar /opt/modules/hadoop/share/hadoop/common/hadoop-lzo-0.4.20-SNAPSHOT.jar com.hadoop.compression.lzo.LzoIndexer big_file.lzo
+hadoop fs -ls -R /data/consu/201404/10 | awk '{print $8}' | xargs  hadoop jar /opt/modules/hadoop/share/hadoop/common/hadoop-lzo-0.4.20-SNAPSHOT.jar com.hadoop.compression.lzo.LzoIndexer
+
+-inputformat com.hadoop.mapred.DeprecatedLzoTextInputFormat 
+-jobconf mapred.output.compress=true  -jobconf mapred.output.compression.codec=com.hadoop.compression.lzo.LzopCodec
+-jobconf mapreduce.output.fileoutputformat.compress=true -jobconf mapreduce.output.fileoutputformat.compress.codec=com.hadoop.compression.lzo.LzoCodec
+
+
+-verbose
+
+################################  12 spark
+spark cluster MasterWebUI: Started MasterWebUI at http://103.15.203.20:8080
+job SparkUI at http://103.15.203.20:4040
+
+################################  12.1 spark command
+SPARK_JAR=/opt/modules/spark/lib/spark-assembly-1.3.1-hadoop2.6.0.jar
+SPARK_YARN_APP_JAR=/opt/modules/spark/lib/spark-examples-1.3.1-hadoop2.6.0.jar
+bin/run-example org.apache.spark.examples.SparkPi yarn-client
+################################  12.2 spark shell
+SPARK_JAR=/opt/modules/spark/lib/spark-assembly-1.3.1-hadoop2.6.0.jar
+/bin/spark-class org.apache.spark.deploy.yarn.Client --jar /opt/modules/spark/lib/spark-examples-1.3.1-hadoop2.6.0.jar  --class org.apache.spark.examples.SparkPi  --args yarn-standalone --num-worker 3 --master-memory 4g --worker-memory 2g --worker-cores 1
+/bin/spark-class org.apache.spark.deploy.yarn.Client --jar /opt/modules/spark/lib/spark-examples-1.3.1-hadoop2.6.0.jar  --class org.apache.spark.examples.SparkPi  --num-executors 3 --driver-memory 4g --executor-memory 2g --executor-cores 1
+/bin/spark-submit 
+
+
+################################  eclipse 
+“Project”——“Build Automatically”取消
+
+################################  mvn command
+export MAVEN_OPTS=-Xmx512m
+mvn -version/-v  显示版本信息 
+mvn archetype:generate        创建mvn项目 
+mvn archetype:create -DgroupId=com.oreilly -DartifactId=my-app   创建mvn项目 
+mvn package            生成target目录，编译、测试代码，生成测试报告，生成jar/war文件 
+mvn jetty:run            运行项目于jetty上, 
+mvn compile                    编译 
+mvn test                    编译并测试 
+mvn clean                    清空生成的文件 
+mvn site                    生成项目相关信息的网站 
+
+Create binary distribution without native code and without documentation:
+$ mvn package -Pdist -DskipTests -Dtar
+
+Create binary distribution with native code and with documentation:
+$ mvn package -Pdist,native,docs -DskipTests -Dtar
+
+Create source distribution:
+$ mvn package -Psrc -DskipTests
+
+Create source and binary distributions with native code and documentation:
+$ mvn package -Pdist,native,docs,src -DskipTests -Dtar
+
+Create a local staging version of the website (in /tmp/hadoop-site)
+$ mvn clean site; mvn site:stage -DstagingDirectory=/tmp/hadoop-site
+
+mvn clean package -Pdist -Dtar -DskipTests -Pnative
+
+
+################################  optimaze
+2、namenode的服务线程数 
+dfs.namenode.handler.count = 40 //默认10 
+3、mapred.reduce.parallel.copies 
+// The default number of parallel transfers run by reduce during the copy(shuffle) phase mapred.reduce.parallel.copies = 20 //默认为5
+4.mapred.child.java.opts = -Xmx512m //默认为-Xmx200m 
+//This allows to configure the maximum and minimum JVM heap size. For maximum use, -Xmx and for minimum use –Xms. 
+5、fs.inmemory.size.m 
+// The size of the in-memory filsystem instance in MB fs.inmemory.size.mb = 200 //默认75 
+6、io.sort.factor 
+// The number of streams to merge at once while sorting  files.  This determines the number of open file handles.  
+io.sort.factor = 100 //默认为10 
+7、io.sort.mb 
+// The total amount of buffer memory to use while sorting files, in megabytes.  By default, gives each merge stream 1MB, which should minimize seeks. 
+io.sort.mb = 200 //默认100 
+8、io.file.buffer.size 
+// The size of buffer for use in sequence files. The size of this buffer should probably be a multiple of hardware page size (4096 on Intel x86), and it determines how much data is buffered during read and write operations. 
+io.file.buffer.size = 131072 //默认4096
+
+
+
+
+###############################  10.lzo
+hadoop jar /path/to/your/hadoop-lzo.jar com.hadoop.compression.lzo.DistributedLzoIndexer big_file.lzo
+
+#
+lzop -v 2G log  --> 68M Mar 21 18:18 zkfc.log.lzo
+real    0m6.692s
+user    0m5.670s
+sys     0m0.941s
+
+lzop -v9 2G log  --> 57M Mar 21 18:18 zkfc.log.lzo
+real    1m24.603s
+user    1m23.443s
+sys     0m0.975s
+
+lzop -v1 2G log  --> 68M Mar 21 18:18 zkfc.log.lzo
+real    0m6.546s
+user    0m5.614s
+sys     0m0.915s
+
+tar cjvf 2G log  --> 24M May  7 15:59 zkfc.tar.bz2
+real    13m47.087s
+user    13m45.758s
+sys     0m3.150s
+
+tar czvf  2G log  --> 38M May  7 15:45 zkfc.tar.gz
+real    0m30.269s
+user    0m29.552s
+sys     0m2.095s
+

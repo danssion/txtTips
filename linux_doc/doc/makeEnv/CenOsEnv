@@ -1,0 +1,1435 @@
+CenOS 6.3 + nginx 1.2.4 + PHP 5.4.8 + MySQL 5.5.28 + memcached
+
+搞了好几天，终于把新服务器的配置弄完了，现在贴出来，也做个备忘！
+
+另外还有 subversion-1.7.7 我就单独一篇来写了额
+
+ 
+
+ 1. 修改 SSH 连接显示字符集 （可以忽略这一步，偶尔出现乱码影响也不大的）
+
+# vi /etc/profile
+添加：
+LANG=zh_CN.GB2312
+export LANG
+使环境变量生效 保存后 断开 SSH 重新连接 
+# source /etc/profile
+注意：
+如果有添加这一步，在设置 mysql 密码时会出现个 sql 编码问题，需要注释掉这里的设置断开ssh后重连就可以了
+
+ 
+
+ 2. 设置时区
+# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+同步时间
+# /usr/bin/rdate -s rdate.darkorb.net
+写入 BIOS 避免失效
+# hwclock -w
+建议加入定时同步
+# crontab -e
+# 0 0 * * * /usr/bin/rdate -s rdate.darkorb.net
+
+ 
+
+ 3. 配置服务器 yum 国内更新源地址
+# cd /etc/yum.repos.d
+# mv CentOS-Base.repo CentOS-Base.repo.bak
+# wget http://mirrors.163.com/.help/CentOS6-Base-163.repo
+# yum makecache
+
+ 
+
+ 4. 更新软件和安装依赖包
+
+# sudo -s
+
+# LANG=C
+
+# yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers ntpd nmap patch cmake bison cgi* *-gd-* libtool-* gettext *libxml-devel libcurl-devel libevent
+# libevent-devel net-snmp-devel lsof unzip
+
+如果出现错误 如：Error: Package: glibc-headers-2.12-1.80.el6_3.4.x86_64 (updates)
+
+查看 http://www.zhouz.me/post/2012-10-25/40040279305
+
+ 
+
+ 5. 设置路径
+# vi /etc/ld.so.conf
+添加：
+/usr/lib/
+/usr/local/lib/
+/usr/lib64/
+/usr/local/lib64/
+
+ 
+
+ 6. 最好重启一次
+# reboot
+
+ 
+
+ 7. 开始安装 nginx
+ 新建保存下载软件的目录
+# mkdir -p /mydata/soft
+# mkdir -p /var/www/html
+# cd /mydata/soft/
+下载：
+# wget http://nginx.org/download/nginx-1.2.4.tar.gz
+# wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.31.tar.gz
+# wget https://gperftools.googlecode.com/files/gperftools-2.0.tar.gz
+# wget http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz
+
+ 
+
+ 7.1 利用 TCMalloc 优化 nginx 性能
+ 针对 64 位操作系统必须安装 libunwind 库
+# tar zxvf libunwind-1.1.tar.gz
+# cd libunwind-1.1/
+# CFLAGS=-fPIC ./configure
+# make CFLAGS=-fPIC
+# make CFLAGS=-fPIC install
+# cd ../
+
+ 
+ 安装 google-perftools 优化
+# tar zxvf gperftools-2.0.tar.gz
+# cd gperftools-2.0/
+# ./configure
+# make && make install
+# echo "/usr/local/lib" > /etc/ld.so.conf.d/usr_local_lib.conf
+# /sbin/ldconfig
+# cd ..
+
+
+7.2 安装 pcre 使 nginx 支持 URL 重写
+
+# tar zxvf pcre-8.31.tar.gz  
+
+# cd pcre-8.31
+
+# ./configure
+
+# make && make install
+
+# cd ../
+
+ 
+
+ 7.3 编译安装 nginx
+
+# tar zxvf nginx-1.2.4.tar.gz  
+# cd nginx-1.2.4
+# ./configure --prefix=/usr/local/nginx --with-google_perftools_module --user=www --group=www --with-http_stub_status_module --with-openssl=/usr/ --with-pcre=/mydata/soft/pcre-8.31
+# make && make install
+#cd ../
+
+ 
+
+# mkdir /tmp/tcmalloc
+
+# chmod 0777 /tmp/tcmalloc
+
+ 
+
+ 7.4 添加用户和组
+
+# /usr/sbin/groupadd www
+# /usr/sbin/useradd -g www www
+
+ 
+
+ 7.5 配置 nginx.conf
+
+# vi /usr/local/nginx/conf/nginx.conf
+
+注意：要在 pid 下一行添加下面的代码才能使优化生效
+
+google_perftools_profiles  /tmp/tcmalloc;
+
+ 
+
+ 示例：替换为以下内容
+
+  
+
+  user www www;
+  worker_processes  4;
+  worker_cpu_affinity 0001 0100 1000 0010;
+
+   
+   error_log  logs/error.log;
+   pid        logs/nginx.pid;
+   worker_rlimit_nofile  65535;
+   google_perftools_profiles  /tmp/tcmalloc;
+
+    
+
+    events {
+      worker_connections  65535;
+    }
+
+     
+
+     http {
+   #include       deny_ips.conf;
+   include       mime.types;
+   default_type  application/octet-stream;
+   server_tokens off;
+    
+
+ log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+  '$status $body_bytes_sent "$http_referer" '
+   '"$http_user_agent" "$http_x_forwarded_for"';
+
+
+  #access_log  logs/access.log  main;
+ 
+ server_names_hash_bucket_size 128;
+ client_header_buffer_size 32k;
+ large_client_header_buffers 4 32k;
+ client_max_body_size 50m;    
+  
+
+  sendfile       on;
+  tcp_nopush     on;
+  tcp_nodelay    on;
+  keepalive_timeout  60;
+    
+
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+    fastcgi_buffer_size 64k;
+    fastcgi_buffers 4 64k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 256k;
+    fastcgi_intercept_errors on;
+
+
+     gzip on;
+     gzip_min_length   1k;
+     gzip_buffers      4 16k;
+     gzip_http_version 1.0;
+     gzip_comp_level   2;
+     gzip_types        text/plain application/x-javascript text/css application/xml;
+     gzip_vary on;
+      
+
+      include vhost/*.conf;
+
+     }
+
+      
+
+      7.6 启动 nginx
+
+# ulimit -SHn 65535
+
+# /usr/local/nginx/sbin/nginx
+
+ 
+
+ 7.7 验证google-perftools是否已经正常加载 命令:
+
+  
+
+# lsof -n | grep tcmalloc
+
+显示如下：
+
+nginx      2395 nobody   9w  REG  8,8       0    1599440 /tmp/tcmalloc.2395  
+
+nginx      2396 nobody   11w REG  8,8       0    1599443 /tmp/tcmalloc.2396  
+
+nginx      2397 nobody   13w REG  8,8       0    1599441 /tmp/tcmalloc.2397  
+
+nginx      2398 nobody   15w REG  8,8       0    1599442 /tmp/tcmalloc.2398  
+
+由于在Nginx配置文件中，设置worker_processes的值为4，因此开启了4个Nginx线程，每个线程会有一行记录。每个线程文件后面的数字值就是启动的Nginx的PID值。
+
+至此，利用TCMalloc优化Nginx的操作完成。
+
+ 
+
+ 7.8 优化 nginx 内核
+
+# vi /etc/sysctl.conf
+
+末尾添加：
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+net.core.somaxconn = 262144
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_syn_backlog = 262144
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_fin_timeout = 1
+net.ipv4.tcp_keepalive_time = 30
+
+刷新配置
+# /sbin/sysctl -p
+
+ 
+
+ 7.9 添加 nginx 的系统服务
+新建文件：
+# vi /etc/init.d/nginx
+
+#!/bin/sh
+# Comments to support chkconfig on RedHat Linux
+# chkconfig: 2345 65 37
+# description: A nginx daemon.
+                                                
+set -e
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="nginx daemon"
+NAME=nginx
+DAEMON=/usr/local/nginx/sbin/$NAME
+SCRIPTNAME=/etc/init.d/$NAME
+                                                
+# If the daemon file is not found, terminate the script.
+test -x $DAEMON || exit 0
+                                                
+d_test() {
+    $DAEMON -t
+}
+d_start() {
+    $DAEMON || echo -n " already running"
+}
+d_stop() {
+    $DAEMON -s quit || echo -n " not running"
+}
+d_reload() {
+    $DAEMON -s reload || echo -n " could not reload"
+}
+                                                
+case "$1" in
+    test)
+      d_test
+      echo "."
+      ;;
+    start)
+      echo -n "Starting $DESC: $NAME"
+      d_start
+      echo "."
+      ;;
+    stop)
+      echo -n "Stopping $DESC: $NAME"
+      d_stop
+      echo "."
+      ;;
+    reload)
+      echo -n "Reloading $DESC configuration..."
+      d_reload
+      echo "reloaded."
+      ;;
+    restart)
+      echo -n "Restarting $DESC: $NAME"
+      d_stop
+      # Sleep for two seconds before starting again, this should give the
+      # Nginx daemon some time to perform a graceful stop.
+      sleep 2
+      d_start
+      echo "."
+      ;;
+    *)
+      echo "Usage: $SCRIPTNAME {test|start|stop|restart|reload}" >&2
+      exit 3
+      ;;
+esac
+                                                
+exit $?
+
+注册 nginx 服务
+chmod +x /etc/init.d/nginx
+chkconfig --add nginx
+chkconfig --level 2345 nginx on
+chkconfig --list nginx
+
+ 
+
+ 相关 nginx 命令
+ 检测 nginx 配置
+
+# service nginx test
+启动
+# service nginx start
+关闭
+# service nginx stop
+重启
+# service nginx restart
+重载配置
+# service nginx reload
+
+
+
+7.10 添加各站点配置目录
+
+# cd /usr/local/nginx/conf
+
+# mkdir vhost
+
+ 
+
+ 7.10.1 配置 localhost 站点
+
+# vi vhost/localhost.conf
+
+添加：
+
+server
+
+{
+
+  listen       80;
+  server_name  localhost;
+  index index.html index.php;
+  root  /var/www/html/;
+  
+
+#limit_conn   crawler  20;    
+
+ 
+
+ location ~ .*\.(php|php5)?$
+ {
+#fastcgi_pass  unix:/tmp/php-cgi.sock;
+#upload filesize limit
+#client_max_body_size 10m;
+fastcgi_pass  127.0.0.1:9000;
+fastcgi_index index.php;
+include fastcgi.conf;
+ }
+}
+
+ 
+
+ 8. 安装 mysql
+
+ 8.1 检测是否之前有安装过 rpm mysql包
+
+ 查看系统是否有安装过 MySQL
+
+ 注意大小写，如果mysql 不行就换MySQL
+
+# rpm -qa | grep mysql
+
+显示如：mysql-5.1.61-4.el6.x86_64
+
+将搜索出的包名全部卸载：（nodeps表示强制删除），
+
+例如：
+
+# rpm -e --nodeps mysql-libs-5.1.61-4.el6.x86_64
+
+ 
+
+  
+
+  8.2 下载 MySQL 相关软件包
+
+# cd /mydata/soft
+
+# wget http://www.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.28.tar.gz/from/http://cdn.mysql.com/
+
+ 
+
+ 8.3 新建 MySQL 用户和组
+
+# /usr/sbin/groupadd mysql
+
+# /usr/sbin/useradd -g mysql mysql
+
+ 
+
+ 8.4 新建目录并设置权限
+
+# chmod +w /usr/local/mysql
+# chown -R mysql:mysql /usr/local/mysql
+# mkdir -p /var/mysql/data/
+# mkdir -p /var/mysql/log/
+# chown -R mysql:mysql /var/mysql/
+# mkdir /home/mysql/temp
+# chown -R mysql:mysql /home/mysql/temp
+
+ 
+
+ 8.5 开始安装 MySQL
+
+# tar xvf mysql-5.5.28.tar.gz
+# cd mysql-5.5.28/
+# cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+-DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_EXTRA_CHARSETS:STRING=utf8,gbk \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DENABLED_LOCAL_INFILE=ON \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DENABLED_LOCAL_INFILE=1 \
+-DMYSQL_USER=mysql \
+-DMYSQL_DATADIR=/var/mysql/data
+
+ 
+
+ 以上代码合并为：cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS:STRING=utf8,gbk -DWITH_MYISAM_STORAGE_ENGINE=1 -DENABLED_LOCAL_INFILE=ON -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DMYSQL_USER=mysql-DMYSQL_DATADIR=/var/mysql/data
+
+  
+
+  以上代码安装DiscuzX_gbk时，提示数据库不支持GBK，使用下面代码成功运行
+
+  cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DDEFAULT_CHARSET=gbk -DDEFAULT_COLLATION=gbk_chinese_ci -DWITH_EXTRA_CHARSETS:STRING=gbk -DWITH_MYISAM_STORAGE_ENGINE=1 -DENABLED_LOCAL_INFILE=ON -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DMYSQL_USER=mysql-DMYSQL_DATADIR=/var/mysql/data
+
+# make && make install
+
+ 
+
+ 8.6 配置 my.cnf 文件
+
+# cd support-files/
+注意：my-large.cnf 适用于1G内存左右的服务器，
+可以根据自己配置情况选用 my-large.cnf 或 my-huge.cnf 等不同配置
+# cp my-huge.cnf /etc/my.cnf
+
+ 
+
+ 之前这里 my.cnf 的路径设置有问题（现已修改），导致没有生效，今天关闭 innodb 时才发现。。
+ 是放在 etc 下面才会生效的。。
+ 参考配置：关闭 innodb，binlog 保存 30 天内的
+# vi /etc/my.cnf
+
+--------------------------------------忽略分隔线---------------------------------------
+
+ 
+
+ [client]
+ port    = 3306
+ socket  = /usr/local/mysql/mysql.sock
+
+
+  [mysqld]
+  character-set-server = utf8
+  replicate-ignore-db = mysql
+  replicate-ignore-db = test
+  replicate-ignore-db = information_schema
+  user    = mysql
+  port    = 3306
+  socket  = /usr/local/mysql/mysql.sock
+  basedir = /usr/local/mysql
+  datadir = /var/mysql/data
+  tmpdir = /home/mysql/temp
+  log-error = /var/mysql/log/error.log
+  pid-file = /var/mysql/mysql.pid
+  open_files_limit = 10240
+  back_log = 200
+  max_connections = 1024
+
+  max_connect_errors = 1024
+
+  table_cache = 614
+
+  external-locking = FALSE
+
+  max_allowed_packet = 32M
+
+  sort_buffer_size = 4M
+
+  join_buffer_size = 1M
+
+  thread_cache_size = 300
+
+  thread_concurrency = 4
+
+  query_cache_size = 512M
+
+  query_cache_limit = 2M
+
+  query_cache_min_res_unit = 2k
+
+  default-storage-engine = MyISAM
+
+  thread_stack = 192K
+
+  transaction_isolation = READ-COMMITTED
+
+  tmp_table_size = 246M
+
+  max_heap_table_size = 246M
+
+  long_query_time = 3
+
+  log-slave-updates
+
+  log-bin = /var/mysql/binlog/binlog
+
+  binlog_cache_size = 4M
+
+  binlog_format = MIXED
+
+  max_binlog_cache_size = 8M
+
+  max_binlog_size = 1G
+
+#relay-log-index = /var/mysql/relaylog/relaylog
+
+#relay-log-info-file = /var/mysql/relaylog/relaylog
+
+#relay-log = /var/mysql/relaylog/relaylog
+
+expire_logs_days = 30
+
+key_buffer_size = 256M
+
+read_buffer_size = 1M
+
+read_rnd_buffer_size = 16M
+
+bulk_insert_buffer_size = 64M
+
+myisam_sort_buffer_size = 128M
+
+myisam_max_sort_file_size = 10G
+
+myisam_repair_threads = 1
+
+myisam_recover
+
+ 
+
+ interactive_timeout = 120
+
+ wait_timeout = 120
+
+  
+
+#skip-name-resolve
+
+slave-skip-errors = 1032,1062,126,1114,1146,1048,1396
+
+ 
+
+#master-host     =   192.168.1.2
+
+#master-user     =   username
+
+#master-password =   password
+
+#master-port     =  3306
+
+ 
+
+ server-id = 1
+
+  
+
+  skip-innodb
+
+   
+
+   innodb_additional_mem_pool_size = 16M
+
+   innodb_buffer_pool_size = 512M
+
+   innodb_data_file_path = ibdata1:256M:autoextend
+
+   innodb_file_io_threads = 4
+
+   innodb_thread_concurrency = 8
+
+   innodb_flush_log_at_trx_commit = 2
+
+   innodb_log_buffer_size = 16M
+
+   innodb_log_file_size = 128M
+
+   innodb_log_files_in_group = 3
+
+   innodb_max_dirty_pages_pct = 90
+
+   innodb_lock_wait_timeout = 120
+
+   innodb_file_per_table = 0
+
+    
+
+    slow-query-log = On
+
+    slow-query-log-file = /var/mysql/log/slow.log
+
+    long_query_time = 30
+
+     
+
+     [mysqldump]
+
+     quick
+
+     max_allowed_packet = 32M
+
+      
+
+      --------------------------------------忽略分隔线---------------------------------------
+
+       
+
+# cp mysql.server /etc/init.d/mysqld
+
+# cd ../../
+
+ 
+
+ 8.7 初始化安装数据库
+
+# /usr/local/mysql/scripts/mysql_install_db \
+
+--defaults-file=/var/mysql/my.cnf \
+
+--basedir=/usr/local/mysql \
+
+--datadir=/var/mysql/data \
+
+--user=mysql
+
+原文加粗地方有错，应为：/usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/var/mysql/data --user=mysql
+
+ 
+
+ 8.8 将 mysql 加入开机启动
+
+# chmod +x /etc/init.d/mysqld
+
+# vi /etc/init.d/mysqld
+
+查找并修改：
+
+basedir=/usr/local/mysql
+
+datadir=/var/mysql/data
+
+ 
+
+ 8.9 添加为系统服务
+
+# chkconfig --add mysqld
+
+# chkconfig --level 2345 mysqld on
+
+ 
+
+ 8.10 启动mysql 设置 root 密码
+
+# service mysqld start
+
+# /usr/local/mysql/bin/mysqladmin -u root password "123456"
+
+错误一：
+
+mysqladmin, mysql ... 命令无法执行：
+
+# export PATH=/usr/local/mysql/bin:$PATH
+
+错误二：
+
+Could NOT find Curses (missing:  CURSES_LIBRARY CURSES_INCLUDE_PATH)
+
+# yum install ncurses-devel
+
+ 
+
+ 8.11 添加并发优化
+
+# vi /usr/local/mysql/bin/mysqld_safe
+
+在 executing mysqld_safe 的下一行，加上：
+
+export LD_PRELOAD=/usr/local/lib/libtcmalloc.so
+
+ 
+
+ 启动 mysql：
+
+# service mysqld restart
+
+使用lsof命令查看tcmalloc是否起效：
+
+# /usr/sbin/lsof -n | grep tcmalloc
+
+如果发现以下信息，说明tcmalloc已经起效：
+
+mysqld    10847   mysql  mem       REG        8,5  1203756   20484960 /usr/local/lib/libtcmalloc.so.0.0.0
+
+ 
+9. 开始安装 PHP
+
+9.1 下载 php 和相关软件包
+
+# cd /mydata/soft
+
+wget http://cn2.php.net/get/php-5.4.8.tar.gz/from/this/mirror
+
+wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+
+wget http://downloads.sourceforge.net/mcrypt/libmcrypt-2.5.8.tar.gz?modtime=1171868460&big_mirror=0
+
+wget http://downloads.sourceforge.net/mcrypt/mcrypt-2.6.8.tar.gz?modtime=1194463373&big_mirror=0
+
+wget http://downloads.sourceforge.net/mhash/mhash-0.9.9.9.tar.gz?modtime=1175740843&big_mirror=0
+
+wget ftp://ftp.imagemagick.org/pub/ImageMagick/ImageMagick-6.8.0-4.tar.gz
+
+wget http://sourceforge.net/projects/imagemagick/files/old-sources/6.x/6.6/ImageMagick-6.6.9-10.tar.gz
+
+wget http://pecl.php.net/get/imagick-3.1.0RC2.tgz
+
+wget http://pecl.php.net/get/memcache-3.0.7.tgz
+
+wget https://launchpad.net/libmemcached/1.0/1.0.4/+download/libmemcached-1.0.4.tar.gz
+
+wget https://launchpad.net/libmemcached/1.0/1.0.13/+download/libmemcached-1.0.13.tar.gz
+
+wget http://memcached.googlecode.com/files/memcached-1.4.15.tar.gz
+
+wget http://pecl.php.net/get/memcached-2.1.0.tgz
+
+wget https://github.com/eaccelerator/eaccelerator/tarball/master
+
+wget https://github.com/downloads/libevent/libevent/libevent-2.0.20-stable.tar.gz
+
+ 
+
+ 9.2 安装 php 相关的软件
+
+ 这部分代码安装过好多太服务器几乎没有什么问题，可以直接全部复制粘贴到ssh就好了，我就不打 # 号了
+
+  
+
+  tar zxvf libiconv-1.14.tar.gz
+  cd libiconv-1.14
+  ./configure --prefix=/usr/local
+  make && make install
+  cd ../
+
+   
+
+   tar zxvf libmcrypt-2.5.8.tar.gz
+   cd libmcrypt-2.5.8/
+   ./configure
+   make && make install
+   /sbin/ldconfig
+   cd libltdl/
+   ./configure --enable-ltdl-install
+   make && make install
+   cd ../../
+
+    
+
+    tar zxvf mhash-0.9.9.9.tar.gz
+
+    cd mhash-0.9.9.9/
+
+    ./configure
+
+    make && make install
+
+    cd ../
+
+     
+
+     ln -s /usr/local/lib/libmcrypt.la /usr/lib/libmcrypt.la
+
+     ln -s /usr/local/lib/libmcrypt.so /usr/lib/libmcrypt.so
+
+     ln -s /usr/local/lib/libmcrypt.so.4 /usr/lib/libmcrypt.so.4
+
+     ln -s /usr/local/lib/libmcrypt.so.4.4.8 /usr/lib/libmcrypt.so.4.4.8
+
+     ln -s /usr/local/lib/libmhash.a /usr/lib/libmhash.a
+
+     ln -s /usr/local/lib/libmhash.la /usr/lib/libmhash.la
+
+     ln -s /usr/local/lib/libmhash.so /usr/lib/libmhash.so
+
+     ln -s /usr/local/lib/libmhash.so.2 /usr/lib/libmhash.so.2
+
+     ln -s /usr/local/lib/libmhash.so.2.0.1 /usr/lib/libmhash.so.2.0.1
+
+     ln -s /usr/local/bin/libmcrypt-config /usr/bin/libmcrypt-config
+
+     ln -s /usr/local/mysql/lib/libmysqlclient.so.18  /usr/lib/libmysqlclient.so.18
+
+      
+
+      ln -s /usr/local/lib/libmcrypt.la /usr/lib64/libmcrypt.la
+
+      ln -s /usr/local/lib/libmcrypt.so /usr/lib64/libmcrypt.so
+
+      ln -s /usr/local/lib/libmcrypt.so.4 /usr/lib64/libmcrypt.so.4
+
+      ln -s /usr/local/lib/libmcrypt.so.4.4.8 /usr/lib64/libmcrypt.so.4.4.8
+
+      ln -s /usr/local/lib/libmhash.a /usr/lib64/libmhash.a
+
+      ln -s /usr/local/lib/libmhash.la /usr/lib64/libmhash.la
+
+      ln -s /usr/local/lib/libmhash.so /usr/lib64/libmhash.so
+
+      ln -s /usr/local/lib/libmhash.so.2 /usr/lib64/libmhash.so.2
+
+      ln -s /usr/local/lib/libmhash.so.2.0.1 /usr/lib64/libmhash.so.2.0.1
+
+      ln -s /usr/local/mysql/lib/libmysqlclient.so.18  /usr/lib64/libmysqlclient.so.18
+
+      ln -sv /usr/lib64/libldap* /usr/lib/
+
+       
+
+       tar zxvf mcrypt-2.6.8.tar.gz
+
+       cd mcrypt-2.6.8/
+
+       /sbin/ldconfig
+
+       ./configure
+
+       make && make install
+
+       cd ../
+
+        
+
+        9.3 新建扩展配置目录
+
+# mkdir -p /usr/local/php/etc/php.d/
+
+ 
+
+ 9.4 开始安装 PHP 5.4.8
+
+# tar xvzf php-5.4.8.tar.gz
+
+# cd php-5.4.8/
+
+# ./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc \
+
+--with-mysql=/usr/local/mysql/ --with-mysqli=/usr/local/mysql/bin/mysql_config \
+
+--with-pdo-mysql=/usr/local/mysql/ --with-iconv-dir=/usr/local --enable-fpm \
+
+--disable-phar --with-fpm-user=www --with-fpm-group=www --with-pcre-regex \
+
+--with-config-file-scan-dir=/usr/local/php/etc/php.d \
+
+--with-zlib --with-bz2 --enable-calendar --with-curl --enable-dba --with-libxml-dir \
+
+--enable-ftp --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-freetype-dir \
+
+--enable-gd-native-ttf --enable-gd-jis-conv --with-mhash --enable-mbstring --with-mcrypt \
+
+--enable-pcntl --enable-xml --disable-rpath --enable-shmop --enable-sockets --enable-zip \
+
+--enable-bcmath --with-snmp --disable-ipv6 --with-xmlrpc --with-ldap --with-ldap-sasl --enable-exif \
+
+--enable-soap --enable-pdo --with-pdo-mysql --enable-sysvsem --enable-inline-optimization --with-curlwrappers
+
+ 
+
+ 以上代码合并为：./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --with-mysql=/usr/local/mysql/ --with-mysqli=/usr/local/mysql/bin/mysql_config --with-pdo-mysql=/usr/local/mysql/ --with-iconv-dir=/usr/local --enable-fpm --disable-phar --with-fpm-user=www --with-fpm-group=www --with-pcre-regex --with-config-file-scan-dir=/usr/local/php/etc/php.d --with-zlib --with-bz2 --enable-calendar --with-curl --enable-dba --with-libxml-dir --enable-ftp --with-gd
+ --with-jpeg-dir --with-png-dir --with-zlib-dir --with-freetype-dir --enable-gd-native-ttf --enable-gd-jis-conv --with-mhash --enable-mbstring --with-mcrypt --enable-pcntl --enable-xml --disable-rpath --enable-shmop --enable-sockets --enable-zip --enable-bcmath --with-snmp --disable-ipv6 --with-xmlrpc --with-ldap --with-ldap-sasl --enable-exif --enable-soap --enable-pdo --with-pdo-mysql --enable-sysvsem --enable-inline-optimization --with-curlwrappers
+
+  
+
+# make ZEND_EXTRA_LIBS='-liconv'
+
+# make test
+
+# make install
+
+# cp php.ini-production /usr/local/php/etc/php.ini
+
+ 
+
+# PATH=/usr/local/php/bin:$PATH
+
+# PATH=/usr/local/php/sbin:$PATH
+
+ 
+
+ 提示：
+
+ --enable-fastcgi --enable-force-cgi-redirect PHP 5.3以后已经强制开启了 fastcgi 了，具体查看官方说明：
+ https://bugs.php.net/bug.php?id=50840&edit=1  最下面 FastCGI is now always enabled and cannot be disabled.
+
+ 错误：
+ configure: error: Cannot find ldap libraries in /usr/lib.
+ 解决办法：
+ ln -sv /usr/lib64/libldap* /usr/lib/
+  
+
+  注意 make test 的时候可能会出现 ：
+
+  /mnt/sun/php-5.4.8/sapi/cli/php: error while loading shared libraries: libmysqlclient.so.18: cannot open shared object file: No such file or directory
+
+  32位系统
+# ln -s /usr/local/mysql/lib/libmysqlclient.so.18  /usr/lib/libmysqlclient.so.18
+
+64位系统
+# ln -s /usr/local/mysql/lib/libmysqlclient.so.18  /usr/lib64/libmysqlclient.so.18
+
+ 
+
+ 9.5 开机启动 php-fpm
+
+# cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+# chmod +x /etc/init.d/php-fpm
+# chkconfig --add php-fpm
+# chkconfig --level 2345 php-fpm on
+# cd ../
+
+ 
+
+ 9.6 关于php-fpm 的操作说明与添加系统服务
+
+ PHP5.3.3以上版本的php-fpm重启、停止命令已经不是php-fpm start|stop|reload了，
+
+ 需要使用信号控制：
+ 打开编译安装包，换成你自己的路径
+
+ cd /mydata/soft/php-5.4.8/
+ cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+ chmod +x /etc/init.d/php-fpm
+ chkconfig --add php-fpm
+ chkconfig --level 2345 php-fpm on
+
+  
+
+  ------------------------------------下面也是可以用的----------------------------------------
+
+  PHP5.4.8 注册系统服务操作，把之前 nginx 版本的改了下，亲自测试过应该没什么问题滴
+
+#!/bin/sh
+# Comments to support chkconfig on RedHat Linux
+# chkconfig: 2345 66 38
+# description: A php-fpm daemon.
+                                            
+set -e
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="php-fpm daemon"
+NAME=php-fpm
+DAEMON=/usr/local/php/sbin/$NAME
+SCRIPTNAME=/etc/init.d/$NAME
+                                            
+# If the daemon file is not found, terminate the script.
+test -x $DAEMON || exit 0
+                                            
+d_test() {
+    $DAEMON -t
+}
+d_start() {
+    $DAEMON || echo -n " already running"
+}
+d_stop() {
+    kill -INT `cat /usr/local/php/var/run/php-fpm.pid`
+}
+d_reload() {
+    kill -USR2 `cat /usr/local/php/var/run/php-fpm.pid`
+}
+                                            
+case "$1" in
+    test)
+      d_test
+      echo "."
+      ;;
+    start)
+      echo -n "Starting $DESC: $NAME"
+      d_start
+      echo "."
+      ;;
+    stop)
+      echo -n "Stopping $DESC: $NAME"
+      d_stop
+      echo "."
+      ;;
+    reload)
+      echo -n "Reloading $DESC configuration..."
+      d_reload
+      echo "reloaded."
+      ;;
+    restart)
+      echo -n "Restarting $DESC: $NAME"
+      d_stop
+      # Sleep for two seconds before starting again, this should give the
+      # php-fpm daemon some time to perform a graceful stop.
+      sleep 2
+      d_start
+      echo "."
+      ;;
+    *)
+      echo "Usage: $SCRIPTNAME {test|start|stop|restart|reload}" >&2
+      exit 3
+      ;;
+esac
+                                            
+exit $?
+
+
+
+注册 php-fpm 服务
+chmod +x /etc/init.d/php-fpm
+chkconfig --add php-fpm
+chkconfig --level 2345 php-fpm on
+chkconfig --list php-fpm 
+
+ 
+
+ 相关 php-fpm 命令
+ 检测 php-fpm 配置
+# service php-fpm test
+启动
+# service php-fpm start
+关闭
+# service php-fpm stop
+重启
+# service php-fpm restart
+重载配置
+# service php-fpm reload
+
+
+
+9.7 安装 PHP 扩展
+
+9.7.1 服务器版 memcached
+memcached 把我搞晕了，有两个 memcached，我也不是很清楚具体区别，
+按我的理解应该是分为 服务器版 和 php 扩展版
+一开始用 服务器版来编译 php 扩展，搞了半天都没弄出来，后来才发现居然有两个，晕死了
+
+ 
+
+ 安装依赖包：
+
+# tar zxvf libevent-2.0.20-stable.tar.gz
+# cd libevent-2.0.20-stable
+# ./configure --prefix=/usr/local/libevent
+# make && make install
+# cd ../
+
+ 
+
+# tar xvzf memcached-1.4.15.tar.gz
+# cd memcached-1.4.15
+# ./configure --enable-64bit --enable-threads --with-libevent=/usr/local/libevent
+# make && make install
+# cd ../
+
+ 
+
+ 检测是否安装成功：
+# ls -al /usr/local/bin/memcached
+# mkdir -p /var/run/memcached/
+
+ 
+
+ 启动 memcached：
+
+# /usr/local/bin/memcached -d -m 128 -u root -l 22.11.5.91 -p 11211 -c 256 -P /var/run/memcached/memcached.pid
+# ps aux|grep memcached
+
+
+ 关闭 memcached：
+# kill `cat /var/run/memcached/memcached.pid`
+ 
+
+ 新建启动和关闭脚本并赋执行权限：
+
+# cp memcached-1.4.15/scripts/memcached.sysv /etc/init.d/memcached
+
+# chmod 755 /etc/init.d/memcached
+
+ 
+
+ 修改配置：
+
+# vi /etc/init.d/memcached
+修改：
+PORT=11212
+USER=root
+OPTIONS=""
+
+ 
+
+ 查找：
+ daemon memcached -d -p ....
+
+ 修改为：
+ daemon /usr/local/bin/memcached -d -p ....
+
+  
+
+  添加下面两行：
+
+  chown $USER /usr/local/bin/memcached
+
+  /usr/local/bin/memcached -d -p $PORT -u $USER  -m $CACHESIZE -c $MAXCONN -P /var/run/memcache/memcached.pid $OPTIONS
+
+   
+
+   添加到系统服务：
+
+# chkconfig --add memcached
+
+# chkconfig --level 2345 memcached on
+
+# chkconfig --list memcached
+
+ 
+
+ 测试启动 检测 关闭：
+
+# service memcached start
+
+# ps aux|grep memcached
+
+# service memcached stop
+
+ 
+
+ 开启防火墙外网访问（单机可忽略该设置）：
+
+# iptables -I INPUT -p tcp --dport 11211 -j ACCEPT
+# iptables -I OUTPUT -p tcp --sport 11211 -j ACCEPT
+# iptables-save
+# service iptables save
+
+ 
+
+ 9.7.2 安装php扩展版 memcached
+
+ 依赖库：
+# tar zxvf libmemcached-1.0.13.tar.gz
+# cd libmemcached-1.0.13
+# ./configure --prefix=/usr/local/libmemcached
+# make && make install
+# cd ../
+
+ 
+
+ 安装 memcached
+# tar vxzf memcached-2.1.0.tgz
+# cd memcached-2.1.0
+# /usr/local/php/bin/phpize
+# ./configure --enable-memcached --with-libmemcached-dir=/usr/local/libmemcached --with-php-config=/usr/local/php/bin/php-config
+# make && make install
+# cd ..
+
+ 
+
+ 9.7.3 安装 memcache
+
+# tar zxvf memcache-3.0.7.tgz
+
+# cd memcache-3.0.7/
+
+# /usr/local/php/bin/phpize
+
+# ./configure --prefix=/usr/local/memcache --enable-memcache --with-php-config=/usr/local/php/bin/php-config --with-zlib-dir
+
+# make && make install
+
+# cd ../
+
+ 
+
+ 9.7.4 安装图片处理软件 可取代 gd
+
+# tar zxvf ImageMagick-6.8.0-4.tar.gz
+
+# cd ImageMagick-6.8.0-4/
+
+# export CFLAGS='-fPIC'
+
+# ./configure --prefix=/usr/local/ImageMagick --with-quantum-depth=8 --enable-share --enable-static
+
+# make && make install
+
+# cd ../
+
+ 
+
+# tar zxvf imagick-3.1.0RC2.tgz
+# cd imagick-3.1.0RC2/
+# /usr/local/php/bin/phpize
+# export PKG_CONFIG_PATH=/usr/local/ImageMagick/lib/pkgconfig/
+# ./configure --with-php-config=/usr/local/php/bin/php-config --with-imagick=/usr/local/ImageMagick
+# make && make install
+# cd ../
+
+ 
+
+ 9.7.5 安装 eaccelerator 给 php 编译加速+缓存
+
+# wget https://github.com/eaccelerator/eaccelerator/tarball/master
+# mv master eaccelerator-eaccelerator-42067ac.tar.gz
+# tar zxvf eaccelerator-eaccelerator-42067ac.tar.gz
+# cd eaccelerator-eaccelerator-42067ac/
+# /usr/local/php/bin/phpize
+# ./configure --enable-eaccelerator=shared --with-php-config=/usr/local/php/bin/php-config
+# make && make install
+# cd ../
+
+ 
+
+ 新建目录：
+
+# mkdir /tmp/eaccelerator_cache
+
+# chmod 0777 /tmp/eaccelerator_cache
+
+ 
+
+ 9.7.6 配置扩展
+
+ 打开自动扫描的扩展目录：
+
+# cd /usr/local/php/etc/php.d
+
+--------------------------------忽略分割线------------------------------
+
+ 
+
+# vi eaccelerator.ini
+
+写入：
+
+[eaccelerator]
+
+zend_extension="/usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/eaccelerator.so"
+
+eaccelerator.shm_size="20"
+
+eaccelerator.cache_dir="/tmp/eaccelerator_cache"
+
+eaccelerator.enable="1"
+
+eaccelerator.optimizer="1"
+
+eaccelerator.check_mtime="1"
+
+eaccelerator.debug="0"
+
+eaccelerator.filter=""
+
+eaccelerator.shm_max="0"
+
+eaccelerator.shm_ttl="3600"
+
+eaccelerator.shm_prune_period="3600"
+
+eaccelerator.shm_only="0"
+
+eaccelerator.compress="1"
+
+eaccelerator.compress_level="9"
+
+ 
+
+ --------------------------------忽略分割线------------------------------
+
+  
+
+# vi memcache.ini
+
+写入：
+
+extension = "memcache.so"
+memcache.chunk_size = 32768
+
+ 
+
+ --------------------------------忽略分割线------------------------------
+
+  
+
+# vi memcached.ini
+
+写入：
+extension = "memcached.so"
+
+ 
+
+ --------------------------------忽略分割线------------------------------
+
+  
+
+# vi imagick.ini
+
+写入：
+
+extension = "imagick.so"
+
+ 
+
+ --------------------------------忽略分割线------------------------------
+
+  
+
+  修改php配置：
+
+   
+
+# vi /usr/local/php/etc/php.ini
+
+查找并修改：
+cgi.fix_pathinfo=0
+extension_dir = "/usr/local/php/lib/php/extensions/no-debug-non-zts-20100525/"
+expose_php = Off
+allow_url_fopen = Off
+open_basedir = /tmp/:/var/www/
+disable_functions = exec,system,passthru,chroot,scandir,chgrp,shell_exec,proc_open,proc_get_status,ini_alter,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server
+
+date.timezone = Asia/Shanghai
+post_max_size = 8M
+upload_max_filesize = 6M
+ 
+
+ 拷贝 php-fpm 配置：
+# cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
+# vi /usr/local/php/etc/php-fpm.conf
+
+ 
+
+ 查找并修改：
+
+ 以下为示例数值，按自己服务器实际性能配置：
+
+ pm.max_children = 50
+ pm.start_servers = 20
+ pm.min_spare_servers = 5
+ pm.max_spare_servers = 35
+ pm.max_requests = 10240
+ rlimit_files = 65535
+
+  
+
+  10. 设置开机启动
+
+# vi /etc/rc.local
+
+写入：
+
+ulimit -SHn 65535
+service mysqld start
+service php-fpm start
+service memcached start
+service nginx start
+
+ 
+
+ 11. 配置完成
+ 弄了好几天，每天都熬到凌晨3点，终于弄完了，搞服务器真要累死人。。。
+
+

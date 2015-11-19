@@ -1,0 +1,78 @@
+1.least 1 GB of RAM
+	grep MemTotal /proc/meminfo
+
+2.cpu info
+	grep "model name" /proc/cpuinfo
+
+3.At least 1 GB of disk space in the /tmp directory
+	df -h /tmp
+
+4.linux version:For Asianux 3, Oracle Enterprise Linux 5.0, and Red Hat Enterprise Linux 5.0:   2.6.18 or later
+	For Asianux 2, Oracle Enterprise Linux 4.0, and Red Hat Enterprise Linux 4.0: 2.6.9 or later
+	cat /proc/version
+
+5.Creating Required Operating System Groups and Users
+	# /usr/sbin/groupadd oinstall
+	# /usr/sbin/groupadd dba
+	# id oracle
+	if not exist
+	/usr/sbin/useradd -g oinstall -G dba oracle
+
+6. Configure kernel parameters
+value of any kernel parameter ignore~!!!!!!!!!!!
+
+7.Setting Shell Limits for the oracle User
+
+7.1. Add the following lines in the /etc/security/limits.conf file: 
+oracle soft nproc 2047
+oracle hard nproc 16384
+oracle soft nofile 1024
+oracle hard nofile 65536
+
+7.2 Add the following line to the /etc/pam.d/login file, if it does not already exist:
+session required pam_limits.so
+
+7.3 Depending on the oracle user's default shell, make the following changes to the
+default shell startup file  /etc/profile file :
+if [ $USER = "oracle" ]; then
+	if [ $SHELL = "/bin/ksh" ]; then
+		ulimit -p 16384
+		ulimit -n 65536
+	else
+		ulimit -u 16384 -n 65536
+	fi
+fi
+
+8 Creating Required Directories
+The Oracle base directory must have 4 GB of free disk space, or 6 GB of free disk space
+# mkdir -p /[mount_point]/app/
+# chown -R oracle:oinstall /[mount_point]/app/
+# chmod -R 775 /[mount_point]/app/
+
+9.Configuring the oracle User’s Environment
+$ su - oracle
+$ echo $SHELL
+Bourne shell (sh), Bash shell on Red Hat (bash), or Korn shell (ksh):
+$ vi .bash_profile
+umask 022
+
+10. install
+$ /mount_point/db/runInstaller
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
