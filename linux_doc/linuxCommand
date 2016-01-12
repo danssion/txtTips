@@ -98,16 +98,21 @@ date -d "@1321884905" +%Y-%m-%d
 git
 git init --bare game_data_mining
 git rm --cache 
-
+git branch [-a]
 git config --global user.email "danssion@sina.com"
 git diff (--cached)
 git add 
-git commit
+git commit -m ""
 git show [branch name] [HEAD]
 git tag [tag name] [commit hash]
 git grep
 git remote add origin git@github.com:github用户名/Helloworld.git 
 git push -u origin master
+git archive --format zip --output "./output.zip" master -0
+git archive --format=tar --prefix=git-1.4.0/ v1.4.0^{tree} | gzip >git-1.4.0.tar.gz
+git archive --format=tar --prefix=eating/ HEAD:eating | gzip > git-head.tar.gz
+git archive --format=tar --prefix=junk/ HEAD | (cd /var/tmp/ && tar xf -)
+# Create a tar archive that contains the contents of the latest commit on the current branch, and extract it in the /var/tmp/junk directory
 //for github
 git clone 
 git remote add upstrean

@@ -3,10 +3,10 @@ tar jxf src.tar.bz2 && cd src && export LITB_SRC_DIR=$PWD
 
 #compile all codes
 
-#compile mysql.
+########## compile mysql.
 cd mysql-5.1.35 && make clean; ./configure --prefix=$HOME/dev --with-tcp-port=8881 --with-charset=utf8 --with-extra-charsets=gb2312,gbk,big5,latin1,ascii --with-unix-socket-path=$HOME/dev/tmp/mysql.sock --with-mysqld-user=$USER --with-plugins=innobase && make && make install; cd ../
 
-#Compile mysql-5.5.8.tar.gz+
+########## Compile mysql-5.5.8.tar.gz+
 yum install cmake.x86_64
 #wget  mysql
 #groupadd mysql
@@ -58,7 +58,7 @@ export PATH=$PATH:$PHP_HOME/bin:$PHP_HOME/sbin:$MYSQL_HOME/bin
 # 设定mysql密码
 # /opt/modules/mysql/bin/mysqladmin -u root password '223238'
 
-#install mysql5.6.27
+########## install mysql5.6.27
 shell> cmake . -DCMAKE_INSTALL_PREFIX=/opt/modules/mysql5.6.27 -DINSTALL_DATADIR=/data/mysql/data -DDEFAULT_CHARSET=utf8 \
 -DDEFAULT_COLLATION=utf8_general_ci -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1
 参数说明：
@@ -106,7 +106,7 @@ cd memcached-1.4.0 && make clean; ./configure --prefix=$HOME/dev --with-libevent
 #compile libmemcached
 cd libmemcached-0.31 && make clean; ./configure --prefix=$HOME/dev && make && make install; cd ../
 
-#compile php
+########## compile php
 cd php-5.2.10 && make clean; ./configure --prefix=$HOME/dev --enable-fastcgi --enable-force-cgi-redirect --enable-discard-path --with-config-file-path=$HOME/dev/etc/php/ --with-config-file-scan-dir=$HOME/dev/etc/php/mods-enable/ --with-pear --enable-zip && make ZEND_EXTRA_LIBS='-liconv' && make install; cd ../
 
 php-5.3.1: ./configure --prefix=$HOME/dev --enable-fastcgi --enable-force-cgi-redirect --enable-discard-path --with-config-file-path=$HOME/dev/etc/php/ --with-config-file-scan-dir=$HOME/dev/etc/php/mods-enable/ --with-pear –enable-zip && make && make install;
@@ -186,7 +186,7 @@ cd imagick-2.2.2 && make clean; ~/dev/bin/phpize && ./configure --with-php-confi
 #compile lighttpd
 cd lighttpd-1.4.22 && make clean; ./configure --prefix=$HOME/dev && make && make install && cp $HOME/src/lighttpd/src/spawn-fcgi $HOME/dev/sbin/; cd ../
 
-#nignx lua
+########## nignx lua
 apt-get install -y lua5.1 liblua5.1-0 liblua5.1-0-dev
 yum install lua-dev
 wget https://github.com/chaoslawful/lua-nginx-module/archive/master.zip -O ngx_lua_module.zip
@@ -255,7 +255,7 @@ cd neon-0.29.6/
 ./configure --prefix=/usr/local/neon
 make && make install
 
-#install subversion
+########## install subversion
 cd subversion-1.7.9 
 ./configure --with-apr=/usr/bin/apr-config --with-apr-util=/usr/bin/apu-config --with-ssl --with-zlib=/usr/local/zlib/ --enable-maintainer-mode  --with-neon=/usr/local/neon/
 
@@ -328,8 +328,19 @@ log_file='mysql-bin.000001',master_log_pos=120;
 mysql 32> start slave; 
 
 
-
-
-
+########## install&config git server
+yum install git
+#add user for git server
+sudo adduser git
+su git
+cd
+mkdir .ssh
+#只要把它们加入authorized_keys 文件
+cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
+cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
+cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
+#变更git用户信息 shell
+sudo vim /etc/passwd
+git:x:1000:1000::/home/git:/bin/sh => git:x:1000:1000::/home/git:/usr/bin/git-shell
 
 
