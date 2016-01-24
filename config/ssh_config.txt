@@ -1,0 +1,22 @@
+GSSAPIAuthentication no
+ConnectionAttempts 5
+ConnectTimeout 3
+
+Host czls240 c240 bobo1
+Hostname 123.59.46.240
+User duanxiang
+Port 22
+
+Host czls49 c49 bobo2
+Hostname 180.150.187.49
+User duanxiang
+Port 22
+#
+#IdentityFile ~/.ssh/beibao
+#
+#Host *
+#User www
+#Port 22
+#CheckHostIP no
+#Compression yes
+#ForwardAgent yes
