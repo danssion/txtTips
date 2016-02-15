@@ -1,14 +1,11 @@
+[[[ grep ]]]
 egrep -ril '<?php ' ./includes/languages/*/html_includes | egrep -e "\.php$" | wc -l 
 grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{print$1}' | sort -rn | wc -l
 ./assistantShell.sh -i error | awk 'FS=" " {print $1; sum+=$1} END {print sum} '
  head -n 20000000 2015081400.log | grep "\"plt\":\"0\"" | grep "\"type\":\"A\"" | awk -F "\"posi\":" '{print $2}' | awk -F "," '{print $1}' | sort | uniq -c
 ./assistantShell.sh -i error | gawk -mf 3000000 'FS=" " {print $1; sum+=$1} END {print sum} '
-find ./ -depth -name '*.php' | grep -E "^./[a-z]{4,}" | xargs grep -El '*meta_tags_products_description
-find -name "x11-common*" | xargs -I{} cp -a {} [dir]
 sshfs -o idmap=user,umask=0000,uid=1000,gid=1000 duanxiang@192.168.12.185:/home/duanxiang/codes -p 25552 /home/danssion/server-dir
 fusermount -u /home/danssion/server-dir/
-
-find -name "*.php" | grep -E "(\.\/module|\.\/externals\/common\/module).*" | xargs ls -aSl
 
 sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
 
@@ -27,19 +24,26 @@ setenv LANG zh_CN.UTF-8
 
 svn propset svn:keywords "Date Author Revision Id" protected/controllers/
 
+[[[ tar ]]]
 tar xvf abc.tar -C ./abc/
 tar czvf stuff --exclude=danssion/*
 tar -zcvf - stuff --exclude=danssion/.cache | openssl des3 -salt -k tardepassword | dd of=stuff.des3
 dd if=stuff.des3 | openssl des3 -d -k tardepassword | tar zxf -
 
+[[[ find ]]]
 //在系统根目录下，查找文件为普通文件，属于student用户的，2天以前的，并且查找时不包含/usr/bin目录的文件名为main.c的文件，并将结果输出到屏幕, 对上例中搜索的结果进行删除操作：
 find / -path "/usr/bin" -prune -o -name "main.c" -user student -type f -mtime +2 -print -exec rm {} \;
-
+find -name "*.php" | grep -E "(\.\/module|\.\/externals\/common\/module).*" | xargs ls -aSl
 find . -user root -o -path "*.svn*" -prune| xargs sudo chown danssion:danssion
 find . -path "*.svn*" -prune -o  -user root | egrep "[^s][^n]{1,1}$" | xargs sudo chown danssion:danssion
 find . -type f -name "*.txt" | xargs -I {} cp {}  /tmp/n/
 find ./output9/ -name "part*" | xargs -i  cat >> ./output9/part-all
 
+find ./ -depth -name '*.php' | grep -E "^./[a-z]{4,}" | xargs grep -El '*meta_tags_products_description
+find -name "x11-common*" | xargs -I{} cp -a {} [dir]
+
+
+[[[ system info ]]]
 pkg_info | grep ***
 dmesg | grep -i CPU
 sysctl -a | grep -i cpu
@@ -47,8 +51,15 @@ sysctl -a | grep -i memory
 Graphics Card info:
 1.lspci  2.modinfo  3.lsmod  4.hwbrowser  5.dmidecode，从bios中读取信息
 6、lspci |grep VGA 7、如果是nvdia的话，可以试试glxinfo
+centerOS:
+lsb_release -a
+cat /etc/redhat-release
+rpm -q centos-release
+file /sbin/init
+uname -a || cat /etc/issue  ||   lsb_release -a   ||   cat /etc/redhat-release(针对redhat，Fedora)
 
-freeBSD:
+
+[[[ freeBSD install ]]]
 install php5-extensions
 FreeBSD# cd /usr/ports/lang/php5-extensions/
 FreeBSD# make config
@@ -60,15 +71,10 @@ freebsd# cat /var/run/dmesg.boot |grep CPU
 cd /usr/ports/misc/cpuid
 make install clean
 
-centerOS:
-lsb_release -a
-cat /etc/redhat-release
-rpm -q centos-release
-
 pecl install pecl_http
 source ~/.bashrc
 
-log shell
+[[[ log shell ]]]
 head access_7k7kflash.log -n 10 | awk '$2!="" { printf "%15s %s %20s %s request:%s state:%s refer:%s \n",$1,"\t",$4,$5,$7,$9,$11}' | sed G
 
 head access_1.log -n 10 | sed 's/\[//g' | sed 's/\]//g' | awk '{if ($7!~/(mp3|swf)$/) printf  "%s\t%s\t%s\tstatus:%s\tsize:%s\n",$1,$4,$7,$9,$10 }'
@@ -83,6 +89,7 @@ free dentries and inodes 2 ; free pagecache, dentries and inodes
 
 date -d "@1321884905" +%Y-%m-%d
 
+[[[ dpkg ]]]
 *** 包管理
     dpkp
     dpkg-query
@@ -95,7 +102,12 @@ date -d "@1321884905" +%Y-%m-%d
     **** 查找某个包
     apt-cache search pkg-name
 
-git
+dpkg -l
+dpkg-query -L
+rpm -ql 
+
+
+[[[ git ]]]
 git init --bare game_data_mining
 git rm --cache 
 git branch [-a]
@@ -123,11 +135,13 @@ git merge upstrean/master
 git branch -m master part2 # 重命名 "master" 分支到 "part2"
 git checkout SHA1 -b master 
 
-mysql
+[[[ mysql ]]]
 service mysqld [start][restart][stop]
 /etc/inint.d/mysqld [start][restart][stop]
 safe_mysqld&
 mysqladmin shutdown
+SET PASSWORD FOR root=PASSWORD('new_password');
+mysqladmin -uroot -p password '你的新密码' 
 mysqlslap --defaults-file=/opt/modules/mysql/my.cnf --concurrency=50,100 --iterations=1 --auto-generate-sql --auto-generate-sql-load-type=write --engine=innodb --number-of-queries=200 -S/tmp/mysql.sock
 show create table **** //show partition information
 explain partitions select语句 通过此语句来显示扫描哪些分区，及他们是如何使用的
@@ -136,7 +150,7 @@ start slave与stop slave来开启和关闭同步。
 CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
 
 
-vim
+[[[ vim ]]]
 快捷键------------------------------------
 word: w,e,b W,E,B,gU,gu
 line: 0,^,$,g_,[N]G,gg,G
@@ -156,6 +170,11 @@ vim -t class | method | variable
 ctrl-] ：跳转至光标所在对象定义之处
 ctrl-t ：返回跳转前位置
 vim可以从一个函数调用跳转到其函数定义(快捷键是CTRL+],上一个CTRL+t)
+
+vim 插件管理pathogen的使用
+进入.vim/bundle目录
+执行git clone git://github.com/scrooloose/nerdtree.git
+
 :help 29.1
 折叠------------------------------
 set fdm=[foldmethod]可以设置折叠模式
@@ -180,18 +199,24 @@ zk移动到前一个折叠，
 zm关闭一个水平的折叠，
 zn关闭折叠功能，
 zN重新打开折叠功能。
-多窗口------------------------------------------------
+多窗口---------------------
 改变窗口大小
 CTRL-W -    使得当前窗口高度减 N (默认值是 1)。 CTRL-W +    使得当前窗口高度加 N (默认值是 1)
 CTRL-W <    使得当前窗口宽度减 N (默认值是 1)。 CTRL-W >    使得当前窗口宽度加 N (默认值是 1)
+:set nobomb bomb?
 
-vim 插件管理pathogen的使用
-进入.vim/bundle目录
-执行git clone git://github.com/scrooloose/nerdtree.git
-
-dpkg -l
-dpkg-query -L
-rpm -ql 
+[[[ macport ]]]----------------------------------
+sudo port -v selfupdate
+port list
+port info flowd
+#删除临时文件
+sudo port clean –all vile
+#卸载软件
+sudo port uninstall name
+#查看有更新的软件以及版本
+port outdated
+#升级可以更新的软件
+sudo port upgrade outdated
 
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
@@ -200,7 +225,7 @@ rename s/_l//g *.swf
  cp $(find -name "1010*.gif") $([cmd2])
  cp $(ls /kkshow/demo/6 | sed 's/.swf/.gif/g') $([cmd2])
 
-netstat
+[[[ netstat ]]]
 -a (all)显示所有选项，默认不显示LISTEN相关
 -t (tcp)仅显示tcp相关选项
 -u (udp)仅显示udp相关选项
@@ -215,9 +240,17 @@ netstat
 
 提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到
 
-:set nobomb bomb?
+[[[ hostname ]]]
+1：  hostname DB-Server
+--运行后立即生效（新会话生效），但是在系统重启后会丢失所做的修改
+2：  echo DB-Server  > /proc/sys/kernel/hostname
+--运行后立即生效（新会话生效），但是在系统重启后会丢失所做的修改
+3： sysctl kernel.hostname=DB-Server
+--运行后立即生效（新会话生效），但是在系统重启后会丢失所做的修改
+4: 修改/etc/sysconfig/network下的HOSTNAME变量
+--需要重启生效，永久性修改。
 
-x window:
+[[[ x window ]]]
 sudo restart lightdm
 sudo service lightdm restart
 sudo pkill x
@@ -236,10 +269,8 @@ find ./ -type f -maxdepth 1 -ok ls -al {} \;
 find ./ -type f -maxdepth 1 -exec ls -al {} \;
 find . -name "*.log" -exec rm {} \;
 
-uname -a || cat /etc/issue  ||   lsb_release -a   ||   cat /etc/redhat-release(针对redhat，Fedora)
-
 lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  iostat -c -d -x  pidstat vmstat w
-setsid traceroute  
+setsid traceroute  lsmode
 
 dmesg id
 tmux ls

@@ -121,7 +121,8 @@ php-5.4.42: ./configure --prefix=/opt/modules/php-5.4.42  --with-config-file-pat
 #ln -s /opt/modules/php/bin/* /usr/local/bin/
 #ln -s /opt/modules/php/sbin/php-fpm /usr/local/sbin/php-fpm
 
-php-5.6.15: ./configure --prefix=/opt/modules/php5.6.15 --with-config-file-path=/opt/modules/php5.6.15/etc --with-config-file-scan-dir=/opt/modules/php5.6.15/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem  --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-xmlrpc --with-curl --with-imap-ssl
+export INSTALL_HOME=/opt/modules/php5.6.15
+php-5.6.15: ./configure --prefix=$INSTALL_HOME --with-config-file-path=$INSTALL_HOME/etc --with-config-file-scan-dir=$INSTALL_HOME/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem  --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-xmlrpc --with-curl --with-imap-ssl
 
 php-5.6.14 for baofeng: ./configure --prefix=/opt/modules/php5.6.14 --with-config-file-path=/opt/modules/php5.6.14/etc --with-config-file-scan-dir=/opt/modules/php5.6.14/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-zip --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-curl  --with-bz2 --enable-pcntl
 
@@ -136,6 +137,10 @@ allow_url_fopen = Off
 open_basedir = /tmp/:/var/www/
 disable_functions = exec,system,passthru,chroot,scandir,chgrp,shell_exec,proc_open,proc_get_status,ini_alter,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server
 date.timezone = Asia/Shanghai
+#product
+display_errors = Off
+ error_reporting = E_ALL& ~E_NOTICE
+ display_startup_errors =Off
 
 
 compile php-extension-curl
@@ -214,6 +219,7 @@ cd nginx-1.3.16 && make clean; ./configure --prefix=/opt/modules/nginx --conf-pa
 #http://www.lua.org/download.html
 #http://luajit.org/install.html
 http://luajit.org/install.html
+wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
 tar zxf LuaJIT-2.0.4.tar.gz
 cd LuaJIT-2.0.4
 make
