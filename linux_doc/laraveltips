@@ -1,4 +1,4 @@
-########## 1.laravel use command ##########
+########### 1.laravel use command ##########
 php artisan make:model Article
 php artisan make:controller Location/CountryController
 
@@ -6,6 +6,8 @@ php artisan make:controller Location/CountryController
 composer dump-autoload
 php artisan make:migration add_votes_to_users_table --table=users
 php artisan make:migration create_articles_table --create="articles" --path=app/migrations
+php artisan migrate:rollback
+php artisan migrate:reset
 
 php artisan make:migration create_location_country_table --create="location_country"
 

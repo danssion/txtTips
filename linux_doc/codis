@@ -1,0 +1,170 @@
+[[[[[golang install]]]]]
+yum install golang.x86_64
+#wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz
+#set env in /etc/profile
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera
+export GOPATH=/opt/modules/gosrc
+export GOARCH=amd64
+export GOOS=linux
+export PATH=$GOPATH/bin:$PATH:${JAVA_HOME}/bin
+go get github.com/tools/godep
+
+[[[[[etcd install]]]]]
+yum install etcd.x86_64
+
+[etcd cluster note1:10.1.11.6]
+etcd --name infra0 --initial-advertise-peer-urls http://10.1.11.6:2380 \
+--listen-peer-urls http://10.1.11.6:2380 \
+--listen-client-urls 'http://10.1.11.6:2379,http://127.0.0.1:2379' \
+--advertise-client-urls 'http://10.1.11.6:2379' \
+--initial-cluster-token etcd-cluster-1 \
+--initial-cluster infra0=http://10.1.11.6:2380,infra1=http://10.1.11.7:2380,infra2=http://10.1.11.8:2380 \
+--initial-cluster-state new
+
+[etcd cluster note1:10.1.11.7]
+etcd --name infra1 --initial-advertise-peer-urls http://10.1.11.7:2380 \
+--listen-peer-urls http://10.1.11.7:2380 \
+--listen-client-urls 'http://10.1.11.7:2379,http://127.0.0.1:2379' \
+--advertise-client-urls 'http://10.1.11.7:2379' \
+--initial-cluster-token etcd-cluster-1 \
+--initial-cluster infra0=http://10.1.11.6:2380,infra1=http://10.1.11.7:2380,infra2=http://10.1.11.8:2380 \
+--initial-cluster-state new
+
+[etcd cluster note1:10.1.11.8]
+etcd --name infra2 --initial-advertise-peer-urls http://10.1.11.8:2380 \
+--listen-peer-urls http://10.1.11.8:2380 \
+--listen-client-urls 'http://10.1.11.8:2379,http://127.0.0.1:2379' \
+--advertise-client-urls 'http://10.1.11.8:2379' \
+--initial-cluster-token etcd-cluster-1 \
+--initial-cluster infra0=http://10.1.11.6:2380,infra1=http://10.1.11.7:2380,infra2=http://10.1.11.8:2380 \
+--initial-cluster-state new
+
+[add new node]
+etcdctl cluster-health
+etcdctl member add infra3 http://10.1.11.6:2380
+etcd --name infra3 --initial-advertise-peer-urls http://10.1.11.6:2380 \
+--listen-peer-urls http://10.1.11.6:2380 \
+--listen-client-urls 'http://10.1.11.6:2379,http://127.0.0.1:2379' \
+--advertise-client-urls 'http://10.1.11.6:2379' \
+--initial-cluster-token etcd-cluster-1 \
+--initial-cluster infra3=http://10.1.11.6:2380,infra1=http://10.1.11.7:2380,infra2=http://10.1.11.8:2380 \
+--initial-cluster-state existing
+
+
+[[[[[codis-proxy & codis-config]]]]]
+go get -u -d github.com/CodisLabs/codis
+cd $GOPATH/src/github.com/CodisLabs/codis
+make
+make gotest
+mkdir -p /opt/modules/codis/{log,redis_conf}
+chmod 0777 /opt/modules/codis/log
+cp config.ini /opt/modules/codis/
+
+[init slot shell]
+#!/bin/sh
+BASEHOME=/opt/modules/codis
+
+echo "slots initializing..."
+$BASEHOME/codis-config -c $BASEHOME/config.ini slot init -f
+echo "done"
+
+echo "set slot ranges to server groups..."
+$BASEHOME/codis-config -c $BASEHOME/config.ini slot range-set 0 400 1 online
+$BASEHOME/codis-config -c $BASEHOME/config.ini slot range-set 401 800 2 online
+$BASEHOME/codis-config -c $BASEHOME/config.ini slot range-set 801 1023 3 online
+echo "done"
+
+[start dashboard shell]
+#!/bin/sh
+BASEHOME=/opt/modules/codis
+nohup $BASEHOME/codis-config -c $BASEHOME/config.ini -L $BASEHOME/log/dashboard.log dashboard --addr=:18087 --http-log=$BASEHOME/log/requests.log >> $BASEHOME/log/dashboardout.log  2>&1 &
+
+[start proxy shell]
+#!/bin/sh
+BASEHOME=/opt/modules/codis
+echo "shut down proxy_1..."
+$BASEHOME/codis-config -c config.ini proxy offline proxy_1
+echo "done"
+
+echo "start new proxy..."
+nohup $BASEHOME/codis-proxy --log-level info -c config.ini -L $BASEHOME/log/proxy.log  --cpu=2 --addr=0.0.0.0:19000 --http-addr=0.0.0.0:11000 >> $BASEHOME/log/proxyrun.log 2>&1 &
+echo "done"
+
+
+
+
+[[[[[codis-ha]]]]]
+go get github.com/ngaut/codis-ha
+cd  /data/go/src/github.com/ngaut/codis-ha
+go build
+cp codis-ha /opt/modules/codis/
+使用方法：
+codis-ha --codis-config=dashboard地址:18087 --productName=集群项目名称
+
+[codis-ha shell]
+#!/bin/sh
+BASEHOME=/opt/modules/codis
+DASHADDR=10.1.11.8:18087
+nohup $BASEHOME/codis-ha --codis-config=$DASHADDR --productName=codis >> $BASEHOME/log/codis-ha.log 2>&1 &
+
+
+[[[[[haproxy]]]]]
+yum install haproxy.x86_64
+
+[run]
+haproxy -f /etc/haproxy/haproxy.cfg 
+
+[haproxy conf update]
+user        root
+group       root
+daemon
+
+retries                 3
+timeout http-request    3s
+timeout queue           10s
+timeout connect         3s
+timeout client          1m
+timeout server          1m
+timeout http-keep-alive 3s
+timeout check           1s
+maxconn                 30000
+
+
+
+ntend codis-proxy
+bind :18000
+mode    tcp
+default_backend codis_proxy_19000
+#    balance roundrobin 
+#    server  msvr1 10.1.11.8:19000 check   inter 1s rise 5 fall 2 weight 10
+#    server  msvr2 10.1.11.7:19000 check   inter 1s rise 5 fall 2 weight 10
+#    timeout server   9s 
+
+frontend web_haproxy_status
+bind :8081
+default_backend web_status
+
+backend codis_proxy_19000
+mode    tcp
+#    option  tcpka 
+balance roundrobin
+#服务器定义，cookie 1表示serverid为1，check inter 1500 是检测心跳频率
+#rise 3是3次正确认为服务器可用，fall 3是3次失败认为服务器不可用，weight代表权重
+server  msvr1 10.1.11.8:19000 check   inter 1s rise 5 fall 2 weight 10
+server  msvr2 10.1.11.7:19000 check   inter 1s rise 5 fall 2 weight 10
+timeout server   9s
+
+
+backend  web_status
+mode http
+stats enable
+stats refresh 5s
+stats uri /status
+stats realm Haproxy\ statistics
+#    stats auth haproxy:haproxy@allydata
+
+
+
+
+
+

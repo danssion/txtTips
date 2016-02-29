@@ -163,8 +163,7 @@ vim -t class | method | variable
 :ta tagname 跳转到标签tagname定义的地方
 :stag tagname 在分割窗口中查看包含tagname的文件
 :tags 查看到达当前位置所经过的标签路径
-:ts tagname 列出匹配tagname的标签，如为空，则使用标签栈中最后的标签
-:tnext   tselect tagname
+
 :tf 跳转至第一个匹配的标签
 :tl 跳转至最后一个匹配的标签
 ctrl-] ：跳转至光标所在对象定义之处
@@ -205,7 +204,7 @@ CTRL-W -    使得当前窗口高度减 N (默认值是 1)。 CTRL-W +    使得
 CTRL-W <    使得当前窗口宽度减 N (默认值是 1)。 CTRL-W >    使得当前窗口宽度加 N (默认值是 1)
 :set nobomb bomb?
 
-[[[ macport ]]]----------------------------------
+[[[ macport brew ]]]----------------------------------
 sudo port -v selfupdate
 port list
 port info flowd
