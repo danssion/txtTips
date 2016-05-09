@@ -7,6 +7,7 @@ grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{
 sshfs -o idmap=user,umask=0000,uid=1000,gid=1000 duanxiang@192.168.12.185:/home/duanxiang/codes -p 25552 /home/danssion/server-dir
 fusermount -u /home/danssion/server-dir/
 
+
 sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
 
 scp -P 25552 newcart@192.168.12.54:/home/newcart/newcart/litb_online/includes/templates/dev_v2/flash/tpl_categories_menu_de.html ./includes/templates/dev_v2/flash/
@@ -30,6 +31,7 @@ tar czvf stuff --exclude=danssion/*
 tar -zcvf - stuff --exclude=danssion/.cache | openssl des3 -salt -k tardepassword | dd of=stuff.des3
 dd if=stuff.des3 | openssl des3 -d -k tardepassword | tar zxf -
 
+
 [[[ find ]]]
 //在系统根目录下，查找文件为普通文件，属于student用户的，2天以前的，并且查找时不包含/usr/bin目录的文件名为main.c的文件，并将结果输出到屏幕, 对上例中搜索的结果进行删除操作：
 find / -path "/usr/bin" -prune -o -name "main.c" -user student -type f -mtime +2 -print -exec rm {} \;
@@ -38,7 +40,6 @@ find . -user root -o -path "*.svn*" -prune| xargs sudo chown danssion:danssion
 find . -path "*.svn*" -prune -o  -user root | egrep "[^s][^n]{1,1}$" | xargs sudo chown danssion:danssion
 find . -type f -name "*.txt" | xargs -I {} cp {}  /tmp/n/
 find ./output9/ -name "part*" | xargs -i  cat >> ./output9/part-all
-
 find ./ -depth -name '*.php' | grep -E "^./[a-z]{4,}" | xargs grep -El '*meta_tags_products_description
 find -name "x11-common*" | xargs -I{} cp -a {} [dir]
 
@@ -58,6 +59,9 @@ rpm -q centos-release
 file /sbin/init
 uname -a || cat /etc/issue  ||   lsb_release -a   ||   cat /etc/redhat-release(针对redhat，Fedora)
 
+[[[ system load info ]]]
+uptime -> dmesg | tail -> vmstat 1 -> mpstat -P ALL 1 -> pidstat 1 -> iostat -xz 1 -> free -m ->  sar -n DEV 1 -> sar -n TCP,ETCP 1
+
 
 [[[ freeBSD install ]]]
 install php5-extensions
@@ -73,6 +77,7 @@ make install clean
 
 pecl install pecl_http
 source ~/.bashrc
+
 
 [[[ log shell ]]]
 head access_7k7kflash.log -n 10 | awk '$2!="" { printf "%15s %s %20s %s request:%s state:%s refer:%s \n",$1,"\t",$4,$5,$7,$9,$11}' | sed G
@@ -120,6 +125,7 @@ git tag [tag name] [commit hash]
 git grep
 git remote add origin git@github.com:github用户名/Helloworld.git 
 git push -u origin master
+git checkout -b serverfix origin/serverfix
 git archive --format zip --output "./output.zip" master -0
 git archive --format=tar --prefix=git-1.4.0/ v1.4.0^{tree} | gzip >git-1.4.0.tar.gz
 git archive --format=tar --prefix=eating/ HEAD:eating | gzip > git-head.tar.gz
@@ -134,6 +140,19 @@ git merge upstrean/master
 //for git useful
 git branch -m master part2 # 重命名 "master" 分支到 "part2"
 git checkout SHA1 -b master 
+git config --global user.name "duanxiang"
+git config --global user.email "duanxiang@allydata.cn"
+mkdir ad-show
+cd ad-show
+git init
+touch README.md
+git add README.md
+git commit -m "first commit"
+git remote add origin git@boom.qctt.cn:duanxiang/ad-show.git
+git push -u origin master
+cd existing_git_repo
+git remote add origin git@boom.qctt.cn:duanxiang/ad-show.git
+git push -u origin master
 
 [[[ mysql ]]]
 service mysqld [start][restart][stop]

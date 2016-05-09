@@ -174,7 +174,7 @@ hadoop jar /opt/modules/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.6.0.jar
 
 s49:/opt/baofeng-data/windforce-shell/mapreduce/jar
 hadoop jar /opt/baofeng-data/windforce-shell/mapreduce/jar/mapper.jar hourstats /test/data/2014092520.log /test/dx/out
-
+#
 ################################  11 add index command
 
 hadoop jar /path/to/your/hadoop-lzo.jar com.hadoop.compression.lzo.LzoIndexer big_file.lzo
