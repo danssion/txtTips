@@ -130,6 +130,8 @@ git archive --format zip --output "./output.zip" master -0
 git archive --format=tar --prefix=git-1.4.0/ v1.4.0^{tree} | gzip >git-1.4.0.tar.gz
 git archive --format=tar --prefix=eating/ HEAD:eating | gzip > git-head.tar.gz
 git archive --format=tar --prefix=junk/ HEAD | (cd /var/tmp/ && tar xf -)
+git reset <==> git stage
+git diff /  git diff --staged / git diff HEAD
 # Create a tar archive that contains the contents of the latest commit on the current branch, and extract it in the /var/tmp/junk directory
 //for github
 git clone 
@@ -142,6 +144,7 @@ git branch -m master part2 # 重命名 "master" 分支到 "part2"
 git checkout SHA1 -b master 
 git config --global user.name "duanxiang"
 git config --global user.email "duanxiang@allydata.cn"
+//example
 mkdir ad-show
 cd ad-show
 git init
