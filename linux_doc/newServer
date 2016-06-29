@@ -5,9 +5,9 @@ groupadd dev
 useradd -g dev duanxiang
 sudo usermod -a -G dev duanxiang
 passwd duanxiang 
-sudo useradd -g dev zhushuai
-sudo usermod -a -G dev zhushuai
-sudo passwd zhushuai
+sudo useradd -g dev chenyang
+sudo usermod -a -G dev chenyang
+sudo passwd chenyang
 sudo usermod -G dev mysql
 mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&'; FLUSH   PRIVILEGES;
@@ -28,6 +28,18 @@ fdisk -l  ->  输入 d ->  n，p，1 来新建分区
 e2fsck -f /dev/vdb1
 resize2fs /dev/vdb1
 mount /dev/vdb1 /data
+[[[mount new big disk]]]
+yum install parted
+parted /dev/vdc
+mklabel
+Gpt
+yes
+p
+mkpart
+quit
+mkfs.ext4 /dev/vdc1
+mkdir -p /data1/hadoop/hdfs/data
+chown cloudera-scm:cloudera-scm /data1/hadoop/ -R
 
 [[[[[[software need]]]]]]
 yum install libxml2-devel.x86_64
@@ -62,6 +74,11 @@ DEV       ALL=(ALL)       NOPASSWD: ALL
 [[[[[group own]]]]]
 chown root:dev ./* -R
 chmod -R 0775 ./*
+
+
+[[[[[update java]]]]]
+yum erase java-1.7.0-openjdk.x86_64
+alternatives --config java
 
 
 [[[[[[ log server ]]]]]]

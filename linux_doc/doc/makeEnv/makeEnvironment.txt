@@ -94,6 +94,99 @@ bin/mysqld_safe --user=mysql &
 cp support-files/mysql.server /etc/init.d/mysql.server
 
 
+########## install postgresql-9.4 centos6.5
+#postgresql-client libraries and client binaries
+#postgresql-server core database server
+#postgresql-contrib additional supplied modules
+#postgresql-devel libraries and headers for C language development
+#pgadmin3 - pgAdmin III graphical administration utility
+yum install http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
+yum install postgresql94-server.x86_64
+yum install postgresql94.x86_64
+yum install postgresql94-contrib.x86_64
+yum install pgadmin3_94.x86_64
+service postgresql-9.4 initdb
+chkconfig postgresql-9.4 on
+########## install postgreSQL-9.5 centOS7
+yum install http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+yum install postgresql95-server.x86_64
+yum install postgresql95-contrib.x86_64
+yum install postgresql95-pltcl.x86_64
+### update /usr/lib/systemd/system/postgresql-9.5.service
+#Environment=PGDATA=data/postgresql/pg_data
+### update /usr/pgsql-9.5/bin/postgresql95-setup 
+#after # Initialize the database  line # add
+#export PGSETUP_INITDB_OPTIONS='--locale=zh_CN.UTF-8'
+mkdir -p /data/postgresql/pg_data  /data/postgresql/pg_log
+chown -R postgres:postgres /data/postgresql/
+/usr/pgsql-9.5/bin/postgresql95-setup initdb 
+#update  /data/postgresql/pg_data/postgresql.conf
+#log_directory = '/data/postgresql/pg_log'
+#listen_addresses = '*'
+#update /data/postgresql/pg_data/pg_hba.conf
+#add
+host    postgres        all             0.0.0.0/0               md5
+systemctl enable postgresql
+systemctl enable postgresql-9.5.service
+systemctl start postgresql-9.5.service
+#update /etc/profile
+#add :/usr/pgsql-9.4/bin:$PATH
+#add export PATH=/usr/pgsql-9.5/bin:$PATH
+#update man ifneed 
+MANPATH=/usr/pgsql-9.4/share/man/:$MANPATH
+export MANPATH
+#or mk soft link 
+cd /usr/local
+ln -s /usr/pgsql-9.4/ pgsql
+ln -s /usr/pgsql-9.4/share/man/ man
+#init db
+initdb -D ./base_data/
+#start db
+postgres -D ./base_data >logfile 2>&1 &
+#add auto start
+su postgres -c '/usr/pgsql-9.4/bin/pg_ctl start -D /opt/data/pgsql_data/base_data -l /opt/data/pgsql_data/logfile'
+su postgres -c '/usr/pgsql-9.5/bin/pg_ctl start -D /data/postgresql/pg_data -l /data/postgresql/pg_log/logfile'
+/usr/pgsql-9.5/bin/pg_ctl -D /data/postgresql/pgsql_data -l logfile start
+
+
+########## install pgpool centOS7
+yum install pgpool-II-95.x86_64
+yum install pgpool-II-95-extensions.x86_64
+cd /etc/pgpool-II-95/
+cp pgpool.conf.sample pgpool.conf
+cp pcp.conf.sample pcp.conf
+#update pgpool.conf
+listen_addresses = '*'
+master_slave_mode = on
+load_balance_mode = on
+replication_mode = on
+#add
+backend_hostname0 = '10.1.11.24'
+backend_port0 = 5432
+backend_weight0 = 1
+backend_data_directory0 = '/data/postgresql/pg_data'
+backend_flag0 = 'ALLOW_TO_FAILOVER'
+backend_hostname1 = '10.1.11.41'
+backend_port1 = 5432
+backend_weight1 = 1
+backend_data_directory1 = '/data/postgresql/pg_data'
+backend_flag1 = 'ALLOW_TO_FAILOVER'
+backend_hostname2 = '10.1.11.42'
+backend_port2 = 5432
+backend_weight2 = 1
+backend_data_directory2 = '/data/postgresql/pg_data'
+backend_flag2 = 'ALLOW_TO_FAILOVER'
+
+enable_pool_hba = on
+
+#add user:md5passwd in pool_passwd
+pg_md5 -m '' -u dmpdb;
+#login postgres db
+#start
+
+
+
+
 #compile libevent
 cd libevent-1.4.11-stable && make clean; ./configure --prefix=$HOME/dev && make && make install; cd ../
 

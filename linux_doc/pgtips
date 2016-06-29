@@ -1,0 +1,133 @@
+########## db server ##########
+su postgres -c '/usr/pgsql-9.4/bin/pg_ctl start -D /opt/data/pgsql_data/base_data -l /opt/data/pgsql_data/logfile'
+postgres -D /opt/data/pgsql_data/base_data > /opt/data/pgsql_data/logfile 2>&1 &
+postgres -D ./base_data
+pg_ctl -p 5431 reload -D /data/postgresql/pg_data -s
+pg_ctl -p 5431 stop -D /data/postgresql/pg_data/ -s -m fast
+/usr/pgsql-9.5/bin/pg_ctl start -D /data/postgresql/pg_data/ -s -w -t 300 
+/usr/pgsql-9.5/bin/pg_ctl restart -D /data/postgresql/pg_data/ -s -w -t 300 
+service postgresql-9.4 start
+systemctl start postgresql-9.5.service
+kill -INT 'head -1 /opt/data/pgsql_data/base_data/postmaster.pid'
+/usr/pgsql-9.5/bin/pg_ctl stop -D /data/postgresql/pg_data/ -s -m fast
+initdb --locale=zh_CN.UTF-8
+initdb -E EUC_CN
+createdb -p 5431 db_abcd -U postgres -E utf8 -l zh_CN.UTF-8 -T template0
+CREATE DATABASE chinadb WITH ENCODING 'UTF8' LC_COLLATE='zh_CN.utf8' LC_CTYPE='zh_CN.utf8'
+
+mysql:show databases 
+pgsql:\l 或者\l+(显示的信息要多一些) 
+
+mysql:use xx 
+pgsql:\c xx 
+
+mysql:show tables 
+pgsql:\dt
+
+########## database ##########
+psql -h 10.1.11.24 -p 9999 -U postgres 'pgSA0dwL6N4tJGtfoT3DEesqL'
+CREATE DATABASE dmpdb TEMPLATE template0
+CREATE DATABASE dbname TEMPLATE template0
+createdb -T template0 dbname
+SELECT * FROM pg_database;
+select datname from pg_database;
+drop database dbname;
+
+
+psql --set ON_ERROR_STOP=on dbname < infile
+pg_dump -h host1 dbname | psql -h host2 dbname
+pg_dumpall > outfile 生成的转储可以用psql恢复: psql -f infile postgres
+pg_dump dbname | gzip > filename.gz 使用下面命令恢复:
+gunzip -c filename.gz | psql dbname 或者:
+cat filename.gz | gunzip | psql dbname
+
+########## 表 ##########
+SELECT tablename FROM pg_tables;
+SELECT * FROM pg_authid;
+\du
+SELECT * FROM pg_roles;
+\c db_abc
+\?
+
+########## 表空间 ##########
+CREATE TABLESPACE fastspace LOCATION ’/ssd1/postgresql/data’;
+
+CREATE TABLE foo(i int) TABLESPACE space1;
+
+SET default_tablespace = space1;
+CREATE TABLE foo(i int);
+
+
+########## 用户管理 ##########
+ALTER USER postgres WITH PASSWORD 'pgSA0dwL6N4tJGtfoT3DEesqL';
+create user "dmpdb" with password 'jygidqh8ohvuMKqcaY5q' nocreatedb;
+create database "dmpdb" with owner="dmpdb";
+
+########## db schema ##########
+
+
+########## db pgpool ##########
+pgpool -n 2>&1 | /sbin/rotatelogs -l -f /data/pgpool/%Y-%m-%d-pgpool.log 86400 &
+pgpool -n 2>&1 | /usr/sbin/cronolog  --hardlink=/data/pgpool/pgpool.log  '/data/pgpool/%Y-%m-%d-pgpool.log' &
+pgpool stop
+pgpool reload
+pgpool -m fast stop
+#with md5 auther
+pg_md5 --md5auth --username=postgres pgSA0dwL6N4tJGtfoT3DEesqL
+createdb -h 10.1.11.24 -p 9999 bench_replication -U postgres -W
+pgbench -i -h 10.1.11.24 -p 9999 bench_replication -U postgres
+pgbench -h 10.1.11.24 -c 10 -t 100 -p 9999 bench_replication -U postgres
+pgbench -h 10.1.11.41 -c 10 -t 100 bench_replication -U postgres
+strace -p 26228 -s 800 -o pgpoolconnecttrace.txt
+#show pgpool information
+show pool_status; [pool_nodes | pool_processes | pool_pools | pool_version | pool_cache]
+#pgbench result
+pgbench -h 10.1.11.24 -c 10 -t 100 -p 9999 bench_replication -U postgres
+tps = 235.523268 (including connections establishing)
+tps = 235.947053 (excluding connections establishing)
+pgbench -h 10.1.11.41 -c 10 -t 100 bench_replication -U postgres
+tps = 703.686685 (including connections establishing)
+tps = 705.075813 (excluding connections establishing)
+
+pgbench -h 10.1.11.24 -j 5 -c 30 -t 1000 -p 9999 bench_replication -U postgres
+tps = 285.620763 (including connections establishing)
+tps = 285.647372 (excluding connections establishing)
+pgbench -h 10.1.11.41 -j 5 -c 30 -t 1000 bench_replication -U postgres
+tps = 719.018741 (including connections establishing)
+tps = 719.092694 (excluding connections establishing)
+
+pgbench -h 10.1.11.24 -j 10 -c 30 -t 2000 -p 9999 bench_replication -U postgres
+tps = 289.646746 (including connections establishing)
+tps = 289.670290 (excluding connections establishing)
+pgbench -h 10.1.11.41 -j 10 -c 30 -t 2000 bench_replication -U postgres
+latency average: 0.000 ms
+tps = 727.187818 (including connections establishing)
+tps = 727.252677 (excluding connections establishing)
+
+
+pgbench -h 10.1.11.24 -j 10 -c 30 -t 1000 -p 9999 bench_replication -U postgres -N  
+tps = 2695.257963 (including connections establishing)
+tps = 2696.509080 (excluding connections establishing)
+pgbench -h 10.1.11.41 -j 10 -c 30 -t 1000 bench_replication -U postgres -N
+tps = 7034.853714 (including connections establishing)
+tps = 7047.478250 (excluding connections establishing)
+
+pgbench -h 10.1.11.24 -j 10 -c 30 -t 10000 -p 9999 bench_replication -U postgres -N
+pgpool: load average: 14.15, 7.04, 2.83
+server: load average: 1.12, 0.99, 0.49
+tps = 2543.635300 (including connections establishing)
+tps = 2544.138147 (excluding connections establishing)
+pgbench -h 10.1.11.41 -j 10 -c 30 -t 20000 bench_replication -U postgres -N
+load average: 9.29, 4.44, 1.92
+tps = 6371.144458 (including connections establishing)
+tps = 6371.716664 (excluding connections establishing)
+
+
+
+
+
+
+
+
+
+

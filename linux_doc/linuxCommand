@@ -1,4 +1,4 @@
-[[[ grep ]]]
+[version2计划排期[[ grep ]]]
 egrep -ril '<?php ' ./includes/languages/*/html_includes | egrep -e "\.php$" | wc -l 
 grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{print$1}' | sort -rn | wc -l
 ./assistantShell.sh -i error | awk 'FS=" " {print $1; sum+=$1} END {print sum} '
@@ -58,6 +58,10 @@ cat /etc/redhat-release
 rpm -q centos-release
 file /sbin/init
 uname -a || cat /etc/issue  ||   lsb_release -a   ||   cat /etc/redhat-release(针对redhat，Fedora)
+sar -n DEV 1 | 进程队列 -q | -W 系统交互信息 | -B 内存分页监控 | -r 内存和交换空间监控 | -b I/O和传送速率监控 
+怀疑CPU存在瓶颈，可用 sar -u 和 sar -q 等来查看
+怀疑内存存在瓶颈，可用 sar -B、sar -r 和 sar -W 等来查看
+怀疑I/O存在瓶颈，可用 sar -b、sar -u 和 sar -d 等来查看
 
 [[[ system load info ]]]
 uptime -> dmesg | tail -> vmstat 1 -> mpstat -P ALL 1 -> pidstat 1 -> iostat -xz 1 -> free -m ->  sar -n DEV 1 -> sar -n TCP,ETCP 1
@@ -118,8 +122,9 @@ git rm --cache
 git branch [-a]
 git config --global user.email "danssion@sina.com"
 git diff (--cached)
-git add 
+git add/stage
 git commit -m ""
+git commit -am ""
 git show [branch name] [HEAD]
 git tag [tag name] [commit hash]
 git grep
@@ -170,6 +175,25 @@ explain partitions select语句 通过此语句来显示扫描哪些分区，及
 show slave/master status\G;
 start slave与stop slave来开启和关闭同步。
 CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
+
+[[[ systemctl ]]]
+systemctl enable ***.service
+systemctl disable ***.service
+systemctl start/stop/restart ***.service
+systemctl status ***.service
+systemctl -t service
+systemctl -a
+列出加载的units/sockets/timers
+systemctl list-units [pattern]
+systemctl list-sockets [pattern]
+systemctl list-timers [pattern]
+systemctl cat sshd.service
+systemctl list-dependencies sshd.service
+systemctl show-environment
+
+
+
+
 
 
 [[[ vim ]]]

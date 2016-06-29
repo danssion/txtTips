@@ -1,0 +1,28 @@
+######### 1.0 spark run shell ##########
+export YARN_CONF_DIR=/opt/hadoop/yarn-client/etc/hadoop/
+SPARK_JAR=./assembly/target/scala-2.9.3/spark-assembly-0.8.1-incubating-hadoop2.2.0.jar \
+./spark-class org.apache.spark.deploy.yarn.Client \
+–jar spark-wordcount-in-scala.jar \
+–class WordCount \
+–args yarn-standalone \
+–args hdfs://hadoop-test/tmp/input \
+–args hdfs:/hadoop-test/tmp/output \
+–num-workers 1 \
+–master-memory 2g \
+–worker-memory 2g \
+–worker-cores 2
+
+
+/opt/modules/cdh/bin/spark-submit \
+--master yarn  --class org.apache.spark.examples.HelloWorld ./hl-pg.jar \
+-–num-workers 1 \
+-–master-memory 1g \
+-–worker-memory 1g \
+-–worker-cores 1
+
+######### 1.1 spark jar ##########
+export SPARK_CLASSPATH=${SPARK_HOME}/lib/spark-assembly-1.4.1-hadoop2.4.0.jar
+scalac -classpath $SPARK_CLASSPATH yourAPP.scala
+jar cvf yourAPP.jar *.class
+
+
