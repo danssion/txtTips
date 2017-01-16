@@ -1,0 +1,51 @@
+######################### 1.0 主机 安装 ####################################
+
+$ sudo yum --nogpgcheck localinstall cloudera-manager-daemons-*.rpm
+$ sudo yum --nogpgcheck localinstall cloudera-manager-server-*.rpm
+
+######################### 1.1 主机 配置 ####################################
+/etc/cloudera-scm-server/db.properties
+com.cloudera.cmf.db.type=mysql
+com.cloudera.cmf.db.host=localhost
+com.cloudera.cmf.db.name=cdhmdb
+com.cloudera.cmf.db.user=cdhmdb
+com.cloudera.cmf.db.password=ENdMBXunsVw2DZ6bVsEwNjdz
+
+设置成开机启动： 
+cp <tarball root>/etc/init.d/cloudera-scm-server /etc/init.d/cloudera-scm-server 
+chkconfig cloudera-scm-server on
+
+######################### 1.1 主机 操作 ####################################
+
+$ sudo service cloudera-scm-server start
+
+
+######################### 2.0 监视机 安装 ####################################
+$ sudo yum --nogpgcheck localinstall cloudera-manager-agent-package.*.x86_64.rpm
+cloudera-manager-daemons
+
+######################### 2.1 监视机 配置 ####################################
+/etc/cloudera-scm-agent/config.ini 
+# Hostname of Cloudera SCM Server
+server_host=resourceM 
+# Port that server is listening on
+server_port=7182
+
+每台机器设置成开机启动： 
+cp <tarball root>/etc/init.d/cloudera-scm-agent /etc/init.d/cloudera-scm-agent 
+chkconfig cloudera-scm-agent on
+######################### 2.2 监视机  ####################################
+$ sudo service cloudera-scm-agent start
+$ sudo service cloudera-scm-agent clean_start
+systemctl status cloudera-scm-agent.service 
+
+
+######################### 3.0 监控入口  ####################################
+http://resourcem:7180/
+
+
+######################### 4.0 todo  ####################################
+不能读取节点信息，配置参数需要更改
+
+
+

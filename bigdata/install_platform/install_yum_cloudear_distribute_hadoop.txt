@@ -1,0 +1,465 @@
+0. Oracle JDK Installation
+	0.1 yum install java-1.7.0-openjdk-devel.x86_64
+	0.2 export JAVA_HOME=<jdk-install-dir>
+		export PATH=$JAVA_HOME/bin:$PATH
+		add  /etc/profile
+		export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk.x86_64
+		export PATH=$JAVA_HOME/bin:$PATH
+
+1.CDH4 Installation
+	wget http://archive.cloudera.com/cdh4/one-click-install/redhat/5/x86_64/cloudera-cdh-4-0.x86_64.rpm
+	$ sudo yum --nogpgcheck localinstall cloudera-cdh-4-0.x86_64.rpm
+
+2: Install CDH4 with MRv1
+	skip
+
+3: Install CDH4 with YARN
+	3.1 ZooKeeper Installation
+	3.1.1 Installing the ZooKeeper Base Package(skip)
+		$ sudo yum install zookeeper
+	3.1.2 Installing the ZooKeeper Server Package and Starting ZooKeeper on a Single Server
+		$ sudo yum install zookeeper-server
+	3.1.3 To start ZooKeeper
+		$ sudo service zookeeper-server start
+		after a fresh install:
+		$ sudo service zookeeper-server init
+		$ sudo service zookeeper-server start
+		mutiple
+		$ sudo service zookeeper-server init --myid=1/2/3
+	3.1.4 config zookeeper
+maxClientCnxns=50
+# The number of milliseconds of each tick
+tickTime=2000
+# The number of ticks that the initial 
+# synchronization phase can take
+initLimit=10
+# The number of ticks that can pass between 
+# sending a request and getting an acknowledgement
+syncLimit=5
+# the directory where the snapshot is stored.
+dataDir=/var/lib/zookeeper
+# the port at which the clients will connect
+clientPort=2181
+server.1=zoo1:2887:3887  
+server.2=zoo2:2888:3888  
+server.3=zoo3:2889:3889
+
+
+
+	3.2 Install each type of daemon package on the appropriate systems(s)
+	3.2a Resource Manager host 
+		sudo yum clean all; sudo yum install hadoop-yarn-resourcemanager
+	3.2b NameNode host
+		sudo yum clean all; sudo yum install hadoop-hdfs-namenode
+	3.2c Secondary NameNode host (if used)
+		sudo apt-get update; sudo apt-get install hadoop-hdfs-secondarynamenode
+	3.2d All cluster hosts except the Resource Manager
+		sudo yum clean all; sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce
+	3.2e One host in the cluster 
+		sudo yum clean all; sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver
+	3.2f All client hosts
+		sudo yum clean all; sudo yum install hadoop-client
+	3.2.1 Resource Manager host 
+		sudo yum clean all; sudo yum install hadoop-yarn-resourcemanager
+		sudo yum clean all; sudo yum install hadoop-hdfs-namenode
+	3.2.2 NodeManager
+		sudo yum clean all; sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce
+	3.2.3 client
+		sudo yum clean all; sudo yum install hadoop-client
+		sudo yum clean all; sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver
+
+
+4. Install LZO
+	4.1 http://archive.cloudera.com/gplextras/redhat/5/x86_64/gplextras/cloudera-gplextras4.repo save the file in the /etc/yum.repos.d/ directory.
+	4.2 install lzo
+		wget http://packages.sw.be/lzo/lzo-devel-2.06-1.el5.rf.x86_64.rpm / http://apt.sw.be/redhat/el5/en/x86_64/rpmforge/RPMS/lzo-devel-2.06-1.el5.rf.x86_64.rpm
+		wget http://packages.sw.be/lzo/lzo-2.06-1.el5.rf.x86_64.rpm / http://apt.sw.be/redhat/el5/en/x86_64/rpmforge/RPMS/lzo-2.06-1.el5.rf.x86_64.rpm
+		rpm -ivh 
+	4.3 sudo yum install hadoop-lzo-cdh4
+	4.4 configure LZO:
+	??
+
+5. Deploying CDH4 on a Cluster
+	5.1 Configuring Network Names(skip)
+	5.2 Deploying HDFS on a Cluster
+		5.2.1 Copying the Hadoop Configuration
+			sudo cp -r /etc/hadoop/conf.empty /etc/hadoop/conf.test_cluster
+			$ sudo alternatives --verbose --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.test_cluster 50
+			$ sudo alternatives --set hadoop-conf /etc/hadoop/conf.test_cluster
+		5.2.2 Customizing Configuration Files
+			core-site.xml:
+			<property>
+			<name>fs.defaultFS</name>
+			<value>hdfs://hdcluster</value>
+			</property>
+			hdfs-site.xml:
+<property>
+<name>dfs.permissions.superusergroup</name>
+<value>hadoop</value>
+</property>
+		5.2.3 Configuring Local Storage Directories
+			hdfs-site.xml on the NameNode
+<property>
+<name>dfs.namenode.name.dir</name>
+<value>file:/opt/data/data1/namenode,file:/opt/data/data2/namenode</value>
+</property>
+
+			hdfs-site.xml on each DataNode:
+<property>
+<name>dfs.datanode.data.dir</name>
+<value>/opt/data/data1/dn,/opt/data/data2/dn,/opt/data/data3/dn</value>
+</property>
+
+		5.2.4 To configure local storage directories for use by HDFS:
+			On a NameNode host: create the dfs.name.dir or dfs.namenode.name.dir local directories:
+			$ sudo mkdir -p /opt/data/data1/namenode  /opt/data/data2/namenode
+			On all DataNode hosts: create the dfs.data.dir or dfs.datanode.data.dir local directories:
+			$ sudo mkdir -p /opt/data/data1/dn  /opt/data/data2/dn  /opt/data/data3/dn
+			Configure the owner of the dfs.name.dir or dfs.namenode.name.dir directory, and of the dfs.data.dir or dfs.datanode.data.dir directory, to be the hdfs user:
+			$ sudo chown -R hdfs:hdfs /opt/data/data1/namenode  /opt/data/data2/namenode /opt/data/data1 /opt/data/data2/ /opt/data/data3/
+
+		5.2.4 Formatting the NameNode
+			$ sudo -u hdfs hadoop namenode -format
+		5.2.5 Configuring a Remote NameNode Storage Directory
+			??
+		5.2.6 Configuring Storage-Balancing for the DataNodes
+			??
+		5.2.7 Enabling WebHDFS
+			hdfs-site.xml:
+<property>
+<name>dfs.webhdfs.enabled</name>
+<value>true</value>
+</property>
+
+		5.2.8 Configuring LZO
+			core-site.xml:
+<property>
+<name>io.compression.codecs</name>
+<value>org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.GzipCodec,
+org.apache.hadoop.io.compress.BZip2Codec,com.hadoop.compression.lzo.LzoCodec,
+com.hadoop.compression.lzo.LzopCodec,org.apache.hadoop.io.compress.SnappyCodec</value>
+</property>
+
+
+	5.3 Deploying MapReduce v2 (YARN) on a Cluster
+		5.3.1 Configure Properties for YARN Clusters
+			conf/mapred-site.xml 
+<property>
+<name>mapreduce.framework.name</name>
+<value>yarn</value>
+</property>
+		5.3.2 Configure YARN daemons
+		yarn-site.xml:
+<property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>resourceM:18031</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>resourceM:18032</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>resourceM:18030</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>resourceM:18033</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>BFG-OSER-2372:18088</value>
+  </property>
+<property>
+<description>Classpath for typical applications.</description>
+<name>yarn.application.classpath</name>
+<value>
+$HADOOP_CONF_DIR,
+$HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,
+$HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,
+$HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,
+$YARN_HOME/*,$YARN_HOME/lib/*
+</value>
+</property>
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce.shuffle</value>
+</property>
+<property>
+<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+<property>
+<name>yarn.nodemanager.local-dirs</name>
+<value>/opt/data/data1/yarn/local,/opt/data/data2/yarn/local</value>
+</property>
+<property>
+<name>yarn.nodemanager.log-dirs</name>
+<value>/opt/data/data1/yarn/logs,/opt/data/data2/yarn/logs</value>
+</property>
+<property>
+<description>Where to aggregate logs</description>
+<name>yarn.nodemanager.remote-app-log-dir</name>
+<value>/var/log/hadoop-yarn/apps</value>
+</property>
+
+
+		5.3.3 configure local storage directories for use by YARN:
+			Create the yarn.nodemanager.local-dirs local directories:
+			$ sudo mkdir -p /opt/data/data1/yarn/local /opt/data/data2/yarn/local
+			Create the yarn.nodemanager.log-dirs local directories:
+			$ sudo mkdir -p /opt/data/data1/yarn/logs /opt/data/data2/yarn/logs
+			Configure the owner of the yarn.nodemanager.local-dirs directory to be the yarn user:
+			$ sudo chown -R yarn:yarn /opt/data/data1/yarn /opt/data/data2/yarn
+			Configure the owner of the yarn.nodemanager.log-dirs directory to be the yarn user:
+			$ sudo chown -R yarn:yarn /opt/data/data1/yarn /opt/data/data2/yarn
+			
+			Create Log Directories
+			sudo -u hdfs hadoop fs -mkdir /opt/log/hadoop-yarn
+			sudo -u hdfs hadoop fs -mkdir /opt/log/hadoop-yarn/apps
+			sudo -u hdfs hadoop fs -chown yarn:mapred /opt/log/hadoop-yarn			 
+
+		5.3.4 Configure the History Server
+			 mapred-site.xml : 
+<property>
+ <name>mapreduce.jobhistory.address</name>
+ <value>jobhistory:10020</value>
+</property>
+
+<property>
+ <name>mapreduce.jobhistory.webapp.address</name>
+ <value>jobhistory:19888</value>
+</property>
+
+		5.3.5 Configure the Staging Directory
+			yarn-site.xml:
+<property>
+<name>yarn.app.mapreduce.am.staging-dir</name>
+<value>/user</value>
+</property>
+
+		5.3.6 Deploy your custom Configuration to your Entire Cluster
+			Push your custom directory
+			$ sudo scp -r /etc/hadoop/conf.my_cluster myuser@host:/etc/hadoop/conf.my_cluster
+			Manually set alternatives on each node to point to that directory, as follows.
+			$ sudo alternatives --verbose --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.test_cluster 50
+			$ sudo alternatives --set hadoop-conf /etc/hadoop/conf.my_cluster
+
+		
+		5.3.7 Start HDFS on Every Node in the Cluster
+			for x in `cd /etc/init.d ; ls hadoop-hdfs-*` ; do sudo service $x start ; done
+
+		5.3.8 Create the HDFS /tmp Directory
+			$ sudo -u hdfs hadoop fs -mkdir /tmp
+			$ sudo -u hdfs hadoop fs -chmod -R 1777 /tmp
+
+
+		5.3.9 Create the history Directory and Set Permissions and Owner
+			sudo -u hdfs hadoop fs -mkdir /user/history
+			sudo -u hdfs hadoop fs -chmod -R 1777 /user/history
+			sudo -u hdfs hadoop fs -chown yarn /user/history
+
+		5.3.10 Verify the HDFS File Structure:
+			$ sudo -u hdfs hadoop fs -ls -R /
+
+		5.3.11 Start YARN and the MapReduce JobHistory Server
+			sudo service hadoop-yarn-resourcemanager start
+			On each NodeManager system (typically the same ones where DataNode service runs):
+			sudo service hadoop-yarn-nodemanager start
+			To start the MapReduce JobHistory Server
+			sudo service hadoop-mapreduce-historyserver start
+
+		5.3.12 Create a Home Directory for each MapReduce User
+			$ sudo -u hdfs hadoop fs -mkdir /user/mr_user
+			$ sudo -u hdfs hadoop fs -chown mr_user /user/mr_user
+
+		5.3.13 Set HADOOP_MAPRED_HOME
+			export HADOOP_MAPRED_HOME=/usr/lib/hadoop-mapreduce
+
+	
+
+
+
+
+		
+6 Configuring HDFS High Availability
+	6.1	Hardware Configuration for HDFS HA
+		NameNode machines equivalent hardware to each other
+		JournalNode machines
+		Cloudera recommends JournalNode daemons on the "master" host or hosts (NameNode, Standby NameNode, JobTracker, etc.)
+		There must be at least three JournalNode daemons, since edit log modifications must be written to a majority of JournalNodes.
+	6.2 Software Configuration for HDFS HA
+		6.2.1 core-site.xml file:
+<property>
+  <name>fs.defaultFS</name>
+  <value>hdfs://hdcluster</value>
+</property>
+
+		6.2.2  hdfs-site.xml configuration file.
+<property>
+  <name>dfs.nameservices</name>
+  <value>hdcluster</value>
+</property>
+<property>
+  <name>dfs.ha.namenodes.hdcluster</name>
+  <value>nn1,nn2</value>
+</property>
+<property>
+  <name>dfs.namenode.rpc-address.hdcluster.nn1</name>
+  <value>nn1:8020</value>
+</property>
+<property>
+  <name>dfs.namenode.rpc-address.hdcluster.nn2</name>
+  <value>nn2:8020</value>
+</property>
+		Configure dfs.namenode.http-address.[nameservice ID]
+<property>
+  <name>dfs.namenode.http-address.hdcluster.nn1</name>
+  <value>BFG-OSER-2372:50070</value>
+</property>
+<property>
+  <name>dfs.namenode.http-address.hdcluster.nn2</name>
+  <value>BFG-OSER-2374:50070</value>
+</property>
+		Configure dfs.namenode.shared.edits.dir
+<property>
+  <name>dfs.namenode.shared.edits.dir</name>
+  <value>qjournal://qjournal1:8485;qjournal2:8485;qjournal3:8485/namenode</value>
+</property>
+
+
+		6.2.3 Configure dfs.namenode.shared.edits.dir
+		dfs.namenode.shared.edits.dir - the location of the shared storage directory
+<property>
+  <name>dfs.journalnode.edits.dir</name>
+  <value>/opt/data/data1/dfs/jn/</value>
+</property>
+		
+
+$ sudo mkdir -p /opt/data/data1/dfs/jn/
+$ sudo chown -R hdfs:hdfs /opt/data/data1/dfs/jn/
+
+		6.2.4 Client Failover Configuration
+<property>
+  <name>dfs.client.failover.proxy.provider.mycluster</name>
+  <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+
+		6.2.4 Fencing Configuration
+<property>
+  <name>dfs.ha.fencing.methods</name>
+  <value>sshfence</value>
+</property>
+<property>
+  <name>dfs.ha.fencing.ssh.private-key-files</name>
+  <value>/home/exampleuser/.ssh/id_rsa</value>
+</property>
+	
+		6.2.5 Deploying ZooKeeper
+			Configuring Automatic Failover
+			hdfs-site.xml file:
+<property>
+  <name>dfs.ha.automatic-failover.enabled</name>
+  <value>true</value>
+</property>
+			core-site.xml:
+<property>
+  <name>ha.zookeeper.quorum</name>
+  <value>zk1.example.com:2181,zk2.example.com:2181,zk3.example.com:2181</value>
+</property>
+
+		6.2.6 Initializing the HA state in ZooKeeper
+			$ hdfs zkfc -formatZK
+			to secure the information in ZooKeeper, first add the following to your core-site.xml:
+<property>
+  <name>ha.zookeeper.auth</name>
+  <value>@/path/to/zk-auth.txt</value>
+</property>
+<property>
+  <name>ha.zookeeper.acl</name>
+  <value>@/path/to/zk-acl.txt</value>
+</property>
+
+
+	6.3 HDFS High Availability Initial Deployment
+		6.3.1 Install and Start the JournalNodes (Quorum-based Storage only)
+		Install the JournalNode daemons on each of the machines where they will run.
+		$ sudo yum install hadoop-hdfs-journalnode
+		Start the JournalNode daemons on each of the machines where they will run:
+		sudo service hadoop-hdfs-journalnode start
+
+		6.3.2 Initialize the Shared Edits directory
+		hdfs namenode -initializeSharedEdits
+
+		6.3.3 Start the NameNodes
+		Formatting the NameNode
+		$ sudo -u hdfs hadoop namenode -format
+		Start the primary (formatted) NameNode:
+		$ sudo service hadoop-hdfs-namenode start
+		Start the standby NameNode:
+		$ sudo -u hdfs hdfs namenode -bootstrapStandby
+		$ sudo service hadoop-hdfs-namenode start
+
+		6.3.3 (additional)
+		$ sudo -u hdfs hdfs haadmin -transitionToActive -forcemanual nn1
+
+		6.3.4 Restart Services
+		On each DataNode: $ sudo service hadoop-hdfs-datanode start
+		On each TaskTracker system: $ sudo service hadoop-0.20-mapreduce-tasktracker start
+		On the JobTracker system: $ sudo service hadoop-0.20-mapreduce-jobtracker start
+		Verify that the JobTracker and TaskTracker started properly: $ sudo jps | grep Tracker
+
+		6.3.5 Deploy Automatic Failover
+		$ sudo yum install hadoop-hdfs-zkfc
+		$ sudo service hadoop-hdfs-zkfc start
+
+		6.3.6 Verifying Automatic Failover
+		you can use kill -9 <pid of NN> to simulate a JVM crash.
+		you can power-cycle the machine
+		its network interface to simulate different kinds of outages
+
+		The amount of time required to detect a failure and trigger a failover 
+		depends on the configuration of ha.zookeeper.session-timeout.ms, but defaults to 5 seconds.
+
+
+add bashrc
+alias allst='/sbin/service --status-all'
+alias resourcem='/sbin/service hadoop-yarn-resourcemanager'
+alias nnode='/sbin/service hadoop-hdfs-namenode'
+alias jnode='/sbin/service hadoop-hdfs-journalnode'
+alias hdfszkfc='/sbin/service hadoop-hdfs-zkfc'
+alias zoos='/sbin/service zookeeper-server'
+alias dnode='/sbin/service hadoop-hdfs-datanode'
+alias nodem='/sbin/service hadoop-yarn-nodemanager'
+alias historym='/sbin/service hadoop-mapreduce-historyserver'
+alias proxys='/sbin/service hadoop-yarn-proxyserver'
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

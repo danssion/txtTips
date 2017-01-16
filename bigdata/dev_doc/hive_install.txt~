@@ -1,0 +1,51 @@
+############################ 1.0  hive install #############################
+cd /opt/modules
+ln -s apache-hive-0.13.1-bin hive
+cd hive/conf
+cp hive-default.xml.template hive-site.xml
+cp hive-log4j.properties.template hive-log4j.properties
+
+############################ 2.0  hive conf #############################
+export HIVE_HOME=/opt/modules/hive
+export PATH=$PATH:$ZOOKEEPER_HOME:$ZOOKEEPER_HOME/bin:$ANT_HOME/bin:$MAVEN_HOME/bin:$MYSQL_HOME/bin:$HIVE_HOME/bin
+
+############################ 3.0  hive db #############################
+create database hive_db;
+grant all on hive_db.* to hive_db@'%' identified by '@#GDSefd4673(%!{[|d28d3gf!wd^W*j({])Ad48';
+grant all on hive_db.* to hive_db@localhost identified by '@#GDSefd4673(%!{[|d28d3gf!wd^W*j({])Ad48';
+ALTER DATABASE hive_db CHARACTER SET latin1;
+
+############################ 4.0  hive launch #############################
+#启动metastore服务
+~ bin/hive --service metastore &
+Starting Hive Metastore Server
+
+#启动hiveserver服务
+~ bin/hive --service hiveserver &
+Starting Hive Thrift Server
+
+#启动hive客户端
+~ bin/hive shell
+Logging initialized using configuration in file:/root/hive-0.9.0/conf/hive-log4j.properties
+Hive history file=/tmp/root/hive_job_log_root_201211141845_1864939641.txt
+
+hive> show tables
+OK
+
+############################ 5.0  hive command #############################
+quit,exit:  退出交互式shell
+reset: 重置配置为默认值
+set <key>=<value> : 修改特定变量的值(如果变量名拼写错误，不会报错)
+set :  输出用户覆盖的hive配置变量
+set -v : 输出所有Hadoop和Hive的配置变量
+add FILE[S] *, add JAR[S] *, add ARCHIVE[S] * : 添加 一个或多个 file, jar, archives到分布式缓存
+list FILE[S], list JAR[S], list ARCHIVE[S] : 输出已经添加到分布式缓存的资源。
+list FILE[S] *, list JAR[S] *,list ARCHIVE[S] * : 检查给定的资源是否添加到分布式缓存
+delete FILE[S] *,delete JAR[S] *,delete ARCHIVE[S] * : 从分布式缓存删除指定的资源
+! <command> :  从Hive shell执行一个shell命令
+dfs <dfs command> :  从Hive shell执行一个dfs命令
+<query string> : 执行一个Hive 查询，然后输出结果到标准输出
+source FILE <filepath>:  在CLI里执行一个hive脚本文件
+
+
+

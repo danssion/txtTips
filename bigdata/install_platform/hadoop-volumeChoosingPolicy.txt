@@ -1,0 +1,88 @@
+在一个DN的disk中，每个DN具有三个目录:current\tem\rbw，current包含finallized的replica，tmp包含temporary replica，rbw包含rbw，rwr，rur replicas。当一个replica第一次被dfs client发起请求而创建的时候，将会放到rbw中。当第一次创建是在block replication和clust balance过程中发起的话，replica就会放置到tmp中。一旦一个replica被finallized，他就会被move到current中。当一个DN重启之后，tmp中的replica将会被删除，rbw中的将会被加载为rwr状态，current中的会load为finallized状态。
+
+
+0. class BlockPoolSlice //A block pool slice represents a portion of a block pool stored on a volume.   Taken together, all BlockPoolSlices sharing a block pool ID across a  cluster represent a single block pool.
+	146 File createRbwFile(Block b) //初始创建RBW files. They get moved to the finalized block directory when the block is finalized.
+	148	return DatanodeUtil.createTmpFile(b, f);
+
+0.1 public class DatanodeUtil {
+	51	public static File createTmpFile(Block b, File f) throws IOException {
+	
+//createRbwFile调用出处
+1. class FsDatasetImpl implements FsDatasetSpi<FsVolumeImpl> {
+	682 public synchronized ReplicaInPipeline createRbw(ExtendedBlock b) throws IOException 
+	692 FsVolumeImpl v = volumes.getNextVolume(b.getNumBytes());
+		// create a rbw file to hold block in the designated volume
+    694	File f = v.createRbwFile(b.getBlockPoolId(), b.getLocalBlock());
+	
+//volumes 出处
+	166 FsDatasetImpl(DataNode datanode, DataStorage storage, Configuration conf ) throws IOException final List<FsVolumeImpl> volArray = new ArrayList<FsVolumeImpl>(
+        storage.getNumStorageDirs());
+	208 volumes = new FsVolumeList(volArray, volsFailed, blockChooserImpl);
+	
+	//volArray 出处
+	193 final List<FsVolumeImpl> volArray = new ArrayList<FsVolumeImpl>( storage.getNumStorageDirs());
+		for (int idx = 0; idx < storage.getNumStorageDirs(); idx++) {
+		  final File dir = storage.getStorageDir(idx).getCurrentDir();
+		  volArray.add(new FsVolumeImpl(this, storage.getStorageID(), dir, conf));
+		  LOG.info("Added volume - " + dir);
+		}
+
+//getNextVolume函数
+  1.1	class FsVolumeList {
+	59	synchronized FsVolumeImpl getNextVolume(long blockSize) throws IOException {
+	60	blockChooser.chooseVolume(volumes, blockSize);
+	//blockChooser
+	38	private final VolumeChoosingPolicy<FsVolumeImpl> blockChooser;
+	
+	1.2	public class AvailableSpaceVolumeChoosingPolicy<V extends FsVolumeSpi> implements VolumeChoosingPolicy<V>, Configurable {
+		93 public synchronized V chooseVolume(List<V> volumes,final long replicaSize) throws IOException {
+		102 if (volumesWithSpaces.areAllVolumesWithinFreeSpaceThreshold()) {
+			//不同volume空间差距小于balancedSpaceThreshold （default 10 G）
+		112 } else {
+			//volume空间差距大于balancedSpaceThreshold （default 10 G）
+		V volume = null;
+      // If none of the volumes with low free space have enough space for the
+      // replica, always try to choose a volume with a lot of free space.
+      long mostAvailableAmongLowVolumes = volumesWithSpaces
+          .getMostAvailableSpaceAmongVolumesWithLowAvailableSpace();
+      
+      List<V> highAvailableVolumes = extractVolumesFromPairs(
+          volumesWithSpaces.getVolumesWithHighAvailableSpace());
+      List<V> lowAvailableVolumes = extractVolumesFromPairs(
+          volumesWithSpaces.getVolumesWithLowAvailableSpace());
+      
+      float preferencePercentScaler =
+          (highAvailableVolumes.size() * balancedPreferencePercent) +
+          (lowAvailableVolumes.size() * (1 - balancedPreferencePercent));
+      float scaledPreferencePercent =
+          (highAvailableVolumes.size() * balancedPreferencePercent) /
+          preferencePercentScaler;
+      if (mostAvailableAmongLowVolumes < replicaSize ||
+          RAND.nextFloat() < scaledPreferencePercent) {
+        volume = roundRobinPolicyHighAvailable.chooseVolume(
+            highAvailableVolumes,
+            replicaSize);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Volumes are imbalanced. Selecting " + volume +
+              " from high available space volumes for write of block size "
+              + replicaSize);
+        }
+      } else {
+        volume = roundRobinPolicyLowAvailable.chooseVolume(
+            lowAvailableVolumes,
+            replicaSize);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Volumes are imbalanced. Selecting " + volume +
+              " from low available space volumes for write of block size "
+              + replicaSize);
+        }
+      }
+      return volume;
+		
+
+
+
+
+
+

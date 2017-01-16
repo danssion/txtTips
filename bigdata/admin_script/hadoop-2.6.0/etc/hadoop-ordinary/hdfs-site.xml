@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+<property>
+	<name>dfs.namenode.name.dir</name>
+	<value>file:/opt/data/hadoop/namenode,file:/data1/data/hadoop/namenode,file:/opt/data/namenode</value>
+</property>
+<property>
+	<name>dfs.datanode.data.dir</name>
+	<value>file:/data1/data/hadoop/data,file:/data2/data/hadoop/data</value>
+</property>
+<property>
+	<name>dfs.replication</name>
+	<value>2</value>
+</property>
+<property>
+	<name>dfs.hosts</name>
+	<value>/opt/modules/hadoop/etc/hadoop/dfs.hosts</value>
+</property>
+<property>
+	<name>dfs.hosts.exclude</name>
+	<value>/opt/modules/hadoop/etc/hadoop/dfs.hosts.exclude</value>
+</property>
+<!--
+<property>
+	<name>dfs.permissions</name>
+	<value>true</value>
+</property>
+
+<property>
+	<name>dfs.secondary.http.address</name>
+	<value>resourceM:50090</value>
+</property>
+<property>
+	<name>dfs.datanode.address</name>
+	<value>114.112.70.54:50010</value>
+</property>
+-->
+<property>
+	<name>dfs.datanode.http.address</name>
+	<value>dNodeHttp:50075</value>
+</property>
+<property>
+	<name>dfs.nameservices</name>
+	<value>cluster</value>
+</property>
+<property>
+	<name>dfs.ha.namenodes.cluster</name>
+	<value>nn1,nn2</value>
+</property>
+<property>
+	<name>dfs.namenode.http-address.cluster.nn1</name>
+	<value>114.112.70.50:50070</value>
+</property>
+<property>
+	<name>dfs.namenode.http-address.cluster.nn2</name>
+	<value>114.112.70.51:50070</value>
+</property>
+<property>
+	<name>dfs.namenode.rpc-address.cluster.nn1</name>
+	<value>nn1:8020</value>
+</property>
+	
+<property>
+	<name>dfs.namenode.rpc-address.cluster.nn2</name>
+	<value>nn2:8020</value>
+</property>
+<property>
+	<name>dfs.namenode.shared.edits.dir</name>
+	<value>qjournal://qjournal1:8485;qjournal2:8485;qjournal3:8485/namenode</value>
+</property>
+<property>
+	<name>dfs.journalnode.edits.dir</name>
+	<value>/opt/data/hadoop/jn</value>
+</property>
+	
+<property>
+	<name>dfs.client.failover.proxy.provider.cluster</name>
+	<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+	
+<property>
+	<name>dfs.ha.fencing.methods</name>
+	<value>shell(/bin/true)</value>
+</property>
+<property>
+	<name>dfs.ha.fencing.ssh.connect-timeout</name>
+	<value>10000</value>
+</property>
+	
+<property>
+	<name>dfs.ha.automatic-failover.enabled</name>
+	<value>true</value>
+</property>
+<property>
+	<name>dfs.ha.fencing.ssh.private-key-files</name>
+	<value>/home/hadoop/.ssh/id_rsa</value>
+</property>
+
+<!-- some optimize -->
+<property>
+	<name>dfs.datanode.failed.volumes.tolerated</name>
+	<value>1</value>
+	<description>The number of volumes that are allowed to fail before a datanode stops offering service.
+         By default any volume failure will cause a datanode to shutdown.</description>
+</property>
+<property>
+	<name>dfs.datanode.balance.bandwidthPerSec</name>
+	<value>31457280</value>
+	<description>Specifies the maximum amount of bandwidth that each datanode can utilize for the balancing purpose in term of the number of bytes per second. 30M/s</description>
+</property>
+<property>
+        <name>dfs.datanode.du.reserved</name>
+        <value>214748364800</value>
+	<description>200G</description>
+</property>
+<property>
+	<name>dfs.datanode.du.pct</name>
+	<value>0.96</value>
+	<description>When calculating remaining space, only use this percentage of the real available space</description>
+</property>
+<property>
+	<name>dfs.datanode.fsdataset.volume.choosing.policy</name>
+	<value>org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy</value>
+</property>
+<property>
+	<name>dfs.datanode.available-space-volume-choosing-policy.balanced-space-preference-fraction</name>
+	<value>0.8f</value>
+	<description>Only used when the dfs.datanode.fsdataset.volume.choosing.policy is set to org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy. This setting controls what percentage of new block allocations will be sent to volumes with more available disk space than others. This setting should be in the range 0.0 - 1.0, though in practice 0.5 - 1.0, since there should be no reason to prefer that volumes with less available disk space receive more block allocations.</description>
+</property>
+</configuration>

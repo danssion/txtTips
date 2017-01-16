@@ -1,0 +1,324 @@
+#理######### 1.0 command ##########
+
+########## 1.0 search ##########
+GET /_search
+##返回参数
+max_score指的是所有文档匹配查询中_score的最大值
+took告诉我们整个搜索请求花费的毫秒数。
+_shards节点告诉我们参与查询的分片数（total字段），有多少是成功的（successful字段），有多少的是失败的（failed字段）
+time_out值告诉我们查询超时与否
+GET /_search?timeout=10ms 如果响应速度比完整的结果更重要，你可以定义timeout参数为10或者10ms（10毫秒）
+##搜索参数
+/_search
+/gb/_search 在索引gb的所有类型中搜索
+/gb,us/_search  在索引gb和us的所有类型中搜索
+/g*,u*/_search  在以g或u开头的索引的所有类型中搜索
+/gb,us/user,tweet/_search  在索引gb和us的类型为user和tweet中搜索
+/_all/user,tweet/_search  在所有索引的user和tweet中搜索 search types user and tweet in all indices
+##分页
+size: 结果数，默认10
+from: 跳过开始的结果数，默认0
+GET /_search?size=5
+GET /_search?size=5&from=5
+GET /_search?size=5&from=10
+
+查询所有类型为tweet并在tweet字段中包含elasticsearch字符的文档：
+GET /_all/tweet/_search?q=tweet:elasticsearch
+"+"前缀表示语句匹配条件必须被满足。类似的"-"前缀表示条件必须不被满足。
+查找name字段中包含"john"和tweet字段包含"mary"的结果
+GET /_search?q=%2Bname%3Ajohn+%2Btweet%3Amary
+返回包含"mary"字符的所有文档的简单搜索：
+GET /_search?q=mary
+
+name字段包含"mary"或"john"
+date晚于2014-09-10
+_all字段包含"aggregations"或"geo"
++name:(mary john) +date:>2014-09-10 +(aggregations geo)
+编码后的查询字符串
+?q=%2Bname%3A(mary+john)+%2Bdate%3A%3E2014-09-10+%2B(aggregations+geo)
+
+########## 1.2 映射分析 ##########
+##文档结构：
+GET /gb/_mapping/tweet
+使用analyze API来查看文本是如何被分析的
+GET /_analyze?analyzer=standard&text=Text to analyze
+_mapping后缀来查看Elasticsearch中的映射
+GET /gb/_mapping/tweet
+
+string index参数控制字符串以何种方式被索引
+analyzed  首先分析这个字符串，然后索引。换言之，以全文形式索引此字段。
+not_analyzed  索引这个字段，使之可以被搜索，但是索引内容和指定值一样。不分析此字段。
+no  不索引这个字段。这个字段不能为搜索到。
+其他简单类型（long、double、date等等）也接受index参数，但相应的值只能是no和not_analyzed，它们的值不能被分析。
+
+
+########## 1.2 结构化查询 Query DSL ##########
+指向一个指定的字段：
+{
+  QUERY_NAME: {
+    FIELD_NAME: {
+      ARGUMENT: VALUE,
+      ARGUMENT: VALUE,...
+    }
+  }
+}
+##查询过滤语句
+term主要用于精确匹配哪些值
+比如数字，日期，布尔值或 not_analyzed的字符串(未经分析的文本数据类型)：
+{ "term": { "tag":    "full_text"  }}
+某个字段指定了多个值，那么文档需要一起去做匹配：
+{
+  "terms": {
+  "tag": [ "search", "full_text", "nosql" ]
+  }
+}
+range过滤允许我们按照指定范围查找一批数据
+{
+  "range": {
+    "age": {
+      "gte":20,
+      "lt": 30
+    }
+  }
+}
+gt :: 大于
+gte:: 大于等于
+lt :: 小于
+lte:: 小于等于
+exists 和 missing  查找文档中是否包含指定字段或没有某个字段
+bool 过滤可以用来合并多个过滤条件查询结果的布尔逻辑，它包含一下操作符：
+  must :: 多个查询条件的完全匹配,相当于 and。
+  must_not :: 多个查询条件的相反匹配，相当于 not。
+  should :: 至少有一个查询条件匹配, 相当于 or。
+
+##查询语句
+match_all 可以查询到所有文档
+match查询是一个标准查询 not_analyzed 的字符串时，它将为你搜索你给定的值  
+match 查询一个全文本字段，它会在真正查询之前用分析器先分析match一下查询字符
+multi_match查询允许你做match查询的基础上同时搜索多个字段
+bool 查询与 bool 过滤相似，用于合并多个查询子句
+bool 过滤可以直接给出是否匹配成功， 而bool 查询要计算每一个查询子句的 _score （相关性分值）
+
+##验证查询
+GET /gb/tweet/_validate/query
+{
+  "query": {
+    "tweet" : {
+      "match" : "really powerful"
+    }
+  }
+}
+想知道语句非法的具体错误信息，需要加上 explain 参数
+GET /gb/tweet/_validate/query?explain 
+
+
+########## 1.2 排序 ##########
+#多级排序
+{
+  "query" : {
+    "filtered" : {
+      "query": { "match": { "tweet": "manage text search" }},
+      "filter" : { "term" : { "user_id" : 2 }}
+    }
+  },
+  "sort": [
+    { "date": { "order": "desc" }},
+    { "_score": { "order": "desc" }}
+  ]
+}
+#相关性
+fuzzy 查询会计算与关键词的拼写相似程度，
+terms查询会计算 找到的内容与关键词组成部分匹配的百分比
+ElasticSearch的相似度算法被定义为 TF/IDF，即检索词频率/反向文档频率
+字段长度准则::
+字段的长度是多少？长度越长，相关性越低。
+检索词频率::
+检索词在该字段出现的频率？出现频率越高，相关性也越高。 
+反向文档频率::
+每个检索词在索引中出现的频率？频率越高，相关性越低。
+
+GET /_search?explain ElasticSearch 在 每个查询语句中都有一个explain参数，将 explain 设为 true 就可以得到更详细的信息
+
+文档是如何被匹配到的
+GET /us/tweet/12/_explain
+
+routing（路由选择）
+在搜索时，你可以指定一个或多个routing 值来限制只搜索那些分片而不是搜索index里的全部分片：
+GET /_search?routing=user_1,user2
+search_type（搜索类型）
+GET /_search?search_type=count
+count（计数）搜索类型只有一个query（查询）的阶段
+query_and_fetch（查询并且取回）搜索类型将查询和取回阶段合并成一个步骤
+scan（扫描）搜索类型是和scroll（滚屏）API连在一起使用的，可以高效地取回巨大数量的结果。
+dfs_query_then_fetch 和 dfs_query_and_fetch
+dfs搜索类型有一个预查询的阶段，它会从全部相关的分片里取回项目频数来计算全局的项目频数。
+
+
+
+########## 1.2 索引管理  ##########
+action.auto_create_index: false
+DELETE /index_one,index_two
+DELETE /index_*
+DELETE /_all
+number_of_shards
+定义一个索引的主分片个数，默认值是 `5`。这个配置在索引创建后不能修改。
+number_of_replicas
+每个主分片的复制分片个数，默认是 `1`。这个配置可以随时在活跃的索引上修改。
+#我们可以创建只有一个主分片，没有复制分片的小索引。
+PUT /my_temp_index
+{
+  "settings": {
+  "number_of_shards" : 1,
+  "number_of_replicas" : 0
+  }
+}
+#创建了一个新的分析器，叫做 es_std，并使用预定义的西班牙语停用词：
+PUT /spanish_docs
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "es_std": {
+          "type":"standard",
+          "stopwords": "_spanish_"
+        }
+      }
+    }
+  }
+}
+
+#索引别名
+PUT /my_index_v1 <1>
+PUT /my_index_v1/_alias/my_index <2>
+<1> 创建索引 my_index_v1。
+<2> 将别名 my_index 指向 my_index_v1
+
+GET /*/_alias/my_index
+GET /my_index_v1/_alias/*
+
+POST /_refresh <1>
+POST /blogs/_refresh <2>
+<1> refresh所有索引
+<2> 只refresh 索引blogs
+PUT /my_logs/_settings
+{ "refresh_interval": -1 } <1>
+
+PUT /my_logs/_settings
+{ "refresh_interval": "1s" } <2>
+<1> 禁用所有自动refresh
+<2> 每秒自动refresh
+flush API可用来进行一次手动flush：
+POST /blogs/_flush 
+重启或关闭一个索引，flush该索引是很有用的。当ES尝试恢复或者重新打开一个索引时，它必须重放所有事务日志中的操作，所以日志越小，恢复速度越快
+
+#结构化搜索
+SELECT product
+FROM   products
+WHERE(price = 20 OR productID = "XHDK-A-1293-#fJ3")AND(price != 30)
+{
+  "query" : {
+    "filtered" : { <1>
+      "filter" : {
+        "bool" : {
+          "should" : [
+            { "term" : {"price" : 20}}, <2>
+            { "term" : {"productID" : "XHDK-A-1293-#fJ3"}} <2>
+          ],
+          "must_not" : {
+            "term" : {"price" : 30} <3>
+          }
+        }
+      }
+    }
+  }
+}
+
+ELECT document
+FROM products
+WHEREprice BETWEEN 20 AND 40
+"range" : {
+  "price" : {
+    "gt" : 20,
+    "lt" : 40
+  }
+}
+
+#我们想找到所有最近一个小时的文档：
+"range" : {
+  "timestamp" : {
+    "gt" : "now-1h"
+  }
+}
+"range" : {
+  "timestamp" : {
+    "gt" : "2014-01-01 00:00:00",
+    "lt" : "2014-01-01 00:00:00||+1M" <1>
+  }
+}
+
+
+#bool匹配
+{ "match": { "title": {
+"query":"brown fox",
+"operator": "and"
+}}}
+==
+{ "bool": { "must": [
+{ "term": { "title": "brown" }},
+{ "term": { "title": "fox" }}
+]}}
+
+
+########## 1.2 多字段搜索  ##########
+#优选子句
+GET /_search
+{"query": {
+  "bool": {
+    "should": [
+      { "match": { (1)
+      "title":{
+      "query": "War and Peace",
+      "boost": 2
+      }}},
+      { "match": { (1)
+      "author":{
+      "query": "Leo Tolstoy",
+      "boost": 2
+      }}},
+      { "bool":{ (2)
+      "should": [
+      { "match": { "translator": "Constance Garnett" }},
+      { "match": { "translator": "Louise Maude"}}
+      ]
+      }}
+    ]
+  }
+}}
+标题和作者的boost值为2。
+嵌套的布尔查询的boost值为默认的1。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

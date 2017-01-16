@@ -1,0 +1,211 @@
+################################ hive click 数据 table #####################################
+# 当天数据表名称命名 click_db.click[year][month]_[day]
+CREATE EXTERNAL TABLE click_db.click_201404_10
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/click/201404/10/';
+
+CREATE EXTERNAL TABLE click_db.click_201404_30
+( info string )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/click/201404/30/';
+
+CREATE EXTERNAL TABLE click_db.click_201406_30
+( info string comment 'json string' )
+STORED AS TEXTFILE  LOCATION '/data/click/201406/30/';
+
+CREATE EXTERNAL TABLE click_db.click_201411_01 
+( info string comment 'json string' )
+STORED AS TEXTFILE  LOCATION '/data/click/201411/01/';
+CREATE EXTERNAL TABLE click_db.click_201411_27
+( info string comment 'json string' )
+STORED AS TEXTFILE  LOCATION '/data/click/201411/27/';
+
+
+# 总表数据命名 
+CREATE EXTERNAL TABLE click_db.click_all
+( info string comment 'json string' )
+comment 'click all data'
+PARTITIONED BY(yearmonth String,day String) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/click/';
+
+alter table click_all add partition (yearmonth='201404',day='10') location '201404/10';
+									...
+									...
+alter table click_all add partition (yearmonth='201406',day='30') location '201406/30';
+alter table click_all add partition (yearmonth='201411',day='01') location '201411/01';
+alter table click_all add partition (yearmonth='201411',day='27') location '201411/27';
+
+
+################################ hive count 数据 table #####################################
+# 当天数据表名称命名 count_db.count[year][month]_[day]
+CREATE EXTERNAL TABLE count_db.count_201404_10
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/count/201404/10/';
+
+CREATE EXTERNAL TABLE count_db.count_201406_30
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/count/201406/30/';
+
+CREATE EXTERNAL TABLE count_db.count_201411_01
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/count/201411/01/';
+CREATE EXTERNAL TABLE count_db.count_201411_30
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/count/201411/30/';
+# 总表数据命名 
+CREATE EXTERNAL TABLE count_db.count_all
+(
+info string comment 'json string'
+)
+comment 'count all data'
+PARTITIONED BY(yearmonth String,day String) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/count/';
+show PARTITIONs count_all [partition (yearmonth='201404')];
+alter table count_all add partition (yearmonth='201404',day='10') location '201404/10';
+								...
+								...
+alter table count_all add partition (yearmonth='201406',day='30') location '201406/30';
+alter table count_all add partition (yearmonth='201411',day='01') location '201411/01';
+								...
+alter table count_all add partition (yearmonth='201411',day='30') location '201411/30';
+
+
+################################ hive consu 数据 table #####################################
+# 当天数据表名称命名 consu_db.consu[year][month]_[day]
+CREATE EXTERNAL TABLE consu_db.consu_201404_10
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/consu/201404/10/';
+
+CREATE EXTERNAL TABLE consu_db.consu_201405_30
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/consu/201405/30/';
+CREATE EXTERNAL TABLE consu_db.consu_201411_01
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/consu/201411/01/';
+CREATE EXTERNAL TABLE consu_db.consu_201411_30
+( info string comment 'json string' )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/consu/201411/30/';
+
+# 总表数据命名 
+CREATE EXTERNAL TABLE consu_db.consu_all
+(
+info string comment 'json string'
+)
+comment 'consu all data'
+PARTITIONED BY(yearmonth String,day String) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/data/consu/';
+
+alter table consu_all add partition (yearmonth='201404',day='10') location '201404/10';
+								...
+alter table consu_all add partition (yearmonth='201406',day='30') location '201406/30';
+alter table consu_all add partition (yearmonth='201411',day='01') location '201411/01';
+								...
+alter table consu_all add partition (yearmonth='201411',day='30') location '201411/30';
+
+
+
+
+
+
+
+
+##############################  hive 测试table  #################################
+CREATE EXTERNAL TABLE jnode_table 
+(
+date string,
+time string,
+info string,
+fun string,
+word1 string,
+word2 string,
+word3 string,
+filepathf string,
+word4 string,
+filepatht string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ' ' 
+STORED AS TEXTFILE 
+ LOCATION '/test/data1/';
+
+CREATE EXTERNAL TABLE jsontbl 
+(
+info string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/test/log/';
+
+CREATE EXTERNAL TABLE jsonCompressAll
+(
+info string
+)
+PARTITIONED BY(type String) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/test/compress';
+alter table jsonCompressAll add partition (type='lzo') location 'lzo';
+
+
+CREATE EXTERNAL TABLE jsonlzo
+(
+info string
+) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/test/compress/lzo';
+
+CREATE EXTERNAL TABLE jsonbzip2
+(
+info string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/test/compress/bzip2';
+
+CREATE EXTERNAL TABLE jsongz
+(
+info string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/test/compress/gzip';
+
+CREATE EXTERNAL TABLE jsontar
+(
+info string
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' 
+STORED AS TEXTFILE  LOCATION '/test/compress/tar';
+
+
+
+CREATE  EXTERNAL  TABLE  adpv_20130325( 
+  stat_date string,  
+  stat_hour string,  
+  ip string,  
+  logdate string,  
+  uid string,  
+  ver string,  
+  pid string,  
+  chid string,  
+  json string,  
+  country string,  
+  province string,  
+  city string,  
+  isp string) 
+ROW FORMAT DELIMITED  
+  FIELDS TERMINATED  BY   '\t'   
+STORED  AS  INPUTFORMAT  
+   'com.hadoop.mapred.DeprecatedLzoTextInputFormat'   
+OUTPUTFORMAT  
+   'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'  
+LOCATION 
+   'hdfs://hadoopmaster:9000/data/dw/adpv/20130325'
+

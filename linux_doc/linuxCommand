@@ -1,4 +1,4 @@
-[version2计划排期[[ grep ]]]
+[[[ grep ]]]
 egrep -ril '<?php ' ./includes/languages/*/html_includes | egrep -e "\.php$" | wc -l 
 grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{print$1}' | sort -rn | wc -l
 ./assistantShell.sh -i error | awk 'FS=" " {print $1; sum+=$1} END {print sum} '
@@ -6,7 +6,12 @@ grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{
 ./assistantShell.sh -i error | gawk -mf 3000000 'FS=" " {print $1; sum+=$1} END {print sum} '
 sshfs -o idmap=user,umask=0000,uid=1000,gid=1000 duanxiang@192.168.12.185:/home/duanxiang/codes -p 25552 /home/danssion/server-dir
 fusermount -u /home/danssion/server-dir/
-
+#500 url
+cat nginx-ad-access.log | awk '{if($9=="500") print $0}' | awk '{split($7,b,"?");COUNT[b[1]]++;}END{for(a in COUNT) print  COUNT[a], a}'|sort -k 1 -nr | head -n10
+#nginx http code
+awk '{counts[$(9)]+=1}; END {for(code in counts) print code, counts[code]}' | sort -k 2 -nr
+#统计服务器并发量
+cat nginx-ad-access.log |grep '10.15.19.138'| awk '{COUNT[$4]++}END{for( a in COUNT) print a,COUNT[a]}'|sort -k 2 -nr|head -n20
 
 sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
 
@@ -24,6 +29,23 @@ setenv LANG zh_CN.UTF-8
 /etc/init.d/networking
 
 svn propset svn:keywords "Date Author Revision Id" protected/controllers/
+
+[[[ 7z ]]]
+7za x phpMyAdmin-3.3.8.1-all-languages.7z -r -o./
+-o后是没有空格的，直接接目录。这一点需要注意。
+7za a -t7z -mx=8 -r Mytest.7z /opt/phpMyAdmin-3.3.8.1-all-languages/*
+a  代表添加文件／文件夹到压缩包
+-t 是指定压缩类型，这里定为7z，可不指定，因为7za默认压缩类型就是7z。
+-r 表示递归所有的子文件夹
+-mx level of compression = 9 (Ultra)
+
+
+[[[ salt ]]]
+salt -E 'web+' test.ping //正则匹配
+salt -L 'web1,web2,web3' test.ping
+salt -G 'os:CentOS' test.ping
+salt -L 'web1,web2,web3' cmd.run 'hostname'
+
 
 [[[ tar ]]]
 tar xvf abc.tar -C ./abc/
@@ -168,14 +190,20 @@ service mysqld [start][restart][stop]
 safe_mysqld&
 mysqladmin shutdown
 SET PASSWORD FOR root=PASSWORD('new_password');
+UPDATE mysql.user SET authentication_string = PASSWORD('MyNewPass'), password_expired = 'N' WHERE User = 'root' AND Host = 'localhost'; 
 mysqladmin -uroot -p password '你的新密码' 
 mysqlslap --defaults-file=/opt/modules/mysql/my.cnf --concurrency=50,100 --iterations=1 --auto-generate-sql --auto-generate-sql-load-type=write --engine=innodb --number-of-queries=200 -S/tmp/mysql.sock
+mysqladmin -u root -pqcttH1124 processlist | grep zhuxiangyi | awk -F "|" '{print $2}' | xargs -n 1 mysqladmin -u root -pqcttH1124 kill
+mysqladmin -u root -pqcttH1124 processlist | grep 'select ' | awk -F "|" '{print $2}'
+mysqladmin -u mysql_root -pqCtT@1!2$ processlist | grep 'select ' | awk -F "|" '{print $2}'
+set global wait_timeout=10;
+show global variables like'wait_timeout';
 show create table **** //show partition information
 explain partitions select语句 通过此语句来显示扫描哪些分区，及他们是如何使用的
 show slave/master status\G;
 start slave与stop slave来开启和关闭同步。
 CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
-
+max_user_connections  max_connections
 [[[ systemctl ]]]
 systemctl enable ***.service
 systemctl disable ***.service
@@ -190,6 +218,21 @@ systemctl list-timers [pattern]
 systemctl cat sshd.service
 systemctl list-dependencies sshd.service
 systemctl show-environment
+systemd-cgls以树形列出正在运行的进程，它可以递归显示控制组内容
+获取当前某个服务的CPU分配额（如httpd）
+systemctl show -p CPUShares httpd.service
+systemctl set-property httpd.service CPUShares=2000
+检查某个服务的所有配置细节
+systemctl show httpd
+分析某个服务（httpd）的关键链
+systemd-analyze critical-chain httpd.service
+获取某个服务（httpd）的依赖性列表
+# systemctl list-dependencies httpd.service
+按等级列出控制组
+# systemd-cgls
+按CPU、内存、输入和输出列出控制组
+# systemd-cgtop
+
 
 
 
@@ -215,6 +258,9 @@ vim -t class | method | variable
 ctrl-] ：跳转至光标所在对象定义之处
 ctrl-t ：返回跳转前位置
 vim可以从一个函数调用跳转到其函数定义(快捷键是CTRL+],上一个CTRL+t)
+
+Visual模式先选中，然后 "ay 复制，"ap 粘贴，a 为寄存器名，可同时使用多个
+VIM的书签:m{a-zA-Z}  '{a-zA-Z}  marks
 
 vim 插件管理pathogen的使用
 进入.vim/bundle目录
@@ -249,6 +295,21 @@ zN重新打开折叠功能。
 CTRL-W -    使得当前窗口高度减 N (默认值是 1)。 CTRL-W +    使得当前窗口高度加 N (默认值是 1)
 CTRL-W <    使得当前窗口宽度减 N (默认值是 1)。 CTRL-W >    使得当前窗口宽度加 N (默认值是 1)
 :set nobomb bomb?
+:set paste 拷贝模式
+:set list 显示不可见字符
+set tabstop=4 tab键为4个空格
+:g/s*^$/d 删除所有空行
+:g!/^dd/d 删除不含字符串'dd'的行
+#vim 文件编码
+:set fileencoding
+#查看文件乱码的问题，~/.vimrc 文件中添加以下内容
+set encoding=utf-8 fileencodings=utf-8
+#文件编码转换
+:set fileencoding=utf-8
+:set fileformat?
+:set fileformat=unix
+
+
 
 [[[ macport brew ]]]----------------------------------
 sudo port -v selfupdate
@@ -317,11 +378,45 @@ find . -name "*.log" -exec rm {} \;
 lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  iostat -c -d -x  pidstat vmstat w
 setsid traceroute  lsmode
 
-dmesg id
-tmux ls
-tmux attach -t  $n
+jmap --heap 
 
-nc:
+dmesg id
+
+[[[ jar ]]]
+jar命令格式：jar {c t x u f }[ v m e 0 M i ][-C 目录]文件名...
+其中{ctxu}这四个参数必须选选其一。[v f m e 0 M i ]是可选参数，文件名也是必须的。
+-c  创建一个jar包
+-t  显示jar中的内容列表
+-x  解压jar包
+-u  添加文件到jar包中
+-f  指定jar包的文件名
+  -v  生成详细的报造，并输出至标准设备
+  -m  指定manifest.mf文件.(manifest.mf文件中可以对jar包及其中的内容作一些一设置)
+  -0  产生jar包时不对其中的内容进行压缩处理
+  -M  不产生所有文件的清单文件(Manifest.mf)。这个参数与忽略掉-m参数的设置
+  -i  为指定的jar文件创建索引文件
+  -C  表示转到相应的目录下执行jar命令,相当于cd到那个目录，然后不带-C执行jar命令
+
+创建带manifest.mf文件的jar包
+jar cvfm hello.jar manifest.mf hello
+注意：manifest.mf这个文件名，用户可以任指定，但jar命令只认识Manifest.mf，它会对用户指定的文件名进行相应在的转换，这不需用户担心。
+Manifest.mf文件编写规则：
+(1) 不能有空行和空格的地方
+第一行不可以是空行( 第一行的行前不可以有空行)，行与行之间不能有空行，第行的行尾不可以有空格
+(2) 一定要有空行的地方
+最后一行得是空行(在输完你的内容后加一个回车就OK)
+(3) 一定有空格的地方
+key: value 在分号后面一定要写写一个空格
+Java调用类的顺序：java\lib\ext中的类--->Manifest.mf中指定的类-->当前目录中的类-->set CLASSPATH中指定的类。
+JAR包与ZIP包主要区别就是JAR包中多一个META-INF的目录，META-INF目录下有一个manifest.mf文件，我们只要建立好相关的目录一压缩就可以了。 
+
+[[[ tmux ]]]
+tmux ls
+tmux attach [-t | -d | -r] $n
+mux ^z d
+Tmux Resurrect:前缀键 + Ctrl-s / 前缀键 + Ctrl-r 
+
+[[[ nc ]]]
 [root@hatest2 tmp]# nc -l 1234 |tar xzvf -
 [root@hatest1 ~]# ll -d nginx-0.6.34
 drwxr-xr-x 8 1000 1000 4096 12-23 17:25 nginx-0.6.34
@@ -330,4 +425,6 @@ nc -lp 1234 > install.log
 nc -w 1 192.168.228.222 1234 < install.log
 
 清空yum 缓存，并重建yum缓存，执行以下命令：
+yum install epel-release
+yum repolist
 yum clean all && yum clean metadata && yum clean dbcache && yum makecache && yum update

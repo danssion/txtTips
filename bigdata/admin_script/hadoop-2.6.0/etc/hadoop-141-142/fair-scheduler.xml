@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<allocations>
+	<queue name="month_queue">
+		<minResources>20000 mb,10vcores</minResources>
+		<maxResources>60000 mb,30vcores</maxResources>
+		<maxRunningApps>5</maxRunningApps>
+		<weight>2.0</weight>
+		<schedulingPolicy>fair</schedulingPolicy>
+	</queue>
+	  
+	<queue name="default">
+		<minResources>2000 mb,1vcores</minResources>
+		<maxResources>1040000 mb,52vcores</maxResources>
+		<maxRunningApps>48</maxRunningApps>
+		<weight>2.0</weight>
+		<schedulingPolicy>fair</schedulingPolicy>
+	</queue>
+
+	<user name="month_user">
+		<maxRunningApps>30</maxRunningApps>
+	</user>
+	  
+	<queuePlacementPolicy>
+		<rule name="specified" />
+		<rule name="primaryGroup" create="false" />
+		<rule name="month_queue" />
+		<rule name="default" />
+	</queuePlacementPolicy>
+</allocations>

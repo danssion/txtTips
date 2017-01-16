@@ -1,0 +1,48 @@
+
+
+
+CREATE TABLE IF NOT EXISTS `everyhour` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `day` date NOT NULL,
+  `hour` char(3) NOT NULL DEFAULT '00',
+  `consu_count` int(12) unsigned NOT NULL DEFAULT '0',
+  `plt` tinyint(3) NOT NULL DEFAULT '-1' COMMENT '客户端类型id 0=客户端 1=易览 2=网站 3=网站flash 4=无线   -1=all',
+  `plt_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `posi` tinyint(3) NOT NULL DEFAULT '-1' COMMENT '中播或者前播 2=中播 1=前播  -1 不限制  1000/1001 其他错误数据',
+  `posi_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` char(5) NOT NULL DEFAULT '-1' COMMENT '协商类型ABCD',
+  `type_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `is_ie` tinyint(3) NOT NULL DEFAULT '-1' COMMENT '是否是ie  0=老用户 1=本地 2=ie',
+  `is_ie_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `e_sk` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '-1 不限制  1 跳过计算的  2 其他',
+  `e_sk_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `e_exc` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '1-7    -1 不限制',
+  `e_exc_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `a_sz_sum` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '地域空间个数总数（20个 ）',
+  `ads_sum` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下发的广告数目（n个 ）',
+  `sps_sum` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '下发广告空间总值 受控地域组之后 用以计算库存',
+  `u_12_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '跑够了12vv的用户',
+  `area` varchar(80) NOT NULL DEFAULT '-1' COMMENT '地域',
+  PRIMARY KEY (`id`),
+  KEY `day-hour` (`day`,`hour`),
+  KEY `area` (`area`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+consu_count  	总数统计（所有地域总数，分地域的总数）
+plt          	log的客户来源类型 0=客户端 1=易览 2=网站 3=网站flash 4=无线   -1=all
+plt_count		客户端统计的总数
+posi			2=中播 1=前播  -1=不限制
+posi_count		统计数
+type			协商类型ABCD	 -1=不限制
+type_count		协商统计数
+is_ie			是否是ie  0=老用户 1=本地 2=ie   -1=不限制
+is_ie_count		ie统计数
+e_sk			因为12vv跳过而不处理所有逻辑
+e_sk_count		-1 不限制  1 跳过计算的  2 其他
+e_exc			正常值：1-7    0 非法	 -1不限制
+e_exc_count
+a_sz_sum		地域空间个数总数
+ads_sum			下发的广告数目
+u_12_count		跑够了12vv的用户
+area			地域
+

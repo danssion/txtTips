@@ -5,11 +5,11 @@ groupadd dev
 useradd -g dev duanxiang
 sudo usermod -a -G dev duanxiang
 passwd duanxiang 
-sudo useradd -g dev chenyang
-sudo usermod -a -G dev chenyang
-sudo passwd chenyang
+sudo useradd -g dev zhushuai
+sudo usermod -a -G dev zhushuai
+sudo passwd zhushuai
 sudo usermod -G dev mysql
-mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&'; FLUSH   PRIVILEGES;
 
 [[[[[[hardware disk mount]]]]]]
@@ -41,6 +41,15 @@ mkfs.ext4 /dev/vdc1
 mkdir -p /data1/hadoop/hdfs/data
 chown cloudera-scm:cloudera-scm /data1/hadoop/ -R
 
+[[[[[[composer]]]]]]
+安装 Composer：
+curl -sS https://getcomposer.org/installer | php
+php composer.phar
+~1.2 相当于 >=1.2,<2.0
+php composer.phar update
+
+
+
 [[[[[[software need]]]]]]
 yum install libxml2-devel.x86_64
 yum install openssl-devel.x86_64 libcurl-devel.x86_64 libvpx-devel.x86_64 libjpeg-turbo-devel.x86_64 libpng-devel.x86_64 libmcrypt-devel.x86_64
@@ -59,6 +68,13 @@ ntpdate ntp1.aliyun.com
 service ntpd start
 
 
+[[[[[[saltstack]]]]]]
+dns02.op.hb02.allydata.cn
+60.205.6.157
+/srv路径的salt下面
+security 中的ipsetable.sls
+加入新公司的ip
+
 [[[[[[iptables for net]]]]]]
 iptables -t nat -A PREROUTING -d 10.1.11.1 -p tcp -m tcp --dport 8081 -j DNAT --to-destination10.1.11.8:8081
 iptables -t nat -A PREROUTING -d 123.56.2.156 -p tcp --dport 8081 -j DNAT --to-destination 10.1.11.8:8081
@@ -66,6 +82,7 @@ iptables -t nat -A PREROUTING -d 123.56.2.156 -p tcp --dport 8081 -j DNAT --to-d
 
 [[[[[[SLB]]]]]]
 time echo -e 'HEAD / HTTP/1.0\r\n\r\n' | nc -t 10.1.11.9 80
+curl -v http://10.46.174.248
 
 [[[[[[visudo]]]]]]
 User_Alias DEV = duanxiang

@@ -1,0 +1,136 @@
+		Hadoop安装过程可能出现的问题:
+
+
+	1.出现Datanode denied communication with namenode: DatanodeRegistration之类的错误
+（1）检查iptables是否禁用
+	service /etc/init.d/iptables stop 
+	或
+	加入iptables规则
+（2）clusterID不一致，namenode的cid和datanode的cid不一致
+	以fs.data.dir下的current VERSION下的内容与slave中的内容对比,修正
+ (3) 检查所有节点中是否有slave和master中的ip map(/etc/hosts)
+ 	eg:	192.168.1.54    BFG-OSER-2376.localdomain BFG-OSER-2376
+		192.168.1.53    BFG-OSER-2376.localdomain BFG-OSER-2375
+
+
+	2.启动时出现0.0.0.0的warning提示 或者错误异常
+ (1) 确认hdfs-site.xml中是否有dfs.secondary.http.address配置
+ (2) 若是datanode出现的提示 检验是否有dfs.datanode.address配置
+
+
+	3.HA模式初次启动时 若出现 state: NOT_FORMATTED
+(1)执行hdfs hdfs namenode -bootstrapStandby
+(2)或者则把actie节点的namenode数据拷贝到standby上
+
+
+	4.出现提示：WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable
+拷贝文件到native目录下
+cp ./hadoop-common-project/hadoop-common/target/native/target/usr/local/lib/libhadoop.so /opt/modules/hadoop/lib/native/
+cp ./hadoop-hdfs-project/hadoop-hdfs/target/native/target/usr/local/lib/libhdfs.so /opt/modules/hadoop/lib/native/
+
+
+	5.重新编译CDH4.6
+安装 maven 建议maven选择3.0.5 版本进行编译
+wget http://mirror.bit.edu.cn/apache/maven/maven-3/3.2.1/binaries/apache-maven-3.2.1-bin.tar.gz
+
+tar -zxvf apache-maven-3.2.1-bin.tar.gz
+vim /etc/profile
+export MAVEN_HOME=/opt/modules/maven
+export PATH=$PATH:$ZOOKEEPER_HOME:$ZOOKEEPER_HOME/bin:$ANT_HOME/bin:$MAVEN_HOME/bin
+
+jdk  版本不兼容
+下载jdk6 
+http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR
+
+maven 编译需要安装protobuf
+https://code.google.com/p/protobuf/downloads/list
+wget https://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+./configure --prefix=/opt/modules/protobuf
+make
+make install
+#变更 profile
+export PROBF_HOME=/opt/modules/protobuf
+export PATH=$PATH:$ZOOKEEPER_HOME:$ZOOKEEPER_HOME/bin:$ANT_HOME/bin:$MAVEN_HOME/bin:$PROBF_HOME/bin
+
+cd [hadoop-path]/src
+mvn package -Pnative -DskipTests
+
+
+	6.maven 编译错误 
+ Error injecting: org.apache.maven.reporting.exec.DefaultMavenReportExecutor
+java.lang.NoClassDefFoundError: org/sonatype/aether/graph/DependencyFilter
+依据提示：
+http://cwiki.apache.org/confluence/display/MAVEN/AetherClassNotFound
+更新pom.xml 中 ： maven-site-plugin 版本到 3.3
+
+
+	7.maven 其他的编译错误 按照 maven选择3.0.5 版本进行编译
+
+
+
+	8.FATAL org.apache.hadoop.hdfs.server.datanode.DataNode: Exception in secureMain
+java.net.BindException: Problem binding to [0.0.0.0 :50010] java.net.BindException: Address already in use; For more 
+details see:  http://wiki.apache.org/hadoop/BindException
+
+jps 察看已经启动的datanode程序 或  netstat -tulp 察看占用端口的程序并清除之
+
+
+	9.org.apache.hadoop.util.DiskChecker$DiskErrorException: Invalid volume failure  config value: 1
+dfs.datanode.failed.volumes.tolerated 配置为1
+其含义是：The number of volumes that are allowed to fail before a datanode stops offering service. By default any volume failure will cause a datanode to shutdown. 即datanode可以忍受的磁盘损坏的个数。在hadoop集群中，经常会发生磁盘只读或者损坏的情况。datanode在启动时会使用dfs.datanode.data.dir下配置的文件夹（用来存储block），若是有一些不可以用且个数>上面配置的值，DataNode就会启动失败。
+环境中fs.datanode.data.dir配置的硬盘数应该大于 该数值
+
+
+	10.ERROR security.UserGroupInformation: PriviledgedActionException as:hadoop (auth:SIMPLE) cause:java.io.IOException
+java.io.IOException
+        at org.apache.hadoop.mapred.ClientServiceDelegate.invoke(ClientServiceDelegate.java:317)
+        at org.apache.hadoop.mapred.ClientServiceDelegate.getJobStatus(ClientServiceDelegate.java:385)
+		... ...
+运行的权限组不对，变更执行机器的运行权限组
+usermod -g hadoop hadoop
+
+
+	11. hadoop 运行job时的提示错误 14/06/26 16:51:21 INFO mapreduce.Job: Task Id : attempt_1403768806953_0009_r_000000_0, Status : FAILED
+Container launch failed for container_1403768806953_0009_01_000005 : java.lang.IllegalArgumentException: Does not contain a valid host:port authority: Online-82.141:3941
+        at org.apache.hadoop.net.NetUtils.createSocketAddr(NetUtils.java:210)
+        at org.apache.hadoop.net.NetUtils.createSocketAddr(NetUtils.java:162)
+        at org.apache.hadoop.net.NetUtils.createSocketAddr(NetUtils.java:151)
+		... ...
+主机使用的hostname不合法，修改为不包含着‘.’的主机名  
+	
+	其他网络给出的答案：可能是 core-site.xml 中的 fs.default.name 的value 值有问题
+					也可能是mapred-site.xml中的mapred.job.tracker的 value 值有问题
+
+
+	12. streaming默认的情况下，mapper和reducer的返回值不是0，被认为异常任务，将被再次执行，默认尝试4次都不是0，整个job都将失败
+java.lang.RuntimeException: PipeMapRed.waitOutputThreads(): subprocess failed wi
+th code 1
+	at org.apache.hadoop.streaming.PipeMapRed.waitOutputThreads(PipeMapRed.j
+ava:311)
+	at org.apache.hadoop.streaming.PipeMapRed.mapRedFinished(PipeMapRed.java
+:545)
+	at org.apache.hadoop.streaming.PipeReducer.reduce(PipeReducer.java:130)
+	at org.apache.hadoop.mapred.ReduceTask.runOldReducer(ReduceTask.java:519
+)
+	at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:420)
+	at org.apache.hadoop.mapred.Child$4.run(Child.java:255)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:396)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInforma
+tion.java:1093)
+	at org.apache.hadoop.mapred.Child.main(Child.java:249)
+
+	hadoop jar hadoop-streaming*.jar -D stream.non.zero.exit.is.failure=false
+
+
+	13.在执行streaming任务时，出现：Environment variable CLASSPATH not set!
+解决方法：
+在执行streaming时，加上选项：
+	-cmdenv CLASSPATH=$CLASSPATH  
+
+
+
+
+
+
+

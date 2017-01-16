@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+<property>
+	<name>mapreduce.framework.name</name>
+	<value>yarn</value>
+</property>
+<property>
+	<name>mapreduce.jobtracker.system.dir</name>
+	<value>file:/data1/data/hadoop/mapred/system</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapreduce.cluster.local.dir</name>
+	<value>file:/data1/data/hadoop/mapred/local</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapreduce.map.output.compress</name>
+	<value>false</value>
+</property>
+<property>
+	<name>mapreduce.map.output.compress.codec</name>
+	<value>com.hadoop.compression.lzo.LzoCodec</value>
+</property>
+<!--
+<property>
+	<name>mapred.child.java.opts</name>
+	<value>-Xmx1024m</value>
+</property>
+-->
+<property>
+	<name>mapreduce.map.java.opts</name>
+	<value>-Xmx512m</value>
+</property>
+<property>
+	<name>mapreduce.reduce.java.opts</name>
+	<value>-Xmx1024m</value>
+</property>
+<property>
+	<name>mapreduce.jobhistory.address</name>
+	<value>resourceM:10020</value>
+</property>
+<property>
+	<name>mapreduce.jobhistory.webapp.address</name>
+	<value>resourceOut:19888</value>
+</property>
+<property>
+	<name>mapreduce.job.maps</name>
+	<value>10</value>
+</property>
+<property>
+	<name>mapreduce.job.reduces</name>
+	<value>5</value>
+</property>
+<property>
+	<name>mapreduce.jobtracker.maxtasks.perjob</name>
+	<value>20</value>
+</property>
+<property>
+	<name>mapreduce.tasktracker.map.tasks.maximum</name>
+	<value>15</value>
+</property>
+<property>
+	<name>mapreduce.tasktracker.reduce.tasks.maximum</name>
+	<value>20</value>
+</property>
+<property>
+	<name>mapreduce.task.io.sort.factor</name>
+	<value>20</value>
+</property>
+<property>
+	<name>mapreduce.task.io.sort.mb</name>
+	<value>256</value>
+</property>
+<property>
+	<name>mapreduce.map.memory.mb</name>
+	<value>512</value>
+	<description> set by user, per-job Job requirement for map tasks. The maximum amount of memory each map task of a job can consume, in MB. </description>
+</property>
+<property>
+	<name>mapreduce.cluster.mapmemory.mb</name>
+	<value>512</value>
+	<description> set by admin, cluster-wid	Cluster definition of memory per map slot. The maximum amount of memory, in MB, each map task on a tasktracker can consume. </description>
+</property>
+<property>
+	<name>mapreduce.cluster.reducememory.mb</name>
+	<value>1024</value>
+	<description> set by admin, cluster-wide Cluster definition of memory per reduce slot. The maximum amount of memory, in MB, each reduce task on a tasktracker can consume. </description>
+</property>
+<property>
+	<name>mapreduce.jobtracker.maxreducememory.mb</name>
+	<value>1536</value>
+	<description>set by admin, cluster-wide	Max limit on jobs. The maximum value that can be specified by a user via mapred.job.reduce.memory.mb, in MB. A job that asks for more than this number will be failed at submission itself. </description>
+</property>
+<property>
+	<name>mapreduce.input.fileinputformat.split.minsize</name>
+	<value>268435456</value>
+	<description>The minimum size chunk that map input should be split into. Note that some file formats may have minimum split sizes that take priority over this setting. 256M </description>
+</property>
+<property>
+	<name>mapreduce.input.fileinputformat.split.minsize.per.node</name>
+	<value>402653184</value>
+	<description>384M</description>
+</property>
+<property>
+	<name>mapreduce.input.fileinputformat.split.maxsize</name>
+	<value>402653184</value>
+</property>
+<property>
+	<name>mapreduce.map.input.length</name>
+	<value>402653184</value>
+	<description>The number of bytes in the map input split 384M</description>
+</property>
+<property>
+	<name>mapreduce.reduce.shuffle.parallelcopies</name>
+	<value>15</value>
+	<description>The default number of parallel transfers run by reduce during the copy(shuffle) phase. default(5)</description>
+</property>
+<property>
+	<name>mapreduce.job.jvm.numtasks</name>
+	<value>10</value>
+	<description>How many tasks to run per jvm. If set to -1, there is no limit.</description>
+</property>
+<property>
+	<name>mapreduce.map.maxattempts</name>
+	<value>5</value>
+	<description>Expert: The maximum number of attempts per map task. In other words, framework will try to execute a map task these many number of times before giving up on it.</description>
+</property>
+<property>
+	<name>mapreduce.task.skip.start.attempts</name>
+	<value>1</value>
+	<description>The number of Task attempts AFTER which skip mode will be kicked off. When skip mode is kicked off, the tasks reports the range of records which it will process next, to the TaskTracker. So that on failures, TT knows which ones are possibly the bad records. On further executions, those are skipped.</description>
+</property>
+
+</configuration>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+<property>
+	<name>mapreduce.framework.name</name>
+	<value>yarn</value>
+</property>
+<property>
+	<name>mapred.system.dir</name>
+	<value>file:/opt/data/hadoop/mapred/system</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapred.local.dir</name>
+	<value>file:/opt/data/hadoop/mapred/local</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapred.compress.map.output</name>    
+	<value>true</value>  
+</property>  
+<property>    
+	<name>mapred.map.output.compression.codec</name>     
+	<value>com.hadoop.compression.lzo.LzoCodec</value>  
+</property>
+<property>    
+	<name>mapred.child.java.opts</name>     
+	<value>-Xmx512m</value>  
+</property>
+<property>    
+	<name>mapreduce.jobhistory.webapp.address</name>     
+	<value>resourceOut</value>  
+</property>
+<property>    
+	<name>mapreduce.tasktracker.map.tasks.maximum</name>     
+	<value>3</value>
+</property>
+<property>    
+	<name>mapreduce.tasktracker.reduce.tasks.maximum</name>     
+	<value>3</value>
+</property>
+<property>    
+	<name>mapreduce.task.io.sort.factor</name>     
+	<value>20</value>
+</property>
+<property>    
+	<name>mapreduce.task.io.sort.mb</name>     
+	<value>256</value>
+</property>
+</configuration>

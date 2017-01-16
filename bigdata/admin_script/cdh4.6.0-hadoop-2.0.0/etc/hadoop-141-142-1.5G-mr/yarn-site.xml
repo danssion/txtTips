@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<configuration>
+
+<!-- Site specific YARN configuration properties -->
+<property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>resourceM:18031</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.address</name>
+    <value>resourceM:18032</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>resourceM:18030</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>resourceM:18033</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>resourceOut:18088</value>
+</property>
+<property>
+	<name>yarn.nodemanager.aux-services</name>
+	<value>mapreduce.shuffle</value>
+</property>
+<property>
+	<name>yarn.nodemanager.webapp.address</name>
+	<value>nodeMHttp:18042</value>
+	<!--NM Webapp address. -->
+</property>
+<property>
+	<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+	<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+<property>
+	<name>yarn.nodemanager.resource.memory-mb</name>
+	<value>4096</value>
+	<!--Amount of physical memory, in MB, that can be allocated for containers. -->
+</property>
+<property>
+	<name>yarn.nodemanager.health-checker.interval-ms</name>
+	<value>180000</value>
+	<!-- Frequency of running node health script. -->
+</property>
+<property>
+	<name>yarn.nodemanager.health-checker.script.timeout-ms</name>
+	<value>3600000</value>
+	<!-- Script time out period. -->
+</property>
+<property>
+	<name>yarn.scheduler.minimum-allocation-mb</name>
+	<value>128</value>
+</property>
+<property>
+	<name>yarn.scheduler.maximum-allocation-mb</name>
+	<value>4096</value>
+</property>
+<property>
+	<name>yarn.nodemanager.resource.cpu-vcores</name>
+	<value>4</value>
+</property>
+</configuration>

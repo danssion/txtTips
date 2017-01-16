@@ -1,0 +1,221 @@
+
+
+#################### 系统环境 1.1 ####################
+##ulimit -a 查看max user processes              (-u) unlimited
+##有限制进行下面的操作
+##
+echo "100000" > /proc/sys/kernel/threads-max
+ulimit -u unlimited
+ulimit -a
+#设置在/etc/security/limits.conf文件中
+vi /etc/security/limits.conf
+hadoop   - nproc  1024000
+
+#打开的文件描述符：32,767  问题
+#cat /proc/sys/fs/file-nr  now  open file-nr
+#* -  nofile 655350
+#可在/etc/profile中加入一行命令 ulimit -Sn 2046
+
+#hosts 设置
+10.1.11.12 hd-client
+10.1.11.14 hd-nn1
+10.1.11.15 hd-nn2
+10.1.11.16 hd-node1
+10.1.11.17 hd-node2
+10.1.11.18 hd-node3
+10.1.11.19 ad-log1
+10.1.11.20 ad-log2
+10.1.11.21 ad-log3
+10.1.11.22 log-gath
+10.1.11.24 log-kafka
+10.1.11.33 place-log1
+10.1.11.34 place-log2
+10.1.11.35 place-log3
+10.1.11.36 place-gath
+
+#新增hosts项由assistant.sh完成
+chown root:dev /etc/hosts
+chmod 0664 /etc/hosts
+
+
+####################  软件环境 1.2 ####################
+#remove openjdk
+# rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.91-0.b14.el7_2.x86_64
+# rpm -e --nodeps java-1.8.0-openjdk-1.8.0.91-0.b14.el7_2.x86_64kk
+#jdk
+rpm -iv oracle-j2sdk1.7-1.7.0.x86_64.rpm
+rpm -iv jdk-8u77-linux-x64.rpm
+yum install mysql-connector-java.noarch
+#check
+rpm -qa | grep java
+#check version
+java -version
+javac -version
+
+#update profile
+export PATH
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+
+export PATH=$JAVA_HOME/bin:$JAVA_HOME:$PATH
+
+#ntp
+#ntpdate -d ntp1.aliyun.com 验证延时
+service ntpd stop
+ntpdate  ntp1.aliyun.com
+service ntpd start
+#centos7
+yum -y install ntp
+## systemctl start ntpd
+## systemctl enable ntpd
+#Created symlink from /etc/systemd/system/multi-user.target.wants/ntpd.service to /usr/lib/systemd/system/ntpd.service
+
+#other
+yum install deltarpm.x86_64
+
+#add cloudera repo /etc/yum.repos.d/cloudera-manager.repo
+[cloudera-manager]
+name = Cloudera Manager, Version 5.6.0
+baseurl = https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.6.0/
+gpgkey = https://archive.cloudera.com/redhat/cdh/RPM-GPG-KEY-cloudera
+gpgcheck = 1
+
+#scp jdk-6u31-linux-amd64.rpm  cloudera-manager-centos7-cm5.6.0_x86_64.tar.gz               cloudera-manager-daemons-5.6.0-1.cm560.p0.54.el7.x86_64.rpm 
+#/var/cache/yum/x86_64/7/cloudera-manager/packages/
+rpm -iv ...
+
+
+
+#################### master 1.3 ####################
+#
+#install mysql
+#untar software
+tar zxvf cloudera-manager-centos7-cm5.6.0_x86_64.tar.gz
+#update /opt/cloudera/cm-5.0.0/etc/cloudera-scm-agent/config.ini 下面的serer_host
+
+server_host=hd-client
+#update mysql add database:cm
+/opt/modules/cm-5.6.0/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -phadoop --scm-host localhost scm scm scm
+#add user
+useradd --system --home=/var/lib/cloudera-scm-server --no-create-home --shell=/bin/false --comment "Cloudera SCM User" cloudera-scm
+#copy code to all node
+scp -r  /opt/modules/cm-5.6.0 node1:/opt/modules/cm-5.6.0
+#start server
+/opt/cloudera/cm-5.6.0/etc/init.d/cloudera-scm-server start
+/opt/cloudera/cm-5.8.1/etc/init.d/cloudera-scm-server restart
+
+#################### master 1.4 ####################
+#
+# ls
+# CDH-5.7.0-1.cdh5.7.0.p0.45-el7.parcel       cloudera-manager-centos7-cm5.7.0_x86_64.tar.gz  manifest.json
+# CDH-5.7.0-1.cdh5.7.0.p0.45-el7.parcel.sha1     jdk-8u91-linux-x64.rpm        mysql-connector-java-6.0.2.jar
+cp CDH-5.7.0-1.cdh5.7.0.p0.45-el7.parcel CDH-5.7.0-1.cdh5.7.0.p0.45-el7.parcel.sha1 manifest.json /opt/cloudera/parcel-repo/
+mv CDH-5.7.0-1.cdh5.7.0.p0.45-el7.parcel.sha1 CDH-5.7.0-1.cdh5.7.0.p0.45-el7.parcel.sha
+#
+#################### master 1.4 ####################
+cp mysql-connector-java-6.0.2.jar /opt/cloudera/parcels/CDH-5.7.0-1.cdh5.7.0.p0.45/lib/hive/lib/
+cp mysql-connector-java-6.0.2.jar /opt/cm-5.7.0/share/cmf/lib/
+
+#################### node 1.3 ####################
+#add user
+useradd --system --home=/opt/modules/cm-5.6.00/run/cloudera-scm-server --no-create-home --shell=/bin/nologin --comment "Cloudera SCM User" cloudera-scm
+useradd --system --home=/var/lib/cloudera-scm-server --no-create-home --shell=/bin/bash \ 
+ --comment "Cloudera SCM User" cloudera-scm
+#update  yum install cloudera-scm-agent conf  /etc/cloudera-scm-agent/config.ini 
+server_host=hd-client
+#start agent
+#/opt/modules/cm/etc/init.d/cloudera-scm-agent start
+#service cloudera-scm-agent stop
+
+
+#################### configure user ssh env 1.4 ####################
+#visudo 
+#Defaults    requiretty
+Defaults visiblepw
+
+#################### config files && cmd ######################
+
+/run/cloudera-scm-agent/process/79-spark_on_yarn-SPARK_YARN_HISTORY_SERVER/spark-history-server.conf
+
+exec /opt/cloudera/parcels/CDH-5.6.0-1.cdh5.6.0.p0.45/lib/hadoop-hdfs/bin/hdfs --config /run/cloudera-scm-agent/process/147-hdfs-DATANODE datanode
+
+
+#################### monitor dir ####################
+sudo su -
+mkdir /data/monitor
+mkdir /data/log
+#zookeeper
+mkdir -p /data/zookeeper/data/version-2 /data/log/zookeeper/version-2
+#hadoop
+mkdir /opt/data/hadoop  /data/hadoop /var/run/hdfs-sockets 
+#需要NFS Gateway Roles 
+yum install rpcbind.x86_64
+rpcbind
+echo '/usr/sbin/rpcbind' >> /etc/rc.local
+#hive server2
+mkdir /data/hive
+#oozie
+mkdir /data/oozie
+#hue
+mkdir /data/hue
+#httpFS
+mkdir -p /var/lib/hadoop-httpfs /var/run/hadoop-httpfs
+#node manager
+mkdir -p /data/yarn/
+#flume
+mkdir -p /data/log/ /data/flume-ng
+
+#kafka
+mkdir -p /data/kafka /data/log/
+cd /opt/cloudera/parcels/KAFKA/lib/kafka
+ln -s /opt/cloudera/parcels/KAFKA/etc/kafka/conf.dist/  config
+#file /data/kafka/data/meta.properties
+
+
+chown -R cloudera-scm:cloudera-scm /data/flume-ng /data/monitor /data/log /data/kafka /data/zookeeper /data/hadoop /opt/data/hadoop /var/run/hdfs-sockets
+chown -R cloudera-scm:cloudera-scm /var/run/hadoop-httpfs /data/hive /data/oozie /data/hue /var/lib/hadoop-httpfs /data/yarn
+
+#other
+mkdir -p /opt/modules/
+cd /opt/modules
+ln -s /var/run/cloudera-scm-agent/process/ process
+ln -s /opt/cloudera/parcels/KAFKA cdh-kafka
+ln -s /opt/cloudera/parcels/KAFKA/lib/kafka  kafka
+
+#################### some cmd ####################
+#spark cmd
+spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode cluster /opt/cloudera/parcels/CDH/lib/spark/examples/lib/spark-examples-1.5.0-cdh5.6.0-hadoop2.6.0-cdh5.6.0.jar
+spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode client /opt/cloudera/parcels/CDH/lib/spark/examples/lib/spark-examples-1.5.0-cdh5.6.0-hadoop2.6.0-cdh5.6.0.jar
+spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode cluster /opt/cloudera/parcels/CDH/lib/spark/examples/lib/spark-examples-1.5.0-cdh5.6.0-hadoop2.6.0-cdh5.6.0.jar
+
+./cloudera/bin/flume-ng agent -n ag1 -c process/692-flume-AGENT/ -f process/692-flume-AGENT/flume.conf -Dflume.root.logger=INFO,console
+FLUME_AGENT_PLUGINS_DIRS=/usr/lib/flume-ng/plugins.d:/var/lib/flume-ng/plugins.d
+FLUME_HOME_DIR=/data/flume-ng
+
+#mapreduce cmd
+hadoop jar ./ssp-mapr.jar wordcount /data/adapi_ssp_log/16-04-18/* /tmp/dx/log0418
+
+#kafka
+./bin/kafka-topics.sh --zookeeper hd-client:2181 --list
+./bin/kafka-topics.sh --zookeeper hd-client:2181 --replication-factor 1 --partitions 1 --create --topic dmp1 
+./bin/kafka-topics.sh --zookeeper hd-client:2181/chroot --alter --replication-factor 2 --partitions 2 --topic dmp1 
+./bin/kafka-topics.sh --zookeeper hd-client:2181 --replication-factor 2 --partitions 2 --create --topic dmp1 
+./bin/kafka-topics.sh --zookeeper hd-client:2181 --replication-factor 1 --partitions 2 --replica-assignment 245 --create --topic dmp1 
+./bin/kafka-topics.sh --zookeeper hd-client:2181  --delete --topic dmp1 
+
+./bin/kafka-topics.sh --zookeeper hd-client:2181 --describe --topic dmp1
+./bin/kafka-topics.sh --zookeeper hd-client:2181 --describe 
+./bin/kafka-console-consumer.sh --zookeeper hd-nn1:2181,hd-nn2:2181,hd-client:2181 --from-beginning --topic test  &
+./bin/kafka-console-producer.sh --broker-list ad-log1:9092 --topic dmp2
+
+
+#kafka black tips
+cd /opt/modules/process/****-kafka-KAFKA_BROKER 
+cp log4j.properties  tools-log4j.properties
+chown cloudera-scm:cloudera-scm tools-log4j.properties
+cd /opt/modules/kafka
+ln -s /run/cloudera-scm-agent/process/1839-kafka-KAFKA_BROKER config
+
+
+
+
+

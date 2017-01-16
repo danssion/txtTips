@@ -1,0 +1,321 @@
+		########################## datanode 的新增 ##########################
+1）/etc/hosts 增加ip地址及名称（不能与其他的重复）
+2）如果存在dfs.hosts文件，且不为空，则添加新的datanode ip到该文件中,同步配置到nn1 和 nn2 namenode 上
+3) 如果一个节点同时存在于dfs.hosts和dfs.hosts.exclude，则禁止连入。
+4) hdfs dfsadmin -refreshNodes 
+5) hdfs dfsadmin -fs nn2 -refreshNodes 需要刷新备份节点
+6) hadoop-daemon.sh start datanode
+
+
+
+		########################## datanode 的删除 ##########################
+1）dfs.hosts.exclude  增加该ip
+2）hdfs dfsadmin -refreshNodes 
+3）hdfs dfsadmin -report 看见datanode 状态 Decommission Status : Decommissioning
+3）等待。。。
+4)状态 Decommission Status : Decommissioned 停止datanode: hadoop-daemon.sh stop datanode
+
+
+
+		########################## eclipse install with mapre1 plugin ################
+1)download eclipse
+2)解压 eclipse
+3)安装与配置 Ant 修 改 /etc/profile 文件
+	export ANT_HOME=[path]/apache-ant-1.7.1
+	export PATH=$PATH$:$ANT_HOME/bin
+	source /etc/profile
+4)安装 JDK   1.6 以上版本
+5)hadoop-2.0.0-cdh4.6.0/src/hadoop-mapreduce1-project/src/contrib/eclipse-plugin/build.properties
+	增加
+	eclipse.home=[path]/eclipse
+	reactor.repo=https://repository.cloudera.com/content/repositories/snapshots
+	version=2.0.0-cdh4.4.0
+参考：http://stackoverflow.com/questions/18852338/ant-build-for-eclipse-cant-resolve-log4j
+
+6)hadoop-2.0.0-cdh4.6.0/src/hadoop-mapreduce1-project/src/contrib/eclipse-plugin/build-contrib.xml
+	增加
+<project name="hadoopbuildcontrib" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <property name="eclipse.home"location="C:\eclipse"/>  --添加部分
+  <property name="version" value="1.0.4"/>              --添加部分
+  <property name="name" value="${ant.project.name}"/>
+  <property name="root" value="${basedir}"/>
+  <property name="hadoop.root" location="${root}/../../../"/>
+
+7)修改${HADOOP_HOME}/src/contrib/eclipse-plugin/build.xml文件
+<fileset dir="[path to lib of mapreduce1]">               --添加部分
+直接全路径吧，这是示例：<fileset dir="./share/hadoop/mapreduce1/lib/">
+	<include name="hadoop*.jar"/>        			--添加部分
+</fileset>                             				--添加部分
+
+8)hadoop-2.0.0-cdh4.6.0/src/hadoop-mapreduce1-project/src/contrib/eclipse-plugin目录下
+	ant jar
+	按提示修改，有未定义的引入jar库
+
+9)错误提示：case需要常量，修改如下文件
+./src/hadoop-mapreduce1-project/src/contrib/eclipse-plugin/src/java/org/apache/hadoop/eclipse/server/HadoopJob.java
+
+static JobState ofInt(int state) {
+      switch (state) {
+      //  case JobStatus.PREP:
+        case 4:
+          return PREPARE;
+     //   case JobStatus.RUNNING:
+        case 1:
+          return RUNNING;
+      //  case JobStatus.FAILED:
+        case 3:
+          return FAILED;
+     //   case JobStatus.SUCCEEDED:
+        case 2:
+          return SUCCEEDED;
+        default:
+          return null;
+      }   
+    }
+
+10)编译通过后，在
+hadoop-2.0.0-cdh4.6.0/src/hadoop-mapreduce1-project/build/contrib/eclipse-plugin
+包含 hadoop-eclipse-plugin-2.0.0.jar 拷贝到 eclipse的目录下重启elcipse
+
+
+
+
+		########################## eclipse maven project plugin ################
+1)eclipse安装maven插件
+1.1)离线安装
+	m2eclipse插件（http://m2eclipse.codehaus.org/）为Eclipse提供了Maven的集成。
+	m2Eclipse同时也以挂钩的方式连接了Subclipse插件（http://subclipse.tigris.org/）
+	Mylyn插件（http://www.eclipse.org/mylyn/）的特性。
+1.2）在线安装
+	在线安装就是：Help  -->  Install New Software --> all available --->filter maven
+ 或者
+	在线安装就是：Help  -->  Install New Software --> input 
+	http://download.eclipse.org/technology/m2e/releases
+1.3)
+	
+
+		########################## eclipse install with mapre2 plugin ################
+1)下载安装ant
+2)wget https://github.com/winghc/hadoop2x-eclipse-plugin/archive/master.zip
+2.1)解压unzip master
+2.2)cd  src/contrib/eclipse-plugin
+	更新：build.properties
+	version=2.2.0
+	eclipse.home=/home/danssion/software/eclipse/
+	hadoop.home=/home/danssion/download/hadoop-2.2.0
+原cdh版本是hadoop非稳定版本，采用新2.2.0替代
+2.3)编译 ant jar
+2.4)cp build/contrib/eclipse-plugin/hadoop-eclipse-plugin-2.2.0.jar [eclipse/plugin]下
+	更名为 hadoop-eclipse-plugin-2.0.0.jar  2.2.0 不认
+2.5)基本配置
+	重启eclipse 会发现打开open perspective选项卡，点击other，弹出窗口下会多出Mapreduce选项
+	配置本地Hadoop Install 目录
+	新建一个Hadoop Location 点击 “New Hadoop Location”
+	根据hadoop环境正确填写General和Advanced parameters内容，点击finish
+
+
+		######################  Unable to load native-hadoop library ######################
+#WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+#install protobuf-2.5.0.tar.gz
+./configure 
+make 
+make install
+#install cmake
+yum install cmake
+
+#install FindBugs
+http://sourceforge.jp/projects/sfnet_findbugs/releases/
+unzip findbugs-3.0.0-source.zip
+
+#update /etc/profile
+export FINDBUGS_HOME=/opt/modules/findbugs
+
+#recompile 
+mvn package -X -Pdist,native,docs,src -DskipTests -Dtar
+
+		######################  Unable to load native-hadoop library ######################
+export HADOOP_ROOT_LOGGER=DEBUG,console
+#DEBUG util.NativeCodeLoader: Failed to load native-hadoop with error: java.lang.UnsatisfiedLinkError: /opt/modules/hadoop-2.6.0/lib/native/libhadoop.so.1.0.0: /lib64/libc.so.6: version `GLIBC_2.6' not found (required by /opt/modules/hadoop-2.6.0/lib/native/libhadoop.so.1.0.0)
+#WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+#DEBUG util.Shell: setsid exited with exit code 0
+说明系统中的glibc的版本和libhadoop.so需要的版本不一致导致
+ll /lib64/libc.so.6
+lrwxrwxrwx 1 root root 11 Dec  9  2013 /lib64/libc.so.6 -> libc-2.5.so
+将系统中的glibc升级为2.9
+
+下载glibc
+wget  http://ftp.gnu.org/gnu/glibc/glibc-2.9.tar.bz2
+
+下载glibc-linuxthreads
+wget http://ftp.gnu.org/gnu/glibc/glibc-linuxthreads-2.5.tar.bz2
+
+解压
+tar -jxvf glibc-2.9.tar.bz2
+cd glibc-2.9
+tar -jxvf ../glibc-linuxthreads-2.5.tar.bz2
+cd ..
+export CFLAGS="-g -O2"(可选)
+./glibc-2.9/configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin
+make
+make install
+
+安装编译过程中需要注意三点：
+1、要将glibc-linuxthreads解压到glibc目录下。
+2、不能在glibc当前目录下运行configure。
+3、加上优化开关，export CFLAGS="-g -O2"，否则会出现错误
+
+安装完后，可以查看ls -l /lib64/libc.so.6已升级
+lrwxrwxrwx 1 root root 11 Mar 10 12:54 /lib64/libc.so.6 -> libc-2.9.so
+
+
+
+
+       ######################## compile error #########################
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-antrun-plugin:1.7:run (site) on project hadoop
+-common: An Ant BuildException has occured: input file /home/duanxiang/hadoop-2.5.2-src/hadoop-common-projec
+t/hadoop-common/target/findbugsXml.xml does not exist
+[ERROR] around Ant part ...<xslt style="/opt/modules/findbugs/src/xsl/default.xsl" in="/home/duanxiang/hadoo
+p-2.5.2-src/hadoop-common-project/hadoop-common/target/findbugsXml.xml" out="/home/duanxiang/hadoop-2.5.2-sr
+c/hadoop-common-project/hadoop-common/target/site/findbugs.html"/>... @ 44:258 in /home/duanxiang/hadoop-2.5
+.2-src/hadoop-common-project/hadoop-common/target/antrun/build-main.xml
+
+
+#recompile 
+mvn package -X -Pdist,native,src -DskipTests -Dtar
+
+       
+     ###########################  java.lang.OutOfMemoryError: Java heap space  ################
+执行mvn package时，出现以下错误：
+java.lang.OutOfMemoryError: Java heap space 
+at java.util.Arrays.copyOf(Arrays.java:2786) at java.io.ByteArrayOutputStream.write(ByteArrayOutputStream.java:94) at sun.net.www.http.PosterOutputStream.write(PosterOutputStream.java:61) at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:65) at java.io.BufferedOutputStream.write(BufferedOutputStream.java:109) at ......
+
+解决办法：在mvn.sh中加入jvm选项，MAVEN_OPTS=-Xms512m -Xmx512m
+
+有的时候MAVEN_OPTS=-Xms512m -Xmx512m中的值设置的过大也会报错（不能分配中够的空间），所以ms和mx的值要适当
+
+
+	########################### 最小内存的 mapreduce 启动错误  #########################
+resoucemanager log 提示错误：××××××.localdomain:29406 does not have sufficient resource for request : {Priority: 0, Capability: <memory:128, vCores:1>, # Containers: 1, Location: *, Relax Locality: true} node total capability : <memory:110, vCores:8>
+
+yarn.nodemanager.resource.memory-mb(110)  与  yarn.scheduler.maximum-allocation-mb(128) 不匹配
+
+
+	########################### 最小内存的 mapreduce 执行错误  #########################
+mapreduce.map.java.opts  mapreduce.reduce.java.opts -Xmx128m 
+mapreduce.map/reduce.memory.mb  128
+yarn.nodemanager.resource.memory-mb 256
+yarn.scheduler.maximum-allocation-mb 128
+    #### update 1
+yarn.scheduler.maximum-allocation-mb 200
+	#### update 2
+mapreduce.map.java.opts 256
+yarn.scheduler.maximum-allocation-mb 256
+mapreduce.map.memory.mb  256
+	#### update 3
+mapreduce.reduce.java.opts 256
+mapreduce.reduce.memory.mb  256
+	#### update 4
+yarn.app.mapreduce.am.resource.mb 256
+yarn.app.mapreduce.am.command-opts 256
+
+org.apache.hadoop.mapred.TaskAttemptListenerImpl: Task: attempt_1425408218657_0002_m_000000_1 - exited : Java heap space
+org.apache.hadoop.mapred.TaskAttemptListenerImpl: Diagnostics report from attempt_1425408218657_0002_m_000000_1: Error: Java heap space
+
+
+	########################### mapreduce 执行错误  #########################
+Application application_1418381213871_6521 failed 1 times due to AM Container for appattempt_1418381213871_6521_000001 exited with exitCode: 0 due to: .Failing this attempt
+
+Container id: container_1413439879095_0006_02_000001  
+Exit code: 1  
+Stack trace: ExitCodeException exitCode=1:   
+        at org.apache.hadoop.util.Shell.runCommand(Shell.java:538)  
+        at org.apache.hadoop.util.Shell.run(Shell.java:455)  
+        at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:702)  
+        at org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor.launchContainer(DefaultContainerExecutor.java:196)  
+        at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainerLaunch.call(ContainerLaunch.java:299)  
+        at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainerLaunch.call(ContainerLaunch.java:81)  
+        at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)  
+        at java.util.concurrent.FutureTask.run(FutureTask.java:166)  
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)  
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)  
+        at java.lang.Thread.run(Thread.java:722)  
+  
+  Container exited with a non-zero exit code 1  
+.Failing this attempt.. Failing the application.  
+INFO mapreduce.Job: Counters: 0 
+
+参考：https://issues.apache.org/jira/browse/MAPREDUCE-5721
+设置：mapreduce.jobhistory.address 和mapreduce.jobhistory.webapp.addres 
+
+
+	########################### nodemanager 进程死  #########################
+org.apache.hadoop.yarn.event.AsyncDispatcher: Error in dispatcher thread
+java.lang.OutOfMemoryError: unable to create new native thread
+java.lang.OutOfMemoryError: unable to create new native thread
+        at java.lang.Thread.start0(Native Method)
+        at java.lang.Thread.start(Thread.java:691)
+        at org.apache.hadoop.util.Shell.runCommand(Shell.java:521)
+        at org.apache.hadoop.util.Shell.run(Shell.java:455)
+        at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:715)
+        at org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor.containerIsAlive(DefaultContainerExecutor.java:430)
+        at org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor.signalContainer(DefaultContainerExecutor.java:401)
+        at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainerLaunch.cleanupContainer(ContainerLaunch.java:419)
+        at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainersLauncher.handle(ContainersLauncher.java:139)
+        at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainersLauncher.handle(ContainersLauncher.java:55)
+        at org.apache.hadoop.yarn.event.AsyncDispatcher.dispatch(AsyncDispatcher.java:173)
+        at org.apache.hadoop.yarn.event.AsyncDispatcher$1.run(AsyncDispatcher.java:106)
+        at java.lang.Thread.run(Thread.java:722)
+2015-04-04 05:11:24,480 INFO org.apache.hadoop.yarn.event.AsyncDispatcher: Exiting, bbye..
+
+echo "100000" > /proc/sys/kernel/threads-max
+ulimit -u unlimited
+ulimit -a
+#设置在/etc/security/limits.conf文件中 
+hadoop   - nproc  1024000
+
+
+
+     ###########################  zookeeper Last transaction was partial ################
+2016-11-28 14:05:23,772 ERROR org.apache.zookeeper.server.persistence.Util: Last transaction was partial.
+2016-11-28 14:05:23,773 ERROR org.apache.zookeeper.server.ZooKeeperServerMain: Unexpected exception, exiting abnormally
+java.io.EOFException
+        at java.io.DataInputStream.readInt(DataInputStream.java:392)
+        at org.apache.jute.BinaryInputArchive.readInt(BinaryInputArchive.java:63)
+        at org.apache.zookeeper.server.persistence.FileHeader.deserialize(FileHeader.java:64)
+        at org.apache.zookeeper.server.persistence.FileTxnLog$FileTxnIterator.inStreamCreated(FileTxnLog.java:558)
+        at org.apache.zookeeper.server.persistence.FileTxnLog$FileTxnIterator.createInputArchive(FileTxnLog.java:577)
+        at org.apache.zookeeper.server.persistence.FileTxnLog$FileTxnIterator.goToNextLog(FileTxnLog.java:543)
+        at org.apache.zookeeper.server.persistence.FileTxnLog$FileTxnIterator.next(FileTxnLog.java:625)
+        at org.apache.zookeeper.server.persistence.FileTxnLog$FileTxnIterator.init(FileTxnLog.java:529)
+        at org.apache.zookeeper.server.persistence.FileTxnLog$FileTxnIterator.<init>(FileTxnLog.java:504)
+        at org.apache.zookeeper.server.persistence.FileTxnLog.read(FileTxnLog.java:341)
+        at org.apache.zookeeper.server.persistence.FileTxnSnapLog.restore(FileTxnSnapLog.java:167)
+        at org.apache.zookeeper.server.ZKDatabase.loadDataBase(ZKDatabase.java:223)
+        at org.apache.zookeeper.server.ZooKeeperServer.loadData(ZooKeeperServer.java:250)
+        at org.apache.zookeeper.server.ZooKeeperServer.startdata(ZooKeeperServer.java:377)
+        at org.apache.zookeeper.server.NIOServerCnxnFactory.startup(NIOServerCnxnFactory.java:122)
+        at org.apache.zookeeper.server.ZooKeeperServerMain.runFromConfig(ZooKeeperServerMain.java:118)
+        at org.apache.zookeeper.server.ZooKeeperServerMain.initializeAndRun(ZooKeeperServerMain.java:91)
+        at org.apache.zookeeper.server.ZooKeeperServerMain.main(ZooKeeperServerMain.java:53)
+        at org.apache.zookeeper.server.quorum.QuorumPeerMain.initializeAndRun(QuorumPeerMain.java:121)
+        at org.apache.zookeeper.server.quorum.QuorumPeerMain.main(QuorumPeerMain.java:79)
+cat /etc/zookeeper/conf/zoo.cfg
+找到dataDir=/var/lib/zookeeper
+切换到路径/var/lib/zookeeper
+cd /var/lib/zookeeper
+存在version-2
+mv ./version-2 ./version-2.bak
+
+
+
+
+
+
+
+
+
+
+
+
+

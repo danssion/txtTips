@@ -1,5 +1,10 @@
 ########## db server ##########
+#after init database
+#Success. You can now start the database server using:
+/usr/pgsql-9.5/bin/pg_ctl -D /data/postgresql/pg_data/ -l logfile start
+#conf /data/postgresql/pg_data/
 su postgres -c '/usr/pgsql-9.4/bin/pg_ctl start -D /opt/data/pgsql_data/base_data -l /opt/data/pgsql_data/logfile'
+su postgres -c '/usr/pgsql-9.5/bin/pg_ctl start -D /data/postgresql/pg_data -l /data/postgresql/pg_log/logfile'
 postgres -D /opt/data/pgsql_data/base_data > /opt/data/pgsql_data/logfile 2>&1 &
 postgres -D ./base_data
 pg_ctl -p 5431 reload -D /data/postgresql/pg_data -s
@@ -26,14 +31,31 @@ pgsql:\dt
 
 ########## database ##########
 psql -h 10.1.11.24 -p 9999 -U postgres 'pgSA0dwL6N4tJGtfoT3DEesqL'
+psql -h 10.1.11.20 -p 5432 -U postgres 'pgSA0dwL6N4tJGtfoT3DEesqL'
 CREATE DATABASE dmpdb TEMPLATE template0
 CREATE DATABASE dbname TEMPLATE template0
 createdb -T template0 dbname
 SELECT * FROM pg_database;
-select datname from pg_database;
+elect datname from pg_database;
 drop database dbname;
 
+########## role & privilege ##########
+GRANT group_role TO role1, ... ;
+REVOKE group_role FROM role1, ... ;
+\du
+SELECT * FROM pg_roles;
+CREATE ROLE "all-p-group" NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
+SELECT rolname FROM pg_roles;
 
+GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER } [, ...] | ALL [ PRIVILEGES ]
+\dp mytable
+GRANT ALL PRIVILEGES ON DATABASE crawler_data TO "all-p-group"
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "all-p-group"
+GRANT all-p-group TO "dmpdb"
+GRANT ALL ON ALL TABLES TO "all-p-group"
+grant all privileges on Table car_autohome_list to "all-p-group";
+
+########## export ##########
 psql --set ON_ERROR_STOP=on dbname < infile
 pg_dump -h host1 dbname | psql -h host2 dbname
 pg_dumpall > outfile 生成的转储可以用psql恢复: psql -f infile postgres
@@ -41,6 +63,13 @@ pg_dump dbname | gzip > filename.gz 使用下面命令恢复:
 gunzip -c filename.gz | psql dbname 或者:
 cat filename.gz | gunzip | psql dbname
 
+转储一个数据库∶ $ pg_dump mydb > db.out
+重载这个数据库∶ $ psql -d database -f db.out
+输出一个叫 mydb 的包含BLOB 的数据库到一个 tar 文件: $ pg_dump -Ft -b mydb > db.tar
+把这个数据库（连同BLOB） 一起恢复到一个现有的叫 newdb 的数据库： $ pg_restore -d newdb db.tar
+导入为其他数据库：
+psql -d dmpdb-car dmpdb.out.db -h 10.1.11.24 -p 9999 -U dmpdb
+文本格式使用：
 ########## 表 ##########
 SELECT tablename FROM pg_tables;
 SELECT * FROM pg_authid;
@@ -49,6 +78,13 @@ SELECT * FROM pg_roles;
 \c db_abc
 \?
 
+select c.relname as obj_name, c.relkind as obj_type, a.attname as column_name, format_type(a.atttypid,a.atttypmod) as column_type, col_description(a.attrelid,a.attnum) as column_comment, a.attnotnull as notnull  
+from pg_class as c,pg_attribute as a, pg_authid as u, pg_tables t
+where a.attrelid = c.oid and c.relowner=u.oid and t.tablename = c.relname 
+and t.tablename not like 'pg%'    
+and t.tablename not like 'sql_%';
+
+SELECT * FROM information_schema.tables
 ########## 表空间 ##########
 CREATE TABLESPACE fastspace LOCATION ’/ssd1/postgresql/data’;
 
@@ -61,9 +97,47 @@ CREATE TABLE foo(i int);
 ########## 用户管理 ##########
 ALTER USER postgres WITH PASSWORD 'pgSA0dwL6N4tJGtfoT3DEesqL';
 create user "dmpdb" with password 'jygidqh8ohvuMKqcaY5q' nocreatedb;
-create database "dmpdb" with owner="dmpdb";
+CREATE DATABASE chinadb WITH ENCODING 'UTF8' LC_COLLATE='zh_CN.utf-8' LC_CTYPE='zh_CN.utf-8'
+create database "dmpdb" with ENCODING 'UTF8' TEMPLATE template0  LC_COLLATE='zh_CN.utf-8' LC_CTYPE='zh_CN.utf-8'  owner="dmpdb" ;
+create database "dmpdb-car" with owner="dmpdb";
 
 ########## db schema ##########
+
+
+
+########## db vacuum ##########
+PostgreSQL的并发控制简单来说是通过多tuple版本, tuple infomask信息, 事务提交状态以及事务snapshot来实现的
+autovacuum, 自动垃圾回收的开关
+autovacuum_max_workers, 指最大允许多少个autovacuum子进程同时工作. 
+#当删除一条记录时, 并不是马上回收被删除的空间, 因为有可能其他事务还会用到它, 当更新一条记录是, 老的记录会保留, 然后插入新的记录.
+#老的tuple在0号block的itemid=3的位置, 新的tuple是后面插入的在0号block的4号槽.
+#重新插入数据, 此时那些被垃圾占用的槽位就可以被利用了.
+#那么这些垃圾数据是怎么回收的呢, vacuum 数据清理:
+vacuum verbose [table name ] tbl;
+#INFO:  vacuuming "public.tbl"
+#INFO:  "tbl": removed 3 row versions in 1 pages
+#INFO:  "tbl": found 3 removable, 1 nonremovable row versions in 1 out of 1 pages ...
+#一个表有多少条垃圾数据, 多少条活跃数据在系统表pg_stat_all_tables中可以查询.
+n_live_tup        | 2表示有2条活跃数据, 
+n_dead_tup        | 0表示有0条垃圾数据.
+
+ select * from pg_stat_all_tables where relid='tbl'::regclass;
+########## amp db manager / table update  ##########
+#export data
+pg_dump dmpdb -h 10.1.11.24 -p 54321 -U dmpdb  > dmpdb.20160911.db 
+#inport to another db
+psql -d dmpdb-911 -f dmpdb.20160911.db -h 10.1.11.20 -U dmpdb
+#add primary id
+CREATE SEQUENCE tablename_colname_seq; 
+CREATE TABLE tablename (
+colname integer NOT NULL DEFAULT nextval(’tablename_colname_seq’) );
+ALTER SEQUENCE tablename_colname_seq OWNED BY tablename.colname;
+#alter
+CREATE SEQUENCE event_id_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
+alter table event alter column id set default nextval('event_id_seq');
+ALTER TABLE charge ADD PRIMARY KEY (id);
+#old amp pg conf
+/home/weidongfang/crawler/conf/dbcp.properties
 
 
 ########## db pgpool ##########

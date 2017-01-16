@@ -1,0 +1,145 @@
+=============== Not able to place enough replicas, still in need of ... .... ==================
+
+1. public class BlockPlacementPolicyDefault extends BlockPlacementPolicy {
+
+135 DatanodeDescriptor[] chooseTarget(int numOfReplicas,
+                                    DatanodeDescriptor writer,
+                                    List<DatanodeDescriptor> chosenNodes,
+                                    boolean returnChosenNodes,
+                                    HashMap<Node, Node> excludedNodes,
+                                    long blocksize) {
+237 catch (NotEnoughReplicasException e) {
+      LOG.warn("Not able to place enough replicas, still in need of "
+               + (totalReplicasExpected - results.size()) + " to reach "
+               + totalReplicasExpected + "\n"
+               + e.getMessage());
+	//NotEnoughReplicasException 来源
+424   protected void chooseRandom(int numOfReplicas,
+                            String nodes,
+                            HashMap<Node, Node> excludedNodes,
+                            long blocksize,
+                            int maxNodesPerRack,
+                            List<DatanodeDescriptor> results,
+                            boolean avoidStaleNodes)
+	    throws NotEnoughReplicasException {
+
+459 if (numOfReplicas>0) {
+      String detail = enableDebugLogging;
+      if (LOG.isDebugEnabled()) {
+        if (badTarget && builder != null) {
+          detail = builder.append("]").toString();
+          builder.setLength(0);
+        } else detail = "";
+      }
+      throw new NotEnoughReplicasException(detail);
+    }
+
+	//chooseTarget 使用处
+	2.	public class FSNamesystem implements Namesystem, FSClusterStats, FSNamesystemMBean, NameNodeMXBean {
+	2249   LocatedBlock getAdditionalBlock(String src,
+                                         String clientName,
+                                         ExtendedBlock previous,
+                                         HashMap<Node, Node> excludedNodes
+                                         ) 
+	2296 final DatanodeDescriptor targets[] = getBlockManager().chooseTarget(
+        src, replication, clientNode, excludedNodes, blockSize);
+
+	
+	//chooseTarget 实现
+	3.	public class BlockManager {
+	1332   public DatanodeDescriptor[] chooseTarget(final String src,
+			  final int numOfReplicas, final DatanodeDescriptor client,
+			  final HashMap<Node, Node> excludedNodes,
+			  final long blocksize) throws IOException {
+					final DatanodeDescriptor targets[] = blockplacement.chooseTarget(
+						src, numOfReplicas, client, excludedNodes, blocksize);
+	// blockplacement 出处
+	228 private BlockPlacementPolicy blockplacement;
+
+
+	//chooseTarget 实现
+	4. public class BlockPlacementPolicyDefault extends BlockPlacementPolicy {
+	112 public DatanodeDescriptor[] chooseTarget(String srcPath,
+                                    int numOfReplicas,
+                                    DatanodeDescriptor writer,
+                                    List<DatanodeDescriptor> chosenNodes,
+                                    long blocksize) {
+			return chooseTarget(numOfReplicas, writer, chosenNodes, false,
+				null, blocksize);
+		}
+	135 DatanodeDescriptor[] chooseTarget(int numOfReplicas,
+                                    DatanodeDescriptor writer,
+                                    List<DatanodeDescriptor> chosenNodes,
+                                    boolean returnChosenNodes,
+                                    HashMap<Node, Node> excludedNodes,
+                                    long blocksize) {
+	实现node的选择。
+
+
+	
+
+
+=============== Starting services required for standby state ... .... ==================
+./hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/FSNamesystem.java:888
+887		void stopActiveServices() {
+888 	  LOG.info("Stopping services started for active state");
+
+	./hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NameNode.java:1362:
+124		public class NameNode {
+1340			  protected class NameNodeHAContext implements HAContext {
+
+1362				public void stopActiveServices() throws IOException {
+					  try {
+						if (namesystem != null) {
+						  namesystem.stopActiveServices();
+						}
+						stopTrashEmptier();
+//namesystem 
+235		  protected FSNamesystem namesystem; 
+
+
+
+	./hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/ha/ActiveState.java:70:      
+68		  public void exitState(HAContext context) throws ServiceFailedException {
+			try {
+			  context.stopActiveServices();
+			} catch (IOException e) {
+			  throw new ServiceFailedException("Failed to stop active services", e);
+			}
+		  }
+//exitState
+		./hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/namenode/NameNode.java:664:
+			   * Stop all NameNode threads and wait for all to finish.
+			   */
+656			  public void stop() {
+				synchronized(this) {
+				  if (stopRequested)
+					return;
+				  stopRequested = true;
+				}
+				try {
+				  if (state != null) {
+					state.exitState(haContext);
+				  }
+				} catch (ServiceFailedException e) {
+				  LOG.warn("Encountered exception while exiting state ", e);
+				}
+				stopCommonServices();
+				if (metrics != null) {
+				  metrics.shutdown();
+				}
+				if (namesystem != null) {
+				  namesystem.shutdown();
+				}
+			  }
+
+//stop
+
+
+
+
+
+
+
+
+

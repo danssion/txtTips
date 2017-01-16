@@ -113,7 +113,7 @@ yum install postgresql95-server.x86_64
 yum install postgresql95-contrib.x86_64
 yum install postgresql95-pltcl.x86_64
 ### update /usr/lib/systemd/system/postgresql-9.5.service
-#Environment=PGDATA=data/postgresql/pg_data
+#Environment=PGDATA=/data/postgresql/pg_data
 ### update /usr/pgsql-9.5/bin/postgresql95-setup 
 #after # Initialize the database  line # add
 #export PGSETUP_INITDB_OPTIONS='--locale=zh_CN.UTF-8'
@@ -123,24 +123,26 @@ chown -R postgres:postgres /data/postgresql/
 #update  /data/postgresql/pg_data/postgresql.conf
 #log_directory = '/data/postgresql/pg_log'
 #listen_addresses = '*'
+#max_connections = 1000
 #update /data/postgresql/pg_data/pg_hba.conf
 #add
 host    postgres        all             0.0.0.0/0               md5
-systemctl enable postgresql
+host    all             all              0.0.0.0/0             md5
+#systemctl enable postgresql
 systemctl enable postgresql-9.5.service
 systemctl start postgresql-9.5.service
 #update /etc/profile
-#add :/usr/pgsql-9.4/bin:$PATH
+#add :/usr/pgsql-9.5/bin:$PATH
 #add export PATH=/usr/pgsql-9.5/bin:$PATH
 #update man ifneed 
-MANPATH=/usr/pgsql-9.4/share/man/:$MANPATH
+MANPATH=/usr/pgsql-9.5/share/man/:$MANPATH
 export MANPATH
 #or mk soft link 
 cd /usr/local
-ln -s /usr/pgsql-9.4/ pgsql
-ln -s /usr/pgsql-9.4/share/man/ man
+ln -s /usr/pgsql-9.5/ pgsql
+ln -s /usr/pgsql-9.5/share/man/ man
 #init db
-initdb -D ./base_data/
+#initdb -D ./base_data/
 #start db
 postgres -D ./base_data >logfile 2>&1 &
 #add auto start
@@ -219,11 +221,10 @@ php-5.6.15: ./configure --prefix=$INSTALL_HOME --with-config-file-path=$INSTALL_
 
 php-5.6.14 for baofeng: ./configure --prefix=/opt/modules/php5.6.14 --with-config-file-path=/opt/modules/php5.6.14/etc --with-config-file-scan-dir=/opt/modules/php5.6.14/etc/mods-enable --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-zip --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mcrypt --with-gd --with-openssl --with-mhash --with-curl  --with-bz2 --enable-pcntl
 
-Host test109
-Hostname 182.92.231.109
-User duanxiang
-Port 22
+#yum source for centOS7
 
+# yum install epel-release
+# rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 
 
 #update php.ini
@@ -294,6 +295,8 @@ yum install lua-dev
 wget https://github.com/chaoslawful/lua-nginx-module/archive/master.zip -O ngx_lua_module.zip
 wget https://github.com/simpl/ngx_devel_kit/archive/master.zip -O ngx_devel_kit.zip
 
+groupadd nginx
+useradd -r -g nginx nginx
 #compile nginx
 cd nginx-1.3.16 && make clean; ./configure --prefix=/opt/modules/nginx --conf-path=/opt/modules/nginx/conf/nginx.conf  --sbin-path=/opt/modules/nginx/sbin --pid-path=/tmp/nginx.pid \
 --http-log-path=/opt/logs/nginx_access.log \

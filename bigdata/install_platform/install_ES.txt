@@ -1,0 +1,211 @@
+######### 1.0 install ##########
+# install jdk8u
+cd /opt && sudo mkdir modules
+sudo chown root:dev modules/
+sudo chmod 0775 modules/
+cd /opt/modules/
+cp ~/elasticsearch-2.3.1.tar.gz ./
+tar zxvf elasticsearch-2.3.1.tar.gz
+ln -s /opt/modules/elasticsearch-2.3.1/ es
+
+sudo vi /etc/security/limits.conf
+* soft nofile 68000
+* hard nofile 68000
+duanxiang soft memlock unlimited
+duanxiang hard memlock unlimited
+
+# rpm install
+rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+#vim /etc/yum.repos.d/es.repo
+[elasticsearch-2.x]
+name=Elasticsearch repository for 2.x packages
+baseurl=https://packages.elastic.co/elasticsearch/2.x/centos
+gpgcheck=1
+gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+#install
+yum install elasticsearch
+chkconfig --add elasticsearch
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable elasticsearch.service
+sudo /bin/systemctl start elasticsearch.service
+/bin/systemctl status elasticsearch.service
+#/etc/systemd/system/multi-user.target.wants/elasticsearch.service
+#log path /var/log/messages
+#journalctl -xe
+
+######### 2.0 config ##########
+#Environment Variables
+sudo mkdir /opt/elasticsearch/
+cd /opt/elasticsearch/
+# compile conf
+sudo ln -s /opt/modules/elasticsearch-2.3.1/elasticsearch.in.sh /opt/elasticsearch/elasticsearch.in.sh
+#remove 
+rm -rf /opt/elasticsearch/
+rm -rf /opt/modules/es
+# yum conf
+sudo chown root:dev -R /usr/share/elasticsearch
+sudo chmod 0775 -R /usr/share/elasticsearch
+sudo ln -s /usr/share/elasticsearch  /opt/modules/es
+sudo ln -s /etc/elasticsearch  /opt/modules/esconf
+sudo ln -s /usr/share/elasticsearch/bin/elasticsearch.in.sh  /opt/modules/es/elasticsearch.in.sh
+#update elasticsearch.in.sh
+ES_MAX_MEM=2g
+
+#vitual memory
+#sysctl -w vm.max_map_count=262144
+#vm.swappiness is set to 0
+sudo mkdir -p /data1/es/data /data1/es/tmp /data1/log/es
+sudo chown root:dev -R /data1/es/ /data1/log/es /etc/elasticsearch
+sudo chmod 0775 -R /data1/es/ /data1/log/es
+sudo chmod 0770 -R /etc/elasticsearch
+sudo usermod -a -G dev elasticsearch
+
+# rpm -qc elasticsearch
+#config/ad-es*-elasticsearch.yml
+cluster.name: ad-es
+node.name: node-*
+path.data: /data/es/data
+path.logs: /data/log/es
+network.host: 10.1.11.2*
+http.port: 9200
+
+######## rm elastic ##########
+#######
+yum erase elasticsearch
+
+######## 2.1 kibana4.5 ##########
+#download and unzip kibana 4
+tar zxvf kibana-4.5.0-linux-x64.tar.gz
+#vi config/kibana.yml
+elasticsearch.url: "http://10.1.11.:9200"
+
+#yum install
+rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+# vim /etc/yum.repos.d/kibana.repo
+[kibana-4.5]
+name=Kibana repository for 4.5.x packages
+baseurl=http://packages.elastic.co/kibana/4.5/centos
+gpgcheck=1
+gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+
+[kibana-4.6]
+name=Kibana repository for 4.6.x packages
+baseurl=https://packages.elastic.co/kibana/4.6/centos
+gpgcheck=1
+gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+
+yum install kibana
+chkconfig --add kibana
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+sudo /bin/systemctl start kibana.service
+#yum config
+#/opt/kibana/kibana.yml
+elasticsearch.url: "http://10.1.11.:9200"
+
+curl -XPUT http://10.1.11.25:9200/.kibana -d '{
+    "index.mapper.dynamic": true
+}'
+#kibana http
+#http://10.1.11.:5601/
+
+
+######### 2.2 marvel ##########
+#yum : /usr/share/elasticsearch/bin
+bin/plugin install license
+bin/plugin install marvel-agent
+#yum : /opt/kibana/bin/
+bin/kibana plugin --install elasticsearch/marvel/latest
+bin/kibana plugin -i elasticsearch/marvel/2.3.5
+bin/kibana plugin --remove marvel
+#compile start 
+#bin/elasticsearch
+#service elasticsearch start
+#bin/kibana
+#sevice kibana start
+#yum start
+
+#http://localhost:5601/app/marvel
+
+######### 2.3 head/ik plugin ##########
+./bin/plugin  install mobz/elasticsearch-head
+/domain:port/_plugin/head/
+
+#ik 中文分词
+git clone https://github.com/medcl/elasticsearch-analysis-ik.git
+cd elasticsearch-analysis-ik
+mvn clean
+mvn compile
+mvn package
+copy & unzip file #{project_path}/elasticsearch-analysis-ik/target/releases/elasticsearch-analysis-ik-*.zip to your elasticsearch's folder: plugins/ik
+
+
+######### 2.4 ElasticHQ Plugin Installation Instructions ##########
+plugin install royrusso/elasticsearch-HQ
+/domain:port/_plugin/hq/
+#You can always verify the installation, by navigating to /elasticsearchinstalldirectory/plugins/ and verifying there is an hq directory.
+
+######### 2.4 ElasticHQ Plugin Installation Instructions ##########
+plugin install https://github.com/NLPchina/elasticsearch-sql/releases/download/2.3.4.0/elasticsearch-sql-2.3.4.0.zip 
+plugin install https://github.com/NLPchina/elasticsearch-sql/releases/download/2.3.5.0/elasticsearch-sql-2.3.5.0.zip 
+http://localhost:9200/_plugin/sql/
+http://localhost:9200/_sql?sql=select * from indexName limit 10
+http://localhost:9200/_sql/_explain?sql=select * from indexName limit 10
+#https://github.com/NLPchina/elasticsearch-sql
+
+######### 3.0 cmd ##########
+curl -i -XGET http://10.1.11.25:9200/_nodes/process?pretty
+curl -i -XGET 'http://10.1.11.25:9200/_cluster/state?v'
+'http://localhost:9200/_cluster/state/{metrics}/{indices}'  metrics:version/master_node/nodes/routing_table/metadata
+curl -i -XGET http://10.1.11.25:9200/_cat/indices?v
+curl -i -XGET http://10.1.11.25:9200/_cat/health?v
+curl -i -XGET 'http://10.1.11.25:9200/ad-test-data/data2/_all?routing=test-data2&pretty'
+curl -X<REST Verb> <Node>:<Port>/<Index>/<Type>/<ID>
+curl -XGET '10.1.11.25:9200/_nodes/stats/process?pretty'
+curl -XPUT -u admin 'http://<host>:<port>/_license' -d @license.json
+curl -XPUT 'http://10.1.11.25:9200/_license' -d @/home/duanxiang/danssion-duan-de8f6b42-6273-4c37-a180-bcf752926753.json
+    _license?acknowledge=true' -d @license.json
+
+curl -i -XPOST http://10.1.11.25:9200/.marvel-es-1-2016.04.13/_close/?pretty
+
+curl -XPUT http://10.1.11.25:9200/ad-test-ip -d '{
+"settings": {
+"number_of_shards": 5,
+"number_of_replicas": 1
+}
+}'
+curl -XPUT http://10.1.11.25:9200/ad-data/_settings -d '{
+"index" : {
+"number_of_replicas" : 2
+}
+}'
+
+
+curl -i -XPOST 'http://10.1.11.25:9200/ad-index/_mapping/data?pretty' -d @/home/duanxiang/es-server/json-file/sol.json
+curl -i -XPOST 'http://10.1.11.25:9200/ad-test-data2?pretty' -d @/home/duanxiang/es-server/json-file/analy.json
+curl -i -XPOST 'http://10.1.11.25:9200/ad-test-data2/_mapping/data2?pretty' -d @/home/duanxiang/es-server/json-file/sol.json
+curl -i -XPOST 'http://10.1.11.25:9200/ad-test-ip/_mapping/data1?pretty' -d @/home/duanxiang/es-server/json-file/ip.json
+curl -i -XGET 'http://10.1.11.25:9200/ad-test-ip/data1/_search?search_type=count?pretty'
+curl -i -XGET 'http://10.1.11.25:9200/ad-test-index/_mapping/map5'
+curl -i -XDELETE 'http://10.1.11.25:9200/ad-test-data2/data3/CPDESID_9_2_35'
+curl -XDELETE 'http://10.1.11.25:9200/ad-test-data2/data3'
+curl -XDELETE 'http://10.1.11.25:9200/.kibana'
+curl -XDELETE 'http://10.1.11.25:9200/.marvel-es-1-2016.05.10'
+curl -XDELETE 'http://10.1.11.25:9200/.marvel-es-1-2016.05.11'
+curl -XDELETE 'http://10.1.11.25:9200/.marvel-es-1-2016.05.12'
+curl -XDELETE 'http://10.1.11.25:9200/.marvel-es-1-2016.05.13'
+curl -XDELETE 'http://10.1.11.25:9200/.marvel-es-1-2016.05.16'
+curl -XDELETE 'http://10.1.11.25:9200/.marvel-es-data-1'
+#/opt/modules/es/bin/elasticsearch -Djna.tmpdir=/data/es/tmp
+bin/elasticsearch -d
+bin/elasticsearch -d -p pid
+kill `cat pid`
+
+
+
+
+
+

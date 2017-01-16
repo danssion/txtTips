@@ -1,0 +1,258 @@
+###################  升级目标版本 hadoop-2.5.1  ##################################
+# 
+# 在已有的环境中进行升级，已经有的环境配置不在本文档中
+#
+##### 1.下载目标版本 #####
+http://mirrors.cnnic.cn/apache/hadoop/common/hadoop-2.5.1/
+
+##### 2.1 maven的镜像设置（选） #####
+由于maven国外服务器可能连不上，先给maven配置一下国内镜像，在maven目录下，conf/settings.xml,在<mirrors></mirros>里添加，原本的不要动：
+
+   <mirror>
+        <id>nexus-osc</id>
+         <mirrorOf>*</mirrorOf>
+     <name>Nexusosc</name>
+     <url>http://maven.oschina.net/content/groups/public/</url>
+   </mirror>
+
+在<profiles></profiles>内新添加
+
+	<profile>
+       <id>jdk-1.7</id>
+       <activation>
+         <jdk>1.7</jdk>
+       </activation>
+       <repositories>
+         <repository>
+           <id>nexus</id>
+           <name>local private nexus</name>
+           <url>http://maven.oschina.net/content/groups/public/</url>
+           <releases>
+             <enabled>true</enabled>
+           </releases>
+           <snapshots>
+             <enabled>false</enabled>
+           </snapshots>
+         </repository>
+       </repositories>
+       <pluginRepositories>
+         <pluginRepository>
+           <id>nexus</id>
+          <name>local private nexus</name>
+           <url>http://maven.oschina.net/content/groups/public/</url>
+           <releases>
+             <enabled>true</enabled>
+           </releases>
+           <snapshots>
+             <enabled>false</enabled>
+           </snapshots>
+         </pluginRepository>
+       </pluginRepositories>
+     </profile>
+
+##### 2.2 用户添加（选） #####
+groupadd hadoop
+useradd -g hadoop hadoop
+usermod -g hadoop hadoop
+
+
+##### 3.安装protoc #####
+yum install gcc
+yum intall gcc-c++
+yum install make
+
+安装protoc
+tar -xvf protobuf-2.5.0.tar.bz2
+cd protobuf-2.5.0
+./configure --prefix=/opt/modules/protoc/
+make && make install
+export PROTOC_HOME=/opt/modules/protoc
+
+yum install cmake
+yum install openssl-devel
+yum install ncurses-devel
+
+#install FindBugs
+http://sourceforge.jp/projects/sfnet_findbugs/releases/
+unzip findbugs-3.0.0-source.zip
+cd findbug-3.0.0
+./runMaven
+
+#update /etc/profile
+export FINDBUGS_HOME=/opt/modules/findbugs
+export PATH=$PATH:${FINDBUGS_HOME}/bin
+
+##### 4.编译hadoop #####
+#Create binary distribution with native code :
+mvn package -Pdist,native -DskipTests -Dtar
+#Create source and binary distributions with native code and documentation:
+mvn package -Pdist,native,docs,src -DskipTests -Dtar
+
+编译后的路径在:hadoop-2.2.0-src/hadoop-dist/target/hadoop-2.2.0
+测试：./hadoop version  
+
+
+##### 5.安装 hadoop-lzo #####
+#来源https://github.com/twitter/hadoop-lzo/
+wget https://github.com/twitter/hadoop-lzo/archive/master.zip
+unzip master
+#更新hadoop-lzo中的pom.xml
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <hadoop.current.version>2.5.1</hadoop.current.version>
+    <hadoop.old.version>1.0.4</hadoop.old.version>
+  </properties>
+export CFLAGS=-m64
+export CXXFLAGS=-m64
+mvn clean package -Dmaven.test.skip=true
+cd target/native/Linux-amd64-64
+tar -cBf - -C lib . | tar -xBvf - -C ./
+cp ./libgplcompression* /opt/modules/hadoop/lib/native/
+cp target/hadoop-lzo-0.4.20-SNAPSHOT.jar /opt/modules/hadoop/share/hadoop/common/
+
+
+##### 6.更新 hadoop-2.5.1 配置 #####
+#大部分保持原版本的配置,注意以下几点
+#hadoop-ordinary/capacity-scheduler.xml
+<name>yarn.scheduler.capacity.resource-calculator</name>
+<value>org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator</value>
+
+#yarn-env.sh
+YARN_LOG_DIR="$YARN_HOME/logs" => YARN_LOG_DIR="$HADOOP_YARN_HOME/logs"
+
+
+
+##### 7.启动步骤 #####
+##### 7.1 更新hadoop链接 #####
+/opt/modules/hadoop  到对应版本	/opt/module/hadoop-2.6.0
+
+
+##### 7.2 其他操作 #####
+#沿用之前的shell 
+#stop.sh
+#start_up.sh
+
+##### 7.3 测试集群功能 #####
+hadoop jar /opt/modules/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.6.0.jar -input /data/wordcount -output /output/o30
+
+
+
+
+##### 8. 其他备注 #####
+##### 8.1 namenode启动问题提示错误 #####
+#File system image contains an old layout version -40.
+#An upgrade to version -57 is required.
+sbin/hadoop-daemon.sh start namenode -upgrade
+#升级完成后，会在namenode的dfs.namenode.name.dir目录和dfs.datanode.data.dir目录下多出一个previous/ 目录。如果确认升级成功后，可以根据实际情况决定是否需要删掉这个目录，运行以下命令把以前的版本删掉：
+bin/hdfs dfsadmin -finalizeUpgrade
+
+##### 8.2 namenode 回滚 #####
+#/home/hadoop-1.2.1/name目录是Hadoop存放元数据的目录，也就是Hadoop1.x的${HADOOP_HOME}/conf/hdfs-site.xml中dfs.name.dir属性指向的目录（在Hadoop2.2.0的${HADOOP_HOMOE}/etc/hadoop/hdfs-site.xml中dfs.namenode.name.dir指向的目录）。
+#上面的错误报出元数据版本出现了问题，因为刚刚在升级Hadoop的过程中版本文件被修改了，记录这个版本的文件在${dfs.name.dir}/current/VERSION文件中，里面有个layoutVersion属性就是版本的值。那么如何来回滚呢？需要知道的一点是，在Hadoop升级的过程中，Hadoop会在${dfs.name.dir}目录中生成一个previous.checkpoint文件夹，previous.checkpoint文件夹里面的东西就是升级前${dfs.name.dir}/current目录中的一个备份，既然是个备份，那么它的目录结果应该和${dfs.name.dir}/current目录结构一样，事实上也是如此。
+#那么我们可以用这个备份来回滚到升级之前的状态。
+#
+#运行sbin/hadoop-daemon.sh start namenode -rollback（注意这个是在Hadoop1.x里面运行，而不是Hadoop2.x，同时注意配置好HADOOP_HOME）对namenode进行回滚
+sbin/hadoop-daemon.sh start namenode -rollback
+#如果你在升级过程中启动了Hadoop2.x的datanode守护进程，那么只回滚namenode是不行的，还需要对datanode进行回滚，命令如下：
+/opt/modules/hadoop-2.0.0-cdh4.6.0/sbin/hadoop-daemon.sh start datanode -rollback
+
+##### 8.3 nodemanager 错误 #####
+#mapreduce.shuffle set in yarn.nodemanager.aux-services is invalid
+#update yarn.site.xml
+<property>
+	<name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+	<value>mapreduce_shuffle</value>
+	<description>shuffle service that needs to be set for Map Reduce to run </description>
+</property>
+
+##### 8.4 namenode 错误 #####
+#sbin/hadoop-daemon.sh start namenode -upgrade  
+WARN org.apache.hadoop.hdfs.server.namenode.FSNamesystem: Encountered exception loading fsimage
+java.io.IOException: Results differed for getJournalCTime
+        at org.apache.hadoop.hdfs.qjournal.client.QuorumJournalManager.getJournalCTime(QuorumJournalManager.java:627)
+        at org.apache.hadoop.hdfs.server.namenode.FSEditLog.getSharedLogCTime(FSEditLog.java:1371)
+        at org.apache.hadoop.hdfs.server.namenode.FSImage.initEditLog(FSImage.java:756)
+        at org.apache.hadoop.hdfs.server.namenode.FSImage.loadFSImage(FSImage.java:618)
+        at org.apache.hadoop.hdfs.server.namenode.FSImage.doUpgrade(FSImage.java:372)
+		......
+Caused by: java.lang.AssertionError: Not all elements match in results: [1417680352302, 0, 0]
+        at org.apache.hadoop.hdfs.DFSUtil.assertAllResultsEqual(DFSUtil.java:1727)
+        at org.apache.hadoop.hdfs.qjournal.client.QuorumJournalManager.getJournalCTime(QuorumJournalManager.java:625)
+        ... 13 more
+INFO org.apache.hadoop.util.ExitUtil: Exiting with status 1
+INFO org.apache.hadoop.hdfs.server.namenode.NameNode: SHUTDOWN_MSG:
+#HA namenode  特有错误
+#保证jounarynode 下namenode的数据一致即可
+
+##### 8.6 nodemanager 启动错误 #####
+ERROR org.apache.hadoop.yarn.server.nodemanager.LocalDirsHandlerService: Most of the disks failed. 1/1 log-dirs are bad: /opt/modules/hadoop-2.6.0/logs/userlogs
+
+#配置文件中yarn-site.xml增加以下配置
+<property>
+        <name>yarn.nodemanager.disk-health-checker.min-healthy-disks</name>
+        <value>0.05</value>
+</property>
+<property>
+        <name>yarn.nodemanager.disk-health-checker.max-disk-utilization-per-disk-percentage</name>
+        <value>95.0</value>
+</property>
+
+
+##### 8.4 datanode 启动错误 #####
+FATAL org.apache.hadoop.hdfs.server.datanode.DataNode: Initialization failed for Blo
+ck pool <registering> (Datanode Uuid unassigned) service to nn1/192.168.1.50:8020. Exiting. 
+java.io.IOException: EEXIST: File exists
+        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:
+45)
+Caused by: EEXIST: File exists
+        at org.apache.hadoop.io.nativeio.NativeIO.link0(Native Method)
+        at org.apache.hadoop.io.nativeio.NativeIO.link(NativeIO.java:836)
+        at org.apache.hadoop.hdfs.server.datanode.DataStorage$2.call(DataStorage.java:991)
+        at org.apache.hadoop.hdfs.server.datanode.DataStorage$2.call(DataStorage.java:984)
+        at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+at java.util.concurrent.FutureTask.run(FutureTask.java:166)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+        ... 1 more
+2015-03-24 13:49:49,274 WARN org.apache.hadoop.hdfs.server.datanode.DataNode: Ending block pool service for: Block pool <registering> (Datanode Uuid unassigned) service to nn2/192.168.1.51:8020
+2015-03-24 13:49:49,275 WARN org.apache.hadoop.hdfs.server.datanode.DataNode: Ending block pool service for: Block pool <registering> (Datanode Uuid unassigned) service to nn1/192.168.1.50:8020
+2015-03-24 13:49:49,276 INFO org.apache.hadoop.hdfs.server.datanode.DataNode: Removed Block pool <registering> (Datanode Uuid unassigned)
+2015-03-24 13:49:51,278 WARN org.apache.hadoop.hdfs.server.datanode.DataNode: Exiting Datanode
+2015-03-24 13:49:51,280 INFO org.apache.hadoop.util.ExitUtil: Exiting with status 0
+2015-03-24 13:49:51,282 INFO org.apache.hadoop.hdfs.server.datanode.DataNode: SHUTDOWN_MSG:
+#配置中dfs.datanode.data.dir各个磁盘路径中如： /data2/data/hadoop/data/current/BP-1711299655-114.112.70.50-1394612870481/
+current  当前升级目录
+previous.tmp 升级前的本版目录
+2.4T    ./current
+329G    ./previous.tmp
+数据未全部移动到单前目录，舍弃部分数据，可完成datanode的启动
+1.变更previous.tmp 为previous
+2.current 新建VERSION文件，内容参考其他自动升级成功的VERSION文件
+3.重启datanode
+4.namenode 中会提示丢失的block 
+Number of Under-Replicated Blocks	 :	 27325
+5. hdfs fsck /  定位缺失文件
+6. 由集群自己修复
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

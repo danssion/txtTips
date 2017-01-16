@@ -1,0 +1,435 @@
+	#############################################################################
+	#						以下软件安装未作特别说明								#
+	#						均指安装于 49/50 服务器								#	
+	#############################################################################
+
+
+
+	#############################  install mysql ###############################
+
+download mysql 
+# Preconfiguration setup
+shell> groupadd mysql
+shell> useradd -r -g mysql mysql
+useradd mysql -g mysql -M -s /sbin/nologin  
+#增加一个名为CentOS Mysql的用户。
+-g：指定新用户所属的用户组(group)
+-M：不建立根目录
+-s：定义其使用的shell，/sbin/nologin代表用户不能登录系统。
+shell> mkdir -p /opt/data/mysql
+shell> chown -R mysql:mysql /opt/data/mysql
+# Beginning of source-build specific instructions
+shell> tar zxvf mysql-VERSION.tar.gz
+shell> cd mysql-VERSION
+shell> cmake -DCMAKE_INSTALL_PREFIX=/opt/modules/mysql-5.6 -DMYSQL_DATADIR=/opt/data/mysql -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1  -DWITH_READLINE=1 -DMYSQL_TCP_PORT=3306  -DENABLED_LOCAL_INFILE=1  -DWITH_PARTITION_STORAGE_ENGINE=1  -DEXTRA_CHARSETS=all  -DDEFAULT_CHARSET=utf8  -DDEFAULT_COLLATION=utf8_general_ci
+#with help
+#shell> cmake . -L   # overview
+#shell> cmake . -LH  # overview with help text
+#shell> cmake . -LAH # all params with help text
+#shell> ccmake .     # interactive display
+
+shell> make
+shell> make install
+# End of source-build specific instructions
+# Postinstallation setup
+shell> cd /opt/modules/
+shell> ln -s /opt/modules/mysql-5.6 mysql
+shell> cd /opt/modules/mysql
+shell> chown -R mysql .
+shell> chgrp -R mysql .
+shell> cp support-files/my-default.cnf  /opt/modules/mysql/my.cnf  (并给my.cnf +x权限 同时删除 其他用户的写权限，仅仅留给root 和工作组 rx权限,其他一律删除连rx权限都删除)
+#修改my.cnf配置
+    vim /opt/modules/my.cnf
+    #[mysqld] 添加：
+port =3306
+socket =/tmp/mysqld.sock
+datadir=/opt/data/mysql
+default-storage-engine=innodb
+
+shell> scripts/mysql_install_db --user=mysql
+shell> chown -R root .
+shell> chown -R mysql data
+shell> bin/mysqld_safe --user=mysql &
+
+# Next command is optional
+shell> cp support-files/mysql.server /etc/init.d/mysql.server
+#现在可以使用下面的命令启动mysql  
+service mysql start  
+#停止mysql服务  
+service mysql stop  
+#重启mysql服务  
+service mysql restart
+#make clean
+shell> make clean
+shell> rm CMakeCache.txt
+#set password
+./bin/mysqladmin -u root password 
+
+#reset password
+start server with option --skip-grant-tables 
+shell> mysql
+shell> UPDATE mysql.user SET Password=PASSWORD('111111') WHERE User='root';
+shell> FLUSH PRIVILEGES;
+
+#################################  安装 php  ######################################
+./configure --prefix=/opt/modules/php  --with-config-file-path=/opt/modules/php/etc --with-config-file-s    can-dir=/opt/modules/php/etc/mods-enable --enable-fpm --enable-bcmath --enable-calendar --enable-exif --enable-ftp -    -enable-mbstring --enable-zip  --with-zlib --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --ena    ble-soap --enable-sockets
+
+make
+make install
+
+	3 安装 nginx
+groupadd www
+useradd www -g www -M -s /sbin/nologin
+
+#需要pcre
+cd /opt/modules
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.33.tar.bz2
+tar jxvf pcre-8.33.tar.bz2
+
+#编译
+./configure --prefix=/opt/modules/nginx  --user=www --group=www --with-http_stub_status_module --with-openssl=/usr/ --with-pcre=/opt/modules/pcre-8.33
+make
+make install
+
+#配置文件修改 nignx.conf
+#user  nobody;
+user www www;
+worker_processes  8;
+worker_cpu_affinity 1000 0100 0010 0001 1000 0100 0010 0001;
+worker_rlimit_nofile 65535;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+error_log  /opt/modules/logs/nginx/error.log;
+#pid        logs/nginx.pid;
+pid        /tmp/nginx.pid;
+
+
+events {
+    worker_connections  10240;
+}
+
+http {
+ log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                   '$status $body_bytes_sent "$http_referer" '
+                   '"$http_user_agent" "$http_x_forwarded_for"';
+
+    include     vhosts/*.conf;
+    access_log  /opt/data/logs/nginx/access.log  main;
+    include       mime.types;
+
+    default_type  application/octet-stream;
+    charset  utf8;
+    server_names_hash_bucket_size 128;
+    client_header_buffer_size 32k;
+    large_client_header_buffers 4 32k;
+    client_max_body_size 8m;
+
+    sendfile on;
+    tcp_nopush     on;
+    keepalive_timeout 30;
+    tcp_nodelay on;
+
+    fastcgi_connect_timeout 100;
+    fastcgi_send_timeout 100;
+    fastcgi_read_timeout 100;
+    fastcgi_buffer_size 64k;
+    fastcgi_buffers 4 64k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 128k;
+
+    gzip on;
+    gzip_min_length  1k;
+    gzip_buffers     4 16k;
+    gzip_http_version 1.0;
+    gzip_comp_level 2;
+    gzip_types   text/plain  text/css text/xml application/x-javascript application/xml application/xml+rss text/javascript;
+    gzip_vary on;
+
+	server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+		error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+	}
+}
+
+#添加配置文件  windforce.com.conf
+cd /opt/modules/nginx/conf/
+mkdir vhosts
+cd vhosts
+touch windforce.com.conf
+
+server
+{
+    listen       80;
+    server_name windforce.bf.com ;
+    index index.php index.html index.htm;
+    root /opt/baofeng-data/windforce/public;
+
+    location / {
+        if (!-f $request_filename ){
+            rewrite ^/(.*) /index.php?$1;
+        }
+    }
+    location ~ .*\.(php|php5)?$ {
+        fastcgi_pass  127.0.0.1:9000;
+        #fastcgi_pass unix:/tmp/php-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi.conf;
+    }
+}
+
+
+##########################    安装hive  ########################################
+1）#下载http://mirrors.cnnic.cn/apache/hive/stable/hive-0.11.0.tar.gz
+tar zxvf hive-0.11.0.tar.gz
+ln -s hive-0.11.0 hive
+2）#增加profile 中hive路径
+export HIVE=/opt/modules/hive
+export PATH=$PATH:$ZOOKEEPER_HOME:$ZOOKEEPER_HOME/bin:$ANT_HOME/bin:$MAVEN_HOME/bin:$PROBF_HOME/bin:$HIVE/bin
+3)增加mysql连接库
+wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.30.tar.gz/from/http://mysql.mirror.kangaroot.net/
+#解压到 lib 目录下
+
+3）#修改配置文件
+cd hive/conf
+cp hive-default.xml.template hive-site.xml
+#更新以下配置项
+<property>
+<name>hive.metastore.local</name>
+<value>true</value>
+</property>
+<property>
+<name>javax.jdo.option.ConnectionURL</name>
+ <value>jdbc:mysql://192.168.1.50:3306/hive_db?createDatabaseIfNotExist=true&amp;characterEncoding=UTF-8</value>
+
+</property>
+<property>
+<name>javax.jdo.option.ConnectionDriverName</name>
+<value>com.mysql.jdbc.Driver</value>
+</property>
+<property>
+<name>javax.jdo.option.ConnectionUserName</name>
+<value>hive_db</value>
+</property>
+<property>
+<name>javax.jdo.option.ConnectionPassword</name>
+<value>@#GDSefd4673(%!{[|d28d3gf!wd^W*j({])Ad48</value>
+</property>
+<property>
+  <name>hive.metastore.warehouse.dir</name>
+  <value>/data/hive/warehouse</value>
+  <description>hdfs location of default database for the warehouse</description>
+</property>
+
+#hwi 访问配置
+<property>
+  <name>hive.hwi.listen.host</name>
+  <value>0.0.0.0</value>
+  <description>This is the host address the Hive Web Interface will listen on</description>
+</property>
+<property>
+  <name>hive.hwi.listen.port</name>
+  <value>9990</value>
+  <description>This is the port the Hive Web Interface will listen on</description>
+</property>
+
+#hive 合并小文件	
+<property>
+  <name>hive.merge.mapredfiles</name>
+  <value>true</value>
+  <description>Merge small files at the end of a map-reduce job</description>
+</property>
+
+cp hive-env.sh.template hive-env.sh
+
+hive-env.sh
+#hive占用内存
+export HADOOP_HEAPSIZE=3072
+
+
+
+4) #设置mysql权限
+mysql> grant all privileges on `hive_db`.* to 'hive_db'@'localhost' with grant option;
+
+mysql> grant all privileges on `hive_db`.* to 'hive_db'@'127.0.0.1' with grant option;
+mysql> set password for 'hive_db'@'127.0.0.1' =password('@#GDSefd4673(%!{[|d28d3gf!wd^W*j({])Ad48');
+mysql> set password for 'hive_db'@'localhost' =password('@#GDSefd4673(%!{[|d28d3gf!wd^W*j({])Ad48');
+
+5）#其他配置
+(非必需)
+ $HADOOP_HOME/bin/hadoop fs -mkdir       /tmp
+ $HADOOP_HOME/bin/hadoop fs -mkdir       /data/hive/warehouse
+ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
+ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /data/hive/warehouse
+
+#hwi启动
+cp /opt/modules/jdk/lib/tools.jar /opt/modules/hive/lib/
+export ANT_LIB=/opt/modules/ant/lib/
+hive --service hwi
+或
+nohup hive --service hwi > /tmp/hive_hwi.log 2>&1 &
+
+6)#可能的问题
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Specified key was too long; max key length is 767 bytes
+mysql 中执行 alter database hive_db character set latin1;
+
+#hwi 启动出错  Problem accessing /hwi/. Reason:
+    No Java compiler available
+需要ant函数库 export ANT_LIB=/opt/modules/ant/lib
+
+#hwi 启动出错 Problem accessing /hwi/. Reason:
+    Unable to find a javac compiler;
+com.sun.tools.javac.Main is not on the classpath.
+Perhaps JAVA_HOME does not point to the JDK.
+It is currently set to "/opt/modules/jdk1.6.0_45/jre"
+cp /opt/modules/jdk/lib/tools.jar /opt/modules/hive/lib/
+
+
+#########################  python 升级python版本（2.4 -->2.7） ############################
+1)下载/安装python 
+下载Python2.7.2.tgz（wget https://www.python.org/ftp/python/2.7.6/Python-2.7.6.tgz --no-check-certificate) 
+ 
+$tar jxvf Python2.7.2.tgz 
+$cd Python2.7.2 
+$./configure --prefix=/opt/module/python-2.7.6
+$make && make install 
+ 
+自此,python2.7安装后路径默认是在/usr/local/lib/python2.7 
+查看Python版本： 
+$ /usr/local/bin/python2.7 -V 
+ 
+2)建立软连接，使系统默认的python指向python2.7 
+正常情况下即使python2.7安装成功后，系统默认指向的python仍然是2.4版本，考虑到yum是基于
+python2.4才能正常工作，不敢轻易卸载。如何实现将系统默认的python指向到2.7版本呢？ 
+mv /usr/bin/python /usr/bin/python.bak （或者rm -rf /usr/bin/python） 
+ln -s /opt/modules/python-2.7.6/ /opt/modules/python
+ln -s /opt/module/python/bin/python2.7 /usr/bin/python 
+检验python指向是否成功 
+python -V 
+ 
+3) 解决系统python软链接指向python2.7版本后，yum不能正常工作 
+方法： 
+$vi /usr/bin/yum 
+ 
+将文本编辑显示的第一行
+#!/usr/bin/python修改为#!/usr/bin/python2.4，保存修改即可 
+
+4)安装Python包管理
+easy_install包 https://pypi.python.org/pypi/distribute
+
+方便安装Python的开发包
+cd ~
+wget https://pypi.python.org/packages/source/d/distribute/distribute-0.6.49.tar.gz
+tar xf distribute-0.6.49.tar.gz
+cd distribute-0.6.49
+python2.7 setup.py install
+easy_install --version
+
+pip包 https://pypi.python.org/pypi/pip
+
+安装pip的好处是可以pip list、pip uninstall 管理Python包， easy_install没有这个功能，只有uninstall
+
+easy_install pip
+pip --version
+
+5)安装uwcgi
+pip install uwsgi(出错，warning: implicit declaration of function ‘accept4’)
+
+wget http://projects.unbit.it/downloads/uwsgi-1.3.tar.gz
+tar xzvf uwsgi-1.3.tar.gz
+cd uwsgi-1.3
+make
+make install
+ln -s /opt/modules/uwsgi/bin/uwsgi /opt/modules/python/bin/uwsgi
+ln -s /opt/modules/uwsgi/sbin/uwsgi9090 /opt/modules/python/bin/uwsgi9090
+
+
+
+
+
+#######################  install git 从其他地方导入代码可以不安装git ###########################
+#确保已安装了依赖的包
+yum install curl
+yum install curl-devel
+yum install zlib-devel
+yum install openssl-devel
+yum install perl
+yum install cpio
+yum install expat-devel
+yum install gettext-devel
+#下载最新的git包
+wget http://www.codemonkey.org.uk/projects/git-snapshots/git/git-latest.tar.gz
+tar xzvf git-latest.tar.gz
+cd git-2011-11-30 ＃你的目录可能不是这个
+autoconf
+./configure
+make
+sudo make install
+
+#检查下安装的版本，大功告成
+git --version
+
+
+#############################  按照 phphiveadmin #####################################
+1: 运行"git clone git://github.com/xianglei/phpHiveAdmin.git"
+    或"git clone https://code.google.com/p/phphiveadmin/"
+
+2: 在nginx.conf 对应的网址配置下加入以下内容
+fastcgi_connect_timeout 36000;
+fastcgi_send_timeout 36000;
+fastcgi_read_timeout 36000;
+
+3: 在 php 打开 $PHP_HOME/etc/php-fpm.conf 修改成下面这样:
+process_control_timeout = 36000s
+request_terminate_timeout = 36000s
+
+打开 $PHP_HOME/lib/php.ini并修改成如下:
+max_input_time = 36000
+default_socket_timeout = 36000
+
+4.重启nginx和php-fpm
+
+5. 创建数据easyhadoop
+6. 导入sql
+   mysql -hlocalhost -uroot easyhadoop < phpHiveAdmin.sql
+   mysql -hlocalhost -uroot easyhadoop < patch-001.sql
+   mysql -hlocalhost -uroot easyhadoop < patch-002.sql
+
+  mkdir -p /opt/baofeng-data/phphiveadmin/logs
+  mkdir -p /opt/baofeng-data/phphiveadmin/etl
+  mkdir -p /opt/baofeng-data/phphiveadmin/results
+  chmod 777 /opt/baofeng-data/phphiveadmin/logs /opt/baofeng-data/phphiveadmin/etl /opt/baofeng-data/phphiveadmin/results
+7. 打开config.inc.php，修改hive_thrift_host为hiveserver地址，hive_thrift_port为hiveserver端口
+修改hadoop_home, hive_home, java_home为实际安装路径。
+	配置mysql文件application/config/database.php
+8. hive可能需要修改的参数
+hive.server2.thrift.min.worker.threads – Minimum number of worker threads, default 5. 3
+hive.server2.thrift.max.worker.threads – Maximum number of worker threads, default 100.
+hive.server2.thrift.port – TCP port number to listen on, default 10000.
+hive.server2.thrift.bind.host – TCP interface to bind to.
+
+9. 默认用户admin，密码123456
+
+
+
+
+
+
+
+

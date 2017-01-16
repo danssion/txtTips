@@ -1,0 +1,489 @@
+#50 master namenode  zookeeper  
+#51 HA namenode    zookeeper
+#52 datanode	zookeeper
+#53 datanode
+#54 datanode
+#49 client 
+
+#环境变量
+MODULES_PATH=/opt/modules
+DATA_PATH=/opt/data
+HADOOP_HOME=/opt/modules/hadoop
+
+1.下载java-sdk 安装java环境
+tar zxvf jdk-7u15-linux-x64.tar.gz -C /opt/modules  
+cd /opt/modules
+ln -s jdk1.7.0_15 jdk
+
+2.安装lzo
+curl -O http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz
+tar zxvf lzo-2.06.tar.gz
+cd lzo-2.06
+./configure --enable-shared
+make
+make install
+#64位
+cp /usr/local/lib/liblzo2* /usr/lib64/
+#32位
+cp /usr/local/lib/liblzo2* /usr/lib/
+wget http://apt.sw.be/redhat/el5/en/x86_64/rpmforge/RPMS/lzo-devel-2.06-1.el5.rf.x86_64.rpm
+wget http://apt.sw.be/redhat/el5/en/x86_64/rpmforge/RPMS/lzo-2.06-1.el5.rf.x86_64.rpm
+	
+rpm -ivh lzo-2.06-1.el5.rf.x86_64.rpm
+rpm -ivh lzo-devel-2.06-1.el5.rf.x86_64.rpm
+
+#安装lzop-1.03.tar.gz
+tar zxvf lzop-1.03.tar.gz
+cd lzop-1.03
+./configure
+make
+make install
+
+
+3.安装 hadoop-lzo 
+#来源https://github.com/twitter/hadoop-lzo/
+wget https://github.com/twitter/hadoop-lzo/archive/master.zip
+unzip master
+#更新hadoop-lzo中的pom.xml
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <hadoop.current.version>2.2.0</hadoop.current.version>
+    <hadoop.old.version>1.0.4</hadoop.old.version>
+  </properties>
+export CFLAGS=-m64
+export CXXFLAGS=-m64
+mvn clean package -Dmaven.test.skip=true
+cd target/native/Linux-amd64-64
+tar -cBf - -C lib . | tar -xBvf - -C ./
+cp ./libgplcompression* /opt/modules/hadoop/lib/native/
+cp target/hadoop-lzo-0.4.20-SNAPSHOT.jar /opt/modules/hadoop/share/hadoop/common/
+
+
+
+安装 zookeeper
+curl -O http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz
+tar zxvf zookeeper-3.4.6.tar.gz -C /opt/modules
+cd /opt/modules/zookeeper-3.4.6/conf
+cp zoo_sample.cfg zoo.cfg
+#准备目录
+DATA_PATH=/opt/data
+mkdir -p $DATA_PATH/zookeeper/data
+mkdir -p $DATA_PATH/log/zookeeper/
+chmod -R 0777 $DATA_PATH/log
+chmod -R 774 /opt/modules/zookeeper
+chmod -R 775 /opt/modules/zookeeper/bin
+#加入机器id,按照配置中的写(每个节点都要有)
+#按照配置的id写
+echo '1' > $DATA_PATH/zookeeper/data/myid
+ln -s /opt/modules/zookeeper-3.4.5 /opt/modules/zookeeper
+
+#编辑zookeeper配置文件
+vim zoo.cfg
+	修改dataDir的值为/opt/data/zookeeper/data
+	在末尾加入
+	server.1=zoo1:2888:3888
+	server.2=zoo2:2888:3888
+	server.3=zoo3:2888:3888
+:wq
+
+vim log4j.properties
+zookeeper.log.dir=/opt/data/log/zookeeper
+
+4.hadoop 目录
+	4.1 初始目录
+DATA_PATH=/opt/data
+HADOOP_HOME=/opt/modules/hadoop
+mkdir -p $DATA_PATH/hadoop/temp
+mkdir -p $DATA_PATH/hadoop/data
+mkdir -p $DATA_PATH/hadoop/namenode
+mkdir -p  /data1/data/hadoop/mapred/local
+mkdir -p  /data1/data/hadoop/mapred/system 
+mkdir -p $DATA_PATH/hadoop/jn
+chown -R hadoop:hadoop $DATA_PATH/hadoop 
+chown -R hadoop:hadoop /data1/data/hadooop
+chown -R hadoop:hadoop $HADOOP_HOME
+chown -R root:root /opt/modules/jdk1.7.0_15
+find $HADOOP_HOME/ -name "*.sh" | xargs chmod u+x
+	4.2 扩张的数据节点目录
+mkdir /data1/data/hadoop/data
+
+
+
+5.更新配置文件core-site.xml #$HADOOP_HOME/etc/hadoop/core-site.xml vim core-site.xml
+
+<property> 
+    <name>fs.default.name</name>    
+    <value>hdfs://resourceM</value>    
+    <final>true</final>
+</property>
+<property>
+   <name>hadoop.tmp.dir</name>
+   <value>/opt/data/hadoop/temp</value>
+</property>
+<property> 
+   <name>fs.trash.interval</name> 
+   <value>30</value> 
+</property>
+<property> 
+   <name>fs.trash.checkpoint.interval</name> 
+   <value>35</value> 
+</property>
+<property>
+    <name>io.compression.codecs</name>
+<value>org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,com.hadoop.compression.lzo.LzoCodec,com.hadoop.compression.lzo.LzopCodec,org.apache.hadoop.io.compress.BZip2Codec</value>
+</property>
+<property>
+    <name>io.compression.codec.lzo.class</name>
+    <value>com.hadoop.compression.lzo.LzoCodec</value>
+</property>
+<property>
+    <name>ha.zookeeper.quorum</name>
+    <value>192.168.1.50:2181,192.168.1.51:2181,192.168.1.52:2181</value>
+</property>
+
+6.更新配置文件 #$HADOOP_HOME/etc/hadoop/hdfs-site.xml	
+<property>
+	<name>dfs.namenode.name.dir</name>
+	<value>file:/opt/data/hadoop/namenode</value>
+</property>
+<property>
+	<name>dfs.datanode.data.dir</name>
+	<value>file:/opt/data/hadoop/data,file:/data1/data/hadoop/data</value>
+</property>
+<property>
+	<name>dfs.replication</name>
+	<value>2</value>
+</property>
+<property>
+	<name>dfs.permissions</name>
+	<value>false</value>
+</property>
+<!--
+<property>
+	<name>dfs.secondary.http.address</name>
+	<value>resourceM:50090</value>
+</property>
+<property>
+	<name>dfs.datanode.address</name>
+	<value>114.112.70.54:50010</value>
+</property>
+-->
+<property>
+        <name>dfs.datanode.http.address</name>
+        <value>dNodeHttp:50070</value>
+</property
+<property>
+	<name>dfs.nameservices</name>
+	<value>cluster</value>
+</property>
+<property>
+	<name>dfs.ha.namenodes.cluster</name>
+	<value>nn1,nn2</value>
+</property>
+<property>
+	<name>dfs.namenode.http-address.cluster.nn1</name>
+	<value>114.112.70.50:50070</value>
+</property>
+<property>
+	<name>dfs.namenode.http-address.cluster.nn2</name>
+	<value>114.112.70.51:50070</value>
+</property>
+<property>
+	<name>dfs.namenode.rpc-address.cluster.nn1</name>
+	<value>nn1:8020</value>
+</property>
+	
+<property>
+	<name>dfs.namenode.rpc-address.cluster.nn2</name>
+	<value>nn2:8020</value>
+</property>
+<property>
+	<name>dfs.namenode.shared.edits.dir</name>
+	<value>qjournal://qjournal1:8485;qjournal2:8485;qjournal3:8485/namenode</value>
+</property>
+<property>
+	<name>dfs.journalnode.edits.dir</name>
+	<value>/opt/data/hadoop/jn</value>
+</property>
+	
+<property>
+	<name>dfs.client.failover.proxy.provider.cluster</name>
+	<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+	
+<property>
+	<name>dfs.ha.fencing.methods</name>
+	<value>shell(/bin/true)</value>
+</property>
+<property>
+	<name>dfs.ha.fencing.ssh.connect-timeout</name>
+	<value>10000</value>
+</property>
+	
+<property>
+	<name>dfs.ha.automatic-failover.enabled</name>
+	<value>true</value>
+</property>
+<property>
+	<name>dfs.ha.fencing.ssh.connect-timeout</name>
+	<value>10000</value>
+</property>
+
+<property>
+	<name>dfs.ha.automatic-failover.enabled</name>
+	<value>true</value>
+</property>
+<property>
+	<name>dfs.ha.fencing.ssh.private-key-files</name>
+	<value>/home/hadoop/.ssh/id_rsa</value>
+</property>
+<!-- some optimize -->
+<!-- The number of volumes that are allowed to fail before a datanode stops offering service.
+         By default any volume failure will cause a datanode to shutdown. -->
+<property>
+        <name>dfs.datanode.failed.volumes.tolerated</name>
+        <value>1</value>
+</property>
+<property>
+        <name>dfs.datanode.du.reserved</name>
+        <value>46170898430</value>
+        <!-- 430 G -->
+</property>
+
+
+6.更新配置文件#$HADOOP_HOME/etc/hadoop/yarn-site.xml
+<property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>resourceM:18031</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.address</name>
+    <value>resourceM:18032</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>resourceM:18030</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>resourceM:18033</value>
+</property>
+<property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>resourceOut:18088</value>
+</property>
+<property>
+	<name>yarn.nodemanager.aux-services</name>
+	<value>mapreduce.shuffle</value>
+</property>
+<property>
+      <name>yarn.nodemanager.webapp.address</name>
+      <value>nodeMHttp:18042</value>
+  <!--NM Webapp address. 设置各个nodemanager节点web入口 -->
+</property>
+<property>
+	<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+	<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+<property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>20480</value>
+        <!--Amount of physical memory, in MB, that can be allocated for containers. -->
+</property>
+<property>
+        <name>yarn.nodemanager.health-checker.interval-ms</name>
+        <value>180000</value>
+        <!-- Frequency of running node health script. -->
+</property>
+<property>
+        <name>yarn.nodemanager.health-checker.script.timeout-ms</name>
+        <value>3600000</value>
+        <!-- Script time out period. -->
+</property>
+<property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>256</value>
+</property>
+<property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>20480</value>
+</property>
+<property>
+        <name>yarn.nodemanager.resource.cpu-vcores</name>
+        <value>4</value>
+</property>
+
+7. 更新#$HADOOP_HOME/etc/hadoop/mapred-site.xml
+<property>
+	<name>mapreduce.framework.name</name>
+	<value>yarn</value>
+</property>
+<property>
+	<name>mapred.system.dir</name>
+	<value>file:/opt/data/hadoop/mapred/system</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapred.local.dir</name>
+	<value>file:/opt/data/hadoop/mapred/local</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapred.compress.map.output</name>    
+	<value>true</value>  
+</property>  
+<property>    
+	<name>mapred.map.output.compression.codec</name>     
+	<value>com.hadoop.compression.lzo.LzoCodec</value>  
+</property>
+<property>
+        <name>mapred.child.java.opts</name>
+        <value>-Xmx512m</value>
+</property>
+<property>
+        <name>mapreduce.tasktracker.map.tasks.maximum</name>
+        <value>3</value>
+</property>
+<property>
+        <name>mapreduce.tasktracker.reduce.tasks.maximum</name>
+        <value>3</value>
+</property>
+<property>
+        <name>mapreduce.task.io.sort.factor</name>
+        <value>20</value>
+</property>
+<property>
+ <name>mapreduce.jobhistory.webapp.address</name>
+ <value>resourceOut:19888</value>
+</property>
+
+<!-- unuse
+<property>
+ <name>mapreduce.jobhistory.address</name>
+ <value>jobhistory:10020</value>
+</property>
+-->
+
+
+
+8 其他配置
+	8.1 运行环境配置
+/opt/modules/hadoop/etc/hadoop/yarn-env.sh 变更
+JAVA_HOME=/opt/modules/jdk
+export YARN_PID_DIR=/opt/modules/hadoop/tmp
+
+
+/opt/modules/hadoop/etc/hadoop/hadoop-env.sh 变更
+export JAVA_HOME=/opt/modules/jdk
+export HADOOP_NAMENODE_OPTS="-Dhadoop.security.logger=${HADOOP_SECURITY_LOGGER:-INFO,RFAS} -Dhdfs.audit.logger=${HDF    S_AUDIT_LOGGER:-INFO,NullAppender} $HADOOP_NAMENODE_OPTS  -Xmx2048m "
+export HADOOP_PORTMAP_OPTS="-Xmx1024m $HADOOP_PORTMAP_OPTS"
+export HADOOP_CLIENT_OPTS="-Xmx2048m $HADOOP_CLIENT_OPTS"
+export HADOOP_PID_DIR=/opt/modules/hadoop/tmp
+export BALANCER_ID_PATH=/opt/modules/hadoop/tmp
+export HADOOP_SECURE_DN_PID_DIR=/opt/modules/hadoop/tmp
+
+	8.2 配置 /etc/profile 所有服务
+vim /etc/profile (加入以下内容)
+	export PATH
+	export JAVA_HOME=/opkt/modules/jdk
+	export HADOOP_HOME=/opt/modules/hadoop
+	export PATH=$PATH:$HADOOP_HOME:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+	#把zookeeper路径加入环境变量/etc/profile
+	export ZOOKEEPER_HOME=/opt/modules/zookeeper
+	export PATH=$PATH:$ZOOKEEPER_HOME:$ZOOKEEPER_HOME/bin
+
+	#ant
+	export ANT_HOME=/opt/modules/ant
+	export PATH=$PATH:$ANT_HOME:$ANT_HOME/bin
+:wq
+#更新source
+source /etc/profile
+
+
+	8.2 配置hosts 所有服务
+#114.112.70.50   BFG-OSER-2372.localdomain BFG-OSER-2372 
+192.168.1.54     BFG-OSER-2376.localdomain BFG-OSER-2376
+192.168.1.53     BFG-OSER-2375.localdomain BFG-OSER-2375
+192.168.1.52     BFG-OSER-2375.localdomain BFG-OSER-2374dat
+192.168.1.51     BFG-OSER-2375.localdomain BFG-OSER-2373
+192.168.1.50     BFG-OSER-2375.localdomain BFG-OSER-2372
+114.112.70.50 resourceOut
+192.168.1.50 resourceM
+192.168.1.50 zoo1 qjournal1 jobhistory hdcluster nn1
+192.168.1.51 zoo2 qjournal2 nn2
+192.168.1.52 zoo3 qjournal3 datanode1
+192.168.1.53 datanode2
+192.168.1.54 datanode3
+	#可能产生的问题
+Datanode denied communication with namenode: DatanodeRegistration(0.0.0.0 ......
+hosts 需要包含所有ip
+
+9.其他服务器软件环境
+复制 /opt/modules 到各个服务器/opt/modules 下
+
+
+10.初次启动各个服务，使用hadoop用户进行启动
+
+	10.1 #resourcemanager 50master主服务器 启动
+yarn resourcemanager
+
+	10.2 #启动journalnode HA的namenode active服务器 ，HA的namenode standby服务器 ，第三台zookeeper服务
+hdfs journalnode
+
+	10.3 #启动zookeeper  HA的namenode active服务器 ，HA的namenode standby服务器 ，第三台zookeeper服务
+echo '1' > $DATA_PATH/zookeeper/data/myid
+echo '2' > $DATA_PATH/zookeeper/data/myid
+echo '3' > $DATA_PATH/zookeeper/data/myid
+./bin/zkServer.sh start
+#./bin/zkServer.sh status 验证是否启用(注：必须所有节点的zkserver启动后才能看到结果)
+
+	10.4 #启动namenode   HA的namenode active 服务器 ，HA的namenode standby服务器
+#初始化nameNode  HA的namenode active服务器
+hdfs namenode -format
+hdfs namenode -initializeSharedEdits
+hdfs namenode
+
+#初始化nameNode  HA的namenode standby服务器
+hdfs namenode -bootstrapStandby
+hdfs namenode (hdfs stop namenode)
+
+
+#HA的namenode active 服务器 发现没有进入active状态则 
+hdfs  haadmin -transitionToActive nn1  -forcemanual
+
+	10.5 #启动zookeeper failover control HA的namenode active 服务器 ，HA的namenode standby服务器
+#初始化 zookeeper failover control 服务器
+hdfs zkfc -formatZK
+hdfs zkfc
+
+	10.6 #启动datanode 各台datanode服务器
+hdfs datanode
+
+	10.7 #启动 nodemanager 各台datanode服务器
+yarn  nodemanager
+
+	11 综合管理
+#配置完成后，其他情况的统一启动服务器及停止服务器
+#启动脚本默认放置在 sourceManage 服务器上（ 114.112.70.50 ) hadoop 目录下
+#脚本已经放入svn库管理，路径：http://192.168.200.38/online_svn/windforce/doc/admin_script
+start-up.sh
+stop.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

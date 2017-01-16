@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+<property>
+	<name>mapreduce.framework.name</name>
+	<value>yarn</value>
+</property>
+<property>
+	<name>mapreduce.jobtracker.system.dir</name>
+	<value>file:/data1/data/hadoop/mapred/system</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapreduce.cluster.local.dir</name>
+	<value>file:/data1/data/hadoop/mapred/local</value>
+	<final>true</final>
+</property>
+<property>
+	<name>mapreduce.map.output.compress</name>    
+	<value>false</value>  
+</property>  
+<property>
+	<name>mapreduce.map.output.compress.codec</name>     
+	<value>com.hadoop.compression.lzo.LzoCodec</value>  
+</property>
+<!--
+<property>
+	<name>mapred.child.java.opts</name>
+	<value>-Xmx1024m</value>
+</property>
+-->
+<property>
+	<name>mapreduce.map.java.opts</name>
+	<value>-Xmx512m</value>
+</property>
+<property>
+	<name>mapreduce.reduce.java.opts</name>
+	<value>-Xmx1024m</value>
+</property>
+<property>    
+	<name>mapreduce.jobhistory.webapp.address</name>     
+	<value>resourceOut</value>  
+</property>
+<property>    
+	<name>mapreduce.job.maps</name>     
+	<value>20</value>
+</property>
+<property>    
+	<name>mapreduce.job.reduces</name>     
+	<value>5</value>
+</property>
+<property>    
+	<name>mapreduce.tasktracker.map.tasks.maximum</name>     
+	<value>80</value>
+</property>
+<property>    
+	<name>mapreduce.tasktracker.reduce.tasks.maximum</name>     
+	<value>20</value>
+</property>
+<property>    
+	<name>mapreduce.task.io.sort.factor</name>     
+	<value>20</value>
+</property>
+<property>    
+	<name>mapreduce.task.io.sort.mb</name>     
+	<value>256</value>
+</property>
+<property>
+	<name>mapreduce.map.memory.mb</name>
+	<value>512</value>
+<!-- set by user, per-job Job requirement for map tasks. The maximum amount of memory each map task of a job can consume, in MB. -->
+</property>
+<property>
+	<name>mapreduce.cluster.mapmemory.mb</name>
+	<value>512</value>
+<!-- set by admin, cluster-wide	Cluster definition of memory per map slot. The maximum amount of memory, in MB, each map task on a tasktracker can consume. --> 
+</property>
+<property>
+	<name>mapreduce.cluster.reducememory.mb</name>
+	<value>1024</value>
+<!-- set by admin, cluster-wide	Cluster definition of memory per reduce slot. The maximum amount of memory, in MB, each reduce task on a tasktracker can consume. -->
+</property>
+<property>
+	<name>mapreduce.jobtracker.maxreducememory.mb</name>
+	<value>2048</value>
+<!-- set by admin, cluster-wide	Max limit on jobs. The maximum value that can be specified by a user via mapred.job.reduce.memory.mb, in MB. A job that asks for more than this number will be failed at submission itself. -->
+</property>
+<property>    
+	<name>mapreduce.input.fileinputformat.split.minsize</name>     
+	<value>134217728</value>
+<!-- The minimum size chunk that map input should be split into. Note that some file formats may have minimum split sizes that take priority over this setting. 128M -->
+</property>
+<property>    
+	<name>mapreduce.input.fileinputformat.split.minsize.per.node</name>     
+	<value>402653184</value>
+</property>
+<property>    
+	<name>mapreduce.input.fileinputformat.split.maxsize</name>     
+	<value>402653184</value>
+<!-- 384M -->
+</property>
+<property>    
+	<name>mapreduce.map.input.length</name>     
+	<value>402653184</value>
+<!-- The number of bytes in the map input split 384M -->
+</property>
+<!--
+<property>
+  <name>mapred.child.env</name>
+  <value>JAVA_LIBRARY_PATH=/opt/modules/hadoop/lib/hadoop-lzo-0.4.20-SNAPSHOT.jar</value>
+ If you would like to use LZO to compress map outputs as well, add the following to your mapred-site.xml.  This setting handles how and if the map output data, which must get sent over the network and then written to disk on the node running the reduce, is compressed.  Since this is an IO-heavy operation, it is another area where LZO compression can make your job significantly faste </property>
+<property>
+  <name>mapreduce.admin.user.env</name>
+  <value>LD_LIBRARY_PATH=/opt/modules/hadoop/lib/natvie</value>
+</property>
+-->
+
+</configuration>
