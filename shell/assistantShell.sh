@@ -10,9 +10,9 @@ HADOOP_HOME=/opt/modules/hadoop
 DNODE='114.112.70.51 114.112.70.52 114.112.70.53 114.112.70.54 114.112.82.141 114.112.82.142 114.112.82.176 114.112.82.177 114.112.82.178 114.112.82.179 114.112.82.113 114.112.82.114 114.112.70.36 114.112.70.37'
 #DNODE='192.168.2.178 192.168.2.179'
 HADOOPSERVICES='114.112.70.50 114.112.70.51 114.112.70.52 114.112.70.53 114.112.70.54 114.112.70.49 114.112.82.141 114.112.82.142 114.112.82.176 114.112.82.177 114.112.82.178 114.112.82.179 114.112.82.113 114.112.82.114 114.112.70.36 114.112.70.37'
-WEBHDSV='hd-client hd-nn1 hd-nn2 hd-node1 hd-node2'
+WEBHDSV='hd-client hd-nn1 hd-nn2 hd-node1 hd-node2 hd-node3 ad-log1 ad-log2 ad-log3 log-gath log-kafka place-log1 place-log2 place-log3 place-gath'
 RDSV='redis1 redis2 redis3 proxyA proxyB'
-TESTSV='webhy219 webhy104 webhy105'
+TESTSV='hd-client'
 USER='duanxiang'
 
 
@@ -56,7 +56,7 @@ do
 				echo '多服务器命令操作'
 			fi
 			if [ "$info" == "addhosts" ]; then
-				echo '各个服务器的错误记录数'
+				echo '更新各个服务器hosts'
 			fi
 			if [ "$info" == "addMac" ]; then
 				echo '添加一个本地Mac电脑无密码ssh登陆'
@@ -102,22 +102,22 @@ case $info in
 		done
 		;;
 	'info')
-		GETSV=$HYSV
-	#	GETSV=$HYIP
-	#	GETSV=$WEBHYSV
+		GETSV=$WEBHDSV
+	#	GETSV=$TESTSV
 	#	GETSV=$HADOOPSERVICES
 	#	GETSV=$KJSV
 		for s in $GETSV
 		do
-			ssh -t $USER@$s  "sudo ps aux | grep php | wc -l "
-			#ssh -t $USER@$s  "ls -alh /opt/modules/php/var/log"
+			
+			#ssh -t $USER@$s  "sudo sed -i '20,\$d' /etc/hosts "
+			#ssh -t $USER@$s  "sudo ps aux | grep php | wc -l "
 			#ssh -t $USER@$s  "cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c;cat /proc/meminfo | grep 'MemTotal';ps aux | grep nginx"
 			#ssh -t $USER@$s  "df -h"
 			#ssh -t $USER@$s  "cat /etc/redhat-release"
 			#ssh -t duanxiang@$s  "grep 'CPU' /proc/cpuinfo; free -m"
 			#ssh -t duanxiang@$s  "free -g"
 			#ssh -t $USER@$s  "ls -alh /opt/modules/nginx/conf/vhost"
-			#ssh -t $USER@$s  "ls -alh /opt/data/logs/houyi_error.log"
+			ssh -t $USER@$s  "hostname"
 			#ssh -t $USER@$s  "source /etc/profile;php --ri curl"
 			#ssh -t $USER@$s  "source /etc/profile;php --ri curl;php --ri redis;php --ri apc;php --ri protobuf"
 			#ssh -t $USER@$s  "ls -alh /opt/data/logs | grep '20150630'"
@@ -142,9 +142,22 @@ case $info in
 	'addhosts')
 		echo "input a string add in hosts:"
 		read ip ipn
-		if [ $ip == ''] -a [$ipn == '' ];then
+		if [ -z $ip ];then
 			echo "need ip and host name"
-			break;
+			exit;
+		elif [ "$ipn" = ' ' ];then
+			echo "need ip and host name"
+			exit;
+		elif [ -z $ipn ];then
+			echo "need ip and host name"
+			exit;
+		fi
+		IPPTN="^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"
+		if [[ "$ip" =~ $IPPTN ]];then
+			echo ""	
+		else
+			echo "ip format is invalid!"
+        		exit;
 		fi
 		GETSV=$WEBHDSV
 		for s in $GETSV
@@ -216,12 +229,12 @@ case $info in
 		done
 		;;
 	'runCMD')
-		GETSV=$HYSV
-	#	GETSV=$KJSV
+		GETSV=$WEBHDSV
+		#GETSV=$TESTSV
 		for s in $GETSV
 		do
 			#ssh -t $USER@$s  "cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c;cat /proc/meminfo | grep 'MemTotal';ps aux | grep nginx"
-			ssh -t $USER@$s  "sudo ls /opt/baofeng-data/houyi_xieshang/revs/rev_152/"
+			ssh -t $USER@$s  "sudo mkdir /opt/modules/ && cd /opt/modules && sudo ln -s /opt/cloudera/parcels/CDH/ cloudera && sudo  ln -s /run/cloudera-scm-agent/process/ process"
 		done
 		;;
 	'upbash')

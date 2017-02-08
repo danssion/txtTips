@@ -41,6 +41,11 @@ mkfs.ext4 /dev/vdc1
 mkdir -p /data1/hadoop/hdfs/data
 chown cloudera-scm:cloudera-scm /data1/hadoop/ -R
 
+[[[[[[hostname]]]]]]
+hostname DB-Server
+/etc/sysconfig/network
+
+
 [[[[[[composer]]]]]]
 安装 Composer：
 curl -sS https://getcomposer.org/installer | php
@@ -79,6 +84,8 @@ security 中的ipsetable.sls
 iptables -t nat -A PREROUTING -d 10.1.11.1 -p tcp -m tcp --dport 8081 -j DNAT --to-destination10.1.11.8:8081
 iptables -t nat -A PREROUTING -d 123.56.2.156 -p tcp --dport 8081 -j DNAT --to-destination 10.1.11.8:8081
 
+[[[[[[NET]]]]]]
+专有网络->交换机->创建安全组->ECS实例
 
 [[[[[[SLB]]]]]]
 time echo -e 'HEAD / HTTP/1.0\r\n\r\n' | nc -t 10.1.11.9 80

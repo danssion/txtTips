@@ -204,6 +204,11 @@ show slave/master status\G;
 start slave与stop slave来开启和关闭同步。
 CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
 max_user_connections  max_connections
+set global general_log = on; 查看查询日志
+show variables like '%general%';     
+
+
+
 [[[ systemctl ]]]
 systemctl enable ***.service
 systemctl disable ***.service
@@ -415,6 +420,7 @@ tmux ls
 tmux attach [-t | -d | -r] $n
 mux ^z d
 Tmux Resurrect:前缀键 + Ctrl-s / 前缀键 + Ctrl-r 
+.tmux/resurrect
 
 [[[ nc ]]]
 [root@hatest2 tmp]# nc -l 1234 |tar xzvf -
