@@ -176,12 +176,12 @@ case $info in
 		;;
 	'addAccount')
 		echo "input a server name [name or ip]?"
-		read -t 5 str
+		read -t 10 str
 		if [ $str == '' ];then
 			echo "need hosts string"
 			break;
 		fi
-    ssh -t root@$REPLY "echo 'User_Alias DEV = duanxiang'  >> /etc/sudoers;
+    ssh -t root@$str "echo 'User_Alias DEV = duanxiang'  >> /etc/sudoers;
     echo 'DEV       ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers;
     groupadd dev;useradd -g dev duanxiang;passwd duanxiang"
 		;;
