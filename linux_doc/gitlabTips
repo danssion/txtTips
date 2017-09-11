@@ -1,0 +1,98 @@
+[[[[[[source centOS 7]]]]]]
+URL:https://mirror.tuna.tsinghua.edu.cn/help/gitlab-ce/
+新建 /etc/yum.repos.d/gitlab-ce.repo
+[gitlab-ce]
+name=gitlab-ce
+baseurl=http://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7
+repo_gpgcheck=0
+gpgcheck=0
+enabled=1
+gpgkey=https://packages.gitlab.com/gpg.key
+
+sudo yum makecache
+sudo yum install gitlab-ce
+
+
+[[[[[[Install]]]]]]
+
+[optional software]
+sudo yum install curl policycoreutils openssh-server openssh-clients
+sudo systemctl enable sshd
+sudo systemctl start sshd
+sudo yum install postfix
+sudo systemctl enable postfix
+sudo systemctl start postfix
+sudo firewall-cmd --permanent --add-service=http
+sudo systemctl reload firewalld
+[package server]
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+sudo yum install gitlab-ce
+
+[configure]
+# update configure file 
+sudo gitlab-ctl reconfigure
+
+[[[[[[ manage it ]]]]]]
+[config]
+
+/var/opt/gitlab/nginx/conf/gitlab-http.conf
+/etc/gitlab/gitlab.rb
+run `sudo gitlab-ctl reconfigure`
+#generate config file : /var/opt/gitlab/gitlab-shell/config.yml
+程序目录在：/opt/gitlab
+文件数据在：/var/opt/gitlab
+git repo目录在：/var/opt/gitlab/git-data
+上传图片目录在：/var/opt/gitlab/uploads
+使用的本地模式运行的postgresql数据，会随gitlab启动时候自动运行
+使用本地运行的redis服务，会随gitlab启动时候自动运行
+缺省利用本地邮局，自动投递给其他服务器，如果是非互联网ip，可以修改为本地smtp方式
+修改ssh服务的git账号入口，git账号的登录shell处理为gitlab-shell
+自带nginx，缺省会在所有ip地址的80端口监听请求，请求会转发给ruby进程
+
+Sign-in Restrictions
+Sign-upenbaled  关闭注册功能
+Sign-inenbaled  关闭注册登录功能
+
+[nginx http port]
+https://docs.gitlab.com/omnibus/settings/nginx.html
+nginx['listen_port'] = 8081
+
+[email set]
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.263.net"
+gitlab_rails['smtp_port'] = 465
+gitlab_rails['smtp_user_name'] = "dev_mail@aspiration-cn.com"
+gitlab_rails['smtp_password'] = "dev123"
+gitlab_rails['smtp_domain'] = "aspiration-cn.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+# gitlab_rails['smtp_tls'] = false
+
+###! **Can be: 'none', 'peer', 'client_once', 'fail_if_no_peer_cert'**
+###! Docs: http://api.rubyonrails.org/classes/ActionMailer/Base.html
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+
+[log dir]
+/var/log/gitlab/
+/var/log/gitlab/gitlab-rails/production.log
+
+[operator control]
+# Start all GitLab components
+sudo gitlab-ctl start
+# Stop all GitLab components
+sudo gitlab-ctl stop
+# Restart all GitLab components
+sudo gitlab-ctl restart
+
+#   Reconfigure the application.
+reconfigure
+
+# test send mail
+gitlab-rails console  
+Notify.test_email('xiang.duan@bluetidedata.com', 'Message Subject', 'Message Body').deliver_now
+
+# Postgres superuser psql session
+# Superuser psql access to GitLab's database
+sudo gitlab-psql -d gitlabhq_production
+
+

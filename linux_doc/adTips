@@ -11,7 +11,47 @@ ARPU 是指每用户平均收入（Average Revenue Per User)
 CVR ( Conversion Rate 转化率)  转化次数与到达次数比率
 CVR（click Conversion Rate 点击注册率）
 CPI (Cost Per Install)
-跳出率= 访问了入口页面就离开的用户量/PV  × 100%
+跳出率(Bounce Rate)= 访问了入口页面就离开的用户量/PV  × 100%
+RTB(Real-Time Bidding）
+公开广告交易平台(Open Ad Exchange)
+私有广告交易平台(Private Ad Exchange,行业人士一般称之为私有交易市场, 即Private Marketplace,简称PMP)
+PMP
+公开竞价(Open Auction, Open RTB) 
+私有竞价(Private Auction, Private RTB) 
+默认广告/打底广告(Default Ad)
+底价(Floor Price)
+PDB  程序化直接采购(Programmatic Direct Buying)
+DSP 需求方平台(Demand-Side Platform)
+TD 采购交易平台(Trading Desk)
+AdX 广告交易平台(Ad Exchange)
+SSP 供应方平台(Supply-Side Platform)
+DMP 数据管理平台(Data Management Platform)
+PCP 程序化创意平台(Programmatic Creative Platform)
+DCO 动态创意优化 (Dynamic Creative Optimization)
+Ad 广告验证平台(Ad Verification Platform)
+CPM Cost Per Mille 或者Cost Per Thousand Impressions,每千人成本, 即广告被展示一千次对应的价格
+CPC Cost Per Click或Cost Per Click-Through,每点击成本   CPC=Cost/Click
+CTR Click Through Rate  广告的点击率 即广告点击次数占广告展示次数的百分比。用公式表示即CTR=(Click/Impression)*100%
+CPA Cost Per Action,每行动成本,一般称为每注册成本,即获取一个注册用户对应的价格 CPA= Cost/注册数
+CPL Cost Per Lead,每潜在客户获取成本,即获取一个潜在客户信息对应的价格 CPL=Cost/Lead数量
+CVR Click Value Rate,指广告的点击转化率,即广告转化次数占广告点击次数的百分比 CVR=(转化次数/Click)*100% 转化次数可以是 注册数、Lead数量、订单数等
+ROI Return On Investment,投资回报率  ROI都会带上周期,如日ROI、月ROI 等。用公式表示即ROI=回收价值/Cost
+TA浓度  TA是指目标受众,即Target Audience
+到达率(1+Reach)  目标受众在指定时期内看到广告 1 次或以上的比例,又叫 净达到率或者 1+到达率
+IGRP:Internet Gross Rating Points,即互联网总收视点或互联网毛评点,一 般用到 OTV(Online TV,即网络电视或网络视频)广告投放中。用公式表示即: IGRP=平均曝光频次*到达率*100
+互动率(Engagement Rate):用于衡量广告投放中用户在广告素材或者站内 (网站或APP)的交互度和参与度 Engagement是指用户对广告产生兴趣之后,到 发生最终转化之前的动作或行为过程,如点击、分享、在线体验、站内搜索等。相应 的还可以用单次互动成本CPE(Cost Per Engagement)或CPEV(Cost Per Engaged Visit)来衡量。
+QPS(Query Per Second） 即每秒查询率
+
+
+
+
+
+
+
+[[[[[ function ]]]]]
+eCPM = CTR(点击率)*CPC(点击价格)*1000
+
+
 [[[[[ 用户质量 ]]]]]
 活跃用户，日（DAU），周（WAU），月（MAU）
 平均停留时长

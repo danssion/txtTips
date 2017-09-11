@@ -1,0 +1,25 @@
+[[[[[ install ]]]]]
+wget -c http://soft.vpser.net/lnmp/lnmp1.4.tar.gz 
+tar zxf lnmp1.4.tar.gz && cd lnmp1.4 && ./install.sh lnmp
+
+[[[[[ install ext ]]]]]
+./addons.sh {install|uninstall} {eaccelerator|xcache|memcached|opcache|redis|imagemagick|ioncube}
+
+
+[[[[[ server status ]]]]]
+LNMP状态管理命令：
+
+LNMP 1.2+状态管理: lnmp {start|stop|reload|restart|kill|status}
+LNMP 1.2+各个程序状态管理: lnmp {nginx|mysql|mariadb|php-fpm|pureftpd} {start|stop|reload|restart|kill|status}
+LNMP 1.1状态管理： /root/lnmp {start|stop|reload|restart|kill|status}
+Nginx状态管理：/etc/init.d/nginx {start|stop|reload|restart}
+MySQL状态管理：/etc/init.d/mysql {start|stop|restart|reload|force-reload|status}
+Memcached状态管理：/etc/init.d/memcached {start|stop|restart}
+PHP-FPM状态管理：/etc/init.d/php-fpm {start|stop|quit|restart|reload|logrotate}
+PureFTPd状态管理： /etc/init.d/pureftpd {start|stop|restart|kill|status}
+ProFTPd状态管理： /etc/init.d/proftpd {start|stop|restart|reload}
+Redis状态管理： /etc/init.d/redis {start|stop|restart|kill}
+
+
+
+

@@ -1,0 +1,143 @@
+[[[[[[[[ 1 opcache ]]]]]]]]
+########### 1.1 opcache config
+#http://laravelacademy.org/post/7522.html
+#opcache ini
+opcache.enable=1
+#为操作码缓存分配的内存（单位是MB）
+opcache.memory_consumption=512
+#用来存储驻留字符串的内存量（单位是MB）
+opcache.interned_strings_buffer=64
+#操作码缓存中最多能存储多少个 PHP 脚本
+opcache.max_accelerated_files=32531
+#这个设置的值为1时，经过一段时间后 PHP 会检查 PHP 脚本的内容是否有变化 检查的时间间隔由 opcache.revalidate_freq 设置指定
+#opcache.revalidate_freq
+opcache.validate_timestamps=0
+#
+opcache.save_comments=1
+#使用更快的停机步骤
+opcache.fast_shutdown=0
+
+########### 1.2 laravel opcache ext  ##########
+#opcache.validate_timestamps 设置为 0 的话我们需要在每次修改 PHP 代码后手动清除 OPcache。
+#为此我创建了一个扩展包来提供相应的 Artisan 命令处理 OPcache 清理事宜：
+#https://github.com/appstract/laravel-opcache
+
+
+
+[[[[[[[[ 2 mac brew php-fpm ext ]]]]]]]]
+#php-fpm
+To launch php-fpm on startup:
+    mkdir -p ~/Library/LaunchAgents
+    cp /usr/local/opt/php71/homebrew.mxcl.php71.plist ~/Library/LaunchAgents/
+    launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php71.plist
+#restart php71 at login:
+  brew services start homebrew/php/php71
+
+
+[[[[[[[[ 3 Scanner for PHP.ini ]]]]]]]]
+#github
+#https://github.com/psecio/iniscan
+###### 3.1 install 
+composer require psecio/iniscan
+#
+vendor/bin/iniscan scan --path=/path/to/php.ini
+
+
+[[[[[[[[ 4 SCWS ]]]]]]]]
+1. 取得 scws-1.2.3 的代码
+wget http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2
+
+2. 解开压缩包
+[hightman@d1 ~]$ tar xvjf scws-1.2.3.tar.bz2
+
+3. 进入目录执行配置脚本和编译
+[hightman@d1 ~]$ cd scws-1.2.3[hightman@d1 ~/scws-1.2.3]$ ./configure --prefix=/usr/local/scws ; make ; make install
+
+注：这里和通用的 GNU 软件安装方式一样，具体选项参数执行 ./configure --help 查看。
+常用选项为：--prefix=<scws的安装目录>
+
+4. 顺利的话已经编译并安装成功到 /usr/local/scws 中了，执行下面命令看看文件是否存在
+[hightman@d1 ~/scws-1.2.3]$ ls -al /usr/local/scws/lib/libscws.la
+
+5. 试试执行 scws-cli 文件
+[hightman@d1 ~/scws-1.2.3]$ /usr/local/scws/bin/scws -h
+scws (scws-cli/1.2.3)
+
+6 用 wget 下载并解压词典，或从主页下载然后自行解压再将 *.xdb 放入 /usr/local/scws/etc 目录中
+[hightman@d1 ~/scws-1.2.3]$ cd /usr/local/scws/etc
+[hightman@d1 /usr/local/scws/etc]$ wget http://www.xunsearch.com/scws/down/scws-dict-chs-gbk.tar.bz2
+[hightman@d1 /usr/local/scws/etc]$ wget http://www.xunsearch.com/scws/down/scws-dict-chs-utf8.tar.bz2
+[hightman@d1 /usr/local/scws/etc]$ tar xvjf scws-dict-chs-gbk.tar.bz2
+[hightman@d1 /usr/local/scws/etc]$ tar xvjf scws-dict-chs-utf8.tar.bz2
+
+
+7. 写个小程序测试一下
+[hightman@d1 ~]$ cat > test.c
+#include <scws.h>
+#include <stdio.h>
+main()
+{
+  scws_t s;
+  s = scws_new();
+  scws_free(s);
+  printf("test ok!\n");
+}
+
+8. 编译测试程序
+gcc -o test -I/usr/local/scws/include -L/usr/local/scws/lib test.c -lscws -Wl,--rpath -Wl,/usr/local/scws/lib
+./test
+
+9. 这样就好顺利安装完毕可以使用 libscws 这套 C-API 了
+
+10. 如果您需要在 php 中调用分词，建议继续阅读本文安装 php 扩展，否则可跳过不看。
+
+    假设您已经将 scws 按上述步骤安装到 /usr/local/scws 中。
+    安装此扩展要求您的 php 和系统环境安装了相应的 autoconf automake 工具及 phpize 。
+
+    1) 进入源码目录的 phpext/ 目录 ( cd ~/scws-1.2.3 )
+    2) 执行 phpize （在PHP安装目录的bin/目录下）
+    3) 执行 ./configure --with-scws=/usr/local/scws 
+       若 php 安装在特殊目录 $php_prefix, 则请在 configure 后加上 --with-php-config=$php_prefix/bin/php-config
+    4) 执行 make 然后用 root 身份执行 make install     
+    5) 在 php.ini 中加入以下几行
+
+[scws]
+;
+; 注意请检查 php.ini 中的 extension_dir 的设定值是否正确, 否则请将 extension_dir 设为空，
+; 再把 extension = scws.so 指定绝对路径。
+;
+extension = scws.so
+scws.default.charset = gbk
+scws.default.fpath = /usr/local/scws/etc
+
+[自定义词库，含新增核心库不存在的词汇及删除核心库存在词汇的功能]
+1) 创建相应字符集的词库文件 dict_extra.txt 
+2) TF/IDF 参考值查询，为方便大家我作了一个工具自动查询！！( [url=http://www.ftphp.com/scws/demo/get_tfidf.php]http://www.ftphp.com/scws/demo/get_tfidf.php[/url])
+3) 切记要删除的词用 ! 作为词性，比如以下文件：
+代码:
+; dict_extra.txt
+我是新增词     2.0
+再试一个       1.0       1.0    @
+; 以下词为删除项
+删除           1.0      1.0    !
+4) 然后将 dict_extra.txt 在原核心库后加载，如：
+$cws->add_dict(init_get("scws.default.fpath").'/dict.xdb');
+$cws->add_dict("/path/to/dict_extra.txt", SCWS_XDICT_TXT);
+...
+
+[api doc]
+http://www.xunsearch.com/scws/docs.php#utilscws:
+https://github.com/hightman/scws
+
+
+
+
+
+
+
+
+
+
+
+
+

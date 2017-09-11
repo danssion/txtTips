@@ -12,6 +12,13 @@ cat nginx-ad-access.log | awk '{if($9=="500") print $0}' | awk '{split($7,b,"?")
 awk '{counts[$(9)]+=1}; END {for(code in counts) print code, counts[code]}' | sort -k 2 -nr
 #统计服务器并发量
 cat nginx-ad-access.log |grep '10.15.19.138'| awk '{COUNT[$4]++}END{for( a in COUNT) print a,COUNT[a]}'|sort -k 2 -nr|head -n20
+#替换文件中字符串
+grep -rl matchstring somedir/ | xargs sed -i 's/string1/string2/g'  
+grep -rl '/data/lanxi/public' Back/ | xargs sed -i 's/\/data\/lanxi\/public//g'
+#mac
+grep -rl "str1" dir | xargs sed -i "" 's/str2/str3/g' 
+
+
 
 sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
 
@@ -29,6 +36,13 @@ setenv LANG zh_CN.UTF-8
 /etc/init.d/networking
 
 svn propset svn:keywords "Date Author Revision Id" protected/controllers/
+
+[[[ iconv ]]]
+iconv -t utf-8 -f gb2312 -c test.xml > text_UTF8.xml
+批量转换
+find folder -type d -exec mkdir -p utf/{} \;
+find floder -type f -exec iconv -f GB2312 -t UTF-8 {} -o utf/{} \;
+
 
 [[[ 7z ]]]
 7za x phpMyAdmin-3.3.8.1-all-languages.7z -r -o./
@@ -174,20 +188,39 @@ git config --global user.email "duanxiang@allydata.cn"
 //example
 mkdir ad-show
 cd ad-show
+[gitlab]
+//Git global setup
+git config --global user.name "duanxiang"
+git config --global user.email "duanxiang@aspiration-cn.com"
+//Existing folder
+cd existing_folder
 git init
+git remote add origin git@gitlab.aspiration-ad.com:duanxiang/Dipper.git
+git add .
+git commit
+git push -u origin master
+//new 
+git clone git@gitlab.aspiration-ad.com:duanxiang/Dipper.git
+cd Dipper
 touch README.md
 git add README.md
 git commit -m "first commit"
+git push -u origin master
+//Existing Git repository
+cd existing_repo
 git remote add origin git@boom.qctt.cn:duanxiang/ad-show.git
 git push -u origin master
-cd existing_git_repo
-git remote add origin git@boom.qctt.cn:duanxiang/ad-show.git
-git push -u origin master
+git push -u origin --all
+git push -u origin --tags
+
+
+
 
 [[[ mysql ]]]
 service mysqld [start][restart][stop]
 /etc/inint.d/mysqld [start][restart][stop]
 safe_mysqld&
+bin/mysqld_safe --user=mysql &
 mysqladmin shutdown
 SET PASSWORD FOR root=PASSWORD('new_password');
 UPDATE mysql.user SET authentication_string = PASSWORD('MyNewPass'), password_expired = 'N' WHERE User = 'root' AND Host = 'localhost'; 
@@ -206,8 +239,19 @@ CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
 max_user_connections  max_connections
 set global general_log = on; 查看查询日志
 show variables like '%general%';     
-
-
+mysqldump -uroot -pdbpasswd -d dbname test>table-struct.sql;
+mysqldump -uroot -pdbpasswd  dbname test>table.sql;
+mysqldump　-t　数据库名　-uroot　-p　>data.sql　
+mysqldump　-t　数据库名　-uroot　-p | gzip > db_data.sql.gz
+gunzip < test.sql.gz | mysql -hlocalhost -uroot -pxxxxx
+mysqldump -uroot -p1234 dbname a –where “tag='88′” –no-create-info> c:\a.sql
+mysql -e "select * from myTable" -u myuser -pxxxxxxxx mydatabase > mydumpfile.txt
+[mysql yum install]
+yum list installed mysql*
+yum install mysql-community-server.x86_64
+mysql_install_db --defaults-file=/etc/my.cnf --user=mysql
+systemctl start mysqld
+/usr/bin/mysqladmin -u root password
 
 [[[ systemctl ]]]
 systemctl enable ***.service
@@ -237,6 +281,24 @@ systemd-analyze critical-chain httpd.service
 # systemd-cgls
 按CPU、内存、输入和输出列出控制组
 # systemd-cgtop
+#systemctl服务主体存贮目录：
+/usr/lib/systemd/system/
+#systemctl服务开机启动链接存贮目录：
+/etc/systemd/system/basic.target.wants/
+#列出所有开机自启的服务
+systemctl list-unit-files|grep enabled
+#列出防火墙服务的自启状态
+systemctl list-unit-files|grep firewalld
+#列出所有服务的层级和依赖关系，可以指定某个服务
+systemctl list-dependencies [服务名称]
+systemctl list-unit-files 列出所有可用的Unit
+systemctl list-units 列出所有正在运行的Unit
+systemctl --failed 列出所有失败单元
+systemctl mask httpd.service 禁用服务
+systemctl unmask httpd.service
+systemctl kill httpd 杀死服务
+systemd-analyze critical-chain：分析启动时的关键链
+systemd-analyze blame 分析启动时各个进程花费的时间
 
 
 
@@ -310,7 +372,10 @@ set tabstop=4 tab键为4个空格
 #查看文件乱码的问题，~/.vimrc 文件中添加以下内容
 set encoding=utf-8 fileencodings=utf-8
 #文件编码转换
-:set fileencoding=utf-8
+
+:set fileencoding=utf-8  查看现在文本的编码
+:set fenc=编码   转换当前文本的编码为指定的编码
+:set enc=编码     以指定的编码显示文本，但不保存到文件中。
 :set fileformat?
 :set fileformat=unix
 
@@ -328,13 +393,23 @@ sudo port uninstall name
 port outdated
 #升级可以更新的软件
 sudo port upgrade outdated
+#start at login
+brew services start homebrew/php/php72
+#launch php-fpm on startup
+ mkdir -p ~/Library/LaunchAgents
+ cp /usr/local/opt/php72/homebrew.mxcl.php72.plist ~/Library/LaunchAgents/
+ launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php72.plist
+control script is located at /usr/local/opt/php72/sbin/php72-fpm
 
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 
+[[[ sed ]]]
 rename s/_l//g *.swf
- cp $(find -name "1010*.gif") $([cmd2])
- cp $(ls /kkshow/demo/6 | sed 's/.swf/.gif/g') $([cmd2])
+cp $(find -name "1010*.gif") $([cmd2])
+cp $(ls /kkshow/demo/6 | sed 's/.swf/.gif/g') $([cmd2])
+
+sed -i "s/Commands;/Commands\\gdt;/g" `grep "Commands;" -rl ./*`
 
 [[[ netstat ]]]
 -a (all)显示所有选项，默认不显示LISTEN相关
@@ -350,6 +425,22 @@ rename s/_l//g *.swf
 -c 每隔一个固定时间，执行该netstat命令。
 
 提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到
+
+[[[ LNMP ]]]
+LNMP状态管理命令：
+
+LNMP 1.2+状态管理: lnmp {start|stop|reload|restart|kill|status}
+LNMP 1.2+各个程序状态管理: lnmp {nginx|mysql|mariadb|php-fpm|pureftpd} {start|stop|reload|restart|kill|status}
+LNMP 1.1状态管理： /root/lnmp {start|stop|reload|restart|kill|status}
+Nginx状态管理：/etc/init.d/nginx {start|stop|reload|restart}
+MySQL状态管理：/etc/init.d/mysql {start|stop|restart|reload|force-reload|status}
+Memcached状态管理：/etc/init.d/memcached {start|stop|restart}
+PHP-FPM状态管理：/etc/init.d/php-fpm {start|stop|quit|restart|reload|logrotate}
+PureFTPd状态管理： /etc/init.d/pureftpd {start|stop|restart|kill|status}
+ProFTPd状态管理： /etc/init.d/proftpd {start|stop|restart|reload}
+Redis状态管理： /etc/init.d/redis {start|stop|restart|kill}
+
+如重启LNMP，1.2+输入命令：lnmp restart 即可；单独重启mysql：/etc/init.d/mysql restart 也可以 lnmp mysql restart ，两个是一样的。
 
 [[[ hostname ]]]
 1：  hostname DB-Server
@@ -381,7 +472,7 @@ find ./ -type f -maxdepth 1 -exec ls -al {} \;
 find . -name "*.log" -exec rm {} \;
 
 lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  iostat -c -d -x  pidstat vmstat w
-setsid traceroute  lsmode
+setsid traceroute  lsmode nethogs
 
 jmap --heap 
 

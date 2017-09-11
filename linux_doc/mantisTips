@@ -1,0 +1,36 @@
+[[[[[[ email ]]]]]]
+[config]
+ --- Email Configuration ---
+$g_phpMailer_method   = PHPMAILER_METHOD_SMTP; # or PHPMAILER_METHOD_SMTP, PHPMAILER_METHOD_SENDMAIL
+$g_smtp_host      = 'smtp.263.net';     # used with PHPMAILER_METHOD_SMTP
+$g_smtp_connection_mode = 'ssl';
+$g_smtp_port = 465;
+$g_smtp_username    = 'dev_mail@aspiration-cn.com';         # used with PHPMAILER_METHOD_SMTP
+$g_smtp_password    = 'dev123';         # used with PHPMAILER_METHOD_SMTP
+$g_webmaster_email      = 'dev_mail@aspiration-cn.com';
+$g_from_email           = 'dev_mail@aspiration-cn.com'; # the "From: " field in emails
+$g_return_path_email    = 'dev_mail@aspiration-cn.com'; # the return address for bounced mail
+$g_from_name      = 'Mantis Bug Tracker 【派瑞威信】';
+# $g_email_receive_own  = OFF;
+# $g_email_send_using_cronjob = OFF;
+
+$g_send_reset_password = 1;
+$g_enable_email_notification = 1;
+
+[test]
+http://bug.aspiration-ad.com:8880/admin/email_queue.php
+
+
+
+[[[[[[ all config doc ]]]]]]
+# config_defaults_inc.php describe all config variables
+[config]
+#-- log --
+$g_log_level = 128;
+$g_log_destination = 'file:/data/log/mantis.log';
+$g_default_timezone = 'Asia/Shanghai';
+
+
+[[[[[[ bug track process ]]]]]]
+config_defaults_inc.php
+config_inc.php

@@ -1,0 +1,52 @@
+###### 1.env ######
+#Linux安装配置jdk环境
+jdk上传到 Linux 服务器；例如：
+上传至： cd /usr/local
+rpm -ivh jdk-8u111-linux-x64.rpm
+#环境变量配置
+#profile文件，增加如下如下配置：
+#set java environment
+JAVA_HOME=/usr/java/jdk1.8.0_111
+CLASSPATH=.:$JAVA_HOME/lib.tools.jar
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH PATH
+
+
+
+###### 2.install yum ######
+#https://wiki.jenkins.io/display/JENKINS/Starting+and+Accessing+Jenkins
+#
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+sudo yum install jenkins
+#Installation of a stable version
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+sudo yum install jenkins
+
+#start service no use ??
+systemctl status jenkins.service' and 'journalctl -xn' for details
+#or start 
+nohup java -jar /usr/lib/jenkins/jenkins.war --httpPort=8082 > /data/log/jenkins.log 2>&1 &
+#/etc/init.d/jenkins for more details
+#config
+/etc/sysconfig/jenkins
+#other
+/var/log/jenkins/jenkins.log
+/var/log/jenkins, /var/lib/jenkins, and /var/cache/jenkins.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

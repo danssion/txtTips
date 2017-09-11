@@ -1,12 +1,25 @@
+########### 0.laravel install ##########
+composer global require "laravel/installer"
+
+composer create-project --prefer-dist laravel/laravel blog
+composer create-project --prefer-dist laravel/laravel blog 5.3.*
+
 ########### 1.laravel prepare command ##########
 php artisan key:generate
-########### 1.1 laravel use command ##########
+########### 1.2 laravel use command ##########
 php artisan make:model Article
 php artisan make:controller Location/CountryController
+########### 1.2 laravel auth ##########
+php artisan make:auth
+########### 1.3 laravel environment ##########
+mkdir -p storage/app storage/framework storage/views
+mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views
+sudo chmod -R 777 storage   
+sudo chmod -R 777 bootstrap/
 
-########### 1.2 laravel cmd migration ##########
+########### 1.4 laravel cmd migration ##########
 
-########## 1.2.1 laravel5 migration ##########
+########## 1.4.1 laravel5 migration ##########
 composer dump-autoload
 php artisan make:migration add_votes_to_users_table --table=users
 php artisan make:migration create_articles_table --create="articles" --path=app/migrations
@@ -19,9 +32,11 @@ php artisan make:seeder LocationCountryTableSeeder
 
 php artisan db:seed --class=UserTableSeeder
 php artisan migrate:refresh --seed
-########### 1.2.2 laravel cmd migration ##########
+########### 1.4.2 laravel cmd migration ##########
 php artisan make:console ImportData --command=bluehill:send
 php artisan make:console ExportData  --command=threeColor:export
+./artisan make:command
+./artisan make:command
 #call cmd
 php artisan threeColor:trans
 php -d memory_limit=512M artisan do:tests
@@ -32,7 +47,7 @@ php artisan make:model User
 php artisan make:model User --migration
 php artisan make:model MediaM -m
 
-########### 1.3 laravel jobs/queue ##########
+########### 1.5 laravel jobs/queue ##########
 php artisan queue:table
 php artisan queue:failed-table
 php artisan migrate
@@ -43,6 +58,55 @@ php artisan make:job FetchWebData
 php artisan queue:listen --timeout=60
 php artisan queue:listen --sleep=5
 php artisan queue:work connection --daemon --sleep=3 --tries=3
+
+########### 1.6 laravel route ##########
+##### 1.6.1 laravel route resource #####
+ST	/post	store	post.store
+GET	/post/{post}	show	post.show
+GET	/post/{post}/edit	edit	post.edit
+PUT/PATCH	/post/{post}	update	post.update
+DELETE	/post/{post}	destroy	post.destroy
+GET方式访问http://dev.mylaravel.com/post，则访问的是PostController的index方法，可以通过route(‘post.index’)生成URL 
+以POST方式访问http://dev.mylaravel.com/post，则访问的是PostController的store方法，可以通过route(‘post.store’)来生成URL。kk
+Route::resource('	post','PostController')
+方法				路径							动作					路由名称
+GET					/post							index					post.index
+GET					/post/create			create				post.create
+POST				/post							store					post.store
+GET					/post/{post}			show					post.show
+GET					/post/{post}/edit	edit					post.edit
+PUT/PATCH		/post/{post}			update				post.update
+DELETE			/post/{post}			destroy				post.destroy
+
+GET方式访问http://dev.mylaravel.com/post，则访问的是PostController的index方法，可以通过route(‘post.index’)生成URL 
+以POST方式访问http://dev.mylaravel.com/post，则访问的是PostController的store方法，可以通过route(‘post.store’)来生成URL。
+
+
+#
+########### 1.8 laravel opcache ##########
+#http://laravelacademy.org/post/7522.html 
+#opcache ini
+opcache.enable=1
+#为操作码缓存分配的内存（单位是MB）
+opcache.memory_consumption=512
+#用来存储驻留字符串的内存量（单位是MB）
+opcache.interned_strings_buffer=64
+#操作码缓存中最多能存储多少个 PHP 脚本
+opcache.max_accelerated_files=32531
+#这个设置的值为1时，经过一段时间后 PHP 会检查 PHP 脚本的内容是否有变化 检查的时间间隔由 opcache.revalidate_freq 设置指定
+#opcache.revalidate_freq
+opcache.validate_timestamps=0
+#
+opcache.save_comments=1
+#使用更快的停机步骤
+opcache.fast_shutdown=0
+
+########### 1.4.1 laravel opcache ext  ##########
+#opcache.validate_timestamps 设置为 0 的话我们需要在每次修改 PHP 代码后手动清除 OPcache。
+#为此我创建了一个扩展包来提供相应的 Artisan 命令处理 OPcache 清理事宜：
+#https://github.com/appstract/laravel-opcache
+
+
 
 
 ########### 2.laravel extend class ##########
@@ -60,7 +124,130 @@ collect(["hello", "world"])->uppercase();
 ########### 2.2 Symfony\Component\Finder class ##########
 http://symfony.com/doc/master/components/finder.html
 
+########### 2.3 laravel-debugbar  ##########
+#http://phpdebugbar.com/docs/readme.html#installation
+#https://github.com/barryvdh/laravel-debugbar
+composer require barryvdh/laravel-debugbar 
+Generating optimized autoload files
+> Illuminate\Foundation\ComposerScripts::postUpdate
+> php artisan optimize
+Generating optimized class loader
+# config/app.php add 
+Barryvdh\Debugbar\ServiceProvider::class,
+
+
+########### 3.laravel es ext ##########
+#add in composer.json
+"elasticsearch/elasticsearch": "~5.0"
+
+
 
 ########### 3.laravel phpunit test ##########
 
 phpunit ./tests/TransformDataTest
+
+
+
+
+########### 4.laravel Repository ##########
+
+########### 4.1 laravel Eloquent Repository ##########
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########### 4. laravel v5.4 suggest install ext ##########
+symfony/var-dumper suggests installing ext-symfony_debug ()
+symfony/console suggests installing symfony/filesystem ()
+psy/psysh suggests installing ext-pdo-sqlite (The doc command requires SQLite to work.)
+psy/psysh suggests installing hoa/console (A pure PHP readline implementation. You'll want this if your PHP install doesn't alread
+y support readline or libedit.)
+symfony/routing suggests installing doctrine/annotations (For using the annotation loader)
+symfony/routing suggests installing symfony/config (For using the all-in-one router or any loader)
+symfony/routing suggests installing symfony/dependency-injection (For loading routes from a service)
+symfony/routing suggests installing symfony/expression-language (For using expression matching)
+symfony/event-dispatcher suggests installing symfony/dependency-injection ()
+symfony/http-kernel suggests installing symfony/browser-kit ()
+symfony/http-kernel suggests installing symfony/class-loader ()
+symfony/http-kernel suggests installing symfony/config ()
+symfony/http-kernel suggests installing symfony/dependency-injection ()
+paragonie/random_compat suggests installing ext-libsodium (Provides a modern crypto API that can be used to generate random bytes.
+)
+ramsey/uuid suggests installing ircmaxell/random-lib (Provides RandomLib for use with the RandomLibAdapter)
+ramsey/uuid suggests installing ext-libsodium (Provides the PECL libsodium extension for use with the SodiumRandomGenerator)
+ramsey/uuid suggests installing ext-uuid (Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRand
+omGenerator)
+ramsey/uuid suggests installing moontoast/math (Provides support for converting UUID to 128-bit integer (in string form).)
+ramsey/uuid suggests installing ramsey/uuid-doctrine (Allows the use of Ramsey\Uuid\Uuid as Doctrine field type.)
+ramsey/uuid suggests installing ramsey/uuid-console (A console application for generating UUIDs with ramsey/uuid)
+symfony/translation suggests installing symfony/config ()
+
+monolog/monolog suggests installing aws/aws-sdk-php (Allow sending log messages to AWS services like DynamoDB)
+monolog/monolog suggests installing doctrine/couchdb (Allow sending log messages to a CouchDB server)
+monolog/monolog suggests installing ext-amqp (Allow sending log messages to an AMQP server (1.0+ required))
+monolog/monolog suggests installing ext-mongo (Allow sending log messages to a MongoDB server)
+monolog/monolog suggests installing graylog2/gelf-php (Allow sending log messages to a GrayLog2 server)
+monolog/monolog suggests installing mongodb/mongodb (Allow sending log messages to a MongoDB server via PHP Driver)
+monolog/monolog suggests installing php-amqplib/php-amqplib (Allow sending log messages to an AMQP server using php-amqplib)
+monolog/monolog suggests installing php-console/php-console (Allow sending log messages to Google Chrome)
+monolog/monolog suggests installing rollbar/rollbar (Allow sending log messages to Rollbar)
+monolog/monolog suggests installing ruflin/elastica (Allow sending log messages to an Elastic Search server)
+monolog/monolog suggests installing sentry/sentry (Allow sending log messages to a Sentry server)
+league/flysystem suggests installing league/flysystem-aws-s3-v2 (Allows you to use S3 storage with AWS SDK v2)
+league/flysystem suggests installing league/flysystem-aws-s3-v3 (Allows you to use S3 storage with AWS SDK v3)
+league/flysystem suggests installing league/flysystem-azure (Allows you to use Windows Azure Blob storage)
+league/flysystem suggests installing league/flysystem-cached-adapter (Flysystem adapter decorator for metadata caching)
+league/flysystem suggests installing league/flysystem-copy (Allows you to use Copy.com storage)
+league/flysystem suggests installing league/flysystem-eventable-filesystem (Allows you to use EventableFilesystem)
+league/flysystem suggests installing league/flysystem-rackspace (Allows you to use Rackspace Cloud Files)
+league/flysystem suggests installing league/flysystem-sftp (Allows you to use SFTP server storage via phpseclib)
+league/flysystem suggests installing league/flysystem-webdav (Allows you to use WebDAV storage)
+league/flysystem suggests installing league/flysystem-ziparchive (Allows you to use ZipArchive adapter)
+league/flysystem suggests installing spatie/flysystem-dropbox (Allows you to use Dropbox storage)
+laravel/framework suggests installing aws/aws-sdk-php (Required to use the SQS queue driver and SES mail driver (~3.0).)
+laravel/framework suggests installing doctrine/dbal (Required to rename columns and drop SQLite columns (~2.5).)
+laravel/framework suggests installing guzzlehttp/guzzle (Required to use the Mailgun and Mandrill mail drivers and the ping method
+s on schedules (~6.0).)
+laravel/framework suggests installing league/flysystem-aws-s3-v3 (Required to use the Flysystem S3 driver (~1.0).)
+laravel/framework suggests installing league/flysystem-rackspace (Required to use the Flysystem Rackspace driver (~1.0).)
+laravel/framework suggests installing nexmo/client (Required to use the Nexmo transport (~1.0).)
+laravel/framework suggests installing pda/pheanstalk (Required to use the beanstalk queue driver (~3.0).)
+laravel/framework suggests installing predis/predis (Required to use the redis cache and queue drivers (~1.0).)
+laravel/framework suggests installing pusher/pusher-php-server (Required to use the Pusher broadcast driver (~2.0).)
+laravel/framework suggests installing symfony/dom-crawler (Required to use most of the crawler integration testing tools (~3.2).)
+laravel/framework suggests installing symfony/psr-http-message-bridge (Required to psr7 bridging features (0.2.*).)
+sebastian/global-state suggests installing ext-uopz (*)
+phpunit/php-code-coverage suggests installing ext-xdebug (^2.5.1)
+phpunit/phpunit suggests installing phpunit/php-invoker (~1.1)
+phpunit/phpunit suggests installing ext-xdebug (*)
+
+

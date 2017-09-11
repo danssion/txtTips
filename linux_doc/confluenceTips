@@ -1,0 +1,65 @@
+[[[[[install]]]]]]
+
+[need packet]
+jre-7u67-linux-x64.rpm
+atlassian-confluence-5.4.4-x64.bin
+mysql-connector-java-5.1.32-bin.jar
+confluence5.1-crack.zip
+Confluence-5.4.4-language-pack-zh_CN.jar
+
+[software]
+java
+mysql
+
+[confluence]
+chmod +x atlassian-confluence-5.4.4-x64.bin   #赋予可执行权限
+./atlassian-confluence-5.4.4-x64.bin  #执行安装
+http://服务器ip:8090，记下Server ID
+service confluence stop  #停掉Confluence 服务
+#将confluence5.1-crack.zip 解压 
+#将/opt/atlassian/confluence/confluence/WEB-INF/lib/atlassian-extras-2.4.jar 复制出来。替换confluence5.1-crack 中的atlassian-extras-2.4.jar
+#chmod +x keygen.sh
+#./keygen.sh   #执行破解文件
+注：必须是在图形界面下，因为这个运行需要图形。如果没有图形，那么就会报错。
+1.输了Name，及之前记录下来的Server ID，按.patch!  选择需要破解的atlassian-extras-2.4.jar
+2.按.gen!得到key
+AAABMg0ODAoPeJxtkMFuwjAMhu95ikg7B7VlgECKtNJmrKJN2dpO4hiKGZFCQElajbdfoOMy7Wj79
+6fPfqqPHX6FHQ7mOJwuJtNFGOGkqnEUhDOUgm2NvDh51jQ564PqQLeAeHfagSkPjQVjKQlRYkDcQ
+qlwQG+bJIhIMEd+x4nWcXECuhfaWp9BrQeNfFf2QJ3p4JFihZCKSt1LK3cKXmwLGkZaIdYL1d359
+CCUhYGQSz+3UF8vcOcnZVGwjySLc+RB2oEW3pV9X6S5Dl7j8YyEEYkmA+BxRaI668Dw8x4sDVDFO
+N2WDS7iNcMFwzGu4hRvYp7GI1SaL6GlHWQk/5SVXOYM1ywuUAWmB5OldMkzRt5W71tSz4M1WTXPE
+fq19dM8Sx/V/3KbzrRHYeHPM38AKpqJ7jAtAhUAgYDpORTLKAj3DLXY15OEEMtBf70CFAKWm5n/w
++WtX7fGeIKbNbhd9U8GX02fb
+3.把破解好的包，复制回去
+#复制破解后的atlassian-extras-2.4.jar         到 “/opt/atlassian/confluence/confluence/WEB-INF/lib/”覆盖原文件。
+#复制mysql-connector-java-5.1.32-bin.jar 到“/opt/atlassian/confluence/confluence/WEB-INF/lib/”。
+service confluence start    #启动Confluence 服务
+4.再次打开网页
+#重新打开网页 http://服务器ip:8090 
+#输了之前得到的key
+按下面的图，一步步设置即可顺利完成。
+step by step
+
+5.database URL
+extarnal database 
+jdbc:mysql://localhost/confluence?sessionVariables=default_storage_engine%3DInnoDB&useUnicode=true&characterEncoding=utf8
+
+6.中文：
+　　【1】service confluence stop    #停掉Confluence 服务
+　　把这个包复制到 Confluence-5.4.4-language-pack-zh_CN.jar  /opt/atlassian/confluence/confluence/WEB-INF/lib/
+　　【2】service confluence start    #启动Confluence 服务
+中文字体
+安装中文字体：
+默认情况下 Confluence 导出 PDF 不支持中文，需要修改如下：
+管理员登录 “Confluence Admin”，选择左边菜单 “CONFIGURATION”-“PDF Export Language Support”，选择安装中文字体，例如：simsun.ttc
+
+
+7系统环境变量 
+设置语言为zh_CN，如果语言为en_US则confluence汉化无法生效，最好在.profile文件中配置 
+在~/.profile文件最后加以下两行 
+export LANG=zh_CN.UTF-8  
+export LANGUAGE=zh_CN:zh 
+
+
+
+from : http://www.cnblogs.com/wspblog/p/4750128.html

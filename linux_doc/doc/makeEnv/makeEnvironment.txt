@@ -277,6 +277,50 @@ cd APC-3.1.2 && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$H
 #compile php-extension-igbinary
 cd igbinary && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config && make && make install && cd ../
 
+#xprof
+#https://laravel-china.org/topics/3142/php-performance-tracking-and-analysis-tool-xhprof-installation-and-use
+git clone https://github.com/phacility/xhprof.git
+/usr/local/php5.6/bin/phpize
+./configure --with-php-config=/usr/local/php5.6/bin/php-config --enable-xhprof
+make
+make install
+#http://xhprof.dev/examples/sample.php
+#http:///index.php?run=XXX&source=xhprof_foo
+#http://xhprof.dev/xhprof_html/
+
+#https://laravel-china.org/topics/3142/php-performance-tracking-and-analysis-tool-xhprof-installation-and-use
+#php7.1
+#extension
+git clone https://github.com/tideways/php-profiler-extension.git
+cd php-profiler-extension
+phpize
+./configure
+make
+sudo make install
+#Install Tideways Extension and Daemon
+#https://tideways.io/profiler/docs/setup/installation#macos-homebrew
+brew tap tideways/homebrew-erofiler
+brew install php71-tideways --env=std
+brew install tideways-daemon
+brew install mongodb
+#start 
+/usr/local/opt/mongodb/bin/mongod --config /usr/local/etc/mongod.conf
+sudo brew services start mongodb
+#stop
+/mongo
+use  admin
+db.shutdownServer();
+#xhgui https://github.com/maxincai/xhgui
+git clone https://github.com/maxincai/xhgui.git
+cd xhgui
+php install.php
+#install mongodb 
+#config xhgui nginx
+#config app website or cli script
+
+
+
+
 #compile php-extension-memcached
 mkdir -p $HOME/dev/include/php/ext/json ; cp $HOME/src/php-5.2.10/ext/json/php_json.h $HOME/dev/include/php/ext/json/ && cd php-memcached-1.0.0 && make clean; ~/dev/bin/phpize && ./configure --with-php-config=$HOME/dev/bin/php-config --disable-memcached-session --enable-memcached-igbinary --with-libmemcached-dir=$HOME/dev && make && make install && cd ../
 

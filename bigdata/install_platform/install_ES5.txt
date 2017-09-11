@@ -1,0 +1,344 @@
+######### 1.0 install ##########
+# install jdk8u
+wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.0.rpm
+sudo rpm -iv elasticsearch-5.4.0.rpm
+#### NOT starting on installation, please execute the following statements to configure elasticsearch service to start automatically using systemd
+sudo systemctl daemon-reload
+sudo systemctl enable elasticsearch.service
+#/etc/systemd/system/multi-user.target.wants/elasticsearch.service
+### You can start elasticsearch service by executing
+sudo systemctl start elasticsearch.service
+sudo systemctl stop elasticsearch.service
+
+sudo vi /etc/security/limits.conf
+* soft nofile 68000
+* hard nofile 68000
+duanxiang soft memlock unlimited
+duanxiang hard memlock unlimited
+
+
+######### 2.0 setting ##########
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html
+home Elasticsearch home directory or $ES_HOME   /usr/share/elasticsearch
+bin   Binary scripts including elasticsearch to start a node and elasticsearch-plugin to install plugins   /usr/share/elasticsearch/bin
+conf    Configuration files including elasticsearch.yml   /etc/elasticsearch
+conf    Environment variables including heap size, file descriptors.  /etc/sysconfig/elasticsearch
+data    The location of the data files of each index / shard allocated on the node. Can hold multiple locations.  /var/lib/elasticsearch
+script    Location of script files.     /etc/elasticsearch/scripts
+
+#RPM
+#/etc/sysconfig/elasticsearch
+
+
+#Configuring Elasticsearch  /etc/elasticsearch/elasticsearch.yml
+cluster.name: prwx-es
+node.name: node-1
+path.data: /data/es/data/
+path.logs: /data/es/log/
+network.host: 10.10.10.3*
+discovery.zen.ping.unicast.hosts: ["10.10.10.32", "10.10.10.33"]
+discovery.zen.minimum_master_nodes: 2
+#not need : {"type":"too_many_clauses","reason":"maxClauseCount is set to 1024"}
+解决方式在配置文件 Elasticsearch.yuml中配置
+indices.query.bool.max_clause_count
+index.query.bool.max_clause_count: 10240 
+
+#check health
+curl http://10.10.10.32:9200/_cat/health?v
+curl http://10.10.10.32:9200/_cat/nodes?v
+
+#dir set
+mkdir -p /data/es/data /data/es/log
+chown -R elasticsearch:root -R /data/es
+
+#log setting
+#To tail the journal:
+sudo journalctl -f
+#To list journal entries for the elasticsearch service:
+sudo journalctl --unit elasticsearch
+#To list journal entries for the elasticsearch service starting from a given time:
+sudo journalctl --unit elasticsearch --since  "2016-10-30 18:17:16"
+
+
+#Environment Variables
+#update JVM config  /etc/elasticsearch/jvm.options
+-Xms6g
+-Xmx6g
+
+
+#vitual memory
+#sysctl -w vm.max_map_count=262144
+#vm.swappiness is set to 0
+
+######## 2.1 kibana4.5 ##########
+#https://www.elastic.co/guide/en/kibana/current/rpm.html
+
+#### yum install
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+# vim /etc/yum.repos.d/kibana.repo
+[kibana-5.x]
+name=Kibana repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+
+yum install kibana
+chkconfig --add kibana
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+sudo /bin/systemctl start kibana.service
+#yum config
+#/etc/kibana/kibana.yml 
+elasticsearch.url: " http://10.10.10.31:9200"
+server.host: "10.10.10.31"
+
+#kibana http
+#http://[ip]:5601/
+
+
+######### 2.2 x-pack ##########
+#a DEB/RPM Package Installation
+#you must install X-Pack on every node in the cluster
+cd /usr/share/elasticsearch
+sudo bin/elasticsearch-plugin install x-pack
+#or
+#sudo bin/elasticsearch-plugin install   file:///path/to/file/x-pack-5.5.2.zip
+#settting
+#
+bin/kibana-plugin install x-pack
+#or
+#https://artifacts.elastic.co/downloads/packs/x-pack/x-pack-5.5.2.zip
+#bin/kibana-plugin install x-pack
+#bin/kibana-plugin install file:///path/to/file/x-pack-5.5.2.zip
+
+#test url http://localhost:9100/?auth_user=elastic&auth_password=changeme
+#info url http://blog.csdn.net/pistolove/article/details/53838138
+
+
+######### 2.2.1 ##########
+#license 更新到普通版本 失去登录密码
+#https://www.elastic.co/subscriptions
+
+
+
+
+######### 2.5 license update ##########
+#查看
+curl -XGET -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:19200/_license'
+#切换标签
+curl -XPUT -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:19200/_license' -d @/Users/danssion/download/danssion-duan-1e0f8bc0-fee8-46b0-914f-440162d25e3a-v5.json
+
+
+
+
+######### 2.6 ElasticHQ Plugin Installation Instructions for ES5+  ##########
+./bin/elasticsearch-plugin install https://github.com/NLPchina/elasticsearch-sql/releases/download/5.4.0.0/elasticsearch-sql-5.4.0.0.zip
+#standalone 
+# download https://github.com/NLPchina/elasticsearch-sql/releases/download/5.0.1/es-sql-site-standalone.zip
+# unzip it
+cd site-server
+npm install express --save
+node node-server.js
+http://[ip]:8080/
+#https://github.com/NLPchina/elasticsearch-sql
+
+
+######### 2.6 ElasticHQ Plugin Installation Instructions ##########
+#https://github.com/royrusso/elasticsearch-HQ
+plugin install royrusso/elasticsearch-HQ
+/domain:port/_plugin/hq/
+#You can always verify the installation, by navigating to /elasticsearchinstalldirectory/plugins/ and verifying there is an hq directory.
+
+
+
+
+######### 2.4 ik plugin for ES5.5+ ##########
+#https://github.com/medcl/elasticsearch-analysis-ik
+#download pre-build package from here: https://github.com/medcl/elasticsearch-analysis-ik/releases
+#unzip plugin to folder your-es-root/plugins/
+#config
+IKAnalyzer.cfg.xml can be located at {conf}/analysis-ik/config/IKAnalyzer.cfg.xml 
+#or 
+{plugins}/elasticsearch-analysis-ik-*/config/IKAnalyzer.cfg.xml
+
+
+
+######### 2.4 head/ik plugin ##########
+#ik 中文分词
+git clone https://github.com/medcl/elasticsearch-analysis-ik.git
+cd elasticsearch-analysis-ik
+mvn clean
+mvn compile
+mvn package
+copy & unzip file #{project_path}/elasticsearch-analysis-ik/target/releases/elasticsearch-analysis-ik-*.zip to your elasticsearch's folder: plugins/ik
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######### 2.13 head plugin (not use in ES5)##########
+#update elasticseach.yml 
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: Authorization
+#restart server
+git clone git://github.com/mobz/elasticsearch-head.git
+cd elasticsearch-head
+npm install
+npm run start
+#In elasticsearch configuration;
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: Authorization
+#install fail
+
+
+
+
+######### 3.0 cmd ##########
+curl -i -XGET http://10.10.10.31:9200/_nodes/process?pretty
+curl -i -XGET 'http://10.10.10.31:9200/_cluster/state?v'
+'http://localhost:9200/_cluster/state/{metrics}/{indices}'  metrics:version/master_node/nodes/routing_table/metadata
+curl -i -XGET http://10.10.10.31:9200/_cat/indices?v
+curl -i -XGET http://10.10.10.31:9200/_cat/health?v
+curl -i -XGET http://10.10.10.31:9200/_cluster/health
+curl -XGET -u elastic:elastic_prwx-pwd  "http://10.10.10.31:9200/_cat/indices"
+curl -i -XGET 'http://10.10.10.31:9200/ad-test-data/data2/_all?routing=test-data2&pretty'
+curl -X<REST Verb> <Node>:<Port>/<Index>/<Type>/<ID>
+curl -XGET '10.10.10.31:9200/_nodes/stats/process?pretty'
+
+#license
+curl -XGET -u elastic:elastic_prwx_pwd__ 'http://10.10.10.31:9200/_xpack/license'
+curl -XGET -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:19200/_license'
+curl -XPUT -u elastic:elastic_prwx_pwd__ 'http://10.10.10.31:9200/_xpack/license' -d @license.json
+#如果新的 license 支持功能与原 license 不一致
+curl -XPUT -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:9200/_xpack/license?acknowledge=true' -d @license.json
+curl -XPUT -u elastic 'http://<host>:<port>/_xpack/license?acknowledge=true' -H "Content-Type: application/json" -d @license.json
+curl -XPUT -u admin 'http://<host>:<port>/_license' -d @license.json
+curl -XPUT -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:19200/_license' -d @/Users/danssion/download/danssion-duan-1e0f8bc0-fee8-46b0-914f-440162d25e3a-v5.json
+
+curl -XPUT http://10.10.10.31:9200/sogou-keywords1/_settings -d '{
+"index" : {
+"number_of_replicas" : 2
+}
+}'
+
+GET /_nodes/node-1
+GET /_cluster/state?pretty
+
+GET /_cat/health?pretty
+GET /_cat/indices
+GET _cat/indices/sogou?v
+GET _cat/shards/sogou
+GET /sogou/_settings
+PUT /sogou/_settings 
+{
+  "index" :{
+    "max_result_window" : 100000
+  }
+}
+GET /sogou/sogou-key3/_search
+{
+  "query": {
+        "bool" : {
+            "should" : [
+              {
+                "match" : {
+                    "keywordT" : "笔"
+                }
+            },
+            {
+                "match" : {
+                    "keywordT" : "电脑"
+                }
+            }
+            ]
+        }
+    },
+    "size": 50,
+    "from": 0
+}
+GET /sogou/sogou-key3/_search
+{
+  "query": {
+        "bool" : {
+            "must" : [
+                  {
+                  "term" : {
+                      "keyword" : "电脑耗材清单"
+                  }
+                }
+            ]
+        }
+    },
+  "size":10
+}
+
+
+#参考
+#http://blog.csdn.net/dm_vincent/article/details/41941659
+GET /sogou/sogou-key1/_search
+GET /sogou/sogou-key2/_search
+GET /sogou/sogou-key3/_search
+GET /sogou/sogou-key/_search
+{"from" :10,"size":10}
+GET /sogou/_mapping/sogou-key2
+POST /sogou/sogou-key1111/_delete_by_query111
+{
+  "query": {
+  "match_all": {}
+  }
+}
+
+DELETE /sogou11
+PUT /sogou
+POST /sogou/_mapping/sogou-key3
+{
+      "date_detection": true,
+      "dynamic_date_formats": ["yyyy-MM-dd","yyyy-MM-dd HH:mm:ss"],
+    
+      "properties": {
+        "adverid":      { "type": "long" },
+        "grpid":        { "type": "long" },
+        "keywordid":    { "type": "long" },
+        "keyword":      { "type": "keyword", "index":  true },
+        "keywordT":     { "type": "text","index":  true },
+        "pause" :       { "type": "boolean" },
+        "price":        { "type": "float" },
+        "matchType":    { "type": "integer" },
+        "url":          { "type": "keyword" },
+        "status":       { "type": "integer" },
+        "account":      { "type": "keyword", "index":  "false" },
+        "plan":         { "type": "keyword", "index":  "false" },
+        "group":        { "type": "keyword", "index":  "false" }
+      }
+}
+
+
+
+
+######### 5.0 error message ##########
+Result window is too large, from + size must be less than or equal to: [10000] but was [10510]. See the scroll api for a more efficient way to request large data sets. This limit can be set by changing the [index.max_result_window]
+PUT /sogou/_settings 
+{
+  "index" :{
+     "max_result_window" : 100000
+  }
+}

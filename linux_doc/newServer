@@ -1,3 +1,6 @@
+[[[[[[use privilege]]]]]]
+ssh-keygen
+ssh-copy-id
 echo 'User_Alias DEV = duanxiang'  >> /etc/sudoers
 echo 'DEV       ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers
 
@@ -9,8 +12,13 @@ sudo useradd -g dev zhushuai
 sudo usermod -a -G dev zhushuai
 sudo passwd zhushuai
 sudo usermod -G dev mysql
-mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
-mysql> GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY '4C4#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&'; FLUSH   PRIVILEGES;
+[[[[[[mysql]]]]]]
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'%' IDENTIFIED BY 'blueTidedata#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY 'blueTidedata#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&'; FLUSH   PRIVILEGES;
+
+[[[[[ mycli ]]]]]
+pip install -U mycli
+sudo yum install python-devel.x86_64
 
 [[[[[[hardware disk mount]]]]]]
 df -h
@@ -43,7 +51,8 @@ chown cloudera-scm:cloudera-scm /data1/hadoop/ -R
 
 [[[[[[hostname]]]]]]
 hostname DB-Server
-/etc/sysconfig/network
+/etc/sysconfig/network  HOSTNAME=ServerName
+hostnamectl --static set-hostname 
 
 
 [[[[[[composer]]]]]]
@@ -56,6 +65,7 @@ php composer.phar update
 
 
 [[[[[[software need]]]]]]
+yum -y install epel-release
 yum install libxml2-devel.x86_64
 yum install openssl-devel.x86_64 libcurl-devel.x86_64 libvpx-devel.x86_64 libjpeg-turbo-devel.x86_64 libpng-devel.x86_64 libmcrypt-devel.x86_64
 yum install lua-devel.x86_64
@@ -65,6 +75,18 @@ tar zxf LuaJIT-2.0.4.tar.gz
 cd LuaJIT-2.0.4
 make
 make install
+
+[[[[[[ zsh ]]]]]
+sudo yum install zsh
+chsh -s /bin/zsh
+sudo yum install git
+#wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh
+curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+#update .zshrc
+ZSH_THEME="frisk"
+ZSH_THEME="avit"
+
+
 
 [[[[[[ntp]]]]]]
 ntpdate -d ntp1.aliyun.com
