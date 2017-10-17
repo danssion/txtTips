@@ -8,9 +8,9 @@ groupadd dev
 useradd -g dev duanxiang
 sudo usermod -a -G dev duanxiang
 passwd duanxiang 
-sudo useradd -g dev zhushuai
-sudo usermod -a -G dev zhushuai
-sudo passwd zhushuai
+sudo useradd -g dev baixinkuan
+sudo usermod -a -G dev baixinkuan
+sudo passwd baixinkuan
 sudo usermod -G dev mysql
 [[[[[[mysql]]]]]]
 mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'%' IDENTIFIED BY 'blueTidedata#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;

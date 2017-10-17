@@ -1,0 +1,30 @@
+[[[[[ 定义 ]]]]]
+cgroup 是control groups的缩写，最初由Google工程师提出，后来编进linux内核。
+Cgroups是实现IaaS虚拟化(kvm、lxc等)，PaaS容器沙箱(Docker等)的资源管理控制部分的底层基础。
+Docker is available in two editions: Community Edition (CE) and Enterprise Edition (EE).
+
+
+[[[[[ install ]]]]]
+[[[ OSX ]]]
+https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac
+[[[ CentOs ]]]
+https://docs.docker.com/engine/installation/linux/docker-ee/centos/
+
+
+[[[[[ doc ]]]]]
+[[[ cmd ]]]
+https://docs.docker.com/engine/reference/commandline/cli/
+
+
+[[[[[ use ]]]]]
+docker run -i -t centos /bin/bash
+docker run -a stdin -a stdout -i -t ubuntu /bin/bash
+docker run --name centOS7.3 -it centos.7.3 /bin/zsh
+docker run --restart=always --name centOS7.3 -it centos.7.3 /bin/zsh
+docker logs -ft  ubuntu16.04     
+docker top [name]
+docker stats [name]
+docker exec
+
+
+

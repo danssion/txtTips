@@ -130,6 +130,42 @@ http://www.xunsearch.com/scws/docs.php#utilscws:
 https://github.com/hightman/scws
 
 
+[[[[[[[[ apcu ]]]]]]]]
+git clone https://github.com/krakjoe/apcu
+  cd apcu
+  phpize
+  ./configure --with-php-config=/usr/local/php/bin/php-config
+  make
+  export TEST_PHP_ARGS='-n'
+  make test
+  make install
+
+Suggested Configuration (in your php.ini file)
+----------------------------------------------
+  extension=apcu.so
+  apc.enabled=1
+  apc.shm_size=32M
+  apc.ttl=7200
+  apc.enable_cli=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -473,6 +473,8 @@ find . -name "*.log" -exec rm {} \;
 
 lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  iostat -c -d -x  pidstat vmstat w
 setsid traceroute  lsmode nethogs
+chattr命令不能保护/、/dev、/tmp、/var目录。lsattr命令是显示chattr命令设置的文件属性
+nmap -sT 101.201.151.125
 
 jmap --heap 
 

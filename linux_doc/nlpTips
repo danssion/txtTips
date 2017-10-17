@@ -1,0 +1,179 @@
+[[[[[[ php nlp ]]]]]]
+http://www.cnblogs.com/LittleHann/p/5737765.html
+
+[[[[[[ 中文分词原理 ]]]]]]
+Trie树：单词查找树  键树
+二叉搜索树（binary search tree BST）：一个节点一个值，值之间比较大小，左子树小于节点值，右子树大于节点值
+三叉Trie树(Ternary Search Trie)：左右树节点类似二叉搜索树，中树作为指向单词的下一个字符。选择排序后的中间值，生成平衡树
+
+双数组Trie树（Double-array Trie, DAT）是由三个日本人提出的一种Trie树的高效实现
+
+最长匹配中文分词
+  正向最大长度匹配法，使用标准Trie树
+  逆向最大长度匹配法（Reverse Directional Maximum Matching Method 或 Backward Maximum Matching Method）使用中文后缀树，最后一个字符放在树第一层
+
+#参考http://www.cnblogs.com/syx-1987/p/4033250.html
+概率语言模型分词：两个词可以组合成一个词，出现组合歧义。如：”上海/银行“ ”上海银行“ 
+  一元模型（Unigram）：http://blog.sina.com.cn/s/blog_628cc2b70102wwrm.html
+  二元词典（BigramDic）,格式：
+    中国@北京:100    
+    中国@上海:1
+  完全二叉树
+  二元模型（bigrams）
+  三元模型（Trigram）
+  n元模型（n-grams）
+
+#词性编码表
+#https://wenku.baidu.com/view/fc6fe2c0cf84b9d529ea7a07.html
+解决词性标注歧义问题：最简单是从单词所有可能的词性中选择这个词最常用的词性，也是概率最大的词性。这样标注准确率低，只考虑了频率特征。考虑词所在的上下文，可以提供准确率。可用算法如：·
+1.隐马尔科夫模型（Hidden Markov Model HMM）
+指隐含状态链，因为隐含状态（骰子）之间存在转换概率（transition probability）
+HMM模型相关的算法主要分为三类，分别解决三种问题：
+1）知道骰子有几种（隐含状态数量），每种骰子是什么（转换概率），根据掷骰子掷出的结果（可见状态链），我想知道每次掷出来的都是哪种骰子（隐含状态链）。算法：Forward Algorithm，向前算法，或者 Backward Algo，向后算法。
+2）还是知道骰子有几种（隐含状态数量），每种骰子是什么（转换概率），根据掷骰子掷出的结果（可见状态链），我想知道掷出这个结果的概率。算法：Viterbi Algo，维特比算法
+3）知道骰子有几种（隐含状态数量），不知道每种骰子是什么（转换概率），观测到很多次掷骰子的结果（可见状态链），我想反推出每种骰子是什么（转换概率）。
+HMM的组成为：
+两组状态：隐状态（系统的真实状态序列）、观察状态（过程中的显示状态序列）
+三组概率：状态转移矩阵、初始化概率向量、混淆矩阵（也称发射矩阵）
+
+2.基于转换的学习方法(Transformation Based Learning TBL) 
+先把每个词标注上最可能的词性，然后通过转换规则修正错误的标注，提高标精度。
+
+TBL能够改进规则，提高精度。而HMM的计算形式比较固定，标注准确度可改进余地不大。
+
+困惑度（Perplexity）：用来衡量语言模型。是和一个语言事件的不确定性相关的度量。
+
+平滑算法：由于训练模型的语料库规模有限且类型不同，许多合理的搭配关系在语料库中不一定出现，因此会造成模型出现数据稀疏现象。数据稀疏在自然语言处理中表现就是零概率问题。需要各种平滑算法来解决零概率问题。
+#http://blog.csdn.net/quicmous/article/details/52160940
+1.加法平滑算法：是Laplace算法，统计测试数据集中的元素在训练数据集中出现的次数时，计数器的初始值不要设成零，而是设成１。这样，即使该元素没有在训练集中出现，其出现次数统计值至少也是１。由数学家拉普拉斯（laplace）提出。
+2.Good-Turing ：
+Laplace方法一个很明显的问题是 ∑r∗≠∑r。nr表示测试集 V 中，一共有nr个元素在训练集 T 中出现过 nr 次。
+它的确保证了测试集中元素在训练集中出现的总次数不变。即： 
+N1=∑r=0∞rnr=0×n0+1×n1+2×n2+...
+N2=∑r=0∞r∗nr=1×n1n0×n0+2×n2n1×n1+...=1×n1+2×n2+...
+N1=N2 
+
+3.Witten-Bell算法
+如果测试过程中一个实例在训练语料库中未出现过，那么他就是一个新事物，也就是说，他是第一次出现。那么可以用在语料库中看到新实例（即第一次出现的实例）的概率来代替未出现实例的概率。 
+假设词汇在语料库出现的次数参见下表：
+
+r(次数)       1   2   3   4   5
+nr(词的总数)  50  40  30  20  10
+
+则 
+
+N=1×50+2×40+3×30+4×20+5×10=350
+T=50+40+30+20+10=150
+　　那么，我们可以用 
+
+T/(N+T)=150/(350+150)=0.3
+近似表示在语料库看到新词汇的概率。
+
+最大熵原理（Maximun Entropy）：
+说白了，就是要保留全部的不确定性，将风险降到最小。当我们需要对一个随机事件的概率分布进行预测时，我们的预测应当满足全部已知的条件，而对未知的情况不要做任何主观假设。在这种情况下，概率分布最均匀，预测的风险最小。因为这时概率分布的信息熵最大，所以人们称这种模型叫“最大熵模型”。
+熵（information entropy）是信息论的核心，描述一个随机系统的不确定度。
+
+
+条件随机场（conditional random field CRF）
+#https://www.zhihu.com/question/35866596
+#http://blog.csdn.net/a819825294/article/details/53893231
+随机场呢，一组随机变量，他们样本空间一样，那么就是随机场。
+马尔可夫独立性假设是说：对一个节点，在给定他所连接的所有节点的前提下，他与外接是独立的。
+满足马尔可夫独立性的随机场，就叫马尔可夫随机场。
+马尔科夫随机场跟贝叶斯网络一样都是产生式模型，条件随机场才是判别式模型。
+我们的特征函数仅仅依靠当前单词的标签和它前面的单词的标签对标注序列进行评判，这样建立的CRF也叫作线性链CRF，这是CRF中的一种简单情况。
+
+
+有限状态机，（英语：Finite-state machine, FSM），又称有限状态自动机，简称状态机，是表示有限个状态以及在这些状态之间的转移和动作等行为的数学模型。
+用来处理数字、日期、电话号码、邮件地址。
+
+
+[[[[[ 文档排重 ]]]]]
+#http://blog.csdn.net/shijing_0214/article/details/53100992
+1、余弦相似性（cosine similarity） 
+2、欧氏距离（Euclidean distance） 
+3、编辑距离（edit distance） 
+4、海明距离（hamming distance） 
+5、Dice 距离 
+6、Jaccard distance 杰卡德系数
+7、J-W距离（Jaro–Winkler distance） 
+
+最长公共子串(Longest Common Substring LCS)：匹配两段文字是，允许匹配中间有间断的匹配。
+
+Simhash
+#http://blog.csdn.net/heiyeshuwu/article/details/44117473
+
+百度的去重算法
+百度的去重算法最简单，就是直接找出此文章的最长的n句话，做一遍hash签名。n一般取3。 工程实现巨简单，据说准确率和召回率都能到达80%以上。
+
+[[[[[ 信息提取 Information Extraction:IE ]]]]]
+1.TF*IDF
+TF(term Frequence)
+IDF(Invert Documtnet Frequence)
+
+2.HITS算法是由康奈尔大学(CornellUniversity)的JonKleinberg博士于1998年首先提出的,HITS的英文全称为Hy-pertext-InducedTopicSearch。
+#https://wenku.baidu.com/view/f8b046cae45c3b3566ec8b65.html
+
+
+[[[[[ nlp 框架 ]]]]]
+#http://blog.csdn.net/cuixianpeng/article/details/16288307
+#全系列框架
+1.Stanford NLP
+坦福大学自然语言处理框架
+2.FudanNLP
+google
+3.哈工大Ltp3.X （C++）
+4.HanLp
+#http://hanlp.linrunsoft.com/doc/_build/html/index.html
+5.Apache OpenNLP
+OpenNLP是Apache下的一个自然语言处理工具包，提供了分词、分句、词性标注、命名实体识别等 功能。官网地址为：http://opennlp.apache.org/
+
+#分词框架
+1.中科院ICTCLAS(C++)
+中科院计算所历经数年开发的分词工具，采用C++编写。最新版本命名为ICTCLAS2013，又名为NLPIR汉语分词系统
+官网为：http://ictclas.nlpir.org/
+
+2.IKAnalyzer
+IK Analyzer是一个开源的，基于Java语言开发的轻量级的中文分词工具包。
+3.Ansj中文分词
+ansj是一个基于n-Gram+CRF+HMM的中文分词的java实现.为ICTLAS的Java版本。
+4.结巴分词 （python）
+
+[[[[[ NLTK 平台 ]]]]]
+
+
+[[[[[ 术语 ]]]]]
+机械分词：最大匹配方法最为基本的分词法（The Maximum Matching Method 也称 MM）
+极大似然估计方法（Maximum Likelihood Estimate，MLE）也称为最大概似估计或最大似然估计，是求估计的另一种方法.已经某个样本出现的概率最大，我们当然不会选择小概率的样本，所以干脆就把这个参数作为估计的真实值。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

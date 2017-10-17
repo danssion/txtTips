@@ -1,0 +1,87 @@
+[[[[[ MariaDB 与 MySQL 的功能比较 ]]]]]
+MariaDB / Mysql
+  线程池 :  从MariaDB 5.1 开始支持  / 
+          / MySQL 社区版不支持，仅 MySQL  5.5 企业版支持
+  缓冲池预加载  : MariaDB  5.5 中的 XtraDB 可以转储缓冲池中的内容，重启 MariaDB 后，缓冲池中转储的内容会再次加载到缓冲池
+          / 从 MySQL  5.6 开始支持 InnoDB 缓冲池 的转储与加载功能
+  支持 SSD: MariaDB  5.5 的默认存储引擎 XtraDB 支持 Block  flush 算法， 从而支持基于 SSD 的磁盘 I/O
+          / -
+  子查询优化:   从 MariaDB  5.5 开 始 支 持“IN(subquery)” 与“NOT  IN (subquery)” 优 化， 
+                也支持将FROM语句中的子查询(DERIVED)与外部查询合并(Query rewriting)优化功能
+          / 从 MySQL 5.6 开始支持“IN(subquery)”、 “NOT  IN(subquery)”，以及 FROM 语句子查询优化功能
+  连接优化: 支持基于增量连接缓冲的 Nested  Loop 连接与 BKA 连接，默 认支持的方式为散列连接
+          / 支持基于增量连接缓冲的 Nested  Loop 连接与 BKA 连接。MySQL 5.6 不支持散 列连接
+  多源复制: 在传统复制模式下，一个从服务器无法对应两个以上的主服 务器。
+            从MariaDB 10.0 开始支持多源复制，即一个从服务器 可以有多个主服务器
+          / 从 MySQL 5.7 版本开始支持多源复制
+  
+  多线程复制: 之前的复制，从服务器只能利用 1 个线程处理主服务器的复制查询，所以经常发生从服务器的复制延迟现象。
+              从 MariaDB  10.0 开始，复制线程个数设置为 2 个以上，各线程 执行域名 ID 为单位的并行复制
+            / 从MySQL 5.6 开始支持多线程从服务 器，它不以记录为基础，而采用数据库单位的多线程方式。
+              若MySQL服务器中仅存在1个数据库，则以之前的单线程方式进行复制
+  基于角色的权限管理: 从 MariaDB  10.0 开始采用类似于 Oracle  RDBMS 的方式为特 定用户组创建角色，
+                      将各个角色赋予用户以进行权限管理
+            / -
+  微秒级数据类型: 从 MariaDB  5.3 开始，用户可以将以毫秒与微秒为单位的时 间存储到 TIME 或 DATETIME 类型，并能从中读取
+            / 从 MySQL  5.6 开始拥有与 MariaDB 相 同的功能
+  半同步复制: -
+            / 从 MySQL 5.5 开始以插件形式添加该功能
+  虚拟列: 从 MariaDB  5.2 开始支持虚拟列，使用虚拟列功能可以将 1个以上的列值事先存储到另外的列，进行查询处理时再加工并显示 
+      / -
+  动态列: 像 NoSQL 一样，各记录拥有的列不固定时，常常会使用动态列。动态列由 1 个物理列形成，
+          在该物理列中可以创建多个逻辑列，并进行值的保存或读取
+      / -
+  PAM 认证: 从 MariaDB 5.2 开始，用户可以使用插入式认证模块
+      / MySQL 社区版不支持该功能，仅在 MySQL 5.5 以上的企业版中支持
+
+[[[[[ Explain 执行计划分析  ]]]]]
+id select_type table type possible_keys key key_len ref rows Extra 
+type: 全表扫描all \ 索引全扫描 index 
+key: 无法使用索引时可以不显示内容
+rows: 扫描数据行数
+extra: 表达式问题 -- fulll scan on Null key / impossible Having / impossible * / Nomatch * 
+    执行效率不好 -- Range checked for each record / using filesort / using temporaty / using where
+    执行效率好 -- Distinct / using index / using index for group-by 
+
+[[[[[ distanct ]]]]]
+distanct  
+  用与select 中 ，会查询唯一数据记录，而不是唯一数据列
+  用于集合函数COUNT、MIN、MAX 内部，作用于要持续的所有列的唯一记录
+
+
+[[[[[ 存储引擎 ]]]]]
+Aria 存储引擎 ： 优化的MyISAM引擎,支持事务和缓存
+XtraDb存储引擎：基于InnoDB开发，完全兼容。性能与功能、统计功能的提升，NUMA（Non-UniForm Memory Access ,费一致内存访问）架构支持、重做日志存档
+
+InnoDB存储引擎
+
+Memcached插件
+
+Mroonga全文检索存储引擎
+
+[[[[[ mariaDb ]]]]]
+MariaDB> show status;;
+memory_used  
+MariaDb> Kill [connect] 11
+MariaDb> Kill Query [ID] 11
+#终止连接
+MariaDb> Kill CONNECTION USER 'matt';
+MariaDb> Kill CONNECTION USER 'matt'@'';
+#终止查询
+MariaDb> Kill QUERY USER 'matt';
+MariaDb> Kill QUERY USER 'matt'@'';
+#终止不影响数据一致性
+MariaDb> Kill HARD / SOFT QUERY 11;
+
+[[[[[ Partition ]]]]]
+Select * From tb_partition_employees PARTITION(p2) Where ...
+
+
+[[[[[ 备份及导出]]]]]
+XtraBackup
+#www.percona.com/software/percona-xtrabackup
+#http://www.cnblogs.com/gomysql/p/3650645.html
+
+
+
+

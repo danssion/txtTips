@@ -1,0 +1,142 @@
+[[[[[ 定义 ]]]]]
+#https://zhuanlan.zhihu.com/p/20510974?refer=insight
+Lambda 框架，整合批处理和流处理 
+
+[[[ Lambda ]]]
+#http://blog.csdn.net/lvsaixia/article/details/51778487
+#http://blog.csdn.net/john_f_lau/article/details/25502203
+
+特性:
+a、Robustandfault-tolerant（容错性和鲁棒性
+b、Lowlatency reads and updates（低延时）
+c、Scalable（横向扩容）
+d、General（通用性）
+e、Extensible（可扩展）
+f、Allows ad hoc queries（方便查询）
+g、Minimal maintenance（易于维护）
+h、Debuggable（易调试）
+
+Lambda架构划分为三层，分别是批处理层，服务层，和加速层
+批处理层(Batch Layer, Apache Hadoop MR/hive)
+服务层(Serving layer ,Cloudera Impala)
+加速层 (Speed layer, Storm, Apache HBase):实时view内存数据库Redis
+
+
+#http://www.cnblogs.com/holbrook/archive/2012/11/06/2756759.html
+CEP( Complex Event Processing 复杂事件处理)
+
+ESP，Event Stream Process，事件流处
+CEP/ESP适合的应用场景包括商业活动监控、群众智能、犯罪预防、系统动态校验实时风险分析、网络攻击、市场趋势分析等等。
+商业CEP产品厂商有Oracle、IBM等
+
+交互式查询(Interactive Queries)
+
+联机事务处理OLTP（on-line transaction processing） 主要是执行基本日常的事务处理，比如数据库记录的增删查改。
+
+联机分析处理OLAP（On-Line Analytical Processing） 是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。
+
+#http://www.cnblogs.com/carl-angela/p/5407236.html
+目前的商用服务器大体可以分为三类:
+对称多处理器结构(SMP：Symmetric Multi-Processor)，
+非一致存储访问结构(NUMA：Non-Uniform Memory Access)，
+海量并行处理结构(MPP：Massive Parallel Processing)。
+
+分布式一致性算法--Raft
+Raft协议主要包括三部分，leader选举，日志复制和成员变更。
+
+
+[[[[[ spark 分析 ]]]]]
+Spark实现流处理的方法是通过mini-batch来对输入数据进行分块（但这个分块频率非常高以至于能够模拟流处理的过程）。 在进行mini-batch分块的时候，Spark引入了DStream的概念。
+在进行mini-batch分块的时候，Spark引入了DStream的概念。
+所谓的DStream，或者说Discretized Stream指的是将连续的流数据分成小块批数据的抽象。这就是我们上面说的mini-batch过程。每一个mini-batch体现为一个所谓的RDD（Resilient Distributed Dataset）。
+spark BatchSize 在 0.5 ~ 1 S 之间（storm 最小延迟 100ms）
+
+
+[[[[[ Flink ]]]]]
+#http://blog.csdn.net/jdoouddm7i/article/details/62039337
+Apache Flink是一个面向分布式数据流处理和批量数据处理的开源计算平台，它能够基于同一个Flink运行时，提供支持流处理和批处理两种类型应用的功能。
+
+
+[[[[[ Google Dataflow ]]]]]
+#http://www.cnblogs.com/wei-li/p/Dataflow.html
+Google Dataflow 是一种构建、管理和优化复杂数据处理流水线的方法，集成了许多内部技术，如用于数据高效并行化处理的Flume和具有良好容错机制流处理的MillWheel。Dataflow当前的API还只有Java版本（其实Flume本身是提供Java/C++/Python多种接口的，MillWheel也提供Java/C++的API）
+
+
+[[[[[ Esper ]]]]]
+#http://rsljdkt.iteye.com/blog/834766
+Esper是纯Java开源复杂事件和事件流引擎，可以监测事件流，并在特定事件发生时触发某些动作。
+
+[[[[[ Eagle ]]]]]
+#http://eagle.apache.org/
+Eagle 是开源分布式实时Hadoop数据安全方案，支持数据行为实时监控，能立即监测出对敏感数据的访问或恶意的操作，并立即采取应对的措施
+
+[[[[[ nmon ]]]]]
+#http://phpseyo.iteye.com/blog/1958502
+
+[[[[[ Kudu ]]]]]
+Kudu 是一个基于 Raft 的分布式存储系统，它致力于融合低延迟写入和高性能分析这两种场景
+Kudu 的使用
+#https://zhuanlan.zhihu.com/p/25928166
+
+
+[[[[[ Mesa ]]]]]
+谷歌Mesa是一个服务于谷歌广告业务的近实时分析型数据仓库
+Mesa不是一个完全从头构建的系统，而是构建在谷歌已有的几个分布式系统服务至上，它使用Bigtable存储元数据，GFS／Colossus存储Data，MapReduce进行批量计算
+
+[[[[[ 并行计算框架 ]]]]]
+PRAM（Parallel Random Access Machine，随机存取并行机器）模型
+BSP(BulkSynchronous Parallel,整体同步并行计算模型) 
+#http://blog.csdn.net/qq100440110/article/details/51657842
+
+[[[[[ Dremel ]]]]]
+Dremel能够在大数据上同时执行多个查询操作，并且只需要极短的执行时间。在以前，则需要写一系列的MapReduce任务，执行时间也比Dremel要长很多。据Hölzle 称，Dremel在一个PB级别的数据上完成查询只需要短短三秒钟的时间
+
+[[[[[ Apache Hama ]]]]]
+#http://blog.csdn.net/badboy_1990/article/details/37568281
+Hama是基于BSP(BulkSynchronous Parallel)计算技术的并行计算框架，用于大量的科学计算（比如矩阵、图论、网络等）
+
+
+[[[[[ Hadoop 相关 ]]]]]
+[[[ Kettle ]]]
+Kettle这个ETL工具集，它允许你管理来自不同数据库的数据,导入导出hdfs
+
+[[[ impala ]]]
+#https://www.w3cschool.cn/impala/impala_discussion.html
+
+
+[[[[[ noSql ]]]]]
+NoSQL数据库分为Graph，Document，Column Family以及Key-Value Store等四种
+Key-Value数据库，如Redis，Document-based数据库，如MongoDB，Column-based数据库，如Cassandra等
+
+[[[ Neo4J简介 ]]]
+#http://www.cnblogs.com/loveis715/p/5277051.html
+
+[[[ Cassandra ]]]
+#http://www.cnblogs.com/loveis715/p/5299495.html
+Cassandra中的数据模型设计需要是Join-less的。简单地说，那就是由于这些数据分布在Cassandra的不同结点上，因此这些数据的Join操作并不能被高效地执行。
+
+
+
+[[[[[ NewSQL ]]]]]
+(1)它们都支持关系数据模型，
+(2)它们都使用SQL作为其主要的接口。已知的第一个NewSQL系统叫做H-Store，它是一个分布式并行内存数据库系统
+新架构:
+这类数据库工作在一个分布式集群的节点上，其中每个节点拥有一个数据子集。 SQL查询被分成查询片段发送给自己所在的数据的节点上执行。这些数据库可以通过添加额外的节点来线性扩展。现有的这类数据库有： Google Spanner, VoltDB, Clustrix, NuoDB.
+SQL引擎:
+第二类是高度优化的SQL存储引擎。这些系统提供了MySQL相同的编程接口，但扩展性比内置的引擎InnoDB更好。这类数据库系统有：TokuDB, MemSQL
+透明分片:
+这类系统提供了分片的中间件层，数据库自动分割在多个节点运行。这类数据库包扩：ScaleBase，dbShards, Scalearc。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
