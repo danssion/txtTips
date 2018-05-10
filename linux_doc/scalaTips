@@ -1,0 +1,101 @@
+[[[ start ]]]
+//所有执行语句都封装在 object 中才可以编译,否则直接运行
+//编译运行 需要 object 中包含main函数
+scalac hello.scala 
+scala -classpath . hello
+
+javap singleObject //class name 反编译
+
+
+[[[ inherit ]]]
+Scala中的继承:
+（1）重写一个非抽象方法必须使用override修饰符。
+2）只有主构造器可以调用超类的主构造器。
+3）在子类中重写超类的抽象方法时，不需要使用override关键字。
+4）可以重写超类中的字段。
+
+抽象类：
+（1）定义一个抽象类，需要使用关键字abstract。
+2）定义一个抽象类的抽象方法，也不需要关键字abstract，只要把方法体空着，不写方法体就可以。
+3）抽象类中定义的字段，只要没有给出初始化值，就表示是一个抽象字段，但是，抽象字段必须要声明类型，比如：val carBrand: String
+
+
+[[[ option ]]]
+Option类型用case类来表示那种可能存在、也可能不存在的值
+Option类包含一个子类Some，当存在可以被引用的值的时候，就可以使用Some来包含这个值
+None则被声明为一个对象，而不是一个类，表示没有值
+
+Option类型还提供了getOrElse方法
+采用getOrElse方法时,取的"hive"没有对应的值，显示我们指定的“No Such Book”，而不是显示None
+Option[T]类型，其中的T可以是Sting或Int或其他各种数据类型。
+Option[T]实际上就是一个容器，我们可以把它看做是一个集合，只不过这个集合中要么只包含一个元素（被包装在Some中返回），要么就不存在元素（返回None）。
+对它使用map、foreach或者filter等方法
+books.get("hive").foreach(println)
+
+
+
+[[[ 函数式编程 ]]]
+函数式编程中，函数的“类型”和“值”也成为两个分开的概念，函数的“值”，就是“函数字面量”
+在函数式编程中，函数是“头等公民”，可以像任何其他数据类型一样被传递和操作，也就是说，函数的使用方式和其他数据类型的使用方式完全一致了。
+
+
+[[[ Lamda表达式  匿名函数  闭包]]]
+(参数) => 表达式
+//参数一个时，括号可以省略
+val myNF: Int => Int = (num:Int) =>num*2
+//省略：Int=>Int 
+//myNF =  (num:Int) =>num*2
+//或者
+// val myNF: Int => Int = (num) =>num*2
+
+Int => Int = <function1>
+scala> println(myNF(3))
+6
+
+闭包：函数定义中包含未确定的变量，该变量由函数执行时临时绑定，成为闭包
+每次调用都会生成一个新的闭包，每个闭包都会访问闭包创建时活跃的more变量
+函数内部调用和改变函数外部的值
+var more = 1
+val addmore = (x:Int) => x+more
+addmore(10)
+res6: Int = 11
+more = 9
+scala> addmore(10)
+res7: Int = 19
+
+
+[[[ 占位符 ]]]
+//占位符
+val numList=List(-3,-5,1,6,9)
+numList.filter(x=>x>0)
+numList.filter(_ > 0)
+
+scala>　val　f　=　(_:　Int)　+　(_:　Int)　　
+:　(Int,　Int)　=>　Int　=　<　function>　
+scala>　f(5,　10)　
+s11:　Int　=　15　
+
+
+[[[ RDD ]]]
+RDD读入外部数据源进行创建
+RDD经过一系列的转换（Transformation）操作，每一次都会产生不同的RDD,，供给下一个转换操作使用
+最后一个RDD经过“动作”操作进行转换，并输出到外部数据源 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

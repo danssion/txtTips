@@ -40,9 +40,12 @@ service confluence start    #启动Confluence 服务
 按下面的图，一步步设置即可顺利完成。
 step by step
 
+BTTO-EQZE-Q5AX-DNXX
+
 5.database URL
 extarnal database 
 jdbc:mysql://localhost/confluence?sessionVariables=default_storage_engine%3DInnoDB&useUnicode=true&characterEncoding=utf8
+jdbc:mysql://10.6.168.181/confluence?sessionVariables=default_storage_engine%3DInnoDB&useUnicode=true&characterEncoding=utf8
 
 6.中文：
 　　【1】service confluence stop    #停掉Confluence 服务
@@ -64,4 +67,32 @@ export LANGUAGE=zh_CN:zh
 
 from : http://www.cnblogs.com/wspblog/p/4750128.html
 
+
+
+
+
+[[[[[ docker ]]]]]
+安装confluence
+docker run --name wiki -p 8099:8090 -d cptactionhank/atlassian-confluence
+
+加挂载目录启动(方便日后备份用)
+docker run --name wiki -p 8099:8090 --link mysql-db:mysql -v /data/wiki_backups/:/data/backups -d cptactionhank/atlassian-confluence
+docker run --name wiki -p 8099:8090 -v /data/confluence-data/:/data/backups --net=adec0a683096 -d cptactionhank/atlassian-confluence:latest 
+docker network disconnect adec0a683096 wiki
+docker network disconnect -f adec0a683096 wiki
+docker network inspect adec0a683096
+docker network disconnect --force adec0a683096 wiki
+docker cp /home/duanxiang/atlassian-extras-decoder-v2-3.2.jar wiki:/opt/atlassian/confluence/confluence/WEB-INF/lib/
+
+将破解jar放入docker的confluence中
+#docker cp ./crack/atlassian-extras-decoder-v2-3.2.jar wiki:/opt/atlassian/confluence/confluence/WEB-INF/lib/
+docker cp /home/duanxiang/atlassian-extras-decoder-v2-3.2.jar wiki:/opt/atlassian/confluence/confluence/WEB-INF/lib/
+docker cp /home/duanxiang/atlassian-universal-plugin-manager-plugin-2.22.jar /opt/atlassian/confluence/confluence/WEB-INF/atlassian-bundled-plugins/
+#5.5.6
+docker cp /home/duanxiang/atlassian-extras-2.4.jar wiki:/usr/local/atlassian/confluence/confluence/WEB-INF/lib/atlassian-extras-2.4.jar
+docker cp /home/duanxiang/mysql-connector-java-5.1.45-bin.jar wiki:/usr/local/atlassian/confluence/confluence/WEB-INF/lib/
+
+
+#docker 安装mysql java 依赖
+RUN rpm -ivh  http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm;yum install -y mysql-community-server;yum clean all
 

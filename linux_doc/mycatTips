@@ -1,0 +1,82 @@
+[[[[[ 环境安装与配置 ]]]]]
+software http://dl.mycat.io/
+MyCAT-Server 仓库地址:https://github.com/MyCATApache/Mycat-Server.git
+https://github.com/MyCATApache/Mycat-Server
+
+/opt/mycat
+• MYCAT_HOME/conf/schema.xml 中定义逻辑库，表、分片节点等内容.
+• MYCAT_HOME/conf/rule.xml 中定义分片规则.
+• MYCAT_HOME/conf/server.xml 中定义用户以及系统相关变量，如端口等.
+
+#mysql 配置
+Linux 下部署安装 MySQL，默认不忽略表名大小写，需要手动到/etc/my.cnf 下配置 lower_case_table_names=1 使 Linux 环境下 MySQL 忽略表名大小写，否则使用 MyCAT 的时候会提示找不到 表的错误!
+
+
+[[[[[ 性能测试 ]]]]]
+
+
+
+
+
+
+
+
+[[[[[ 服务相关属性 及 管理 ]]]]]
+bindIp : mycat 服务监听的 IP 地址，默认值为 0.0.0.0
+serverPort : 定义 mycat 的使用端口，默认值为 8066
+managerPort : 定义 mycat 的管理端口，默认值为 9066
+
+
+### mycat 管理 
+mysql -h127.0.0.1 -utest -ptest -P9066 [-dmycat]
+-u Mycat server.xml 中配置的逻辑库用户
+-p Mycat server.xml 中配置的逻辑库密码
+-P 后面是端口 默认 9066，注意 P 是大写
+-d Mycat server.xml 中配置的逻辑库
+### 命令
+show @@help;
+show @@database;
+show @@datanode;
+show @@heartbeat;
+show @@version;
+show @@connection;
+show @@cache;
+show @@sysparam;
+
+show @@sql;
+#在 9066 端口中将'慢 SQL' 的时间阈值设定为 0 (ms)
+reload @@sqlslow=0 ; # 是的这条命令就是刚才提到的'如何设定慢 SQL' 时间阈值的命令
+show @@sql.slow ;
+
+### 管理命令
+./mycat start 启动
+./mycat stop 停止
+./mycat console 前台运行
+./mycat install 添加到系统自动启动（暂未实现）
+./mycat remove 取消随系统自动启动（暂未实现）
+./mycat restart 重启服务
+./mycat pause 暂停
+./mycat status 查看启动状态
+
+
+  
+    
+      
+        
+          
+            
+              
+                
+                  
+                    
+                      
+                        
+
+
+
+
+
+
+
+
+

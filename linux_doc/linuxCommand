@@ -79,6 +79,13 @@ find ./output9/ -name "part*" | xargs -i  cat >> ./output9/part-all
 find ./ -depth -name '*.php' | grep -E "^./[a-z]{4,}" | xargs grep -El '*meta_tags_products_description
 find -name "x11-common*" | xargs -I{} cp -a {} [dir]
 
+[[[ xargs ]]]
+docker ps -a | grep Up | awk '{print $NF}' | xargs -n1 -ti docker exec -i  {} hostname -I
+xargs -t //-t 表示先打印命令，然后再执行
+xargs -n //-n num 后面加次数，表示命令在执行的时候一次用的argument的个数，默认是用所有的
+//-a file 从文件中读入作为sdtin
+//-i 或者是-I xargs的每项名称，一般是一行一行赋值给{}，可以用{}代替
+// -p 操作具有可交互性，每次执行comand都交互式提示用户选择，当每次执行一个argument的时候询问一次用户
 
 [[[ system info ]]]
 pkg_info | grep ***
@@ -154,6 +161,7 @@ rpm -ql
 
 [[[ git ]]]
 git init --bare game_data_mining
+git clone http://username:password@127.0.0.1/res/res.git
 git rm --cache 
 git branch [-a]
 git config --global user.email "danssion@sina.com"
@@ -252,6 +260,7 @@ yum install mysql-community-server.x86_64
 mysql_install_db --defaults-file=/etc/my.cnf --user=mysql
 systemctl start mysqld
 /usr/bin/mysqladmin -u root password
+rpm -ivh  http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm;yum install -y mysql-community-server;yum clean all
 
 [[[ systemctl ]]]
 systemctl enable ***.service
@@ -389,6 +398,10 @@ port info flowd
 sudo port clean –all vile
 #卸载软件
 sudo port uninstall name
+port info name
+port deps name
+#安装时允许客户定制的参数
+port variants maven3
 #查看有更新的软件以及版本
 port outdated
 #升级可以更新的软件
@@ -400,6 +413,11 @@ brew services start homebrew/php/php72
  cp /usr/local/opt/php72/homebrew.mxcl.php72.plist ~/Library/LaunchAgents/
  launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php72.plist
 control script is located at /usr/local/opt/php72/sbin/php72-fpm
+
+#To have launchd start redis@3.2 now and restart at login:
+  brew services start redis@3.2
+  Or, if you don't want/need a background service you can just run:
+    redis-server /usr/local/etc/redis.conf
 
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
@@ -475,6 +493,13 @@ lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  io
 setsid traceroute  lsmode nethogs
 chattr命令不能保护/、/dev、/tmp、/var目录。lsattr命令是显示chattr命令设置的文件属性
 nmap -sT 101.201.151.125
+
+fping -g 10.6.168.0/24 
+fping -a -g 192.168.169.1 192.168.169.254
+
+locale
+cd /usr/share/i18n/locales && localedef -f UTF-8 -i zh_CN zh_CN.UTF-8
+export LANG='zh_CN.UTF-8'
 
 jmap --heap 
 

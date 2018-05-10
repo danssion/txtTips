@@ -68,6 +68,15 @@ LSTM(Long Short-Term Memory Network，长短时记忆神经网络)
 Clockwork RNNs(CW-RNNs)
 CW-RNNs也是一个RNNs的改良版本，是一种使用时钟频率来驱动的RNNs。它将隐藏层分为几个块(组，Group/Module)，每一组按照自己规定的时钟频率对输入进行处理。
 
+[[[[[ 优化算法 ]]]]]
+http://blog.csdn.net/acdreamers/article/details/41413787
+Hessian矩阵：在多元函数中求极值的方法类似，只是在判断凹凸性这里引入了一个矩阵，是一个多元函数的二阶偏导数构成的方阵，描述了函数的局部曲率，常用于牛顿迭代法解决优化问题。
+拟牛顿法: 基本思想是在牛顿法中用Hessian矩阵的某个近似矩阵来代替它。
+拟牛顿算法: BFGS算法。它是Broyden，Fletcher, Goldfarb，Shanno四位牛人发明出来到现在的40多年时间里，它仍然被认为是最好的拟牛顿算法。
+
+http://blog.csdn.net/ACdreamers/article/details/44728041
+L-BFGS: 有限内存BFGS。
+
 
 [[[[[ 深度学习框架与应用 ]]]]]
 Caffe 伯克利分校C++编写,主要用户卷积神经网络的学习，在视觉领域应用广泛

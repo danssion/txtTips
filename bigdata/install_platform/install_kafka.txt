@@ -81,20 +81,35 @@ zookeeper.connection.timeout.ms=6000
 #start server
 bin/kafka-server-start.sh config/server.properties
 bin/kafka-server-start.sh -daemon config/server.properties
+
+#broken
+#下线broker  
+./kafka-run-class.sh kafka.admin.ShutdownBroker --zookeeper 127.0.0.1:2181 --broker datanode1 --num.retries 3 --retry.interval.ms 60  
+#broker list
+zk_home/ bin / zkCli.sh 执行ls /brokers/ids 就可以看到zk中存的所有的broker id list
+
 #
 #Create a topic
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 4 --topic testT
+kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 4 --topic applogsend
+#delete
+./kafka-run-class.sh kafka.admin.DeleteTopicCommand --topic applogsend --zookeeper namenode:2181 
+
 # list topic 
 bin/kafka-topics.sh --list --zookeeper localhost:2181
+kafka-topics.sh --describe --zookeeper namenode:2181
 
 #Send some messages
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic applogsend
+bin/kafka-console-producer.sh --broker-list datanode1:9092 --topic applogsend
+
 #Start a consumer
 bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
-
-
-
-
+bin/kafka-console-consumer.sh -zookeeper localhost:2181 --from-beginning --topic applogsend
+#consumer info
+kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper localhost:2181 --group applogsend
 
 
 

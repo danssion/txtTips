@@ -1,0 +1,15 @@
+[[[[[ 主要技术 ]]]]]
+JDBC（Java DataBase Connectivity,java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。
+
+JNDI是 Java 命名与目录接口（Java Naming and Directory Interface）
+JNDI在满足了数据源配置的要求的基础上，还进一步扩充了作用：所有与系统外部的资源的引用，都可以通过JNDI定义和引用。
+
+EJB (Enterprise JavaBean)是J2EE(javaEE)的一部分,在J2EE里，Enterprise Java Beans(EJB)称为Java 企业Bean，是Java的核心代码,分别是会话Bean（Session Bean），实体Bean（Entity Bean）和消息驱动Bean（MessageDriven Bean）。在EJB3.0推出以后，实体Bean被单独分了出来，形成了新的规范JPA。
+
+JPA是Java Persistence API的简称，中文名Java持久层API，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中。
+
+RMI(Remote Method Invocation，远程方法调用)是用Java在JDK1.2中实现的，它大大增强了Java开发分布式应用的能力。
+
+JSP全名为Java Server Pages，中文名叫java服务器页面
+
+

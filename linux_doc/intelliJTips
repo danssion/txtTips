@@ -1,0 +1,13 @@
+#导出多个jar包
+比如写了个工具包，导出多个工具的jar包。
+现在又写了个新的工具 叫preload_resources
+步骤：
+1.建立 too/preload_resources 文件夹。 （这个用来放Manifest File）
+2.intellij idea——> Project structure——> Artifacts——>加号——>jar——>Empty——>添加个jar包 preload_resources
+3.output Layout——>加号——>Extracted directory——>弹出对话框中选择用到的lib库
+4.output Layout——>加号——>Module output——>弹出对话框中选择用到的module
+5.在Main Class中写入工具的主类 全名 dy.tools.ToolPreLoadResourcesApp
+6.intellij idea——>Build——>Build Artifacts——>preload_resources——>rebuild
+在工程目录下找到——>out——>artifacts——>preload_resouces——>preload_resouces.jar包
+在命令行下输入：
+java -jar  preload_resources.jar   

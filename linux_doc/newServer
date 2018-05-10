@@ -13,12 +13,14 @@ sudo usermod -a -G dev baixinkuan
 sudo passwd baixinkuan
 sudo usermod -G dev mysql
 [[[[[[mysql]]]]]]
-mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'%' IDENTIFIED BY 'blueTidedata#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
-mysql> GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY 'blueTidedata#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&'; FLUSH   PRIVILEGES;
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'%' IDENTIFIED BY 'zhi_yuan#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'mysql_root'@'172.20.2.%' IDENTIFIED BY 'zhi_yuan#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&' WITH GRANT OPTION; FLUSH   PRIVILEGES;
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%' IDENTIFIED BY 'zhi_yuan#RB&ZxKc$57RfHUzS28%U*(#x&*&^008%^&'; FLUSH   PRIVILEGES;
 
 [[[[[ mycli ]]]]]
 pip install -U mycli
 sudo yum install python-devel.x86_64
+sudo yum install python-pip python-devel
 
 [[[[[[hardware disk mount]]]]]]
 df -h

@@ -1,0 +1,234 @@
+[[[[[ 定义 ]]]]]
+cgroup 是control groups的缩写，最初由Google工程师提出，后来编进linux内核。
+Cgroups是实现IaaS虚拟化(kvm、lxc等)，PaaS容器沙箱(Docker等)的资源管理控制部分的底层基础。
+Docker is available in two editions: Community Edition (CE) and Enterprise Edition (EE).
+
+
+[[[[[ install ]]]]]
+[[[ OSX ]]]
+https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac
+[[[ CentOs ]]]
+https://docs.docker.com/engine/installation/linux/docker-ee/centos/
+
+[[[[[ info ]]]]]
+[[[ api ]]]
+/var/run/docker.sock
+
+[[[[[ doc ]]]]]
+[[[ cmd ]]]
+https://docs.docker.com/engine/reference/commandline/cli/
+
+
+[[[[[ use ]]]]]
+[[[ contain ]]]
+docker create -it centos /bin/bash
+docker run -i -t centos /bin/bash
+docker run -a stdin -a stdout -i -t ubuntu /bin/bash
+docker run --name centOS7.3 -it centos.7.3 /bin/zsh
+docker run -d -p 6379 --net=app --name redis danssion/redis:v0.2
+docker run --restart=always --name centOS7.3 -it centos.7.3 /bin/zsh
+docker run --restart=on-failure:5
+docker run --name alpine-my --volume ~/download:/usr/local/download:ro alpine /bin/bash -c 'echo test > /usr/local/download/test'
+docker run --name 
+docker logs -ft  ubuntu16.04     
+docker top [name]
+docker stats [name]
+docker exec
+docker exec -it myadmin /bin/ash
+docker exec -it nginx_web /bin/bash
+#http://www.cnblogs.com/rwxwsblog/p/5430902.html
+ecenter 连接docker
+
+docker-pid : docker inspect --format "{{ .State.Pid}} " <container>
+
+docker network disconnect [name]
+
+docker run -d -p 8080:80 --name nginx_web \
+-v /Users/danssion/dev/source/web/test.dx.my:/home/web/test.dx.my:ro \
+ web:nginx nginx -g "daemon off;" 
+
+docker run -itd --restart always --name namenode --network host -v /data/bigdata:/data docker.weitac.com/hadoop/namenode
+
+[[[ image ]]]
+docker images 
+docker image 
+#tenxcloud.com
+
+#Tag the image
+docker tag image username/repository:tag
+#Publish the image
+docker push username/repository:tag
+#Pull and run the image from the remote repository
+docker run -p 4000:80 username/repository:tag
+
+
+
+[[[ build ]]]
+docker build -t zingdocker/jdk-tomcat .  
+docker build -t zingdocker/jdk-tomcat .  --no-cache
+docker build -t docker.weitac.com/hadoop/datanode:0.5 .
+docker push  docker.weitac.com/hadoop/datanode:0.5 
+docker run -d -p 8090:8080 zingdocker/jdk-tomcat  
+docker run -d -p 8080:80 --name danssion_nginx -v /Users/danssion/dev/source/web/test.dx.my:/Users/danssion/dev/source/web/test.dx.my:ro  danssion/web:nginx  -g "daemon off;" 
+
+docker run --name web_volumes -v /Users/danssion/dev/source/txtTip-git/docker/web/nginx:/etc/nginx -v /Users/danssion/dev/source/txtTip-git/docker/web/log:/data/log alpine:latest echo "web conf and log volume."
+
+[[[ network ]]]
+docker network ls 
+docker network connect [net name] [docker name]
+
+
+[[[ dockerfile ]]]
+#http://blog.csdn.net/qinyushuang/article/details/43342553
+
+FROM <image>  
+FROM <image>:<tag> 
+
+#（用来指定镜像创建者信息） 
+MAINTAINER <name>  
+
+#RUN（安装软件用）
+RUN <command> (the command is run in a shell - `/bin/sh -c`)  
+RUN ["executable", "param1", "param2" ... ]  (exec form)  
+
+#CMD（设置container启动时执行的操作）
+CMD ["executable","param1","param2"] (like an exec, this is the preferred form)  
+CMD command param1 param2 (as a shell)  
+
+#当Dockerfile指定了ENTRYPOINT，那么使用下面的格式：
+CMD ["param1","param2"] (as default parameters to ENTRYPOINT)  
+
+
+#ENTRYPOINT（设置container启动时执行的操作）
+ENTRYPOINT ["executable", "param1", "param2"] (like an exec, the preferred form)  
+ENTRYPOINT command param1 param2 (as a shell)  
+#该指令的使用分为两种情况，一种是独自使用，另一种和CMD指令配合使用。
+#当独自使用时，如果你还使用了CMD命令且CMD是一个完整的可执行的命令，那么CMD指令和ENTRYPOINT会互相覆盖只有最后一个CMD或者ENTRYPOINT有效。
+
+#USER（设置container容器的用户）
+ENTRYPOINT ["memcached"]  
+USER daemon  
+或  
+ENTRYPOINT ["memcached", "-u", "daemon"]  
+
+#EXPOSE（指定容器需要映射到宿主机器的端口）
+EXPOSE <port> [<port>...]  
+# 映射一个端口  
+EXPOSE port1  
+# 相应的运行容器使用的命令  
+docker run -p port1 image  
+# 映射多个端口  
+  EXPOSE port1 port2 port3  
+# 相应的运行容器使用的命令  
+  docker run -p port1 -p port2 -p port3 image  
+# 还可以指定需要映射到宿主机器上的某个端口号  
+  docker run -p host_port1:port1 -p host_port2:port2 -p host_port3:port3 image  
+
+#ENV（用于设置环境变量）
+ENV <key> <value>  
+#后续的RUN命令都可以使用，container启动后，可以通过docker inspect查看这个环境变量，也可以通过在docker run --env key=value时设置或修改环境变量。
+假如你安装了JAVA程序，需要设置JAVA_HOME，那么可以在Dockerfile中这样写：
+ENV JAVA_HOME /path/to/java/dirent
+
+#ADD（从src复制文件到container的dest路径）
+ADD <src> <dest>  
+
+#VOLUME（指定挂载点）
+VOLUME ["<mountpoint>"]  
+FROM base  
+VOLUME ["/tmp/data"]  
+
+#WORKDIR（切换目录）
+#可以多次切换(相当于cd命令)，对RUN,CMD,ENTRYPOINT生效。
+WORKDIR /path/to/workdir  
+# 在 /p1/p2 下执行 vim a.txt  
+WORKDIR /p1 WORKDIR p2 RUN vim a.txt  
+
+[[[ compose ]]]
+#https://docs.docker.com/compose/compose-file/compose-file-v2/
+#compose File doc
+#https://docs.docker.com/compose/compose-file/#dockerfile
+docker-compose up
+docker-compose up -d
+docker-compose rm
+
+[[[ service ]]]
+
+#https://docs.docker.com/get-started/part3/#run-your-new-load-balanced-app
+docker service ls
+docker service ps <service>
+docker inspect --format='{{.Status.ContainerStatus.ContainerID}}' <task>
+
+docker stack ls                                            # List stacks or apps
+docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
+docker service ls                 # List running services associated with an app
+docker service ps <service>                  # List tasks associated with an app
+docker inspect <task or container>                   # Inspect task or container
+docker container ls -q                                      # List container IDs
+docker stack rm <appname>                             # Tear down an application
+docker swarm leave --force      # Take down a single node swarm from the manager
+
+[[[ machine ]]]
+docker-machine create --driver virtualbox myvm1 # Create a VM (Mac, Win7, Linux)
+docker-machine create -d hyperv --hyperv-virtual-switch "myswitch" myvm1 # Win10
+docker-machine env myvm1                # View basic information about your node
+docker-machine ssh myvm1 "docker node ls"         # List the nodes in your swarm
+docker-machine ssh myvm1 "docker node inspect <node ID>"        # Inspect a node
+docker-machine ssh myvm1 "docker swarm join-token -q worker"   # View join token
+docker-machine ssh myvm1   # Open an SSH session with the VM; type "exit" to end
+docker node ls                # View nodes in swarm (while logged on to manager)
+docker-machine ssh myvm2 "docker swarm leave"  # Make the worker leave the swarm
+docker-machine ssh myvm1 "docker swarm leave -f" # Make master leave, kill swarm
+docker-machine ls # list VMs, asterisk shows which VM this shell is talking to
+docker-machine start myvm1            # Start a VM that is currently not running
+docker-machine env myvm1      # show environment variables and command for myvm1
+eval $(docker-machine env myvm1)         # Mac command to connect shell to myvm1
+& "C:\Program Files\Docker\Docker\Resources\bin\docker-machine.exe" env myvm1 | Invoke-Expression   # Windows command to connect shell to myvm1
+docker stack deploy -c <file> <app>  # Deploy an app; command shell must be set to talk to manager (myvm1), uses local Compose file
+docker-machine scp docker-compose.yml myvm1:~ # Copy file to node's home dir (only required if you use ssh to connect to manager and deploy the app)
+docker-machine ssh myvm1 "docker stack deploy -c <file> <app>"   # Deploy an app using ssh (you must have first copied the Compose file to myvm1)
+eval $(docker-machine env -u)     # Disconnect shell from VMs, use native docker
+docker-machine stop $(docker-machine ls -q)               # Stop all running VMs
+docker-machine rm $(docker-machine ls -q) # Delete all VMs and their disk images
+docker-machine start myvm1
+
+
+
+
+
+
+[[[ swarms ]]]
+#http://www.dubby.cn/detail.html?id=8738
+#To add a worker to this swarm, run the following command:
+docker swarm join --token SWMTKN-1-5yc7423cysngsdygk8g5egkbzzmf35q09j6bh3dqr9dtrayorq-caug15ykl91ev48r7lkczrev3 192.168.99.100:2377
+#To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+docker stack deploy -c docker-compose.yml web-servers
+#工作节点脱离swarm集群
+docker-machine ssh myvm2 "docker swarm leave"
+#关闭管理节点
+docker-machine ssh myvm1 "docker swarm leave --force"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
