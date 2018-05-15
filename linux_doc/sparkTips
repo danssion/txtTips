@@ -26,3 +26,54 @@ scalac -classpath $SPARK_CLASSPATH yourAPP.scala
 jar cvf yourAPP.jar *.class
 
 
+######### 2.1 spark install ##########
+#mac hadoop install
+#https://blog.csdn.net/tianyiii/article/details/46565925
+hdfs namenode -format -clusterid dxhadoop
+start-dfs.sh
+start-yarn.sh
+hadoop checknative –a 
+#http://rockyfeng.me/hadoop_native_library_mac.html
+
+#download spark
+#https://www.apache.org/dyn/closer.lua/spark/spark-2.3.0/spark-2.3.0-bin-without-hadoop.tgz
+tar zxvf 
+#editor conf/
+cp spark-env.sh.template spark-env.sh
+vim spark-env.sh
+#add file endline add
+#export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath)
+
+
+######### 2.2 spark shell ##########
+./bin/spark-shell --master <master-url>
+#:quit
+#--master：这个参数表示当前的Spark Shell要连接到哪个master
+#--jars： 这个参数用于把相关的JAR包添加到CLASSPATH中；如果有多个jar包，可以使用逗号分隔符连接它们
+#Master URL 可以取以下值
+local 使用一个Worker线程本地化运行SPARK(完全不并行)
+local[*] 使用逻辑CPU个数数量的线程来本地化运行Spark
+local[K] 使用K个Worker线程本地化运行Spark（理想情况下，K应该根据运行机器的CPU核数设定）
+spark://HOST:PORT 连接到指定的Spark standalone master。默认端口是7077
+yarn-client 以客户端模式连接YARN集群。集群的位置可以在HADOOP_CONF_DIR 环境变量中找到
+yarn-cluster 以集群模式连接YARN集群。集群的位置可以在HADOOP_CONF_DIR 环境变量中找到
+mesos://HOST:PORT 连接到指定的Mesos集群。默认接口是5050
+#exp:
+#cd /usr/local/spark
+#./bin/spark-shell --master local[4] --jars code.jar
+#zsh
+#./spark-shell --master "local[1]" 
+
+
+######### 2.3 spark sbt ##########
+#mac
+brew install sbt
+sbt sbtVersion 
+
+
+
+
+
+
+
+
