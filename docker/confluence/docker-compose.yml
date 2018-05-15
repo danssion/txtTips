@@ -1,0 +1,18 @@
+version: '2'
+services:
+  confluence:
+    image: cptactionhank/atlassian-confluence:5.5.7
+    container_name: wiki
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - TERM=xterm
+    hostname: wiki.weitac.cn
+    network_mode: "none"
+    #    command: rpm -ivh  http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+    #             yum install -y mysql-community-client
+    #             yum clean all
+    volumes:
+      - /data/confluence-data/:/data/backups
+    ports:
+      - "8099:8090"

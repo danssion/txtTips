@@ -1,0 +1,63 @@
+version: "3"
+services:
+  web:
+    image: danssion/web:nginx-v1
+    command: -g "daemon off;"
+    ports:
+      - "8080:80"
+    volumes:
+      - "/home/web/test.dx.my:/home/web/test.dx.my:ro"
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 20M
+      restart_policy:
+        condition: on-failure
+#    links:
+#    args:
+#      - "daemon off;"
+    networks:
+      - webnet  
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8081:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+
+  redis:
+    image: redis:3.2.11-alpine
+    volumes:
+      - /data/log/redis/
+      - /etc/redis/6379.conf
+    command: ["/usr/local/bin/redis-server", "/etc/redis/6379.conf", "--port", "6379", "--logfile","/data/log/redis/redis.log"]
+    ports:
+      - "6379:6379"
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.05"
+          memory: 30M
+      restart_policy:
+        condition: on-failure
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
+
+
+
+
+
+

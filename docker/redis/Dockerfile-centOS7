@@ -1,0 +1,12 @@
+# version: 0.0.1
+
+FROM centos:7.3.1611
+MAINTAINER Danssion Duan "danssion@qq.com"
+
+RUN ["yum","install","-y","epel-release"]
+RUN ["yum","install","-y","redis.x86_64"]
+
+ENV REFRESHED_AT 2017-10-18 18:37
+EXPOSE 6379
+ENTRYPOINT ["/usr/bin/redis-server"]
+CMD []

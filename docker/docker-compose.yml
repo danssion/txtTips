@@ -1,0 +1,62 @@
+version: "3"
+services:
+  web:
+    build: /Users/danssion/dev/source/txtTip-git/docker/web
+    image: danssion/web:nginx-v1
+    command: -g "daemon off;"
+    ports:
+      - "8080:80"
+    volumes:
+      - /Users/danssion/dev/source/web/test.dx.my:/home/web/test.dx.my:ro
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 20M
+      restart_policy:
+        condition: on-failure
+#    links:
+#    args:
+#      - "daemon off;"
+  
+  redis:
+    build: /Users/danssion/dev/source/txtTip-git/docker/redis
+    image: redis:3.2.11-alpine
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.05"
+          memory: 30M
+      restart_policy:
+        condition: on-failure
+    command: ["/usr/local/bin/redis-server","--port", "6380"]
+
+  redis:
+    container_name: my-redis
+    build: /Users/danssion/dev/source/txtTip-git/docker/redis
+    image: redis:3.2.11-alpine
+    volumes:
+      - /Users/danssion/dev/source/txtTip-git/docker/redis/log:/data/log/redis/
+      - /Users/danssion/dev/source/txtTip-git/docker/redis/conf/redis-master.conf:/etc/redis/6379.conf
+    command: ["/usr/local/bin/redis-server", "/etc/redis/6379.conf", "--port", "6379", "--logfile","/data/log/redis/redis.log"]
+    ports:
+      - "6379:6379"
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.05"
+          memory: 30M
+      restart_policy:
+        condition: on-failure
+
+
+
+
+
+
+
+
+
