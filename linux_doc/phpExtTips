@@ -22,6 +22,34 @@ opcache.fast_shutdown=0
 #为此我创建了一个扩展包来提供相应的 Artisan 命令处理 OPcache 清理事宜：
 #https://github.com/appstract/laravel-opcache
 
+[[[[[[ php memory ]]]]]]
+memory_get_peak_usage 
+unction formatBytes($bytes, $precision = 2) {
+    $units = array("b", "kb", "mb", "gb", "tb");
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+    $bytes /= (1 << (10 * $pow));
+    return round($bytes, $precision) . " " . $units[$pow];
+}
+当处理完数据后 unset 掉， 其实当前进程的消耗的内存并不会变小， 即不会释放100MB空间
+内存被分划为， "已使用" 和 "空闲"， unset 只会把 "已使用" 变为 "空闲"， 下次内存请求时会先去"空闲"里取
+#php://filter 过滤器的应用，节约内存
+#http://php.net/manual/zh/filters.php
+$handle1 = fopen(
+    "php://filter/zlib.deflate/resource=shakespeare.txt", "r"
+);
+$handle2 = fopen(
+    "filters-2.deflated", "w"
+);
+stream_copy_to_stream($handle1, $handle2);
+fclose($handle1);
+fclose($handle2);
+require "memory.php";
+
+
+
+
 
 
 [[[[[[[[ 2 mac brew php-fpm ext ]]]]]]]]
@@ -43,7 +71,7 @@ composer require psecio/iniscan
 vendor/bin/iniscan scan --path=/path/to/php.ini
 
 
-[[[[[[[[ 4 SCWS ]]]]]]]]
+[[[[[[[[ 4 SCWS php分词库 ]]]]]]]]
 1. 取得 scws-1.2.3 的代码
 wget http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2
 

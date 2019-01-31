@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+  web:
+    image: alenx/walle-web:2.0
+    container_name: walle-nginx
+    hostname: nginx-web
+    ports:
+    # 如果宿主机80端口被占用，可自行修改为其他port(>=1024)
+    # 0.0.0.0:要绑定的宿主机端口:docker容器内端口80
+      - "8083:80"
+    links:
+      - python
+    depends_on:
+      - python
+    networks:
+      - walle-net
+    restart: always
+
+  python:
+    # 默认使用alenx/walle-python:2.0
+    # maven工程使用alenx/walle-java:2.0; maven:3.6.0, jdk:1.8.0_181
+    image: alenx/walle-python:2.0
+    #    image: alenx/walle-java:2.0
+    container_name: walle-python
+    hostname: walle-python
+    env_file:
+      # walle.env需和docker-compose在同级目录
+      - walle.env
+    command: bash -c "cd /opt/walle-web/ && /bin/bash admin.sh migration && python waller.py"
+    expose:
+      - "5000"
+    volumes:
+      - /tmp/walle/codebase/:/tmp/walle/codebase/
+      - /tmp/walle/logs/:/opt/walle-web/logs/
+      - /Users/danssion/.ssh:/root/.ssh/
+    links: 
+      - db
+    depends_on:
+      - db
+    networks:
+      - walle-net
+    restart: always
+
+  db:
+    image: mysql
+    container_name: walle-mysql
+    hostname: walle-mysql
+    env_file:
+      - walle.env
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3308:3306"
+    expose:
+      - "3306"
+    volumes:
+      #- /data/walle/mysql:/var/lib/mysql
+      - /Users/danssion/dev/source/txtTip-git/docker/walle/mysql_data:/var/lib/mysql
+    networks:
+      - walle-net
+    restart: always
+
+networks:
+  walle-net:
+    driver: bridge

@@ -83,7 +83,9 @@ RDD经过一系列的转换（Transformation）操作，每一次都会产生不
 
 
 
-
+[[[ lib ]]]
+scala.util.parsing.json.JSON
+JSON.parseFull(jsonString:String)函数
 
 
 

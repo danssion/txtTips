@@ -41,7 +41,6 @@ ecenter 连接docker
 
 docker-pid : docker inspect --format "{{ .State.Pid}} " <container>
 
-docker network disconnect [name]
 
 docker run -d -p 8080:80 --name nginx_web \
 -v /Users/danssion/dev/source/web/test.dx.my:/home/web/test.dx.my:ro \
@@ -76,6 +75,24 @@ docker run --name web_volumes -v /Users/danssion/dev/source/txtTip-git/docker/we
 [[[ network ]]]
 docker network ls 
 docker network connect [net name] [docker name]
+#docker 的 ip
+docker inspect --format='{{.NetworkSettings.IPAddress}}' $CONTAINER_ID
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'  container_name_or_id
+docker inspect --format='{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
+
+docker network disconnect [name]
+docker port 可以查看指定容器的某个确定端口映射到宿主机的端口号
+
+[[[ docker manager ]]]
+#查看 Docker 的底层信息
+docker inspect  $NAME
+#删除容器时，容器必须是停止状态
+docker restart/start/stop/rm $NAME/$ID
+#查询最后一次创建的容器
+docker ps -l 
+#所有镜像
+docker ps -a
+docker attach $ID
 
 
 [[[ dockerfile ]]]
@@ -151,6 +168,19 @@ WORKDIR /p1 WORKDIR p2 RUN vim a.txt
 docker-compose up
 docker-compose up -d
 docker-compose rm
+docker-compose up -d && docker-compose logs -f
+# 构建服务
+docker-compose build
+# 启动服务,启动过程中可以直接查看终端日志，观察启动是否成功
+docker-compsoe up
+# 启动服务在后台，如果确认部署成功，则可以使用此命令，将应用跑在后台，作用类似 nohup python waller.py &
+docker-compose up -d
+# 查看日志,效果类似 tail -f waller.log
+docker-compose logs -f
+# 停止服务,会停止服务的运行，但是不会删除服务所所依附的网络，以及存储等
+docker-compsoe stop
+# 删除服务，并删除服务产生的网络，存储等，并且会关闭服务的守护
+docker-compose down
 
 [[[ service ]]]
 

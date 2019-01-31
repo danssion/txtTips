@@ -240,13 +240,13 @@ mysqladmin -u mysql_root -pqCtT@1!2$ processlist | grep 'select ' | awk -F "|" '
 set global wait_timeout=10;
 show global variables like'wait_timeout';
 show create table **** //show partition information
+show variables like '%general%';     
 explain partitions select语句 通过此语句来显示扫描哪些分区，及他们是如何使用的
 show slave/master status\G;
 start slave与stop slave来开启和关闭同步。
 CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000030', MASTER_LOG_POS=120;
 max_user_connections  max_connections
 set global general_log = on; 查看查询日志
-show variables like '%general%';     
 mysqldump -uroot -pdbpasswd -d dbname test>table-struct.sql;
 mysqldump -uroot -pdbpasswd  dbname test>table.sql;
 mysqldump　-t　数据库名　-uroot　-p　>data.sql　
@@ -254,6 +254,7 @@ mysqldump　-t　数据库名　-uroot　-p | gzip > db_data.sql.gz
 gunzip < test.sql.gz | mysql -hlocalhost -uroot -pxxxxx
 mysqldump -uroot -p1234 dbname a –where “tag='88′” –no-create-info> c:\a.sql
 mysql -e "select * from myTable" -u myuser -pxxxxxxxx mydatabase > mydumpfile.txt
+ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8mb4;
 [mysql yum install]
 yum list installed mysql*
 yum install mysql-community-server.x86_64
@@ -310,7 +311,23 @@ systemd-analyze critical-chain：分析启动时的关键链
 systemd-analyze blame 分析启动时各个进程花费的时间
 
 
-
+[[ python virtual]]
+brew install pyenv
+pyenv install --list 
+pyenv install 3.5.1
+pyenv uninstall 3.5.1
+pyenv local/global 3.5.1/system
+brew install pyenv-virtualenv
+#安装环境
+pyenv virtualenv my-virtualenv-3.5.1
+pyenv activate <name>
+#进入环境
+source ~/.pyenv/versions/3.6.6/envs/env-3.6.6/bin/activate
+#退出环境
+deactive
+#删除环境
+pyenv deactivate
+pyenv uninstall my-virtual-env-3.5.1
 
 
 
@@ -388,6 +405,11 @@ set encoding=utf-8 fileencodings=utf-8
 :set fileformat?
 :set fileformat=unix
 
+# vim game
+# https://github.com/jmoon018/PacVim
+pacvim [LEVEL_NUMBER] [MODE]
+starting level and mode (n and h for normal/hard)
+
 
 
 [[[ macport brew ]]]----------------------------------
@@ -414,6 +436,31 @@ brew services start homebrew/php/php72
  launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php72.plist
 control script is located at /usr/local/opt/php72/sbin/php72-fpm
 
+[[[ launchctl ]]]
+加载任务, -w选项会将plist文件中无效的key覆盖掉，建议加上
+$ launchctl load -w com.demo.plist
+# 删除任务
+$ launchctl unload -w com.demo.plist
+# 查看任务列表, 使用 grep '任务部分名字' 过滤
+$ launchctl list | grep 'com.demo'
+# 开始任务
+$ launchctl start  com.demo.plist
+# 结束任务
+$ launchctl stop   com.demo.plist
+
+
+#zookeeper
+#To have launchd start zookeeper now and restart at login:
+brew services start zookeeper
+#Or, if you don't want/need a background service you can just run:
+zkServer start
+
+#kafka
+brew services start kafka
+#kafka-manager
+bin/kafka-manager -Dconfig.file=/path/to/application.conf -Dhttp.port=8080
+bin/kafka-manager -java-home /usr/local/oracle-java-8
+
 #To have launchd start redis@3.2 now and restart at login:
   brew services start redis@3.2
   Or, if you don't want/need a background service you can just run:
@@ -428,6 +475,8 @@ cp $(find -name "1010*.gif") $([cmd2])
 cp $(ls /kkshow/demo/6 | sed 's/.swf/.gif/g') $([cmd2])
 
 sed -i "s/Commands;/Commands\\gdt;/g" `grep "Commands;" -rl ./*`
+sed 1d abc.cvs > abc1.cvs  //去除头行
+
 
 [[[ netstat ]]]
 -a (all)显示所有选项，默认不显示LISTEN相关
@@ -536,9 +585,13 @@ JAR包与ZIP包主要区别就是JAR包中多一个META-INF的目录，META-INF�
 [[[ tmux ]]]
 tmux ls
 tmux attach [-t | -d | -r] $n
-mux ^z d
+tmux ^z d
 Tmux Resurrect:前缀键 + Ctrl-s / 前缀键 + Ctrl-r 
 .tmux/resurrect
+#在 Tmux 的会话间切换  Ctrl-z + s
+#退出tmux session PREFIX d 
+#rename session  tmux rename -t service-develop service-ssh
+
 
 [[[ nc ]]]
 [root@hatest2 tmp]# nc -l 1234 |tar xzvf -
@@ -552,3 +605,40 @@ nc -w 1 192.168.228.222 1234 < install.log
 yum install epel-release
 yum repolist
 yum clean all && yum clean metadata && yum clean dbcache && yum makecache && yum update
+
+[[[ maven ]]]
+mvn clean package -Ppro //指定profile
+mvn -v //查看版本  
+mvn archetype:create //创建 Maven 项目  
+mvn compile //编译源代码  
+mvn test-compile //编译测试代码  
+mvn test //运行应用程序中的单元测试  
+mvn site //生成项目相关信息的网站  
+mvn package //依据项目生成 jar 文件  
+mvn install //在本地 Repository 中安装 jar  
+mvn -Dmaven.test.skip=true //忽略测试文档编译  
+mvn clean //清除目标目录中的生成结果  
+mvn clean compile //将.java类编译为.class文件  
+mvn clean package //进行打包  
+mvn clean test //执行单元测试  
+mvn clean deploy //部署到版本仓库  
+mvn clean install //使其他项目使用这个jar,会安装到maven本地仓库中  
+mvn archetype:generate //创建项目架构  
+mvn dependency:list //查看已解析依赖  
+mvn dependency:tree //看到依赖树  
+mvn dependency:analyze //查看依赖的工具  
+mvn help:system //从中央仓库下载文件至本地仓库  
+mvn help:active-profiles //查看当前激活的profiles  
+mvn help:all-profiles //查看所有profiles  
+mvn help:effective -pom //查看完整的pom信息 
+
+
+[[[ intel J ]]]
+ctrl d  复制行
+ctrl cmd l  格式化代码
+ctrl j doc提示
+
+
+
+
+

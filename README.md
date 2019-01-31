@@ -1,2 +1,2 @@
 # txtTips
-personal txt
+Remember Infomation

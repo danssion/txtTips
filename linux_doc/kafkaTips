@@ -1,0 +1,119 @@
+######## 0.env ##########
+groupadd kafka
+useradd -g kafka kafka
+usermod -g kafka kafka
+
+mkdir -p /opt/modules
+chown kafka:root /opt/modules
+
+##### 0.1 hosts #####
+192.168.200.214 zk1
+192.168.200.215 zk2
+192.168.200.216 zk3
+192.168.200.217 zk4
+192.168.200.218 zk5
+
+
+##### 0.2 profile #####
+
+
+######## 1.jdk ############
+ln -s jdk1.7.0_21/ jdk
+
+
+######## 2.zookeeper ###########
+wget http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz 
+tar zxf zookeeper-3.4.6.tar.gz
+mv zookeeper-3.4.6  /opt/modules/
+cd /opt/modules
+ln -s zookeeper-3.4.6  zookeeper
+
+mkdir -p /opt/data/zookeeper/data
+mkdir -p /opt/data/zookeeper/datalog
+echo [1/2/3/4/5] > /opt/data/zookeeper/data/myid
+chown kafka:kafka -R /opt/data/zookeeper
+
+cd /opt/modules/zookeeper/conf
+cp zoo_sample.cfg zoo.cfg
+
+## edit zoo.cfg
+dataDir=/opt/data/zookeeper/data
+clientPort=2181
+initLimit=10
+syncLimit=5
+tickTime=2000
+dataLogDir=/opt/data/zookeeper/datalog
+
+server.1=zk1:2888:3888
+server.2=zk2:2888:3888
+server.3=zk3:2888:3888
+server.4=zk4:2888:3888
+server.5=zk5:2888:3888
+
+## manage zookeeper
+zkServer.sh {start|start-foreground|stop|restart|status|upgrade|print-cmd}
+
+
+
+######## 2.kafka ###########
+mkdir -p /opt/data/kafka/log
+chown kafka:kafka -R /opt/data/kafka
+
+######## 2.0 kafka install ###########
+curl -s https://get.sdkman.io | bash
+#open new terminal
+source "/root/.sdkman/bin/sdkman-init.sh"
+bin/kafka-server-start.sh config/server.properties
+sdk install gradle 3.1
+#cd  kafka dir
+gradle
+
+###### 2.1 server.properties ######
+broker.id=[1/2/3/4/5]
+log.dirs=/tmp/kafka-logs
+num.partitions=1
+zookeeper.connect=localhost:2181
+zookeeper.connection.timeout.ms=6000
+
+
+
+###### 2.2 kafka cmd ######
+#start server
+bin/kafka-server-start.sh config/server.properties
+bin/kafka-server-start.sh -daemon config/server.properties
+
+#broken
+#下线broker  
+./kafka-run-class.sh kafka.admin.ShutdownBroker --zookeeper 127.0.0.1:2181 --broker datanode1 --num.retries 3 --retry.interval.ms 60  
+#broker list
+zk_home/ bin / zkCli.sh 执行ls /brokers/ids 就可以看到zk中存的所有的broker id list
+
+#
+#Create a topic
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 4 --topic testT
+kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 4 --topic applogsend
+#delete
+./kafka-run-class.sh kafka.admin.DeleteTopicCommand --topic applogsend --zookeeper namenode:2181 
+
+# list topic 
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+kafka-topics.sh --describe --zookeeper namenode:2181
+
+#Send some messages
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic applogsend
+bin/kafka-console-producer.sh --broker-list datanode1:9092 --topic applogsend
+
+#Start a consumer
+bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
+bin/kafka-console-consumer.sh -zookeeper localhost:2181 --from-beginning --topic applogsend
+kafka-console-consumer --bootstrap-server localhost:9092 --topic tickers --from-beginning
+
+#consumer info
+kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper localhost:2181 --group applogsend
+
+
+
+
+

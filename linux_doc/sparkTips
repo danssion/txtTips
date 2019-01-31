@@ -25,6 +25,91 @@ export SPARK_CLASSPATH=${SPARK_HOME}/lib/spark-assembly-1.4.1-hadoop2.4.0.jar
 scalac -classpath $SPARK_CLASSPATH yourAPP.scala
 jar cvf yourAPP.jar *.class
 
+######### 1.2 spark with hbase ##########
+#install http://dblab.xmu.edu.cn/blog/install-hbase/
+HBase是一个稀疏、多维度、排序的映射表
+索引是行键、列族、列限定符和时间戳
+每个值是一个未经解释的字符串，没有数据类型
+HBase中执行更新操作时，并不会删除数据旧的版本，而是生成一个新的版本，旧有的版本仍然保留（这是和HDFS只允许追加不允许修改的特性相关的）
+
+HBase采用表来组织数据，表由行和列组成，列划分为若干个列族
+HBase中需要根据行键、列族、列限定符和时间戳来确定一个单元格，因此，可以视为一个“四维坐标”，即[行键, 列族, 列限定符, 时间戳]
+写入及读取时 不需要提供时间戳，有系统默认提供
+
+
+
+
+######### 1.3 spark install hbase ##########
+#install http://dblab.xmu.edu.cn/blog/install-hbase/
+#与java hadoop的兼容性
+#http://hbase.apache.org/book.html#basic.prerequisites
+tar zxvf ...
+
+#hbase-env.sh
+JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
+export JAVA_HOME=$JAVA_8_HOME
+export HBASE_MANAGES_ZK=true
+export HBASE_CLASSPATH=/usr/local/hadoop/conf 
+
+#hbase-site.xml
+<property>
+                <name>hbase.rootdir</name>
+                <value>hdfs://localhost:9000/hbase</value>
+        </property>
+        <property>
+                <name>hbase.cluster.distributed</name>
+                <value>true</value>
+        </property>
+
+#console
+bin/start-hbase.sh
+bin/hbase shell
+
+bin/stop-hbase.sh
+
+#table op
+disable 'student'
+drop 'student'
+
+#创建列族
+create 'student','info'
+#输入一个单元格,第二个单元格 ...  第一行   行键 1
+put 'student','1','info:name','xiaomin'
+put 'student','1','info:gender','M'
+put 'student','1','info:age','23'
+
+#第二行  行键 2 
+put 'student','2','info:name','meimei'
+put 'student','2','info:gender','F'
+put 'student','2','info:age','23'
+
+
+######### 1.4 spark read for hbase ##########
+把HBase的lib目录下的一些jar文件拷贝到Spark中
+所有hbase开头的jar文件、guava-12.0.1.jar、htrace-core-3.1.0-incubating.jar和protobuf-java-2.5.0.jar
+cd /usr/local/spark/jars
+mkdir hbase
+cd hbase
+cp /usr/local/hbase/lib/hbase*.jar ./
+cp /usr/local/hbase/lib/guava-12.0.1.jar ./
+cp /usr/local/hbase/lib/htrace-core-3.1.0-incubating.jar ./
+cp /usr/local/hbase/lib/protobuf-java-2.5.0.jar ./
+
+# spark submit
+/usr/local/spark/bin/spark-submit --driver-class-path /usr/local/spark/jars/hbase/*:/usr/local/hbase/conf --class "SparkOperateHBase" /Users/danssion/dev/source/app/git/sparkapp/sbt_app/target/scala-2.11/simple-project_2.11-1.0.jar
+
+#必须使用“--driver-class-path”参数指定依赖JAR包的路径，而且必须把“/usr/local/hbase/conf”也加到路径中
+
+
+
+
+
+
+
+
+
+
+
 
 ######### 2.1 spark install ##########
 #mac hadoop install
@@ -43,7 +128,13 @@ cp spark-env.sh.template spark-env.sh
 vim spark-env.sh
 #add file endline add
 #export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath)
+export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath) 
+export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+#export SPARK_MASTER_IP=192.168.1.104 
 
+
+#update bash
+#export spark bin
 
 ######### 2.2 spark shell ##########
 ./bin/spark-shell --master <master-url>
@@ -63,14 +154,485 @@ mesos://HOST:PORT 连接到指定的Mesos集群。默认接口是5050
 #./bin/spark-shell --master local[4] --jars code.jar
 #zsh
 #./spark-shell --master "local[1]" 
-
-
+#
 ######### 2.3 spark sbt ##########
 #mac
 brew install sbt
 sbt sbtVersion 
 
+cd [project dir]
+sbt package
 
+#info
+#https://www.scala-sbt.org/0.13/docs/zh-cn/Getting-Started.html
+#
+#lib search
+#https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.spark%22%20AND%20v%3A%222.3.0%22
+
+######### 2.4 spark code tool ##########
+# intellj use
+http://dblab.xmu.edu.cn/blog/1327/
+
+
+
+######### 2.5 spark-submit ##########
+./bin/spark-submit 
+  --class <main-class>  //需要运行的程序的主类，应用程序的入口点
+  --master <master-url>  //Master URL，下面会有具体解释
+  --deploy-mode <deploy-mode>   //部署模式
+  ... # other options  //其他参数
+  <application-jar>  //应用程序JAR包
+  [application-arguments] //传递给主类的主方法的参数
+
+#example
+./bin/spark-submit --class "SimpleApp" ~/dev/source/app/git/sparkapp/target/scala-2.11/simple-project_2.11-1.0.jar
+#上面命令执行后会输出太多信息，可以不使用上面命令，而使用下面命令查看想要的结果
+$ /usr/local/spark/bin/spark-submit --class "SimpleApp" ~/dev/source/app/git/sparkapp/target/scala-2.11/simple-project_2.11-1.0.jar 2>&1 | grep "Lines with a"
+$ /usr/local/spark/bin/spark-submit --class "SimpleApp" /Users/danssion/dev/source/app/git/sparkapp/sbt_app/target/scala-2.11/simple-project_2.11-1.0.jar 2>&1 | grep "Lines with a"
+
+
+spark-submit --class org.apache.spark.examples.SparkPi  --master yarn /usr/local/spark/examples/jars/spark-examples_2.11-2.3.0.jar 100 2>&1 | grep "Pi is roughly"
+
+#传入参数到  主class 中
+spark-submit --class 'SparkJoin' /Users/danssion/dev/source/app/git/sparkapp/sbt_app/target/scala-2.11/simple-project_2.11-1.0.jar  file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/movie-data-small-1m/ratings.csv file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/movie-data-small-1m/movies.csv file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/movie-data-small-1m/res.txt   2>&1
+
+
+
+######### 3 spark coding ##########
+
+######### 3.0 spark intellj ##########
+http://dblab.xmu.edu.cn/blog/1327/
+#complie error IntelliJ IDEA 报错:找不到包或者找不到符号
+https://blog.csdn.net/u013985664/article/details/79636638
+
+######### 3.1 spark RDD create ##########
+1.从文件系统中加载数据创建RDD,采用textFile()方法来从文件系统中加载数据创建RDD
+该方法把文件的URI作为参数,URI:
+本地文件系统的地址
+或者是分布式文件系统HDFS的地址
+或者是Amazon S3的地址等等
+#example:
+#从分布式文件系统HDFS中加载数据,hadoop 用户登录集群后三个一样效果
+val lines = sc.textFile("file:///usr/local/spark/README.md")
+val lines = sc.textFile("hdfs://localhost:9000/user/hadoop/word.txt")
+val lines = sc.textFile("word.txt")
+
+#集合类型 RDD 生成 
+val array = Array(1,2,3,4,5,6)
+val arrRdd = sc.parallelize(array)
+
+
+
+######### 3.2 spark RDD tranformation (转换操作) API ##########
+filter(func)：筛选出满足函数func的元素，并返回一个新的数据集
+map(func)：将每个元素传递到函数func中，并将结果返回为一个新的数据集
+flatMap(func)：与map()相似，但每个输入元素都可以映射到0或多个输出结果
+groupByKey()：应用于(K,V)键值对的数据集时，返回一个新的(K, Iterable)形式的数据集
+reduceByKey(func)：应用于(K,V)键值对的数据集时，返回一个新的(K, V)形式的数据集，其中的每个值是将每个key传递到函数func中进行聚合
+
+
+######### 3.3 spark RDD Action (动作操作) API ##########
+count() 返回数据集中的元素个数
+collect() 以数组的形式返回数据集中的所有元素
+first() 返回数据集中的第一个元素
+take(n) 以数组的形式返回数据集中的前n个元素
+reduce(func) 通过函数func（输入两个参数并返回一个值）聚合数据集中的元素(进行归约操作)
+foreach(func) 将数据集中的每个元素传递到函数func中运行
+
+#exp:执行过程中 RDD类型持续变化`
+scala> val lines = sc.textFile("file:///usr/local/spark/mycode/rdd/word.txt")
+lines: org.apache.spark.rdd.RDD[String] = file:///usr/local/spark/mycode/rdd/word.txt MapPartitionsRDD[18] at textFile at <console>:27
+scala> lines.map(line => line.split(" ")）
+res8: org.apache.spark.rdd.RDD[Array[String]] = MapPartitionsRDD[19] at map at <console>:30
+scala> lines.map(line => line.split(" ").size)
+res9: org.apache.spark.rdd.RDD[Int] = MapPartitionsRDD[20] at map at <console>:30
+scala> lines.map(line => line.split(" ").size).reduce((a,b) => if (a>b) a else b)
+res10: Int = 5
+
+
+######### 3.3 spark RDD 持久化 ##########
+persist(MEMORY_ONLY)：表示将RDD作为反序列化的对象存储于JVM中，如果内存不足，就要按照LRU原则替换缓存中的内容
+persist(MEMORY_AND_DISK)表示将RDD作为反序列化的对象存储在JVM中，如果内存不足，超出的分区将会被存放在硬盘上
+一般而言，使用cache()方法时，会调用persist(MEMORY_ONLY)
+可以使用unpersist()方法手动地把持久化的RDD从缓存中移除
+
+
+######### 3.4 spark RDD 分区 ##########
+#不同数据按特定规则分开，不同于分块
+（1）增加并行度    （2）减少通信开销
+只有当数据集多次在诸如连接这种基于键的操作中使用时，分区才会有帮助。若RDD只需要扫描一次，就没有必要进行分区处理 
+从spark分区中获取的操作
+cogroup()、groupWith()、join()、leftOuterJoin()、rightOuterJoin()、groupByKey()、reduceByKey()、combineByKey()以及lookup()
+使得分区的个数尽量等于集群中的CPU核心（core）数目
+可以通过设置spark.default.parallelism这个参数的值，来配置默认的分区数目
+默认值：
+本地模式：默认为本地机器的CPU数目，若设置了local[N],则默认为N
+Αpache Mesos：默认的分区数为8
+standalone或YARN：在“集群中所有CPU核心数目总和”和“2”二者中取较大值作为默认值
+对于textFile而言，如果没有在方法中指定分区数，则默认为min(defaultParallelism,2)，其中，defaultParallelism对应的就是spark.default.parallelism
+从HDFS中读取文件，则分区数为文件分片数(比如，128MB/片)
+
+手动设置分区:
+1.sc.textFile(path, partitionNum)
+2.通过转换操作得到新 RDD 时：直接调用 repartition 方法即可
+
+
+######### 3.5 spark RDD 输出 ##########
+rdd.foreach(println)或者rdd.map(println)
+#集群执行时，使用collect()方法,搜集各个work数据到Driver Program中打印
+数据过多时，可能会导致内存溢出
+rdd.take(100).foreach(println)
+
+
+
+######### 3.6 spark Pair RDD ##########
+1.创建方式：从文件中加载
+2.通过并行集合（数组）创建RDD
+
+reduceByKey(func)
+groupByKey()
+#对四个键值对("spark",1)、("spark",2)、("hadoop",3)和("hadoop",5)，采用groupByKey()后得到的结果是：("spark",(1,2))和("hadoop",(3,5))
+keys
+values
+sortByKey()
+sortBy(_,true/false)
+#对value进行变化
+mapValues(func)
+join
+combineByKey
+
+
+######### 3.7 spark 共享变量 ##########
+广播变量（broadcast variables）和累加器（accumulators）
+广播变量用来把变量在所有节点的内存之间进行共享,允许程序开发人员在每个机器上缓存一个只读的变量，而不是为机器上的每个任务都生成一个副本
+SparkContext.broadcast(v)
+
+累加器则支持在所有不同节点之间进行累加计算（比如计数或者求和）
+Spark原生地支持数值型（numeric）的累加器，程序开发人员可以编写对新类型的支持
+这些任务只能做累加操作，不能读取累加器的值，只有任务控制节点（Driver Program）可以使用value方法来读取累加器的值
+
+
+
+
+######### 4.0 spark SQL ##########
+
+
+######### 4.1 spark SQL & Hive ##########
+Hive on Spark
+Hive Architecture -> Shark Architecture
+Spark是线程级并行，而MapReduce是进程级并行，因此，Spark在兼容Hive的实现上存在线程安全问题，导致Shark不得不使用另外一套独立维护的打了补丁的Hive源码分支
+
+Spark SQL 
+Spark SQL在Hive兼容层面仅依赖HiveQL解析、Hive元数据，也就是说，从HQL被解析成抽象语法树（AST）起，就全部由Spark SQL接管了。Spark SQL执行计划生成和优化都由Catalyst（函数式关系查询优化框架）负责
+
+DataFrame
+DataFrame的推出，让Spark具备了处理大规模结构化数据的能力，不仅比原有的RDD转化方式更加简单易用，而且获得了更高的计算性能
+RDD是分布式的 Java对象的集合，但是，对象内部结构对于RDD而言却是不可知的
+DataFrame是一种以RDD为基础的分布式数据集，提供了详细的结构信息
+
+
+######### 4.2 spark SQL & create DataFrame ##########
+Spark1.6中的SQLContext及HiveContext
+Spark2.0 SparkSession实现了SQLContext及HiveContext所有功能
+
+
+scala>import org.apache.spark.sql.SparkSession
+scala>val spark=SparkSession.builder().getOrCreate()
+//使支持RDDs转换为DataFrames及后续sql操作
+scala>import spark.implicits._
+scala>val df = spark.read.json("file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/people.json")
+scala> df.show()
+//模式信息
+df.printSchema()
+//选择多列
+df.select(df("name"),df("age")+1).show()
+//条件过滤
+df.filter(df("age") > 20 ).show()
+//分组聚合
+df.groupBy("age").count().show()
+//排序
+df.sort(df("age").desc).show()
+//多列排序
+df.sort(df("age").desc, df("name").asc).show()
+//重命名
+df.select(df("name").as("username"),df("age")+1).show()
+
+
+######### 4.2 spark SQL & 反射机制 create DataFrame From RDD ##########
+#scala>
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
+import org.apache.spark.sql.Encoder
+import spark.implicits._ 
+case class Person(name: String, age: Long) #定义一个case class
+val peopleDF = spark.sparkContext.textFile("file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/people.txt").map(_.split(",")).map(attributes => Person(attributes(0), attributes(1).trim.toInt)).toDF()
+# toDF 后已经转换为 dataFrame
+peopleDF.createOrReplaceTempView("people")  #必须注册为临时表才能供下面的查询使用 
+val personsRDD = spark.sql("select name,age from people where age > 20") #最终生成一个DataFrame
+personsRDD.map(t => "Name:"+t(0)+","+"Age:"+t(1)).show() 
+
+
+######### 4.2 spark SQL & 编程方式 create DataFrame From RDD ##########
+#scala>
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.Row
+val peopleRDD = spark.sparkContext.textFile("file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/people.txt")
+val schemaString = "name age" #定义一个模式字符串
+#根据模式字符串生成模式
+val fields = schemaString.split(" ").map(fieldName => StructField(fieldName, StringType, nullable = true))
+#split -> Array("name","age")
+#map -> Array(StructField(name,StringType,true),StructField(age,StringType,true)
+#生成模式
+val schema = StructType(fields)
+#生成Row对象  对peopleRDD 这个RDD中的每一行元素都进行解析
+val rowRDD = peopleRDD.map(_.split(",")).map(attributes => Row(attributes(0), attributes(1).trim)) 
+val peopleDF = spark.createDataFrame(rowRDD, schema)
+
+
+######### 4.3 spark SQL & DataFrame 保存为各种类型文件 ##########
+#scala>
+val peopleDF = spark.read.json("file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/people.json")
+peopleDF.select("name", "age").write.format("csv").save("file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/people.csv")
+peopleDF.select("name", "age").write.format("orc").save("file:///Users/danssion/dev/source/app/git/sparkapp/sbt_app/resource/people.out")
+#write.format()支持输出 json,parquet, jdbc, orc, libsvm, csv, text等格式文件
+
+df.rdd.saveAsTextFile("file:///usr/local/spark/mycode/newpeople.txt")
+
+
+######### 4.4 spark SQL & DataFrame 读取写入其他 ##########
+#读写Parquet  parquet介绍https://www.cnblogs.com/ITtangtang/p/7681019.html
+#scala
+import spark.implicits._
+#从parquet文件中加载数据生成DataFrame
+val parquetFileDF = spark.read.parquet("file:///usr/local/spark/examples/src/main/resources/users.parquet")
+parquetFileDF.createOrReplaceTempView("parquetFile")
+val namesDF = spark.sql("SELECT * FROM parquetFile")
+namesDF.foreach(attributes =>println("Name: " + attributes(0)+" favorite color:"+attributes(1)))
+
+#写入
+scala> import spark.implicits._
+scala> val peopleDF = spark.read.json("file:///usr/local/spark/examples/src/main/resources/people.json")
+scala> peopleDF.write.parquet("file:///usr/local/spark/mycode/newpeople.parquet")
+
+
+######### 4.5 spark SQL & DataFrame 读取写入mysql ##########
+##link mysql
+spark-shell \
+--jars /usr/local/spark/jars/mysql-connector-java-5.1.45-bin.jar \
+--driver-class-path /usr/local/spark/jars/
+
+#多个 jars 导入
+KAFKA_JARS=`ls -m /usr/local/spark/jars/kafka/ *.jar | tr -d '\n'`
+spark-shell \
+--jars  $KAFKA_JARS
+
+val jdbcDF = spark.read.format("jdbc").option("url", "jdbc:mysql://localhost:3306/spark").option("driver","com.mysql.jdbc.Driver").option("dbtable", "student").option("user", "root").option("password", "hadoop").load()
+jdbcDF.show()
+
+
+
+
+######### 5.0 spark Streaming ##########
+######### 5.1 spark工作原理 ##########
+Spark Streaming中，会有一个组件Receiver，作为一个长期运行的task跑在一个Executor上
+
+
+######### 5.2 spark 程序基本步骤 ##########
+1.通过创建输入DStream来定义输入源
+2.通过对DStream应用转换操作和输出操作来定义流计算
+3.用streamingContext.start()来开始接收数据和处理流程
+4.通过streamingContext.awaitTermination()方法来等待处理结束（手动结束或因为错误而结束）
+5.可以通过streamingContext.stop()来手动结束流计算进程
+
+######### 5.3 spark 生成 Context ##########
+1.可以从一个SparkConf对象创建一个StreamingContext对象
+
+
+######### 5.4 spark with kafka ##########
+本课程下载的安装文件为Kafka_2.11-0.10.2.0.tgz，前面的2.11就是该Kafka所支持的Scala版本号，后面的0.10.2.0是Kafka自身的版本号
+spark-streaming-kafka-0-8_2.11-2.3.0.jar 老版本，本教程使用该版本
+#install
+brew install kafka
+#cp jar 到spark 的 jars 目录下如果放到下一层目录下  spark-shell需要再映入
+KAFKA_JARS=`ls -m /usr/local/spark/jars/kafka/ *.jar | tr -d '\n'`
+spark-shell \
+--jars  $KAFKA_JARS
+
+
+######### 5.4 spark DStream 无状态转换  ##########
+map(func) ：对源DStream的每个元素，采用func函数进行转换，得到一个新的Dstream
+flatMap(func)： 与map相似，但是每个输入项可用被映射为0个或者多个输出项
+repartition(numPartitions)： 通过创建更多或者更少的分区改变DStream的并行程度
+reduce(func)：利用函数func聚集源DStream中每个RDD的元素，返回一个包含单元素RDDs的新DStream
+count()：统计源DStream中每个RDD的元素数量
+union(otherStream)： 返回一个新的DStream，包含源DStream和其他DStream的元素
+reduceByKey(func, [numTasks])：当在一个由(K,V)键值对组成的DStream上执行该操作时，返回一个新的由(K,V)键值对组成的DStream，每一个key的值均由给定的recuce函数（func）聚集起来
+join(otherStream, [numTasks])：当应用于两个DStream（一个包含（K,V）键值对,一个包含(K,W)键值对），返回一个包含(K, (V, W))键值对的新Dstream
+cogroup(otherStream, [numTasks])：当应用于两个DStream（一个包含（K,V）键值对,一个包含(K,W)键值对），返回一个包含(K, Seq[V], Seq[W])的元组
+transform(func)：通过对源DStream的每个RDD应用RDD-to-RDD函数，创建一个新的DStream。支持在新的DStream中做任何RDD操作
+
+
+######### 5.4 spark DStream 有状态转换  ##########
+window(windowLength, slideInterval) 基于源DStream产生的窗口化的批数据，计算得到一个新的Dstream
+countByWindow(windowLength, slideInterval) 返回流中元素的一个滑动窗口数
+reduceByWindow(func, windowLength, slideInterval) 返回一个单元素流。利用函数func聚集滑动时间间隔的流的元素创建这个单元素流
+#(ha,1) (ha,2)  (ha,4) -> (ha,7)
+reduceByKeyAndWindow(func, windowLength, slideInterval, [numTasks]) 应用到一个(K,V)键值对组成的DStream上时，会返回一个由(K,V)键值对组成的新的DStream。每一个key的值均由给定的reduce函数(func函数)进行聚合计算。
+ByKeyAndWindow(func, invFunc, windowLength, slideInterval, [numTasks]) 更加高效的reduceByKeyAndWindow，每个窗口的reduce值，是基于先前窗口的reduce值进行增量计算得到的；它会对进入滑动窗口的新数据进行reduce操作，并对离开窗口的老数据进行“逆向reduce”操作。但是，只能用于“可逆reduce函数”，即那些reduce函数都有一个对应的“逆向reduce函数”（以InvFunc参数传入）
+countByValueAndWindow(windowLength, slideInterval, [numTasks]) 当应用到一个(K,V)键值对组成的DStream上，返回一个由(K,V)键值对组成的新的DStream。每个key的值都是它们在滑动窗口中出现的频率
+
+
+
+######### 6.0 Spark MLlib ##########
+
+
+######### 6.1 机器学习 ##########
+人工智能 > 机器学习 > 深度网络
+#机器学习的抽象数据类型
+Vector
+其拥有整型、从0开始的索引值以及浮点型的元素值。
+MLlib提供了两种类型的本地向量，稠密向量DenseVector和稀疏向量SparseVector
+稠密向量表示形式是[1.0,0.0,3.0]，而稀疏向量形式则是(3, [0,2], [1.0, 3.0])
+稀疏向量第一参数 是向量长度  第二个参数向量中非0维度的索引，第三个是按索引排列的数组元素值
+val sv1: Vector = Vectors.sparse(3, Array(0, 2), Array(2.0, 8.0))
+val sv2: Vector = Vectors.sparse(3, Seq((0, 2.0), (2, 8.0)))
+
+LabeledPoint 
+一种带有标签（Label/Response）的本地向量
+val pos = LabeledPoint(1.0, Vectors.dense(2.0, 0.0, 8.0))
+val neg = LabeledPoint(0.0, Vectors.sparse(3, Array(0, 2), Array(2.0, 8.0)))
+对于二分类问题，则正样本的标签为1，负样本的标签为0，而对于多类别的分类问题来说，标签则应是一个以0开始的索引序列:0, 1, 2 
+
+
+Rating
+适用于推荐算法中。标示用户对某个产品的评分。训练数据集在用于训练推荐模型之前必须先转换成有Rating构成的RDD才能使用
+import org.apache.spark.ml.recommendation._
+val rating = Rating(100,10,3.0) 表示用ID为100的用户对ID为10的产品评分 3.0
+
+
+
+
+######### 6.2 MLlib 简介 ##########
+算法工具：常用的学习算法，如分类、回归、聚类和协同过滤；
+特征化工具：特征提取、转化、降维和选择工具；
+工作流(Pipeline)：用于构建、评估和调整机器学习工作流的工具;
+持久性：保存和加载算法、模型和管道;
+实用工具：线性代数、统计、数据处理等工具
+
+spark <= 1.2 
+spark.mllib 包含基于RDD的原始算法API。Spark MLlib 历史比较长，在1.0 以前的版本即已经包含了，提供的算法实现都是基于原始的 RDD
+
+spark > 1.2
+spark.ml 则提供了基于DataFrames 高层次的API，可以用来构建机器学习工作流（PipeLine）。ML Pipeline 弥补了原始 MLlib 库的不足，向用户提供了一个基于 DataFrame 的机器学习工作流式 API 套件
+
+支持4种常见的机器学习问题: 分类、回归、聚类和协同过滤
+
+标签数据（一般是字符串）转化成整数索引:这些转换器类都位于org.apache.spark.ml.feature
+
+
+
+######### 6.2 机器学习工作流概念  ##########
+dataForm 数据结果
+transformer （转换器）: 数据+算法 =训练=> 模型   dataform =transform=> dataform(含有预测结果)
+Estimator(估计器或评估器) : 算法 Estimator.fit(训练数据集) => 模型（transform）
+Parameter(参数) : Parameter 被用来设置 Transformer 或者 Estimator 的参数
+PipeLine(工作流或者管道): 工作流将多个工作流阶段（转换器和估计器）连接在一起，形成机器学习的工作流，并获得结果输出
+
+工作流本身也可以看做是一个估计器。在工作流的fit（）方法运行之后，它产生一个PipelineModel
+
+
+
+######### 6.3 mllib分类算法 ##########
+1.逻辑斯蒂回归（logistic regression
+以iris数据集（iris）为例进行分析（iris下载地址：http://dblab.xmu.edu.cn/blog/wp-content/uploads/2017/03/iris.txt）
+。iris以鸢尾花的特征作为数据来源，数据集包含150个数据集，分为3类，每类50个数据，每个数据包含4个属性，是在数据挖掘、数据分类中非常常用的测试集、训练集。
+
+
+2.分类算法
+分类是一种重要的机器学习和数据挖掘技术。分类的目的是根据数据集的特点构造一个分类函数或分类模型(也常常称作分类器)，该模型能把未知类别的样本映射到给定类别中的一种技术。
+
+
+
+######### 6.3.1 mllib分类算法模型验证 ##########
+#http://dblab.xmu.edu.cn/blog/1510-2/
+在机器学习中非常重要的任务就是模型选择，或者使用数据来找到具体问题的最佳的模型和参数，这个过程也叫做调试（Tuning）。调试可以在独立的估计器中完成（如逻辑斯蒂回归），也可以在包含多样算法、特征工程和其他步骤的工作流中完成。用户应该一次性调优整个工作流，而不是独立的调整PipeLine中的每个组成部分。
+
+MLlib支持交叉验证（CrossValidator）和训练验证分割（TrainValidationSplit）两个模型选择工具
+
+#http://www.codexiu.cn/python/blog/36190/
+#http://lib.csdn.net/article/machinelearning/40643
+混淆矩阵（Confusion matrix）
+考虑一个二分问题，即将实例分成正类（positive）或负类（negative）。对一个二分问题来说，会出现四种情况。如果一个实例是正类并且也被 预测成正类，即为真正类（True positive）,如果实例是负类被预测成正类，称之为假正类（False positive）。相应地，如果实例是负类被预测成负类，称之为真负类（True negative）,正类被预测成负类则为假负类（false negative）。 
+TP：正确肯定的数目； 
+FN：漏报，没有正确找到的匹配的数目； 
+FP：误报，给出的匹配是不正确的； 
+TN：正确拒绝的非匹配对数 
+
+精确率，precision = TP / (TP + FP) 
+模型判为正的所有样本中有多少是真正的正样本 
+召回率，recall = TP / (TP + FN) 
+准确率，accuracy = (TP + TN) / (TP + FP + TN + FN) 
+反映了分类器统对整个样本的判定能力——能将正的判定为正，负的判定为负
+
+如何在precision和Recall中权衡？ 
+F1 Score = P*R/2(P+R)，其中P和R分别为 precision 和 recall 
+在precision与recall都要求高的情况下，可以用F1 Score来衡量
+
+ROC曲线和AUC 
+调整分类器threshold取值，以FPR（假正率False-positive rate）为横坐标，TPR（True-positive rate）为纵坐标做ROC曲线； 
+Area Under roc Curve(AUC)：处于ROC curve下方的那部分面积的大小通常，AUC的值介于0.5到1.0之间，较大的AUC代表了较好的性能； 
+
+
+
+
+
+
+######### 6.4 mllib基本的统计工具 ##########
+#http://mocom.xmu.edu.cn/
+#article/show/58482e8be083c990247075a8/0/1
+概括统计 summary statistics
+相关性 correlations
+分层抽样 Stratified sampling
+假设检验 hypothesis testing
+随机数生成 random data generation
+核密度估计 Kernel density estimation
+
+
+
+
+######### 6.5 spark 图计算简介 ##########
+#BSP
+目前典型的图计算软件（比如Google Pregel），都是基于BSP模型实现的分布式并行图处理系统。BSP是由哈佛大学Viliant和牛津大学Bill Mc Coll提出的并行计算模型，全称为“整体同步并行计算模型”（Bulk Synchronous Parallel Computing Model，BSP模型），又名“大同步模型”
+
+谷歌在后Hadoop时代的新“三驾马车”——Caffeine、Dremel和Pregel
+Caffeine主要为谷歌网络搜索引擎提供支持，使谷歌能够更迅速地添加新的链接（包括新闻报道以及博客文章等）到自身大规模的网站索引系统中。
+Dremel是一种可扩展的、交互式的实时查询系统，用于只读嵌套数据的分析。通过结合多级树状执行过程和列式数据结构，它能做到几秒内完成对万亿张表的聚合查询。系统可以扩展到成千上万的CPU上，满足谷歌上万用户操作PB级的数据，并且可以在2秒～3秒钟完成PB级别数据的查询。
+Pregel是一种基于BSP模型实现的并行图处理系统。为了解决大型图的分布式计算问题，Pregel搭建了一套可扩展的、有容错机制的平台，该平台提供了一套非常灵活的API，可以描述各种各样的图计算。Pregel作为分布式图计算的计算框架，主要用于图遍历、最短路径、PageRank计算等。
+
+#属性图
+属性图是GraphX的核心抽象模型，是一个有向多重图，带有每一个顶点（vertex）和边（edge）的用户自定义对象。
+每个顶点用唯一的64位长的标识符作为键。
+GraphX没有为顶点标识符排序，每条边都有对应的源和目的顶点标识符。
+
+
+
+######### 7.0 spark notebook ##########
+#https://blog.csdn.net/u012948976/article/details/52951141
+Jupyter： 
+安装： Jupyter配置Spark开发环境
+#
+#https://zeppelin.apache.org/docs/0.6.1/install/install.html
+Zeppelin 
+安装：Spark Interpreter for Apache Zeppelin
+
+
+
+Spark Notebook: 
+安装：github地址
+#http://s3.eu-central-1.amazonaws.com/spark-notebook/
+#
+#
+HUE 
+安装：HUE配置Spark Notebook
 
 
 
