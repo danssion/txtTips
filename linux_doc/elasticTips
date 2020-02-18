@@ -1,4 +1,4 @@
-#理######### 1.0 command ##########
+########## 1.0 command ##########
 
 ########## 1.0 search ##########
 GET /_search
@@ -37,7 +37,7 @@ _all字段包含"aggregations"或"geo"
 编码后的查询字符串
 ?q=%2Bname%3A(mary+john)+%2Bdate%3A%3E2014-09-10+%2B(aggregations+geo)
 
-########## 1.2 映射分析 ##########
+########## 1.1 映射分析 ##########
 ##文档结构：
 GET /gb/_mapping/tweet
 使用analyze API来查看文本是如何被分析的
@@ -111,8 +111,11 @@ GET /gb/tweet/_validate/query
 想知道语句非法的具体错误信息，需要加上 explain 参数
 GET /gb/tweet/_validate/query?explain 
 
+#格式化输出
+curl -XPUT 'localhost:9200/myindex?pretty'
 
-########## 1.2 排序 ##########
+
+########## 1.3 排序 ##########
 #多级排序
 {
   "query" : {
@@ -155,7 +158,7 @@ dfs搜索类型有一个预查询的阶段，它会从全部相关的分片里�
 
 
 
-########## 1.2 索引管理  ##########
+########## 1.3 索引管理  ##########
 action.auto_create_index: false
 DELETE /index_one,index_two
 DELETE /index_*
@@ -188,6 +191,32 @@ PUT /spanish_docs
 }
 
 #索引别名
+#https://www.elastic.co/guide/en/elasticsearch/reference/5.6/indices-aliases.html
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "currency_on_market_v4", "alias" : "current_use_index" }
+        },
+        { "remove" : { "index" : "currency_on_market_v3", "alias" : "currency_on_market" }
+        },
+        { "add" : { "index" : "currency_on_market_v4", "alias" : "currency_on_market" }
+        } 
+      
+    ]
+}
+
+POST /_aliases
+{
+    "actions" : [
+        { "remove" : { "index" : "currency_on_market_v4", "alias" : "currency_on_market" } 
+        },
+        { "add" : { "index" : "currency_on_market_v3", "alias" : "currency_on_market" }
+        }
+    ]
+}
+
+
+
 PUT /my_index_v1 <1>
 PUT /my_index_v1/_alias/my_index <2>
 <1> 创建索引 my_index_v1。
@@ -195,6 +224,8 @@ PUT /my_index_v1/_alias/my_index <2>
 
 GET /*/_alias/my_index
 GET /my_index_v1/_alias/*
+
+
 
 POST /_refresh <1>
 POST /blogs/_refresh <2>
@@ -210,6 +241,35 @@ PUT /my_logs/_settings
 flush API可用来进行一次手动flush：
 POST /blogs/_flush 
 重启或关闭一个索引，flush该索引是很有用的。当ES尝试恢复或者重新打开一个索引时，它必须重放所有事务日志中的操作，所以日志越小，恢复速度越快
+
+
+#索引复制
+#https://www.elastic.co/guide/en/elasticsearch/reference/5.6/docs-reindex.html
+POST _reindex
+{
+  "source": {
+    "index": "currency_on_market_v3"
+  },
+  "dest": {
+    "index": "currency_on_market_v4",
+    "version_type": "internal"
+  }
+}
+#version_type: 
+#internal: will cause Elasticsearch to blindly dump documents into the target, overwriting any that happen to have the same type and id
+#external: will cause Elasticsearch to preserve the version from the source, create any documents that are missing, and update any documents that have an older version in the destination index than they do in the source index
+#可以将多个索引或类型的数据reindex到一个新的索引中
+POST /_reindex
+{
+  "source": {
+    "index": ["twitter", "blog"],
+    "type": ["tweet", "post"]
+  },
+  "dest": {
+    "index": "all_together"
+  }
+}
+
 
 #结构化搜索
 SELECT product
@@ -269,7 +329,7 @@ WHEREprice BETWEEN 20 AND 40
 ]}}
 
 
-########## 1.2 多字段搜索  ##########
+########## 1.5 多字段搜索  ##########
 #优选子句
 GET /_search
 {"query": {
@@ -293,10 +353,154 @@ GET /_search
       }}
     ]
   }
-}}
+}
 标题和作者的boost值为2。
 嵌套的布尔查询的boost值为默认的1。
 
+
+
+
+
+########## 2.0 show cmd ##########
+curl -i -XGET http://10.10.10.31:9200/_nodes/process?pretty
+curl -i -XGET 'http://10.10.10.31:9200/_cluster/state?v'
+'http://localhost:9200/_cluster/state/{metrics}/{indices}'  metrics:version/master_node/nodes/routing_table/metadata
+curl -i -XGET http://10.10.10.31:9200/_cat/indices?v
+curl -i -XGET http://10.10.10.31:9200/_cat/health?v
+curl -i -XGET http://10.10.10.31:9200/_cluster/health
+curl -XGET -u elastic:elastic_prwx-pwd  "http://10.10.10.31:9200/_cat/indices"
+curl -i -XGET 'http://10.10.10.31:9200/ad-test-data/data2/_all?routing=test-data2&pretty'
+curl -X<REST Verb> <Node>:<Port>/<Index>/<Type>/<ID>
+curl -XGET '10.10.10.31:9200/_nodes/stats/process?pretty'
+
+#license
+curl -XGET -u elastic:elastic_prwx_pwd__ 'http://10.10.10.31:9200/_xpack/license'
+curl -XGET -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:19200/_license'
+curl -XPUT -u elastic:elastic_prwx_pwd__ 'http://10.10.10.31:9200/_xpack/license' -d @license.json
+#如果新的 license 支持功能与原 license 不一致
+curl -XPUT -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:9200/_xpack/license?acknowledge=true' -d @license.json
+curl -XPUT -u elastic 'http://<host>:<port>/_xpack/license?acknowledge=true' -H "Content-Type: application/json" -d @license.json
+curl -XPUT -u admin 'http://<host>:<port>/_license' -d @license.json
+curl -XPUT -u elastic:blueTideES_WI_B3hOov 'http://60.205.115.162:19200/_license' -d @/Users/danssion/download/danssion-duan-1e0f8bc0- fee8-46b0-914f-440162d25e3a-v5.json
+
+curl -XPUT http://10.10.10.31:9200/sogou-keywords1/_settings -d '{
+"index" : {
+"number_of_replicas" : 2
+}
+}'
+
+GET /_nodes/node-1
+GET /_cluster/state?pretty
+
+GET /_cat/health?pretty
+GET _cat/indices/sogou?v
+#所有index
+GET _cat/indices/?v
+GET _cat/shards/sogou
+#所有mapper
+GET /_mapping?pretty=true
+
+GET /sogou/_settings
+PUT /sogou/_settings
+
+PUT /sogou/_settings
+{
+  "index" :{
+    "max_result_window" : 100000
+  }
+}
+
+#重建索引
+POST localhost:9200/_reindex
+{
+  "source": {
+    "index": "indexName"
+  },
+  "dest": {
+    "index": "newIndexName"
+  }
+}
+
+
+
+
+#参考
+#http://blog.csdn.net/dm_vincent/article/details/41941659
+GET /sogou/sogou-key1/_search
+GET /sogou/sogou-key2/_search
+GET /sogou/sogou-key3/_search
+GET /sogou/sogou-key/_search
+{"from" :10,"size":10}
+GET /sogou/_mapping/sogou-key2
+POST /sogou/sogou-key1111/_delete_by_query111
+{
+  "query": {
+  "match_all": {}
+  }
+}
+
+DELETE /sogou11
+PUT /sogou
+POST /sogou/_mapping/sogou-key3
+{
+      "date_detection": true,
+      "dynamic_date_formats": ["yyyy-MM-dd","yyyy-MM-dd HH:mm:ss"],
+
+      "properties": {
+        "adverid":      { "type": "long" },
+        "grpid":        { "type": "long" },
+        "keywordid":    { "type": "long" },
+        "keyword":      { "type": "keyword", "index":  true },
+        "keywordT":     { "type": "text","index":  true },
+        "pause" :       { "type": "boolean" },
+        "price":        { "type": "float" },
+        "matchType":    { "type": "integer" },
+        "url":          { "type": "keyword" },
+        "status":       { "type": "integer" },
+        "account":      { "type": "keyword", "index":  "false" },
+        "plan":         { "type": "keyword", "index":  "false" },
+        "group":        { "type": "keyword", "index":  "false" }
+      }
+}
+
+
+
+GET /sogou/sogou-key3/_search
+{
+  "query": {
+        "bool" : {
+            "should" : [
+              {
+                "match" : {
+                    "keywordT" : "笔"
+                }
+            },
+            {
+                "match" : {
+                    "keywordT" : "电脑"
+                }
+            }
+            ]
+        }
+    },
+    "size": 50,
+    "from": 0
+}
+GET /sogou/sogou-key3/_search
+{
+  "query": {
+        "bool" : {
+            "must" : [
+                  {
+                  "term" : {
+                      "keyword" : "电脑耗材清单"
+                  }
+                }
+            ]
+        }
+    },
+  "size":10
+}
 
 
 

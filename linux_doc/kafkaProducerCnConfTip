@@ -1,0 +1,96 @@
+bootstrap.servers
+用于建立与kafka集群的连接，这个list仅仅影响用于初始化的hosts，来发现全部的servers。                                                   
+格式：host1:port1,host2:port2,…，数量尽量不止一个，以防其中一个down了                                                                 
+
+acks
+Server完成 producer request 前需要确认的数量。
+acks=0时，producer不会等待确认，直接添加到socket等待发送；
+acks=1时，等待leader写到local log就行；
+acks=all或acks=-1时，等待isr中所有副本确认
+（注意：确认都是 broker 接收到消息放入内存就直接返回确认，不是需要等待数据写入磁盘后才返回确认，这也是kafka快的原因）                 
+
+buffer.memory
+Producer可以用来缓存数据的内存大小。该值实际为RecordAccumulator类中的BufferPool，即Producer所管理的最大内存。                         
+如果数据产生速度大于向broker发送的速度，producer会阻塞max.block.ms，超时则抛出异常                                                    
+
+compression.type
+Producer用于压缩数据的压缩类型，取值：none, gzip, snappy, or lz4
+
+batch.size
+Producer可以将发往同一个Partition的数据做成一个Produce Request发送请求，即Batch批处理，以减少请求次数，该值即为每次批处理的大小。     
+另外每个Request请求包含多个Batch，每个Batch对应一个Partition，且一个Request发送的目的Broker均为这些partition的leader副本。            
+若将该值设为0，则不会进行批处理
+
+linger.ms
+Producer默认会把两次发送时间间隔内收集到的所有Requests进行一次聚合然后再发送，以此提高吞吐量，而linger.                               
+ms则更进一步，这个参数为每次发送增加一些delay，以此来聚合更多的Message。                                                              
+官网解释翻译：producer会将request传输之间到达的所有records聚合到一个批请求。通常这个值发生在欠负载情况下，record到达速度快于发送。但是>在某些场景下，client即使在正常负载下也期望减少请求数量。这个设置就是如此，通过人工添加少量时延，而不是立马发送一个record，producer会等>待所给的时延，以让其他records发送出去，这样就会被聚合在一起。这个类似于TCP的Nagle算法。该设置给了batch的时延上限：当我们获得一个partition的batch.                                                                                                                            
+size大小的records，就会立即发送出去，而不管该设置；但是如果对于这个partition没有累积到足够的record，会linger指定的时间等待更多的records出现。该设置的默认值为0(无时延)。例如，设置linger.ms=5，会减少request发送的数量，但是在无负载下会增加5ms的发送时延。                  
+
+max.request.size
+请求的最大字节数。这也是对最大消息大小的有效限制。注意：server具有自己对消息大小的限制，这些大小和这个设置不同。此项设置将会限制producer每次批量发送请求的数目，以防发出巨量的请求。
+
+receive.buffer.bytes
+TCP的接收缓存 SO_RCVBUF 空间大小，用于读取数据
+
+request.timeout.ms
+client等待请求响应的最大时间,如果在这个时间内没有收到响应，客户端将重发请求，超过重试次数发送失败
+
+send.buffer.bytes
+TCP的发送缓存 SO_SNDBUF 空间大小，用于发送数据
+
+timeout.ms
+指定server等待来自followers的确认的最大时间，根据acks的设置，超时则返回error
+
+max.in.flight.requests.per.connection
+在block前一个connection上允许最大未确认的requests数量。
+当设为1时，即是消息保证有序模式，注意：这里的消息保证有序是指对于单个Partition的消息有顺序，因此若要保证全局消息有序，可以只使用一个Partition，当然也会降低性能
+
+metadata.fetch.timeout.ms
+在第一次将数据发送到某topic时，需先fetch该topic的metadata，得知哪些服务器持有该topic的partition，该值为最长获取metadata时间
+
+reconnect.backoff.ms
+连接失败时，当我们重新连接时的等待时间
+
+retry.backoff.ms
+在重试发送失败的request前的等待时间，防止若目的Broker完全挂掉的情况下Producer一直陷入死循环发送，折中的方法
+
+
+#metrics系统维护可配置的样本数量，在一个可修正的window size
+metrics.sample.window.ms=30000
+
+# 用于维护metrics的样本数
+metrics.num.samples=2
+
+# 类的列表，用于衡量指标。实现MetricReporter接口
+metric.reporters=[]
+
+# 强制刷新metadata的周期，即使leader没有变化
+metadata.max.age.ms=300000
+
+# 与broker会话协议，取值：LAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL
+security.protocol=PLAINTEXT
+
+# 分区类，实现Partitioner接口
+partitioner.class=class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+
+# 控制block的时长，当buffer空间不够或者metadata丢失时产生block
+max.block.ms=60000
+
+# 关闭达到该时间的空闲连接
+connections.max.idle.ms=540000
+
+# 当向server发出请求时，这个字符串会发送给server，目的是能够追踪请求源
+client.id=""
+
+# 发生错误时，重传次数。当开启重传时，需要将`max.in.flight.requests.per.connection`设置为1，否则可能导致失序
+retries=0
+
+# key 序列化方式，类型为class，需实现Serializer interface
+key.serializer=
+
+# value 序列化方式，类型为class，需实现Serializer interface
+value.serializer=
+
+
+

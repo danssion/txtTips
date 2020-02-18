@@ -3,6 +3,7 @@ egrep -ril '<?php ' ./includes/languages/*/html_includes | egrep -e "\.php$" | w
 grep -r --exclude="*.svn*" "\<echo\>" *  | awk -F":" '{print $1}' | awk -F"-" '{print$1}' | sort -rn | wc -l
 ./assistantShell.sh -i error | awk 'FS=" " {print $1; sum+=$1} END {print sum} '
  head -n 20000000 2015081400.log | grep "\"plt\":\"0\"" | grep "\"type\":\"A\"" | awk -F "\"posi\":" '{print $2}' | awk -F "," '{print $1}' | sort | uniq -c
+ sort -f  currency.dic | uniq -ic | grep "2 "
 ./assistantShell.sh -i error | gawk -mf 3000000 'FS=" " {print $1; sum+=$1} END {print sum} '
 sshfs -o idmap=user,umask=0000,uid=1000,gid=1000 duanxiang@192.168.12.185:/home/duanxiang/codes -p 25552 /home/danssion/server-dir
 fusermount -u /home/danssion/server-dir/
@@ -19,8 +20,56 @@ grep -rl '/data/lanxi/public' Back/ | xargs sed -i 's/\/data\/lanxi\/public//g'
 grep -rl "str1" dir | xargs sed -i "" 's/str2/str3/g' 
 
 
+[[[ iptables ]]]
+https://zhubiaook.github.io/linux/2017/10/20/iptables/
+#shut down
+--关闭firewall：
+[root@localhost ~]# systemctl stop firewalld.service            #停止firewall
+[root@localhost ~]# systemctl disable firewalld.service        #禁止firewall开机启动
+
+--安装安装iptables防火墙
 
 sudo iptables -I RH-Firewall-1-INPUT 27 -p tcp -m state --state NEW --dport 8885 -j ACCEPT
+#delete chain
+-N CHAIN_NAME   :添加链
+-X              :删除链
+-P              :修改默认规则     
+-E              :重命名自定义链，被关联的不能修改
+
+#list info
+iptables -L -n
+-L              : list
+-n              : 不做反向解析
+-v,-vv          ：显示详细信息
+-x              : exactly
+--line-numbers  :显示规则编号
+-S              : 以iptables-save命令格式显示链上的规则
+
+#将所有iptables以序号标记显示
+iptables -L -n --line-numbers
+iptables -D INPUT 8
+iptables -I FORWARD 
+
+#删除
+–DELETE -D
+iptables -D chain firewall-rule
+#表示从 chain 中删除对应规则 firewall-rule 的那一条目。这种形式删除规则比较麻烦，通常用下面的形式
+iptables -D chain rulenum
+iptables -D FORWARD 9
+iptables -D CATTLE_FORWARD 2
+
+#添加
+#将 firewall-rule 添加为 chain 中的第 rulenum 条规则，原先的第 rulenum 条及以后各条的需要顺次 +1。如上面一样，1 表示该 chain 中第一条。默认为 1，即，如果没有指定 rulenum 则将该 chain 中第一条规则替换掉。
+iptables -I chain [rulenum] firewall-rule
+iptables -I FORWARD 2 -p all  -j CATTLE_FORWARD
+iptables -I FORWARD 3 -p all  -j DOCKER
+iptables -I CATTLE_FORWARD 2 -p all -s 192.168.16.0/24 -j ACCEPT
+iptables -A FORWARD -j DROP
+
+
+
+
+
 
 scp -P 25552 newcart@192.168.12.54:/home/newcart/newcart/litb_online/includes/templates/dev_v2/flash/tpl_categories_menu_de.html ./includes/templates/dev_v2/flash/
 
@@ -249,9 +298,12 @@ max_user_connections  max_connections
 set global general_log = on; 查看查询日志
 mysqldump -uroot -pdbpasswd -d dbname test>table-struct.sql;
 mysqldump -uroot -pdbpasswd  dbname test>table.sql;
+mysql -uroot -p123456 < runoob.sql
+mysql> source /home/abc/abc.sql  # 导入备份数据库
 mysqldump　-t　数据库名　-uroot　-p　>data.sql　
 mysqldump　-t　数据库名　-uroot　-p | gzip > db_data.sql.gz
 gunzip < test.sql.gz | mysql -hlocalhost -uroot -pxxxxx
+gunzip < test.sql.gz | mysql -hlocalhost -uroot dbname -pxxxxx
 mysqldump -uroot -p1234 dbname a –where “tag='88′” –no-create-info> c:\a.sql
 mysql -e "select * from myTable" -u myuser -pxxxxxxxx mydatabase > mydumpfile.txt
 ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8mb4;
@@ -311,7 +363,7 @@ systemd-analyze critical-chain：分析启动时的关键链
 systemd-analyze blame 分析启动时各个进程花费的时间
 
 
-[[ python virtual]]
+[[ python virtual ]]
 brew install pyenv
 pyenv install --list 
 pyenv install 3.5.1
@@ -491,6 +543,9 @@ sed 1d abc.cvs > abc1.cvs  //去除头行
 -s 按各个协议进行统计
 -c 每隔一个固定时间，执行该netstat命令。
 
+看了一下服务器的TCP状态(连接状态数量统计)
+netstat -n| awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+
 提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到
 
 [[[ LNMP ]]]
@@ -539,6 +594,8 @@ find ./ -type f -maxdepth 1 -exec ls -al {} \;
 find . -name "*.log" -exec rm {} \;
 
 lsof[-i:port] uptime pkill killall netstat pstree cksum whatis whereis which  iostat -c -d -x  pidstat vmstat w
+lsof -p  打开文件数
+lsof -a -i4 -i6 -itcp
 setsid traceroute  lsmode nethogs
 chattr命令不能保护/、/dev、/tmp、/var目录。lsattr命令是显示chattr命令设置的文件属性
 nmap -sT 101.201.151.125
@@ -554,6 +611,69 @@ jmap --heap
 
 dmesg id
 
+
+[[[ strace ]]]
+truss和strace用来跟踪一个进程的系统调用或信号产生的情况，而 ltrace用来跟踪进程调用库函数的情况。truss是早期为System V R4开发的调试程序，包括Aix、FreeBSD在内的大部分Unix系统都自带了这个工具；而strace最初是为SunOS系统编写的，ltrace最早出现在GNU/Debian
+Linux中。这两个工具现在也已被移植到了大部分Unix系统中，大多数Linux发行版都自带了strace和ltrace，而FreeBSD也可通过Ports安装它们
+
+-c 统计每一系统调用的所执行的时间,次数和出错的次数等. 
+-d 输出strace关于标准错误的调试信息. 
+-f 跟踪由fork调用所产生的子进程. 
+-ff 如果提供-o filename,则所有进程的跟踪结果输出到相应的filename.pid中,pid是各进程的进程号. 
+-F 尝试跟踪vfork调用.在-f时,vfork不被跟踪. 
+-h 输出简要的帮助信息. 
+-i 输出系统调用的入口指针. 
+-q 禁止输出关于脱离的消息. 
+-r 打印出相对时间关于,,每一个系统调用. 
+-t 在输出中的每一行前加上时间信息. 
+-tt 在输出中的每一行前加上时间信息,微秒级. 
+-ttt 微秒级输出,以秒了表示时间. 
+-T 显示每一调用所耗的时间. 
+-v 输出所有的系统调用.一些调用关于环境变量,状态,输入输出等调用由于使用频繁,默认不输出. 
+-V 输出strace的版本信息. 
+-x 以十六进制形式输出非标准字符串 
+-xx 所有字符串以十六进制形式输出.
+-a column   设置返回值的输出位置.默认 为40. 
+-e expr   指定一个表达式,用来控制如何跟踪
+-o filename   将strace的输出写入文件filename 
+-p pid 跟踪指定的进程pid. 一般用于跟踪后台程序
+-s strsize 指定输出的字符串的最大长度.默认为32. 
+-u username  以username 的UID和GID执行被跟踪的命令
+
+strace的-e trace选项
+-e trace=file     跟踪和文件访问相关的调用(参数中有文件名)
+-e trace=process  和进程管理相关的调用，比如fork/exec/exit_group
+-e trace=network  和网络通信相关的调用，比如socket/sendto/connect
+-e trace=signal    信号发送和处理相关，比如kill/sigaction
+-e trace=desc  和文件描述符相关，比如write/read/select/epoll等
+-e trace=ipc 进程见同学相关，比如shmget等
+
+
+#程序启动的时候读取的哪个config文件
+strace php 2>&1 | grep php.ini
+
+#程序没有打开的文件
+strace -e open,access 2>&1 | grep your-filename
+
+#进程现在在做什么
+strace -p 15427 
+#包括子进程
+strace -fp 15427 
+
+#程序的效率，利用strace附着(attach）一个进程以快速地看一下当前时间花费在哪里
+#在执行strace -c -p命令以后，等到你关注的时间到了后，按ctrl-c退出，strace会列出如上的profiling数据。
+strace -c -p 11084
+
+#为什么 无法连接到服务器
+#跟踪"nc"连接到www.news.com 80端口的例
+strace -e poll,select,connect,recvfrom,sendto nc www.news.com 80
+
+#程序执行效率
+strace -f -p 25253 -T -tt -o /var/logs/strace.log
+
+
+
+
 [[[ jar ]]]
 jar命令格式：jar {c t x u f }[ v m e 0 M i ][-C 目录]文件名...
 其中{ctxu}这四个参数必须选选其一。[v f m e 0 M i ]是可选参数，文件名也是必须的。
@@ -568,6 +688,13 @@ jar命令格式：jar {c t x u f }[ v m e 0 M i ][-C 目录]文件名...
   -M  不产生所有文件的清单文件(Manifest.mf)。这个参数与忽略掉-m参数的设置
   -i  为指定的jar文件创建索引文件
   -C  表示转到相应的目录下执行jar命令,相当于cd到那个目录，然后不带-C执行jar命令
+用一个单独的文件创建一个 JAR 文件 jar cf jar-file input-file...
+用一个目录创建一个 JAR 文件  jar cf jar-file dir-name
+更新一个 JAR 文件   jar uf jar-file input-file...
+查看一个 JAR 文件的内容   jar tf jar-file
+提取一个 JAR 文件的内容   jar xf jar-file
+从一个 JAR 文件中提取特定的文件   jar xf jar-file archived-file...
+
 
 创建带manifest.mf文件的jar包
 jar cvfm hello.jar manifest.mf hello
@@ -581,6 +708,29 @@ Manifest.mf文件编写规则：
 key: value 在分号后面一定要写写一个空格
 Java调用类的顺序：java\lib\ext中的类--->Manifest.mf中指定的类-->当前目录中的类-->set CLASSPATH中指定的类。
 JAR包与ZIP包主要区别就是JAR包中多一个META-INF的目录，META-INF目录下有一个manifest.mf文件，我们只要建立好相关的目录一压缩就可以了。 
+jar tvf FAMS-0.0.1-SNAPSHOT.war | grep prop
+
+通过 OneJar 或 Maven 打包后 jar 文件，用命令： java -jar ****.jar
+java -classpath ****.jar ****.****.className [args]
+
+“****.****”表示“包名”；
+“className”表示“类名”；
+“[args]”表示传入的参数；
+
+直接运行 MANIFEST.MF 中指定的 main 方法：
+java -jar mplus-service-jar-with-dependencies.jar
+
+运行指定的 main 方法：
+java -cp mplus-service-jar-with-dependencies.jar com.smbea.dubbo.bin.Console start
+
+
+[[[ jvm 相关 ]]]
+#jmap是jdk自带的jvm内存分析的工具，位于jdk的bin目录。jdk1.6中jmap命令用法：
+jmap -dump:format=b,file=jvm_dump 15289 
+
+
+
+
 
 [[[ tmux ]]]
 tmux ls
@@ -591,6 +741,26 @@ Tmux Resurrect:前缀键 + Ctrl-s / 前缀键 + Ctrl-r
 #在 Tmux 的会话间切换  Ctrl-z + s
 #退出tmux session PREFIX d 
 #rename session  tmux rename -t service-develop service-ssh
+
+[[[ suporvisor ]]]
+#更新新的配置到supervisord
+supervisorctl update
+#重新启动配置中的所有程序
+supervisorctl reload  
+supervisorctl start 服务名
+supervisorctl stop 服务名
+supervisorctl stop all
+supervisorctl start consume*
+supervisorctl stop consume_ticker:*
+supervisorctl stop consume_socket_ticker:*
+supervisorctl stop consume_mt_batch_ticker:*
+supervisorctl start consume_ticker:*
+supervisorctl start consume_socket_ticker:*
+supervisorctl start consume_mt_batch_ticker:*
+
+[[[ logrotate ]]]
+logrotate -f -v /etc/logrotate.d/nginx
+cat /var/lib/logrotate/logrotate.status |less
 
 
 [[[ nc ]]]
@@ -632,6 +802,10 @@ mvn help:active-profiles //查看当前激活的profiles
 mvn help:all-profiles //查看所有profiles  
 mvn help:effective -pom //查看完整的pom信息 
 
+[[[ Sublime Text 3 ]]]
+调起面板cmd + shift +p
+输入install package
+搜索pretty json，安装
 
 [[[ intel J ]]]
 ctrl d  复制行

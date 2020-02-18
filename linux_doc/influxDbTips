@@ -1,0 +1,92 @@
+`[[[[[ install ]]]]]
+https://repos.influxdata.com/rhel/7Server/x86_64/stable/
+wget
+yum localinstall 
+systemctl start influxdb
+
+
+[[[[[ connect cmd ]]]]]
+-format 'json|csv|column'
+#指定服务器返回结果的格式。
+
+-precision 'rfc3339|h|m|s|ms|u|ns'
+#指定查询和写入的时间戳的格式/精度：rfc3339（YYYY-MM-DDTHH:MM:SS.nnnnnnnnnZ），h (小时)，m (分钟)，s (秒)，ms (毫秒)，u (微秒)，ns (纳秒)。默认的精度是纳秒。
+
+./influx -ssl -username <账号名称> -password <密码> -host <网络地址> -port 3242
+#vpc
+./influx -ssl -username influxdb_admin -password influxdb_adm@2mt -host ts-bp1bf5j90021e8y59.influxdata.tsdb.aliyuncs.com -port 8086
+./influx -ssl -username influxdb_user -password influxdb_user@2mt -host ts-bp1bf5j90021e8y59.influxdata.tsdb.aliyuncs.com -port 8086
+
+#公共网络
+./influx -ssl -username influxdb_admin -password influxdb_adm@2mt -host  ts-bp1bf5j90021e8y59.influxdata.rds.aliyuncs.com -port 3242
+./influx -ssl -username influxdb_admin -password influxdb_adm@2mt -host  ts-bp1bf5j90021e8y59.influxdata.rds.aliyuncs.com -port 3242 -precision ms
+
+#curl input data
+curl -i -XPOST 'https://ts-bp1bf5j90021e8y59.influxdata.tsdb.aliyuncs.com:8086/write?db=testdb&u=influxdb_user&p=influxdb_user@2mt' --data-binary 'cpu,host=server01,region=us-west value=0.64 1434055562000000000'
+
+
+[[[ SQL ]]]
+
+select * from cpu where host='USDT' and region='BCH' AND time >= '2019-12-09T4:10:00Z' limit 100  tz('Asia/Shanghai') 
+select * from cpu where host='USDT' and region='BCH' AND time >= 1575865860000000000
+select * from "24_hour".ticker24h limit 10;
+select * from "trend5min" order by time DESC limit 10;
+drop MEASUREMENT ticker24h;
+
+-- 创建一个数据库
+CREATE DATABASE mydb
+
+-- 查看所有的数据库
+show databases;
+-- 使用特定的数据库
+use database_name;
+-- 查看所有的measurement
+show measurements;
+SHOW RETENTION POLICIES、SHOW SERIES、SHOW MEASUREMENTS、SHOW TAG KEYS、SHOW TAG VALUES和SHOW FIELD KEYS
+
+-- 查询10条数据
+select * from measurement_name limit 10;
+-- 数据中的时间字段默认显示的是一个纳秒时间戳，改成可读格式
+precision rfc3339; -- 之后再查询，时间就是rfc3339标准格式
+-- 或可以在连接数据库的时候，直接带该参数
+influx -precision rfc3339
+-- 查看一个measurement中所有的tag key
+show tag keys
+-- 查看一个measurement中所有的field key
+show field keys
+-- 查看一个measurement中所有的保存策略(可以有多个，一个标识为default)
+-- duration--持续时间，0代表无限制  replicaN--全称是REPLICATION，副本个数   default--是否是默认策略
+show retention policies;
+-- 新建策略
+create retention policy "2_hours" on "test" duration 2h replication 1 default
+-- 修改策略
+alter retention policy "2_hours" on "test" duration 4h default
+-- 删除策略
+-- 在删除policy之前要先将其变为非默认policy
+drop retention POLICY "2_hours" on "test"
+
+
+
+
+
+# retention policy
+ CREATE RETENTION POLICY "1_day" ON tickerdb DURATION 24h REPLICATION 1 SHARD duration 30m ;
+ CREATE RETENTION POLICY "24_hour" ON tickerdb DURATION 24h REPLICATION 1 SHARD duration 30m ;
+ alter retention policy "24_hour" on "durationdb" duration 23h default
+ alter retention policy "24_hour" on "durationdb" duration 23h30m00s default;
+drop retention policy "1_day_policy" on tickerdb;
+ ALTER RETENTION POLICY "2_hours" ON "telegraf" DURATION 4h DEFAULT
+
+
+
+
+
+
+
+
+
+
+
+
+
+

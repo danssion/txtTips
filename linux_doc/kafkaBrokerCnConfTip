@@ -1,0 +1,204 @@
+属性       描述       类型        默认值
+broker.id 每一个broker在集群中的唯一表示，要求是正数  int -1
+zookeeper.connect 指定zk连接,[hostname:port]以逗号分隔 string  
+advertised.listeners  
+若没配置就就使用listeners的配置通告给消息的生产者和消费者，这个过程是在生产者和消费者获取源数据(metadata)。格式：PLAINTEXT://your.host.name:9092，可选的值有PLAINTEXT和SSL  string  null
+auto.create.topics.enable 是否允许自动创建topic，若是false，就需要通过命令创建topic  boolean true
+auto.leader.rebalance.enable  是否自动平衡broker之间的分配策略 boolean true
+delete.topic.enable 是否开启topic可以被删除  boolean false
+listeners listeners = PLAINTEXT://your.host.name:9092 string  null
+log.dirs  kafka持久化数据存储的路径，可以指定多个，以逗号分隔  string  null
+message.max.bytes server能接收的消息体最大大小，单位是字节，消费端的最大拉取大小需要略大于该值 int 1000012
+min.insync.replicas 当 ack=”all” 或 -1 时，指定最小确认成功的副本数，如果没满足，producer会抛出 NotEnoughReplicas or NotEnoughReplicasAfterAppend 异常  int 1
+num.io.threads  broker处理磁盘IO的线程数，数值应该大于你的硬盘数  int 8
+num.network.threads broker处理消息的最大线程数  int 3
+num.replica.fetchers  从source broker进行复制的线程数，增大这个数值会增加follower的IO int 1
+queued.max.requests 等待IO线程处理的请求队列最大数，若是等待IO的请求超过这个数值，那么会停止接受外部消息，应该是一种自我保护机制。 int 500
+request.timeout.ms  从发送请求到收到ACK确认等待的最长时间（超时时间）  int 30000
+socket.receive.buffer.bytes socket的接受缓冲区，socket的调优参数SO_RCVBUFF  int 102400
+socket.request.max.bytes  socket请求的最大数值，防止serverOOM，message.max.bytes必然要小于socket.request.max.bytes，会被topic创建时的指定参数覆盖  int 104857600
+socket.send.buffer.bytes  socket的发送缓冲区，socket的调优参数SO_SNDBUFF  int 102400
+zookeeper.connection.timeout.ms ZooKeeper的连接超时时间  int null
+zookeeper.session.timeout.ms  ZooKeeper的最大超时时间，就是心跳的间隔，若是没有反映，那么认为已经死了，不宜过大 int 6000
+connections.max.idle.ms 空闲连接超时，超时则关闭  long  600000
+
+
+# zk follower落后于zk leader的最长时间
+zookeeper.sync.time.ms=2000
+
+# metrics系统维护可配置的样本数量，在一个可修正的window  size。这项配置配置了窗口大小，例如。我们可能在30s的期间维护两个样本。当一个窗口推出后，我们会擦除并重写最老的窗口
+metrics.sample.window.ms=30000
+
+# 用于维护metrics的样本数
+metrics.num.samples=2
+
+# 类的列表，用于衡量指标。实现MetricReporter接口，将允许增加一些类，这些类在新的衡量指标产生时就会改变。JmxReporter总会包含用于注册JMX统计
+metric.reporters=[]
+
+# broker id最大值
+reserved.broker.max.id=1000
+
+# 期望的整个fetch response最大大小
+replica.fetch.response.max.bytes=10485760
+
+# 备份时每次fetch的最大值
+replica.fetch.max.bytes=1048576
+
+# 当 fetch partition error时的sleep时间
+replica.fetch.backoff.ms=1000
+
+# producer请求清除时的清除间隔
+producer.purgatory.purge.interval.requests=1000
+
+# 每个topic的分区个数，若是在topic创建时候没有指定的话会被topic创建时的指定参数覆盖
+num.partitions=1
+
+# 每个ip或者hostname默认的连接的最大覆盖
+max.connections.per.ip.overrides=""
+
+# 每个ip地址上每个broker可以被连接的最大数目
+max.connections.per.ip=2147483647
+
+# 检查日志分段文件的间隔时间，以确定是否文件属性是否到达删除要求。
+log.retention.check.interval.ms=300000
+
+# 创建新segment的时候是否需要预分配，windows上需要设置为true
+log.preallocate=false
+
+# timestamp 类型，[CreateTime, LogAppendTime]
+log.message.timestamp.type=CreateTime
+
+# 在 log.message.timestamp.type=CreateTime 时，所允许的broker收到消息的timestamp和消息中指定的timestamp最大差值
+log.message.timestamp.difference.max.ms=9223372036854775807
+
+# 对于segment日志的索引文件大小限制，会被topic创建时的指定参数覆盖
+log.index.size.max.bytes=10485760
+
+# 当执行一次fetch后，需要一定的空间扫描最近的offset，设置的越大越好，一般使用默认值就可以
+log.index.interval.bytes=4096
+
+# 日志清理策略选择有：delete和compact主要针对过期数据的处理，或是日志文件达到限制的额度，会被 topic创建时的指定参数覆盖，[compact, delete]
+log.cleanup.policy=delete
+
+# 日志压缩运行的线程数
+log.cleaner.threads=1
+
+# 这项配置控制log  compactor试图清理日志的频率（假定log compaction是打开的）
+log.cleaner.min.cleanable.ratio=0.5
+
+# log cleaner 最大IO平均速度
+log.cleaner.io.max.bytes.per.second=1.7976931348623157E308
+
+#日志清理时候用到的IO块大小一般不需要修改
+log.cleaner.io.buffer.size=524288
+
+# log cleaning中所使用的hash表的负载因子；你不需要更改这个选项。
+log.cleaner.io.buffer.load.factor=0.9
+
+# 当这个属性设置为false时，一旦日志的保存时间或者大小达到上限时，就会被删除；如果设置为true，则当保存属性达到上限时，就会进行log compaction。
+log.cleaner.enable=true
+
+# delete record 保留时间
+log.cleaner.delete.retention.ms=86400000
+
+# 日志压缩去重时候的缓存空间，在空间允许的情况下，越大越好
+log.cleaner.dedupe.buffer.size=134217728
+
+# 检查是否处罚日志清理的间隔
+log.cleaner.backoff.ms=15000
+
+# The minimum allowed session timeout for registered consumers.
+group.min.session.timeout.ms=6000
+
+# The maximum allowed session timeout for registered consumers.
+group.max.session.timeout.ms=300000
+
+# partition默认的备份因子
+default.replication.factor=1
+
+# partition leader与replicas之间通讯时,socket的超时时间
+controller.socket.timeout.ms=30000
+
+# 每次关闭尝试的时间间隔
+controlled.shutdown.retry.backoff.ms=5000
+
+# 控制器关闭的尝试次数
+controlled.shutdown.max.retries=3
+
+# 是否允许控制器关闭broker ,若是设置为true,会关闭所有在这个broker上的leader，并转移到其他broker
+controlled.shutdown.enable=true
+
+# 是否允许不在 isr 的副本选为leader
+unclean.leader.election.enable=true
+
+# follower与leader之间的socket超时时间
+replica.socket.timeout.ms=30000
+
+# leader复制时候的socket缓存大小
+replica.socket.receive.buffer.bytes=65536
+
+# 如果这个时间内follower没有发起fetch请求，被认为dead，从ISR移除
+replica.lag.time.max.ms=10000
+
+# 每个replica检查是否将最高水位进行固化的频率
+replica.high.watermark.checkpoint.interval.ms=5000
+
+# replicas同leader之间通信的最大等待时间，失败了会重试
+replica.fetch.wait.max.ms=500
+
+# fetch的最小数据尺寸,如果leader中尚未同步的数据不足此值,将会阻塞,直到满足条件
+replica.fetch.min.bytes=1
+
+# The offsets topic segment bytes should be kept relatively small in order to facilitate faster log compaction and cache loads
+offsets.topic.segment.bytes=104857600
+
+# offset topic 副本数量
+offsets.topic.replication.factor=3
+
+# offset commit topic 的partition数量
+offsets.topic.num.partitions=50
+
+# 客户端保留offset信息的最大空间大小
+offset.metadata.max.bytes=4096
+
+# 每个 data 目录用于log恢复(启动时)和flushing（关闭时）的线程数
+num.recovery.threads.per.data.dir=1
+
+# topic的分区是以一堆segment文件存储的，这个控制每个segment的大小，会被topic创建时的指定参数覆盖
+log.segment.bytes=1073741824
+
+# 这个参数会在日志segment没有达到log.segment.bytes设置的大小，也会强制新建一个segment 会被 topic创建时的指定参数覆盖
+log.roll.hours=168
+log.roll.ms=
+
+# 数据存储的最大时间 超过这个时间 会根据log.cleanup.policy设置的策略处理数据，也就是消费端能够多久去消费数据
+log.retention.hours=168
+log.retention.minutes=
+log.retention.ms
+
+# topic每个分区的最大文件大小，一个topic的大小限制 = 分区数*log.retention.bytes
+log.retention.bytes=-1
+
+# 检查是否需要固化到硬盘的时间间隔
+log.flush.scheduler.interval.ms=9223372036854775807
+
+# 控制上次固化硬盘的时间点，以便于数据恢复一般不需要去修改
+log.flush.offset.checkpoint.interval.ms=60000
+
+# 控制"fsync"的时间间隔,如果消息量始终没有达到阀值,但是离上一次磁盘同步的时间间隔达到阀值,也将触发
+log.flush.interval.ms=
+
+# log文件 sync 到磁盘之前累积的消息条数,因为磁盘IO操作是一个慢操作,需要在"数据可靠性"与"性能"之间做必要的权衡.如果此值过大,将会导致每次"fsync"的时间较长(IO阻塞),如果此值过小,将会导致"fsync"的次数较多,这也意味着整体的client请求有一定的延迟.物理server故障,将会导致没有fsync的消息丢失.
+log.flush.interval.messages=9223372036854775807
+
+# 一些后台任务处理的线程数，例如过期消息文件的删除等，一般情况下不需要去做修改
+background.threads=10
+
+# 对发送的消息采取的压缩编码方式 ('gzip', 'snappy', 'lz4')， 'uncompressed' 不压缩， 'producer' 保持producer设置的压缩编码
+compression.type=producer
+
+# 检查leader是否不平衡的时间间隔
+leader.imbalance.check.interval.seconds=300
+
+# leader的不平衡比例，若是超过这个数值，会对分区进行重新的平衡
+leader.imbalance.per.broker.percentage=10

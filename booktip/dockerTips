@@ -224,9 +224,6 @@ docker-machine start myvm1
 
 
 
-
-
-
 [[[ swarms ]]]
 #http://www.dubby.cn/detail.html?id=8738
 #To add a worker to this swarm, run the following command:
@@ -239,7 +236,9 @@ docker-machine ssh myvm2 "docker swarm leave"
 docker-machine ssh myvm1 "docker swarm leave --force"
 
 
-
+[[[ Rancher ]]]
+#启动
+sudo docker run -d -v /workspace/rancher/mysql:/var/lib/mysql --restart=unless-stopped -p 8081:8080 rancher/server
 
 
 
