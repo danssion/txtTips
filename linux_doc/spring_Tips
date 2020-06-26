@@ -1,8 +1,17 @@
 [[[[ spring cloud component ]]]]]
 eureka    ->  consul / zookeeper / etcd
 hystrix   ->  resillience4j
+(guava RateLimiter / Alibaba Sentinel)
 ribbon    ->  loadbalance
 zuul      ->  gateway
+
+注册中心类型、CAP特性、推荐规模
+Eureka      AP      < 30k
+Zookeeper   CP      < 30k
+Consul      CP/AP   < 5k
+Nacos       CP/AP   < 100k ~ 200k
+
+
 
 
 spring cloud alibaba 服务治理

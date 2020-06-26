@@ -48,6 +48,14 @@ docker run -d -p 8080:80 --name nginx_web \
 
 docker run -itd --restart always --name namenode --network host -v /data/bigdata:/data docker.weitac.com/hadoop/namenode
 
+#进入容器
+#一个窗口阻塞了，那么其他窗口也无法再进行操作 不推荐
+docker attach 容器ID  
+
+docker exec -it 775c7c9ee1e1 /bin/bash
+
+
+
 [[[ image ]]]
 docker images 
 docker image 

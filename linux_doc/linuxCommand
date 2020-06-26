@@ -729,6 +729,7 @@ java -cp mplus-service-jar-with-dependencies.jar com.smbea.dubbo.bin.Console sta
 jmap -dump:format=b,file=jvm_dump 15289 
 
 
+[[[ java 内存 ]]]
 
 
 
@@ -809,7 +810,7 @@ mvn help:effective -pom //查看完整的pom信息
 
 [[[ intel J ]]]
 ctrl d  复制行
-ctrl cmd l  格式化代码
+ctrl cmd L  格式化代码
 ctrl j doc提示
 
 

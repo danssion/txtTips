@@ -195,13 +195,9 @@ PUT /spanish_docs
 POST /_aliases
 {
     "actions" : [
-        { "add" : { "index" : "currency_on_market_v4", "alias" : "current_use_index" }
-        },
-        { "remove" : { "index" : "currency_on_market_v3", "alias" : "currency_on_market" }
-        },
-        { "add" : { "index" : "currency_on_market_v4", "alias" : "currency_on_market" }
-        } 
-      
+        { "add" : { "index" : "currency_on_market_v4", "alias" : "current_use_index" }  },
+        { "remove" : { "index" : "currency_on_market_v3", "alias" : "currency_on_market" } },
+        { "add" : { "index" : "currency_on_market_v4", "alias" : "currency_on_market" } } 
     ]
 }
 
