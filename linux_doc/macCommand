@@ -15,3 +15,11 @@ sudo launchctl list | grep sshd
 ##### brew install pacvim #####
 https://github.com/jmoon018/PacVim
 #vim game
+
+
+##### lsof
+lsof -itcp:8080 
+
+#看进程监听的端口
+sudo lsof -nP -p 进程号
+ lsof -nP -p17490 | grep LISTEN
