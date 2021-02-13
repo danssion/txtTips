@@ -1,4 +1,4 @@
-##### sshd #####
+#### sshd #####
 sudo ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
 sudo ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 sudo ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key
@@ -23,3 +23,8 @@ lsof -itcp:8080
 #看进程监听的端口
 sudo lsof -nP -p 进程号
  lsof -nP -p17490 | grep LISTEN
+
+
+
+# 本地代理
+ngrok
